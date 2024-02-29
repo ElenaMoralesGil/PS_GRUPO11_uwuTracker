@@ -4,7 +4,9 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "dotenv -e .env.dev nodemon ./bin/www"
+    "start": "dotenv -e .env.prod nodemon ./bin/env",
+    "dev": "dotenv -e .env.dev nodemon ./bin/www",
+    "seed:dev": "dotenv -e .env.dev node ./bin/seed.js"
   },
   "author": "",
   "license": "ISC",

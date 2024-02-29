@@ -12,9 +12,10 @@ require('./config/debug.config')
 
 require('./config/cors.config')(app)
 
+app.use('/favicon', (req, res) => res.sendFile(__dirname + '/public/favicon.ico'))
+
 // *=> base urls
-
-
+app.use('/api/auth', require('./routes/auth.routes'))
 
 app.use((req, res) => res.sendFile(__dirname + '../public/index.html'))
 
