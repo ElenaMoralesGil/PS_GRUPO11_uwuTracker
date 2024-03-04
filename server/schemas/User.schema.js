@@ -21,6 +21,13 @@ module.exports = class User {
         this.mail = mail;
 
         this.animeList = [];
+        /*
+        {
+            content:null,
+            score:null,
+            status:null,
+            episodes:null
+        }*/
 
         this.country = undefined;
         this.profilePicture = undefined;

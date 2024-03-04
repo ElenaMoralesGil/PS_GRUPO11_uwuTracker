@@ -19,4 +19,6 @@ module.exports = class Content {
         this.comments = [];
         this.reviews = [];
     }
+
+    get id () {return this.#id}
 }
