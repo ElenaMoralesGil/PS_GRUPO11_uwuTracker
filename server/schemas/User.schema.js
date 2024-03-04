@@ -1,10 +1,12 @@
 module.exports = class User {
+    #name
     constructor(name) {
-        this._name = name;
+        this.#name = name
     }
 
-    get name() { return this._name }
-    set name(name) { this._name = name }
+    //set name(name) { this.#name = name }
+    get name() { return this.#name }
 
     talk = () => console.log("Buenas")
 }
+
