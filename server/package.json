@@ -6,7 +6,7 @@
   "scripts": {
     "start": "dotenv -e .env.prod nodemon ./bin/env",
     "dev": "dotenv -e .env.dev nodemon ./bin/www",
-    "seed:dev": "dotenv -e .env.dev node ./bin/seed.js"
+    "userseed:dev": "dotenv -e .env.dev node ./bin/seeds/Users.seed.js"
   },
   "author": "",
   "license": "ISC",
