@@ -1,5 +1,5 @@
 const Singleton = require("../bin/Singleton")
-const UsersServ = require('../models/Users.model')
+const UsersServ = require('../services/UsersServ')
 const User = require("../schemas/User.schema")
 
 class Users {
