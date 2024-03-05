@@ -14,8 +14,8 @@ module.exports = class User {
 
     #id
 
-    constructor({name, password, mail}){
-        this.#id = undefined;
+    constructor({ name, password, mail, id }) {
+        this.#id = id;
         this.name = name;
         this.password = password;
         this.mail = mail;
@@ -35,7 +35,7 @@ module.exports = class User {
         this.socialNetworks = [];
     }
 
-    get id() {return this.#id}
+    get id() { return this.#id }
 
 }
 
