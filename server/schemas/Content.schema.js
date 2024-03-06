@@ -22,6 +22,6 @@ module.exports = class Content {
 
     get id() { return this.#id }
 
-    parse = json => new Content(JSON.parse(json))
-    stringify = () => JSON.parse(this)
+    static parse = content => new Content(content)
+    stringify = () => JSON.stringify(this)
 }

@@ -8,9 +8,9 @@ class Contents {
         this.#service = service
     }
 
-    findById = async id => this.#service.getById(id).then(content => Content.parse(content))
+    findById = async id => this.#service.findById(id).then(content => content ? Content.parse(content) : null)
 
     create = async content => this.#service.create(content).then(content => content ? Content.parse(content) : null)
 }
 
-module.exports = require('../bin/Singleton')(new Contents())
+module.exports = require(process.cwd() + '/bin/Singleton')(new Contents())

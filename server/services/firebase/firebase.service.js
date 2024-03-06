@@ -1,7 +1,7 @@
-const { initializeApp } = require('firebase-admin/app')
-const { getFirestore } = require('firebase-admin/firestore')
-const { getAuth } = require('firebase-admin/auth')
-const { getStorage } = require('firebase-admin/storage')
+const { initializeApp } = require('firebase/app')
+const { getFirestore } = require('firebase/firestore/lite')
+const { getStorage } = require('firebase/storage')
+const { getAuth } = require('firebase/auth')
 
 
 const firebaseConfig = {
@@ -24,9 +24,8 @@ class FirebaseService {
     constructor() {
         this.#app = initializeApp(firebaseConfig)
         this.#db = getFirestore(this.#app)
-        this.#storage = getStorage()
-        this.#auth = getAuth()
-        // this.#auth.setPersistence(browserSessionPersistence)
+        this.#storage = getStorage(this.#app)
+        this.#auth = getAuth(this.#app)
     }
 
     get app() { return this.#app }
@@ -35,4 +34,4 @@ class FirebaseService {
     get auth() { return this.#auth }
 }
 
-module.exports = new FirebaseService()
+module.exports = require(process.cwd() + '/bin/Singleton')(new FirebaseService())
