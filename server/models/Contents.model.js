@@ -15,7 +15,7 @@ class Contents {
 
         if (content) return content
 
-        return this.#api.findById(id).then(content => this.#db.create({ ...content, id }))
+        return this.#api.findById(id).then(content => content ? this.#db.create({ ...content, id }) : null)
 
     }).then(content => content ? Content.parse(content) : null)
 
