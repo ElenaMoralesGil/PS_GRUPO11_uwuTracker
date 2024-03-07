@@ -14,8 +14,8 @@ export class ApiContentService implements Contents {
   }
 
   findById = (id: string): Promise<Content> | null =>
-    fetch(`${this.path}/${id}`).then(res => res.json()).then(json => JSON.parse(json))
+    fetch(`${this.path}/${id}`).then(res => res.json()).catch(err => null)
 
   create = (content: Content): Promise<Content> | null =>
-    fetch(`${this.path}/content`, { method: 'POST' }).then(res => res.json()).then(json => JSON.parse(json))
+    fetch(`${this.path}/content`, { method: 'POST' }).then(res => res.json()).catch(err => null)
 }

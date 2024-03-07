@@ -17,13 +17,15 @@ export class ContentComponent implements OnInit {
   constructor(private Contents: ApiContentService, private router: ActivatedRoute) { }
 
   async ngOnInit() {
-    const content = await this.Contents.findById(this.router.snapshot.paramMap.get("id") || "")
-    if (!content) return this.id = 'not found'
+    let content
+    try { content = await this.Contents.findById(this.router.snapshot.paramMap.get("id") || "") }
+    catch { return this.id = 'not-found' }
 
-    console.log(content)
+    if (!content?.id) return this.id = 'not found'
 
     this.id = content.id
     this.title = content.title
+
     return
   }
 }
