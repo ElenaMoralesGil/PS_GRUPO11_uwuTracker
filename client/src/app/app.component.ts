@@ -5,11 +5,19 @@ import { ComponentFactoryResolver, ViewChild, ViewContainerRef } from '@angular/
 
 
 @Component({
+<<<<<<< HEAD
     selector: 'app-root',
     standalone: true,
     templateUrl: './app.component.html',
     styleUrl: './app.component.css',
     imports: [RouterOutlet, ContentPageComponent]
+=======
+  selector: 'app-root',
+  standalone: true,
+  imports: [ RouterOutlet ],
+  templateUrl: './app.component.html',
+  styleUrl: './app.component.css'
+>>>>>>> dev
 })
 export class AppComponent {
   title = 'client';
