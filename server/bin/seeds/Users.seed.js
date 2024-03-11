@@ -1,3 +1,5 @@
+require('dotenv').config()
+
 const User = require('../../schemas/User.schema')
 const Users = require('../../models/Users.model')
 
