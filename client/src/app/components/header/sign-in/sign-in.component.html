@@ -1,0 +1,26 @@
+<div id="overlay"></div>
+<main class="container">
+  <h1 class="container-title">Sign In</h1>
+  <i aria-hidden="true" class="fa fa-times" id="closeSignInBtn"></i>
+  <form action="endpoint" class="container-form" method="post">
+    <label class="container-form-label" for="username">
+      <input class="container-form-input" id="username" name="username" placeholder="Enter your username"
+             required type="text">
+    </label>
+    <label class="container-form-label" for="email">
+      <input class="container-form-input" id="email" name="email" placeholder="Enter your email" required
+             type="email">
+    </label>
+    <label class="container-form-label" for="password">
+      <input class="container-form-input" id="password" name="password" placeholder="Enter your password"
+             required type="password">
+    </label>
+    <label class="container-form-label" for="repeat_password">
+      <input class="container-form-input" id="repeat_password" name="repeat_password"
+             placeholder="Repeat your password" required type="password">
+    </label>
+    <p class="container-form-message">Already signed up? <a class="container-form-link" href="#" id="loginLink">Log
+      in</a></p>
+    <button class="container-form-button" type="submit">Sign In</button>
+  </form>
+</main>

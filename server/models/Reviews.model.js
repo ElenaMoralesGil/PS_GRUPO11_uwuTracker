@@ -1,22 +1,15 @@
-const Review = require('../schemas/Review.schema')
-const db = require('../services/firebase/FirebaseReview.service')
+const Singleton = require("../bin/Singleton")
+const ReviewServ = require('../services/Reviews.firebase')
+const Review = require("../schemas/Review.schema")
 
+class Reviews{
 
-class Contents {
-    #db
+    #path
     constructor() {
-        this.#db = db
+        this.#path = process.env.REVIEWS_ROUTER_PATH
     }
+    get path() { return this.#path }
 
-    findById = id => this.#db.findById(id).then(review => {
-
-        if (review) return review
-
-    }).then(review => review ? Review.parse(review) : null)
-
-    findByName = name => this.#db.findByName(name).then(reviews => reviews.length ? reviews.map(elm => Review.parse(elm)) : null)
-
-    create = async review => this.#db.create(review).then(review => review ? Review.parse(review) : null)
+    findById = id => new Review(ReviewServ.findById(id))
 }
-
-module.exports = require(process.cwd() + '/bin/Singleton')(new Reviews())
+module.exports = Singleton(new Reviews())
