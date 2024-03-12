@@ -2,7 +2,7 @@
 <div id="overlay" (click) = "signUpClicked()"></div>
 <main class="container">
   <h1 class="container-title">Sign up</h1>
-  <i aria-hidden="true" class="fa fa-times" id="closeLoginBtn"></i>
+  <i aria-hidden="true" class="fa fa-times" id="closeLoginBtn" (click) = "signUpClicked()"></i>
   <form action="endpoint" class="container-form" method="post">
     <label class="container-form-label">
       <input class="container-form-input" name="username" placeholder="Username" required type="text">
