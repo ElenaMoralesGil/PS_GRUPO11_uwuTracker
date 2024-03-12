@@ -3,7 +3,6 @@ import { SignInComponent } from './sign-in/sign-in.component';
 import {SignUpComponent} from "./sign-up/sign-up.component";
 import {RouterLink} from "@angular/router";
 import {NgIf} from "@angular/common"; // Import SignInComponent
-import Users from "../../models/User.model";
 @Component({
   selector: 'app-header',
   standalone: true,
@@ -48,11 +47,4 @@ export class HeaderComponent {
     this.showSignUpModal = false;
   }
 
-  LogOut() {}
-
-  handleSignIn(formData: any) {
-    console.log(formData); // Just printing form data for demonstration
-    Users.signIn(formData)
-    this.closeSignInModal();
-  }
 }

@@ -27,8 +27,8 @@ export class SignInComponent {
 
   submitForm() {
     if (this.form.valid) {
-      const { username, email, password } = this.form.value;
-      this.signIn.emit({ username, email, password });
+      console.log(this.form.value);
+      this.signIn.emit();
     }
   }
 
