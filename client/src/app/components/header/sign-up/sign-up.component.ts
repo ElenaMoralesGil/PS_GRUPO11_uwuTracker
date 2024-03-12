@@ -12,6 +12,5 @@ export class SignUpComponent {
   signUpClicked() {
     this.signUp.emit();
   }
-
 }
 

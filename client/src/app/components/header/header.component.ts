@@ -1,6 +1,5 @@
 import {Component, OnInit} from '@angular/core';
 import { CommonModule } from '@angular/common';
-
 import {RouterLink} from "@angular/router";
 import {SignInComponent} from "./sign-in/sign-in.component";
 import {SignUpComponent} from "./sign-up/sign-up.component";
@@ -12,7 +11,7 @@ import {SignUpComponent} from "./sign-up/sign-up.component";
     CommonModule,
     RouterLink,
     SignInComponent,
-    SignUpComponent
+    SignUpComponent,
   ],
   templateUrl: './header.component.html',
   styleUrl: './header.component.css'
@@ -20,9 +19,19 @@ import {SignUpComponent} from "./sign-up/sign-up.component";
 
 export class HeaderComponent {
 
+  userLogged = false;
   showSignInModal = false;
   showSignUpModal = false;
 
+  // funcion para enseñar el header de usuario registrado
+  headerLogged() {
+      this.userLogged = true;
+
+  }
+  headerUnLogged(){
+    this.userLogged =false;
+
+  }
   signIn() {
     this.showSignInModal = true;
     this.showSignUpModal = false;
@@ -41,4 +50,7 @@ export class HeaderComponent {
     this.showSignUpModal = false;
   }
 
+  LogOut() {
+
+  }
 }
