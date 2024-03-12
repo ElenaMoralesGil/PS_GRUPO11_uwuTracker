@@ -26,7 +26,14 @@
       <div *ngIf="form.get('password')?.errors?.['required']" class="error-message">Password is required.</div>
       <div *ngIf="form.get('password')?.errors?.['pattern']" class="error-message">Invalid password format. Password must contain at least one number, one uppercase letter, one lowercase letter, and be at least 8 characters long.</div>
     </div>
-
+    <label class="container-form-label" for="repeat_password">
+      <input class="container-form-input" id="repeat_password" formControlName="repeat_password"
+             placeholder="Repeat your password" required type="password" [ngClass]="{'valid': form.get('repeat_password')?.valid, 'invalid': form.get('repeat_password')?.invalid && (form.get('repeat_password')?.dirty || form.get('repeat_password')?.touched)}">
+    </label>
+    <div *ngIf="form.hasError('passwordMismatch')" class="alert">
+      <div class="error-message">Passwords do not match.</div>
+    </div>
     <p class="container-form-message">Already signed up? <a class="container-form-link" href="#" id="loginLink">Log in</a></p>
     <button class="container-form-button" type="submit">Sign In</button>
   </form>
+</main>
