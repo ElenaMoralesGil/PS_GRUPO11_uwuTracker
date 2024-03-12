@@ -1,6 +1,8 @@
 import { Component, Output, EventEmitter } from '@angular/core';
-import {FormBuilder, FormGroup, ReactiveFormsModule, Validators} from '@angular/forms';
-import {NgClass, NgIf} from "@angular/common";
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators } from '@angular/forms';
+import { NgClass, NgIf } from "@angular/common";
+import Users from '../../../models/User.model';
+import User from "../../../schemas/User.schema"; // Import Users as a named export
 
 @Component({
   selector: 'app-sign-in',
@@ -27,8 +29,23 @@ export class SignInComponent {
 
   submitForm() {
     if (this.form.valid) {
-      console.log(this.form.value);
-      this.signIn.emit();
+      const { username, email, password } = this.form.value;
+      // Assuming Users.signIn returns a Promise
+      Users.signIn(username, email, password)
+        .then((response: any)  => {
+          const { code, user } = response;
+          if (code === 200 && user) {
+            // Valid user
+            this.signIn.emit({ code, user });
+          } else if (code === 550) {
+            // User already exists
+          } else if (code === 580) {
+            // Email already exists
+          }
+        })
+        .catch((error: any)  => {
+          console.error(error);
+        });
     }
   }
 

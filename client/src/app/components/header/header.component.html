@@ -10,5 +10,5 @@
     <button id="signUpButton" name="Sign Up" (click)="showSignUp()">Sign Up</button>
    </div>
 </div>
-<app-sign-in *ngIf="showSignInModal" (signIn)="closeSignUpModal()"></app-sign-in>
+<app-sign-in *ngIf="showSignInModal" (signIn)="closeSignInModal()"></app-sign-in>
 <app-sign-up *ngIf="showSignUpModal" (signUp)="closeSignUpModal()"></app-sign-up>
