@@ -5,3 +5,9 @@ export default interface Users{
   create: (user: User) => Promise<User> | null
   signIn: (username: string, email: string, password: string) => Promise<User> | null
 }
+
+function signIn(username: string, email: string, password: string) {
+
+}
+
+

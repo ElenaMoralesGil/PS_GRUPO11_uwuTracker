@@ -22,13 +22,13 @@ export class SignInComponent {
       username: ['', [Validators.required, Validators.minLength(2)]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8), Validators.pattern(/^(?=.*[0-9])(?=.*[a-zA-Z])[a-zA-Z0-9\s]{8,}$/)]]
-
     });
   }
 
   submitForm() {
     if (this.form.valid) {
-      this.signIn.emit();
+      const { username, email, password } = this.form.value;
+      this.signIn.emit({ username, email, password });
     }
   }
 
