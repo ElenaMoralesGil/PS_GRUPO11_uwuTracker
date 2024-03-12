@@ -33,8 +33,12 @@ export class HeaderComponent {
     this.showSignUpModal = true;
   }
 
-  closeModals() {
+  closeSignInModal() {
     this.showSignInModal = false;
+  }
+
+  closeSignUpModal() {
     this.showSignUpModal = false;
   }
+
 }
