@@ -7,7 +7,8 @@
   <p>{{ description }}</p>
 
   <div class="likes-dislikes">
-    <button (click)="likeReview()">Like</button>
+    <i class="fa-solid fa-thumbs-up" (click)="likeReview()">Like</i>
+
     <span>Likes: {{ likes }}</span>
     <button (click)="dislikeReview()">Dislike</button>
     <span>Dislikes: {{ dislikes }}</span>

@@ -12,10 +12,11 @@ import Users from "../../models/User.model";
   styleUrls: ['./review.component.css']
 })
 export class ReviewComponent implements OnInit {
+  protected id?: string;
   protected title?: string;
   protected description?: string;
   protected score?: number;
-  protected id?: string;
+
   protected user?: string;
   protected content?: string;
   protected likes?: number;
@@ -27,21 +28,39 @@ export class ReviewComponent implements OnInit {
   ) {}
 
   async ngOnInit() {
-    // Existing code
+    let review
+    try { review = await this.Reviews.findById(this.router.snapshot.paramMap.get("id") || "") }
+    catch { return this.id = 'not-found' }
+
+    if (!review?.id) return this.id = 'not found'
+
+    this.id = review.id
+    this.title = review.title
+    this.description = review.description
+    this.score = review.score
+    this.user = review.user
+    this.content = review.content
+    this.likes = review.likes
+    this.dislikes = review.dislikes
+
+
+    return
   }
 
-  async likeReview(id: string) {
+  async likeReview() {
     try {
-      await this.Reviews.likeReview(id, this.currentUser.id);
+      await this.Reviews.likeReview(this.id, this.user);
+      // @ts-ignore
       this.likes++;
     } catch (error) {
       console.error(error);
     }
   }
 
-  async dislikeReview(id: string) {
+  async dislikeReview() {
     try {
-      await this.Reviews.dislikeReview(id, this.currentUser.id);
+      await this.Reviews.dislikeReview(this.id, this.user);
+      // @ts-ignore
       this.dislikes++;
     } catch (error) {
       console.error(error);
@@ -49,7 +68,7 @@ export class ReviewComponent implements OnInit {
   }
 
   isReviewOwner(): boolean {
-    return this.user === currentUser.id;
+    return this.user === Users.findById(this.user).name;
   }
 
   async createReview() {
@@ -69,9 +88,9 @@ export class ReviewComponent implements OnInit {
     }
   }
 
-  async editReview(id: string, updatedReview: Review) {
+  async editReview(title: string, description: string, score: number) {
     try {
-      await this.Reviews.editReview(id, updatedReview);
+      await this.Reviews.editReview(this.id, { title, description, score } as Review);
     } catch (error) {
       console.error(error);
     }

@@ -15,6 +15,6 @@ module.exports = class Review {
     get id() { return this.#id }
 
     get userScore() {
-        return this.user.animeList.find(elm => elm.content.id == this.content.id).score ?? null;
+        return this.user.animeList.find(elm => elm.content.id === this.content.id).score ?? null;
     }
 }

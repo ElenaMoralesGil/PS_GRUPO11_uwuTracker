@@ -22,7 +22,7 @@ export class ReviewService implements Reviews {
   findById = (id: string): Promise<Review> | null =>
     fetch(`${this.path}/${id}`).then(res => res.json()).catch(err => null)
 
-  likeReview(id: string, userId: string): Promise<void> {
+  likeReview(id: string | undefined, userId: string | undefined): Promise<void> | null {
     return fetch(`${this.path}/${id}/like`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -32,7 +32,7 @@ export class ReviewService implements Reviews {
     });
   }
 
-  dislikeReview(id: string, userId: string): Promise<void> {
+  dislikeReview(id: string | undefined, userId: string | undefined): Promise<void> | null {
     return fetch(`${this.path}/${id}/dislike`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -61,7 +61,7 @@ export class ReviewService implements Reviews {
     });
   }
 
-  editReview(id: string, updatedReview: Review): Promise<void> {
+  editReview(id: string | undefined, updatedReview: Review): Promise<void> | null {
     return fetch(`${this.path}/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },

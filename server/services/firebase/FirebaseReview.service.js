@@ -15,13 +15,7 @@ class FirebaseContent {
 
     findById = async id => getDoc(doc(this.db, this.coll, String(id))).then(res => res.data())
 
-    create = async review => {
-        //if (await this.findById(content.id)) return null
 
-        await setDoc(doc(this.db, this.coll, String(review.id)), review)
-
-        return await this.findById(review.id) ? review : null
-    }
     async edit(id, updatedReview) {
         const reviewRef = doc(this.db, this.coll, id);
         await updateDoc(reviewRef, updatedReview);

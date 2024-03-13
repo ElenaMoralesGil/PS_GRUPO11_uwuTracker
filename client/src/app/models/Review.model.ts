@@ -6,10 +6,10 @@ export default interface Reviews {
 
   deleteReview: (id: string) => Promise<void> | null
 
-  editReview: (id: string, updatedReview: Review) => Promise<void> | null
+  editReview: (id: string | undefined, updatedReview: Review) => Promise<void> | null
 
-  likeReview(id: string, userId: string) : Promise<void> | null
+  likeReview(id: string | undefined, userId: string | undefined) : Promise<void> | null
 
-  dislikeReview: (id: string, userId: string) => Promise<void> | null
+  dislikeReview: (id: string | undefined, userId: string | undefined) => Promise<void> | null
 
 }
