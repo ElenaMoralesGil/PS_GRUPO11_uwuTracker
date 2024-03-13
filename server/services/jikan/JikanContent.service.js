@@ -20,8 +20,8 @@ class JikanService {
     }
 
     constructor() {
-        this.contentpath = `${process.env.JIKAN_CONTENT_PATH}/anime`
-        this.characterspath = `${process.env.JIKAN_CONTENT_PATH}/characters`
+        this.contentpath = `${process.env.JIKAN_PATH}/anime`
+        this.characterspath = `${process.env.JIKAN_PATH}/characters`
     }
     
     // Primera funcionalidad.
