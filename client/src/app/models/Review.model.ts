@@ -2,14 +2,14 @@ import Review from "../schemas/Review.schema";
 
 export default interface Reviews {
 
-  createReview: (userId: string | undefined, content: string | undefined, score: number | undefined, title: string | undefined, description: string | undefined) => Promise<Review> | null
+  createReview: (userId: string, content: string, score: number, title: string, description: string) => Promise<Review> | null
 
   deleteReview: (id: string) => Promise<void> | null
 
-  editReview: (id: string | undefined, updatedReview: Review) => Promise<void> | null
+  editReview: ( id :string,user: string, title:string, description:string, score?:number) => Promise<void> | null
 
-  likeReview(id: string | undefined, userId: string | undefined) : Promise<void> | null
+  likeReview(id: string, userId: string) : Promise<void> | null
 
-  dislikeReview: (id: string | undefined, userId: string | undefined) => Promise<void> | null
+  dislikeReview: (id: string, userId: string) => Promise<void> | null
 
 }

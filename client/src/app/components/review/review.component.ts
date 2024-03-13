@@ -1,8 +1,9 @@
-import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
-import { ReviewService } from '../../services/review.service';
-import Review from "../../schemas/Review.schema";
+import {Component, OnInit} from '@angular/core';
+import {ActivatedRoute} from '@angular/router';
+import {ReviewService} from '../../services/review.service';
 import Users from "../../models/User.model";
+
+
 
 
 @Component({
@@ -16,16 +17,12 @@ export class ReviewComponent implements OnInit {
   protected title?: string;
   protected description?: string;
   protected score?: number;
-
   protected user?: string;
   protected content?: string;
   protected likes?: number;
   protected dislikes?: number;
 
-  constructor(
-    private Reviews: ReviewService,
-    private router: ActivatedRoute
-  ) {}
+  constructor(private Reviews: ReviewService, private router: ActivatedRoute) {}
 
   async ngOnInit() {
     let review
@@ -43,12 +40,14 @@ export class ReviewComponent implements OnInit {
     this.likes = review.likes
     this.dislikes = review.dislikes
 
-
     return
   }
 
   async likeReview() {
     try {
+      if (!this.id || !this.user) {
+        throw new Error('ID or user is not defined');
+      }
       await this.Reviews.likeReview(this.id, this.user);
       // @ts-ignore
       this.likes++;
@@ -59,6 +58,9 @@ export class ReviewComponent implements OnInit {
 
   async dislikeReview() {
     try {
+      if (!this.id || !this.user) {
+        throw new Error('ID or user is not defined');
+      }
       await this.Reviews.dislikeReview(this.id, this.user);
       // @ts-ignore
       this.dislikes++;
@@ -67,34 +69,48 @@ export class ReviewComponent implements OnInit {
     }
   }
 
+
   isReviewOwner(): boolean {
     return this.user === Users.findById(this.user).name;
   }
 
+
   async createReview() {
     try {
+      if (!this.user || !this.content || !this.score || !this.title || !this.description) {
+        throw new Error('User, content, score, title, or description is not defined');
+      }
       const createdReview = await this.Reviews.createReview(this.user, this.content, this.score, this.title, this.description);
+      // Handle success
     } catch (error) {
       console.error(error);
     }
   }
 
-  async deleteReview(id: string) {
+  async deleteReview() {
     try {
-      await this.Reviews.deleteReview(id);
-
+      if (!this.id) {
+        throw new Error('ID is not defined');
+      }
+      await this.Reviews.deleteReview(this.id);
+      // Handle success, maybe refresh reviews list
     } catch (error) {
       console.error(error);
     }
   }
 
-  async editReview(title: string, description: string, score: number) {
+  async editReview() {
     try {
-      await this.Reviews.editReview(this.id, { title, description, score } as Review);
+      if (!this.id || !this.user || !this.title || !this.description || !this.score) {
+        throw new Error('ID, user, title, description, or score is not defined');
+      }
+      await this.Reviews.editReview(this.id, this.user, this.title, this.description, this.score);
+      // Handle success, maybe refresh reviews list
     } catch (error) {
       console.error(error);
     }
   }
 
 
+  protected readonly Users = Users;
 }

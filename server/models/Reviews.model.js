@@ -35,14 +35,14 @@ class Reviews{
         await review.save();
     }
 
-    async edit(id, updatedReview) {
+    async edit(id,user, title, description, score) {
         const review = await this.findById(id);
         if (!review) throw 'Review not found';
 
         // Check if the current user is the owner of the review
-        if (review.user !== updatedReview.user) throw 'Unauthorized to edit';
+        if (review.user !== user) throw 'Unauthorized to edit';
 
-        Object.assign(review, updatedReview);
+        Object.assign(review, { title, description, score });
         await review.save();
         return review;
     }
