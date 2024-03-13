@@ -18,7 +18,7 @@ class FirebaseContent {
     create = async content => {
         if (await this.findById(content.id)) return null
 
-        await setDoc(doc(this.db, this.coll, String(content.id)), content)
+        await setDoc(doc(this.db, this.coll, String(content.id)), Content.parse(content).get())
 
         return await this.findById(content.id) ? content : null
     }
