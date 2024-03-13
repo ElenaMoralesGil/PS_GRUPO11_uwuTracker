@@ -1,0 +1,19 @@
+.review-container {
+  margin: 20px;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+}
+
+.rating {
+  color: orange;
+}
+
+.likes-dislikes {
+  margin-top: 10px;
+}
+
+.loading-message {
+  margin: 20px;
+  font-style: italic;
+}

@@ -1,1 +1,20 @@
-<p>review works!</p>
+<div class="review-container">
+  <h2>{{ title }}</h2>
+  <div class="rating">
+    <p>{{ score }}</p>
+  </div>
+  <p>By: {{ Users.findById(user)?.username }}</p>
+  <p>{{ description }}</p>
+
+  <div class="likes-dislikes">
+    <button (click)="likeReview()">Like</button>
+    <span>Likes: {{ likes }}</span>
+    <button (click)="dislikeReview()">Dislike</button>
+    <span>Dislikes: {{ dislikes }}</span>
+  </div>
+
+  <div *ngIf="isReviewOwner()">
+    <button (click)="editReview()">Edit Review</button>
+    <button (click)="deleteReview()">Delete Review</button>
+  </div>
+</div>

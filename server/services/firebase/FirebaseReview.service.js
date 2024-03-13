@@ -22,6 +22,21 @@ class FirebaseContent {
 
         return await this.findById(review.id) ? review : null
     }
+    async edit(id, updatedReview) {
+        const reviewRef = doc(this.db, this.coll, id);
+        await updateDoc(reviewRef, updatedReview);
+    }
+
+    async delete(id) {
+        const reviewRef = doc(this.db, this.coll, id);
+        await deleteDoc(reviewRef);
+    }
+
+    async create(review) {
+        const reviewRef = await addDoc(collection(this.db, this.coll), review);
+        return { ...review, id: reviewRef.id };
+    }
+
 }
 
 module.exports = require(process.cwd() + '/bin/Singleton')(new FirebaseReview(require('./firebase.service')))

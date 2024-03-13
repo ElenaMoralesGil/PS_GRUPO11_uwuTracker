@@ -29,6 +29,28 @@ router.post('/', (req, res) => {
         })
         .catch(err => { console.log(err); res.status(500).json({ msg: err }) })
 })
+router.post('/:id/like', (req, res) => {
+    Reviews.like(req.params.id, req.body.userId)
+        .then(() => res.status(200).json({ msg: 'Liked' }))
+        .catch(err => res.status(500).json({ msg: err }));
+});
+
+router.post('/:id/dislike', (req, res) => {
+    Reviews.dislike(req.params.id, req.body.userId)
+        .then(() => res.status(200).json({ msg: 'Disliked' }))
+        .catch(err => res.status(500).json({ msg: err }));
+});
+router.put('/:id', (req, res) => {
+    Reviews.edit(req.params.id, req.body)
+        .then(review => res.status(200).json(review))
+        .catch(err => res.status(500).json({ msg: err }));
+});
+
+router.delete('/:id', (req, res) => {
+    Reviews.delete(req.params.id)
+        .then(() => res.status(200).json({ msg: 'Review deleted' }))
+        .catch(err => res.status(500).json({ msg: err }));
+});
 
 
 module.exports = router
