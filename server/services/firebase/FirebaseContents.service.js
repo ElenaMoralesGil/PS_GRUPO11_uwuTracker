@@ -6,25 +6,25 @@ class FirebaseContent {
     #fss
     #collection
     constructor(fss) {
-        this.#collection = new String("Contents")
-        this.#fss = fss
+        this.#collection = "Contents"
+        this.#fss = require('./firebase.service')
     }
 
-    get db() { return this.#fss.db }
-    get coll() { return this.#collection }
+    get #db() { return this.#fss.db }
+    get #coll() { return this.#collection }
 
-    findById = async id => getDoc(doc(this.db, this.coll, String(id))).then(res => res.data())
+    findById = async id => getDoc(doc(this.#db, this.#coll, String(id))).then(res => res.data()).then(data => data ? Content.parse(data) : null)
 
     create = async content => {
         if (await this.findById(content.id)) return null
 
-        await setDoc(doc(this.db, this.coll, String(content.id)), Content.parse(content).get())
+        await setDoc(doc(this.#db, this.#coll, String(content.id)), content.get())
 
-        return await this.findById(content.id) ? content : null
+        return await this.findById(content.id) ? Content.parse(content) : null
     }
 }
 
-module.exports = require(process.cwd() + '/bin/Singleton')(new FirebaseContent(require('./firebase.service')))
+module.exports = require(process.cwd() + '/bin/Singleton')(new FirebaseContent())
 
 
 // *=> concento de auto-actualizacion añadiendo la id

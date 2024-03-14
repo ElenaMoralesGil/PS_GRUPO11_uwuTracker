@@ -1,5 +1,3 @@
-const Singleton = require("../bin/Singleton")
-const service = require('../services/Users.firebase')
 const User = require("../schemas/User.schema")
 
 class Users {
@@ -7,12 +5,12 @@ class Users {
     #path
     #service
     constructor(path) {
-        this.#path = path
-        this.#service = service
+        this.#service = require('../services/firebase/FirebaseUsers.service')
     }
     get path() { return this.#path }
 
-    findById = id => new User(this.#service.findById(id))
+    findById = id => this.#service.findById(id).them(user => new User(user))
+    create = content => this.#service.create(content).them(user => new User(user))
 }
 
-module.exports = Singleton(new Users("alguna-ruta"))
+module.exports = require('../bin/Singleton')(new Users())

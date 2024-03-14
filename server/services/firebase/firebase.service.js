@@ -7,14 +7,11 @@ const admin = require('firebase-admin')
 
 
 class FirebaseService {
-
     #app
     #admin
-
     #db
     #storage
     #auth
-
     constructor() {
         this.#app = initializeApp(JSON.parse(process.env.FIRE_API))
         this.#admin = admin.initializeApp({ credential: admin.credential.cert(JSON.parse(process.env.FIRE_ADMIN)) })

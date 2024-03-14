@@ -1,6 +1,7 @@
 const router = require('express').Router()
 
 const Contents = require('../../models/Contents.model')
+const Content = require('../../schemas/Content.schema')
 
 router.get('/search', (req, res) => {
     Contents.findByName(req.query.name)
@@ -21,14 +22,14 @@ router.get('/:id', (req, res) => {
 })
 
 
-router.post('/', (req, res) => {
-    Contents.create(req.body)
-        .then(content => {
-            if (!content) return res.status(409).json({ msg: 'already exists' })
-            res.status(200).json(content)
-        })
-        .catch(err => { console.log(err); res.status(500).json({ msg: err }) })
-})
+// router.post('/', (req, res) => {
+//     Contents.create(Content.parse(req.body))
+//         .then(content => {
+//             if (!content) return res.status(409).json({ msg: 'already exists' })
+//             res.status(200).json(content)
+//         })
+//         .catch(err => { console.log(err); res.status(500).json({ msg: err }) })
+// })
 
 
 module.exports = router
