@@ -12,9 +12,7 @@ module.exports = class Review {
         this.title = title;
     }
 
-    get id() { return this.#id }
-
-    get userScore() {
-        return this.user.animeList.find(elm => elm.content.id === this.content.id).score ?? null;
-    }
+    static parse = review => new Review(review);
+    //get = () => ({ ...this, id: this.#id })
+    stringify = () => JSON.stringify({ ...this, id: this.#id })
 }

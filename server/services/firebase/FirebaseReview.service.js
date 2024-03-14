@@ -1,25 +1,30 @@
 const Content = require('../../schemas/Review.schema')
 
-const { collection, doc, getDoc, getDocs, setDoc, addDoc, updateDoc, query, where } = require('firebase/firestore/lite')
+const { collection, doc, getDoc, deleteDoc,setDoc,  addDoc, updateDoc, query, where } = require('firebase/firestore/lite')
 
-class FirebaseContent {
+class FirebaseReview {
     #fss
     #collection
+    #firestore
     constructor(fss) {
-        this.#collection = new String("Reviews")
+        this.#collection = String("Reviews")
         this.#fss = fss
     }
 
     get db() { return this.#fss.db }
     get coll() { return this.#collection }
 
-    findById = async id => getDoc(doc(this.db, this.coll, String(id))).then(res => res.data())
-
-
-    async edit(id, updatedReview) {
-        const reviewRef = doc(this.db, this.coll, id);
-        await updateDoc(reviewRef, updatedReview);
+    async findById(id) {
+        const docRef = doc(this.db, this.coll, id);
+        return await getDoc(docRef);
     }
+
+    async update(id, data) {
+        const docRef = doc(this.db, this.coll, id);
+        await updateDoc(docRef, data);
+        return true;
+    }
+
 
     async delete(id) {
         const reviewRef = doc(this.db, this.coll, id);
@@ -27,8 +32,9 @@ class FirebaseContent {
     }
 
     async create(review) {
-        const reviewRef = await addDoc(collection(this.db, this.coll), review);
-        return { ...review, id: reviewRef.id };
+        await setDoc(doc(this.db, this.coll, String(review.id)), review)
+
+        return await this.findById(review.id) ? review : null
     }
 
 }

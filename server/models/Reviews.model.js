@@ -1,58 +1,71 @@
-const Singleton = require("../bin/Singleton")
-const ReviewServ = require('../services/Reviews.firebase')
-const Review = require("../schemas/Review.schema")
+const Review = require("../schemas/Review.schema");
+const FirebaseReviewService = require("../services/firebase/FirebaseReview.service");
 
-class Reviews{
-
-    #path
-
-
+class Reviews {
     constructor() {
-        this.#path = process.env.REVIEWS_ROUTER_PATH
-        this.score =0
-
-    }
-    get path() { return this.#path }
-
-    findById = id => new Review(ReviewServ.findById(id))
-    async like(id, userId) {
-        const review = await this.findById(id);
-        if (!review) throw 'Review not found';
-
-        if (review.likes.includes(userId)) throw 'Already liked';
-
-        review.likes.push(userId);
-        await review.save();
+        this.db = new FirebaseReviewService();
     }
 
-    async dislike(id, userId) {
-        const review = await this.findById(id);
-        if (!review) throw 'Review not found';
+    findById = id => {
+        return this.db.findById(id)
+            .then(reviewData => {
+                if (!reviewData.exists) return null;
+                return new Review({ id: reviewData.id, ...reviewData.data() });
+            });
+    };
 
-        if (review.dislikes.includes(userId)) throw 'Already disliked';
+    createReview = (userId, content, score, title, description) => {
+        const review = new Review({ userId, content, score, title, description });
+        return Promise.resolve(review); // No need for asynchronous operation here
+    };
 
-        review.dislikes.push(userId);
-        await review.save();
-    }
+    like = (id, userId) => {
+        return this.findById(id)
+            .then(review => {
+                if (!review) throw new Error('Review not found');
 
-    async edit(id,user, title, description, score) {
-        const review = await this.findById(id);
-        if (!review) throw 'Review not found';
+                if (review.likes.includes(userId)) throw new Error('Already liked');
 
-        // Check if the current user is the owner of the review
-        if (review.user !== user) throw 'Unauthorized to edit';
+                review.likes.push(userId);
+                return this.db.update(id, review.getData()); // Assuming `update` method in FirebaseReviewService
+            });
+    };
 
-        Object.assign(review, { title, description, score });
-        await review.save();
-        return review;
-    }
+    dislike = (id, userId) => {
+        return this.findById(id)
+            .then(review => {
+                if (!review) throw new Error('Review not found');
 
-    async delete(id) {
-        const review = await this.findById(id);
-        if (!review) throw 'Review not found';
+                if (review.dislikes.includes(userId)) throw new Error('Already disliked');
 
-        await review.delete();
-    }
+                review.dislikes.push(userId);
+                return this.db.update(id, review.getData()); // Assuming `update` method in FirebaseReviewService
+            });
+    };
 
+    edit = (id, user, title, description, score) => {
+        return this.findById(id)
+            .then(review => {
+                if (!review) throw new Error('Review not found');
+
+                // Check if the current user is the owner of the review
+                if (review.user !== user) throw new Error('Unauthorized to edit');
+
+                review.title = title;
+                review.description = description;
+                review.score = score;
+                return this.db.update(id, review.getData());
+            });
+    };
+
+    delete = id => {
+        return this.findById(id)
+            .then(review => {
+                if (!review) throw new Error('Review not found');
+
+                return this.db.delete(id);
+            });
+    };
 }
-module.exports = Singleton(new Reviews())
+
+module.exports = require(process.cwd() + '/bin/Singleton')(new Reviews());

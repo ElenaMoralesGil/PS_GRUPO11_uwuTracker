@@ -12,23 +12,34 @@ router.get('/search', (req, res) => {
 })
 
 router.get('/:id', (req, res) => {
-    Reviews.findById(req.params.id)
+    const reviewId = req.params.id;
+    Reviews.findById(reviewId)
         .then(review => {
-            if (!review) return res.status(404).json({ msg: 'not found' })
-            res.status(200).json(review)
+            if (!review) {
+                return res.status(404).json({ error: 'Review not found' });
+            }
+            res.status(200).json(review);
         })
-        .catch(err => { console.log(err); res.status(500).json({ msg: err }) })
-})
+        .catch(error => {
+            console.error(error);
+            res.status(500).json({ error: 'Internal Server Error' });
+        });
+});
 
 
 router.post('/', (req, res) => {
-        Reviews.create(req.body)
-        .then(review => {
-            if (!review) return res.status(409).json({ msg: 'already exists' })
-            res.status(200).json(review)
+    const { userId, content, score, title, description } = req.body;
+    Reviews.createReview(userId, content, score, title, description)
+        .then(createdReview => {
+            if (!createdReview) return res.status(409).json({ msg: 'already exists' })
+            res.status(201).json(createdReview);
         })
-        .catch(err => { console.log(err); res.status(500).json({ msg: err }) })
-})
+        .catch(error => {
+            console.error(error);
+            res.status(500).json({ error: 'Internal Server Error' });
+        });
+});
+
 router.post('/:id/like', (req, res) => {
     Reviews.like(req.params.id, req.body.userId)
         .then(() => res.status(200).json({ msg: 'Liked' }))

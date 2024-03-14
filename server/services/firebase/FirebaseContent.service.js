@@ -1,6 +1,6 @@
 const Content = require('../../schemas/Content.schema')
 
-const { collection, doc, getDoc, getDocs, setDoc, addDoc, updateDoc, query, where } = require('firebase/firestore/lite')
+const { collection, doc, getDoc, getDocs, setDoc, de, addDoc, updateDoc, query, where } = require('firebase/firestore/lite')
 
 class FirebaseContent {
     #fss
