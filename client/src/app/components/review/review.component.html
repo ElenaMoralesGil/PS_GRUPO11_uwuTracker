@@ -18,4 +18,28 @@
     <button (click)="editReview()">Edit Review</button>
     <button (click)="deleteReview()">Delete Review</button>
   </div>
+
+  <!-- Create Review Section -->
+  <div *ngIf="!id">
+    <h3>Create New Review</h3>
+    <div>
+      <label for="userId">User ID:</label>
+      <input type="text" id="userId" [(ngModel)]="user">
+    </div>
+    <div>
+      <label for="title">Title:</label>
+      <input type="text" id="title" [(ngModel)]="title">
+    </div>
+    <div>
+      <label for="description">Description:</label>
+      <textarea id="description" [(ngModel)]="description"></textarea>
+    </div>
+    <div>
+      <label for="score">Score:</label>
+      <input type="number" id="score" [(ngModel)]="score">
+    </div>
+    <div>
+      <button (click)="createReview()">Create Review</button>
+    </div>
+  </div>
 </div>
