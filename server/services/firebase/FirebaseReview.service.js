@@ -1,13 +1,13 @@
 const Content = require('../../schemas/Review.schema')
 
-const { collection, doc, getDoc, deleteDoc,setDoc,  addDoc, updateDoc, query, where } = require('firebase/firestore/lite')
+const { collection, doc, getDoc, deleteDoc,arrayUnion,  addDoc, updateDoc, query, where } = require('firebase/firestore/lite')
 
 class FirebaseReview {
     #fss
     #collection
     #firestore
     constructor(fss) {
-        this.#collection = String("Reviews")
+        this.#collection = new String("Reviews")
         this.#fss = fss
     }
 
@@ -16,7 +16,12 @@ class FirebaseReview {
 
     async findById(id) {
         const docRef = doc(this.db, this.coll, id);
-        return await getDoc(docRef);
+        const docSnapshot = await getDoc(docRef);
+        if (docSnapshot.exists()) {
+            return { id: docSnapshot.id, ...docSnapshot.data() };
+        } else {
+            return null;
+        }
     }
 
     async update(id, data) {
@@ -31,10 +36,39 @@ class FirebaseReview {
         await deleteDoc(reviewRef);
     }
 
-    async create(review) {
-        await setDoc(doc(this.db, this.coll, String(review.id)), review)
+    async create(userId, content, score, title, description) {
+        console.log("Creating review...");
+        const review = {
+            userId,
+            content,
+            score,
+            title,
+            description,
+            likes: 0,
+            dislikes: 0
+        };
 
-        return await this.findById(review.id) ? review : null
+        try {
+            const docRef = await addDoc(collection(this.db, this.coll), review);
+            console.log("Review created successfully with ID:", docRef.id);
+
+            // Update content's reviews list
+            const contentRef = doc(this.db, 'Contents', content);
+            await updateDoc(contentRef, {
+                reviews: arrayUnion(docRef.id) // Add the review ID to the content's reviews list
+            });
+
+            // Update user's reviews list
+            const userRef = doc(this.db, 'Users', userId);
+            await updateDoc(userRef, {
+                reviews: arrayUnion(docRef.id) // Add the review ID to the user's reviews list
+            });
+
+            return docRef.id; // Optionally return the ID of the created review
+        } catch (error) {
+            console.error("Error creating review:", error);
+            return null;
+        }
     }
 
 }

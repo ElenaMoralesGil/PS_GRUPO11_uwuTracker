@@ -1,23 +1,31 @@
 const Review = require("../schemas/Review.schema");
 const FirebaseReviewService = require("../services/firebase/FirebaseReview.service");
-
+const db = require('../services/firebase/FirebaseReview.service')
 class Reviews {
+    #db
     constructor() {
-        this.db = new FirebaseReviewService();
+        this.db = db
     }
 
     findById = id => {
-        return this.db.findById(id)
+        console.log("Searching for review with ID:", id);
+        return this.#db.findById(id)
             .then(reviewData => {
-                if (!reviewData.exists) return null;
-                return new Review({ id: reviewData.id, ...reviewData.data() });
+                if (!reviewData) {
+                    console.log("Review not found.");
+                    return null; // Return null if the review doesn't exist
+                }
+                console.log("Review data:", reviewData);
+                return new Review({ id: reviewData.id, ...reviewData }); // Assuming reviewData already contains the required fields
+            })
+            .catch(error => {
+                console.error("Error finding review:", error);
+                return null; // Handle errors gracefully by returning null
             });
     };
 
-    createReview = (userId, content, score, title, description) => {
-        const review = new Review({ userId, content, score, title, description });
-        return Promise.resolve(review); // No need for asynchronous operation here
-    };
+
+    createReview = (userId, content, score, title, description) => {return this.db.create(userId, content, score, title, description);};
 
     like = (id, userId) => {
         return this.findById(id)
@@ -27,7 +35,7 @@ class Reviews {
                 if (review.likes.includes(userId)) throw new Error('Already liked');
 
                 review.likes.push(userId);
-                return this.db.update(id, review.getData()); // Assuming `update` method in FirebaseReviewService
+                return this.#db.update(id, review.getData()); // Assuming `update` method in FirebaseReviewService
             });
     };
 
@@ -39,7 +47,7 @@ class Reviews {
                 if (review.dislikes.includes(userId)) throw new Error('Already disliked');
 
                 review.dislikes.push(userId);
-                return this.db.update(id, review.getData()); // Assuming `update` method in FirebaseReviewService
+                return this.#db.update(id, review.getData()); // Assuming `update` method in FirebaseReviewService
             });
     };
 
@@ -54,7 +62,7 @@ class Reviews {
                 review.title = title;
                 review.description = description;
                 review.score = score;
-                return this.db.update(id, review.getData());
+                return this.#db.update(id, review.getData());
             });
     };
 
@@ -63,7 +71,7 @@ class Reviews {
             .then(review => {
                 if (!review) throw new Error('Review not found');
 
-                return this.db.delete(id);
+                return this.#db.delete(id);
             });
     };
 }

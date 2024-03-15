@@ -20,8 +20,19 @@ export class ReviewService implements Reviews {
   }
 
   findById = (id: string): Promise<Review> | null =>
-    fetch(`${this.path}/${id}`).then(res => res.json()).catch(err => null)
-
+    fetch(`${this.path}/${id}`)
+      .then(res => {
+        console.log("Response status:", res.status);
+        return res.json();
+      })
+      .then(data => {
+        console.log("Response data:", data);
+        return data;
+      })
+      .catch(err => {
+        console.error("Error fetching review:", err);
+        return null;
+      });
   likeReview(id: string, userId: string ): Promise<void> | null {
     return fetch(`${this.path}/${id}/like`, {
       method: 'POST',
@@ -61,7 +72,7 @@ export class ReviewService implements Reviews {
     });
   }
 
-  editReview(id: string, user: string, title: string, description: string, score?: number): Promise<void> | null {
+  editReview(id: string, user: string, content: string, title: string, description: string, score?: number): Promise<void> | null {
     return fetch(`${this.path}/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },

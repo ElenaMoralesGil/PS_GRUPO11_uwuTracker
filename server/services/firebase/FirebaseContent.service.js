@@ -1,6 +1,6 @@
 const Content = require('../../schemas/Content.schema')
 
-const { collection, doc, getDoc, getDocs, setDoc, de, addDoc, updateDoc, query, where } = require('firebase/firestore/lite')
+const { collection, doc, getDoc, getDocs, setDoc, addDoc, updateDoc, query, where } = require('firebase/firestore/lite')
 
 class FirebaseContent {
     #fss
@@ -16,9 +16,9 @@ class FirebaseContent {
     findById = async id => getDoc(doc(this.db, this.coll, String(id))).then(res => res.data())
 
     create = async content => {
-        //if (await this.findById(content.id)) return null
+        if (await this.findById(content.id)) return null
 
-        await setDoc(doc(this.db, this.coll, String(content.id)), content)
+        await setDoc(doc(this.db, this.coll, String(content.id)), Content.parse(content).get())
 
         return await this.findById(content.id) ? content : null
     }

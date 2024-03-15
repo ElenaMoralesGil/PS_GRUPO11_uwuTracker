@@ -1,6 +1,6 @@
 
 export default interface Review {
-  readonly id: string
+  readonly id: string | null
   title: string
   description: string
   score?: number

@@ -4,10 +4,12 @@ import {ReviewComponent} from "./components/review/review.component";
 
 
 export const routes: Routes = [
-    {
-        'path': 'content/:id', component: ContentComponent,
-        children: [
-            { path: 'review/:id', component: ReviewComponent }
-        ]
-    }
+  {
+    path: 'content/:id',
+    component: ContentComponent,
+    children: [
+      { path: 'review/create', component: ReviewComponent }, // Child route for creating a review
+      { path: 'review/:reviewId/edit', component: ReviewComponent } // Child route for editing a review
+    ]
+  }
 ];

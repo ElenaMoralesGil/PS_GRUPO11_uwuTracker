@@ -1,11 +1,16 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiContentService } from '../../services/api-content.service';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
+import {ReviewComponent} from "../review/review.component";
+import {NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-content',
   standalone: true,
-  imports: [],
+  imports: [
+    ReviewComponent,
+    NgIf
+  ],
   templateUrl: './content.component.html',
   styleUrl: './content.component.css'
 })
@@ -13,8 +18,8 @@ export class ContentComponent implements OnInit {
 
   protected id?: string
   protected title?: string
-
-  constructor(private Contents: ApiContentService, private router: ActivatedRoute) { }
+  showReviewComponent: boolean = false;
+  constructor(private Contents: ApiContentService, private router: ActivatedRoute,private rout: Router) { }
 
   async ngOnInit() {
     let content
@@ -27,5 +32,14 @@ export class ContentComponent implements OnInit {
     this.title = content.title
 
     return
+  }
+
+  openReviewCreation(): void {
+    console.log('Navigating to create review...');
+    console.log('Content ID:', this.id);
+    // Navigate to the review creation route, passing content ID as a parameter
+    this.rout.navigate(['content', this.id, 'review', 'create']);
+    // Set the flag to display the review component
+    this.showReviewComponent = true;
   }
 }
