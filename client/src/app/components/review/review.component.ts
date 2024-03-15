@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {ActivatedRoute, Router} from '@angular/router';
 import { ReviewService } from '../../services/review.service';
 import Users from "../../models/User.model";
 import Review from "../../schemas/Review.schema";
@@ -30,7 +30,9 @@ export class ReviewComponent implements OnInit {
   };
   editMode: boolean = false;
   showMode: boolean = false;
-  constructor(private reviewService: ReviewService, private route: ActivatedRoute) {}
+  showModal: boolean = true;
+  constructor(private reviewService: ReviewService, private route: ActivatedRoute, private router: Router) {
+  }
 
 
   async ngOnInit() {
@@ -47,6 +49,7 @@ export class ReviewComponent implements OnInit {
     if (reviewId === null || reviewId === 'edit') { // If in create or edit mode
       console.log('Creating new review...');
       // Creating new review
+      this.showModal = true;
       this.editMode = true; // Set edit mode to true for create operation
       this.showMode = false; // Set show mode to true when in create or edit mode
       this.review = {
@@ -64,6 +67,7 @@ export class ReviewComponent implements OnInit {
     } else if (reviewId) {
       console.log('Viewing existing review with ID:', reviewId);
       // Viewing existing review
+      this.showModal = true;
       this.showMode = true; // Set show mode to true when viewing existing review
       try {
         // @ts-ignore
@@ -73,6 +77,20 @@ export class ReviewComponent implements OnInit {
         console.error('Error fetching review:', error);
       }
     }
+  }
+
+  openModal() {
+    this.showModal = true;
+    this.editMode = this.router.url.includes('review/create');
+  }
+
+  // Method to close modal
+  closeModal() {
+    this.editMode   = false;
+    this.showMode   = false;
+    this.showModal  = false;
+    window.location.reload();
+    this.router.navigateByUrl('/content/' + this.review.content);
   }
 
   async likeReview() {
@@ -94,6 +112,7 @@ export class ReviewComponent implements OnInit {
   }
 
   async createOrUpdateReview() {
+
     console.log('content id' + this.review.content)
     try {
       if (!this.review) {
@@ -102,13 +121,15 @@ export class ReviewComponent implements OnInit {
       if (!this.review.user) {
         throw new Error('User is not defined');
 
-      } if ( !this.review.content) {
+      }
+      if (!this.review.content) {
         throw new Error('Content is not defined');
 
       }
-      if ( !this.review.score) {
+      if (!this.review.score) {
         throw new Error('Score is not defined');
-      } if (!this.review.title || !this.review.description) {
+      }
+      if (!this.review.title || !this.review.description) {
         throw new Error('Title or Description is not defined');
       }
       if (this.review.id) {
@@ -135,5 +156,7 @@ export class ReviewComponent implements OnInit {
       console.error(error);
     }
   }
+
   protected readonly Users = Users;
+
 }
