@@ -1,10 +1,10 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute, Router} from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { ReviewService } from '../../services/review.service';
 import Users from "../../models/User.model";
 import Review from "../../schemas/Review.schema";
 import { FormsModule } from "@angular/forms";
-import { CommonModule } from "@angular/common";
+import {CommonModule, NgClass, NgForOf, NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-review',
@@ -12,11 +12,12 @@ import { CommonModule } from "@angular/common";
   standalone: true,
   imports: [
     FormsModule,
-    CommonModule,
+    NgClass,
+    NgIf,
+    NgForOf
   ],
   styleUrls: ['./review.component.css']
 })
-
 export class ReviewComponent implements OnInit {
   review: Review = {
     id: '',
@@ -31,13 +32,11 @@ export class ReviewComponent implements OnInit {
   editMode: boolean = false;
   showMode: boolean = false;
   showModal: boolean = true;
-  constructor(private reviewService: ReviewService, private route: ActivatedRoute, private router: Router) {
-  }
 
+  constructor(private reviewService: ReviewService, private route: ActivatedRoute, private router: Router) { }
 
   async ngOnInit() {
     const contentId = this.route.snapshot.paramMap.get("id");
-    console.log('Review Component Initialized with Content ID:', contentId);
 
     if (!contentId) {
       console.error('Content ID is missing.');
@@ -45,34 +44,27 @@ export class ReviewComponent implements OnInit {
     }
 
     const reviewId = this.route.snapshot.paramMap.get("reviewId");
-    console.log('Review ID:', reviewId);
-    if (reviewId === null || reviewId === 'edit') { // If in create or edit mode
-      console.log('Creating new review...');
-      // Creating new review
+
+    if (reviewId === null || reviewId === 'edit') {
       this.showModal = true;
-      this.editMode = true; // Set edit mode to true for create operation
-      this.showMode = false; // Set show mode to true when in create or edit mode
+      this.editMode = true;
+      this.showMode = false;
       this.review = {
-        id: '', // Set ID to null for new review
+        id: '',
         title: '',
         description: '',
         score: 0,
-        user: '', // Populate with user ID if needed
-        content: contentId, // Assign contentId to the content property
+        user: '',
+        content: contentId,
         likes: 0,
         dislikes: 0
-      }
-
-      console.log('New Review Object:', this.review); // Log the review object
+      };
     } else if (reviewId) {
-      console.log('Viewing existing review with ID:', reviewId);
-      // Viewing existing review
       this.showModal = true;
-      this.showMode = true; // Set show mode to true when viewing existing review
+      this.showMode = true;
       try {
         // @ts-ignore
         this.review = await this.reviewService.findById(reviewId);
-        console.log('Fetched Review:', this.review);
       } catch (error) {
         console.error('Error fetching review:', error);
       }
@@ -84,62 +76,52 @@ export class ReviewComponent implements OnInit {
     this.editMode = this.router.url.includes('review/create');
   }
 
-  // Method to close modal
   closeModal() {
-    this.editMode   = false;
-    this.showMode   = false;
-    this.showModal  = false;
-    window.location.reload();
-    this.router.navigateByUrl('/content/' + this.review.content);
+
+    this.showMode = false;
+    this.showModal = false;
+      // Navigate back to the current route
+      window.location.href = '/content/' + this.review.content;
   }
 
   async likeReview() {
-    // @ts-ignore
-    this.reviewService.likeReview(this.review.id, this.review.user)
-      .then(() => this.review.likes++)
-      .catch(error => console.error(error));
+    try {
+      if (this.review.id != null) {
+        await this.reviewService.likeReview(this.review.id, this.review.user);
+      }
+      this.review.likes++;
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   async dislikeReview() {
-    // @ts-ignore
-    this.reviewService.dislikeReview(this.review.id, this.review.user)
-      .then(() => this.review.dislikes++)
-      .catch(error => console.error(error));
+    try {
+
+      if (this.review.id != null) {
+        await this.reviewService.dislikeReview(this.review.id, this.review.user);
+      }
+      this.review.dislikes++;
+    } catch (error) {
+      console.error(error);
+    }
   }
 
   isReviewOwner(): boolean {
-    return true;
+    return true; // Example implementation
   }
 
   async createOrUpdateReview() {
-
-    console.log('content id' + this.review.content)
     try {
-      if (!this.review) {
-        throw new Error('Review is not defined');
-      }
-      if (!this.review.user) {
-        throw new Error('User is not defined');
-
-      }
-      if (!this.review.content) {
-        throw new Error('Content is not defined');
-
-      }
-      if (!this.review.score) {
-        throw new Error('Score is not defined');
-      }
-      if (!this.review.title || !this.review.description) {
-        throw new Error('Title or Description is not defined');
+      if (!this.review || !this.review.user || !this.review.content || !this.review.score || !this.review.title || !this.review.description) {
+        throw new Error('Review, User, Content, Score, Title, or Description is not defined');
       }
       if (this.review.id) {
-        // Update existing review
         await this.reviewService.editReview(this.review.id, this.review.user, this.review.content, this.review.title, this.review.description, this.review.score);
       } else {
-        // Create new review
         await this.reviewService.createReview(this.review.user, this.review.content, this.review.score, this.review.title, this.review.description);
       }
-      this.editMode = false; // Reset edit mode after creation/update
+      this.editMode = false;
     } catch (error) {
       console.error(error);
     }
@@ -151,12 +133,11 @@ export class ReviewComponent implements OnInit {
         throw new Error('ID is not defined');
       }
       await this.reviewService.deleteReview(this.review.id);
-      // Handle success, maybe refresh reviews list
+      // Handle success
     } catch (error) {
       console.error(error);
     }
   }
 
   protected readonly Users = Users;
-
 }
