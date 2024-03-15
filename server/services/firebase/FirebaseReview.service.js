@@ -1,6 +1,6 @@
 const Content = require('../../schemas/Review.schema')
 
-const { collection, doc, getDoc, deleteDoc,arrayUnion,  addDoc, updateDoc, query, where } = require('firebase/firestore/lite')
+const { collection, doc, getDoc, deleteDoc,arrayUnion,  addDoc,getDocs, updateDoc, query, where } = require('firebase/firestore/lite')
 
 class FirebaseReview {
     #fss
@@ -53,10 +53,15 @@ class FirebaseReview {
             console.log("Review created successfully with ID:", docRef.id);
 
             // Update content's reviews list
-            const contentRef = doc(this.db, 'Contents', content);
-            await updateDoc(contentRef, {
-                reviews: arrayUnion(docRef.id) // Add the review ID to the content's reviews list
-            });
+            const contentQuerySnapshot = await getDocs(query(collection(this.db, 'Contents'), where('id', '==', content))); // Buscar el contenido por su ID personalizado
+            if (!contentQuerySnapshot.empty) {
+                const contentDocRef = contentQuerySnapshot.docs[0].ref;
+                await updateDoc(contentDocRef, {
+                    reviews: arrayUnion(docRef.id) // Agregar el ID de la revisión a la lista de revisiones del contenido
+                });
+            } else {
+                console.error("Content not found with ID:", content);
+            }
 
             // Update user's reviews list
             const userRef = doc(this.db, 'Users', userId);
