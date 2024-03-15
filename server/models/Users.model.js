@@ -9,8 +9,11 @@ class Users {
     }
     get path() { return this.#path }
 
-    findById = id => this.#service.findById(id).them(user => new User(user))
-    create = content => this.#service.create(content).them(user => new User(user))
+    findById = id => this.#service.findById(id)
+    find = queryObj => this.#service.find(queryObj)
+    create = user => this.#service.create(user)
+    update = (id, userProps) => this.#service.update(id, userProps)
+
 }
 
 module.exports = require('../bin/Singleton')(new Users())

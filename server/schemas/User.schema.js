@@ -14,9 +14,9 @@ module.exports = class User {
 
     #id
 
-    constructor({ name, password, mail, id, uid }) {
+    constructor({ username, password, mail, id, uid }) {
         this.id = id | uid;
-        this.name = name;
+        this.username = username;
         this.password = password;
         this.mail = mail;
 
