@@ -18,5 +18,5 @@ export default interface Content {
     studio: string
     episodes: number
     comments: string
-    reviews: Array<Review>
+    reviews: string[]
 }

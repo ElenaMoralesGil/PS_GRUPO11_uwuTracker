@@ -1,11 +1,13 @@
 
 module.exports = class Content {
     #id
-    constructor({ mal_id, title, synopsis, score, status, episodesNumber, episodes, type, source, duration, coverImg, backgroundImg, year, season, studio, id }) {
-        //this.#id = id || mal_id;
+    constructor({ mal_id, title, synopsis, score, status, episodesNumber, episodes, type, source, duration, coverImg, backgroundImg, year, season, studio, id, reviews }) {
+        // Initialize reviews array
+        this.reviews = reviews || [];
+
+        // Set other properties
         this.id = id || mal_id;
         this.score = score;
-
         this.title = title;
         this.synopsis = synopsis;
         this.status = status;
@@ -19,15 +21,16 @@ module.exports = class Content {
         this.season = season;
         this.studio = studio;
         this.episodes = episodes;
-
         this.comments = [];
-        this.reviews = [];
     }
 
     //get id() { return this.#id }
     //get = () => ({ ...this, id: this.#id })
 
-    static parse = content => new Content(content)
+    static parse = content => {
+        console.log('Parsed Content:', content);
+        return new Content(content);
+    }
     stringify = () => JSON.stringify(this)
     get = () => JSON.parse(JSON.stringify(this))
 }

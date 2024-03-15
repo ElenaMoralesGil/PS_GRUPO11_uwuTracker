@@ -9,7 +9,8 @@ export const routes: Routes = [
     component: ContentComponent,
     children: [
       { path: 'review/create', component: ReviewComponent }, // Child route for creating a review
-      { path: 'review/:reviewId/edit', component: ReviewComponent } // Child route for editing a review
+      { path: 'review/:reviewId/edit', component: ReviewComponent },// Child route for editing a review
+      { path: 'reviews', component: ReviewComponent } // Child route for viewing reviews
     ]
   }
 ];

@@ -4,10 +4,10 @@
   <!-- Your content details -->
   <p>id: {{id}}</p>
   <p>title: {{title}}</p>
-
+  <button (click)="showReviews()">Reviews</button>
   <!-- Button to create a new review -->
-  <button (click)="openReviewCreation()">Create Review</button>
+  <button (click)="toggleReviewCreation()">Create Review</button>
 
   <!-- Render the review component here -->
-  <app-review *ngIf="showReviewComponent"></app-review>
+  <app-review *ngIf="isReviewCreationOpen"></app-review>
 </div>

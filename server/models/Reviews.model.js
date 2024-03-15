@@ -25,6 +25,7 @@ class Reviews {
     };
 
 
+
     createReview = (userId, content, score, title, description) => {return this.db.create(userId, content, score, title, description);};
 
     like = (id, userId) => {

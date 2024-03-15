@@ -3,6 +3,7 @@ import { __env } from '../../environments/env.dev';
 import { Injectable } from '@angular/core';
 import Content from '../schemas/Content.schema';
 import Contents from '../models/Content.model';
+import Review from "../schemas/Review.schema";
 
 @Injectable({
   providedIn: 'root'
@@ -18,4 +19,5 @@ export class ApiContentService implements Contents {
 
   create = (content: Content): Promise<Content> | null =>
     fetch(`${this.path}/content`, { method: 'POST' }).then(res => res.json()).catch(err => null)
+
 }

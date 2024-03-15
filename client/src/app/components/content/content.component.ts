@@ -1,37 +1,53 @@
+// content.component.ts
 import { Component, OnInit } from '@angular/core';
 import { ApiContentService } from '../../services/api-content.service';
-import {ActivatedRoute, Router} from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import {ReviewComponent} from "../review/review.component";
 import {NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-content',
+  templateUrl: './content.component.html',
   standalone: true,
   imports: [
     ReviewComponent,
     NgIf
   ],
-  templateUrl: './content.component.html',
-  styleUrl: './content.component.css'
+  styleUrls: ['./content.component.css']
 })
 export class ContentComponent implements OnInit {
 
-  protected id?: string
-  protected title?: string
-  showReviewComponent: boolean = false;
-  constructor(private Contents: ApiContentService, private router: ActivatedRoute,private rout: Router) { }
+  protected id?: string;
+  protected title?: string;
+  protected reviews?: string[];
+  isReviewCreationOpen: boolean = false; // Initialize to false
+
+  constructor(private contents: ApiContentService, private router: ActivatedRoute, private rout: Router) { }
 
   async ngOnInit() {
-    let content
-    try { content = await this.Contents.findById(this.router.snapshot.paramMap.get("id") || "") }
-    catch { return this.id = 'not-found' }
+    try {
+      const content = await this.contents.findById(this.router.snapshot.paramMap.get("id") || "");
+      if (!content?.id) {
+        this.id = 'not-found';
+        return;
+      }
 
-    if (!content?.id) return this.id = 'not found'
+      this.id = content.id;
+      this.title = content.title;
 
-    this.id = content.id
-    this.title = content.title
+      // Extract review IDs from the content object
+      if (content.reviews) {
+        this.reviews = content.reviews;
+        console.log('Review IDs:', this.reviews);
+      }
+    } catch (error) {
+      console.error('Error fetching content:', error);
+    }
+  }
 
-    return
+  toggleReviewCreation(): void {
+    // Toggle the boolean value to show/hide review creation
+    this.isReviewCreationOpen = !this.isReviewCreationOpen;
   }
 
   openReviewCreation(): void {
@@ -39,7 +55,10 @@ export class ContentComponent implements OnInit {
     console.log('Content ID:', this.id);
     // Navigate to the review creation route, passing content ID as a parameter
     this.rout.navigate(['content', this.id, 'review', 'create']);
-    // Set the flag to display the review component
-    this.showReviewComponent = true;
+  }
+
+  async showReviews() {
+    console.log('Navigating to reviews...');
+    this.rout.navigate(['content', this.id, 'reviews']);
   }
 }
