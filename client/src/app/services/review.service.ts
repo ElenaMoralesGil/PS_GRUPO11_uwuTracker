@@ -70,4 +70,8 @@ export class ReviewService implements Reviews {
   }
 
 
+  async fetchReviewsByIds(reviewIds: string[]) {
+    const reviews = await Promise.all(reviewIds.map(id => this.findById(id)));
+    return reviews.filter(review => review !== null) as Review[];
+  }
 }
