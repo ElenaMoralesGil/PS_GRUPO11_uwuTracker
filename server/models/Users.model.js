@@ -1,13 +1,11 @@
 const User = require("../schemas/User.schema")
 
-class Users {
 
-    #path
+class Users {
     #service
-    constructor(path) {
+    constructor() {
         this.#service = require('../services/firebase/FirebaseUsers.service')
     }
-    get path() { return this.#path }
 
     findById = id => this.#service.findById(id)
     find = queryObj => this.#service.find(queryObj)

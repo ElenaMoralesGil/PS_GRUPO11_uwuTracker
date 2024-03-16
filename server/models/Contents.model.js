@@ -1,3 +1,4 @@
+
 const Content = require('../schemas/Content.schema')
 
 
@@ -19,7 +20,7 @@ class Contents {
 
     findByName = name => this.#api.findByName(name).then(contents => contents.length ? contents.map(elm => Content.parse(elm)) : null)
 
-    // create = async content => this.#db.create(content).then(content => content ? Content.parse(content) : null)
+    create = async content => this.#db.create(content).then(content => content ? Content.parse(content) : null)
 }
 
 module.exports = require(process.cwd() + '/bin/Singleton')(new Contents())

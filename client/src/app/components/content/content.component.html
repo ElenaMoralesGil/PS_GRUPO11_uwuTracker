@@ -1,2 +1,14 @@
-<p>id: {{id}}</p>
-<p>title: {{title}}</p>
+<div class="content">
+  <!-- Your content details -->
+  <p>id: {{ id }}</p>
+  <p>title: {{ title }}</p>
+  <button (click)="showReviews()">Reviews</button>
+  <!-- Button to create a new review -->
+  <button (click)="toggleReviewCreation()">Create Review</button>
+
+  <!-- Render the review components here -->
+
+
+  <!-- Render the create review component if it is open -->
+  <app-review *ngIf="isReviewCreationOpen"></app-review>
+</div>

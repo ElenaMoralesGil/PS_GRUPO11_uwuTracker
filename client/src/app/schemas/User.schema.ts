@@ -1,13 +1,10 @@
 export default interface User {
-    id?: string
-    username: string
-    password: string
-    mail: string
-
-    animeList: Array<string>
-
-    country?: string
-    profilePicture?: string
-    description?: string
-    socialNetworks: Array<string>
+  readonly id: string
+  username: string
+  email: string
+  password: string
+  reviews?: string[]
+  description?: string
+  country?: string
+  profilePicture?: string
 }

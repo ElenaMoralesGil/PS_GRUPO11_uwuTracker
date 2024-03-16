@@ -1,0 +1,58 @@
+<!-- Modal Container -->
+<div *ngIf="showModal" class="modal" [ngClass]="{'show': showModal}">
+  <div class="modal-content">
+    <!-- Close button -->
+    <span class="close" (click)="closeModal()">&times;</span>
+    <!-- Review Display Section -->
+    <div *ngIf="showMode && !editMode">
+      <h2>Reviews</h2>
+      <div class="review-card modal">
+        <div class="user-info">
+          <p>By: {{ Users.findById(review.user) }}</p>
+        </div>
+        <h3>{{ review.title }}</h3>
+        <div class="rating">
+          <p>Score:
+            <span class="stars">
+              <i *ngFor="let i of [].constructor(review.score)" class="fa-solid fa-star"></i>
+            </span>
+          </p>
+        </div>
+        <p>{{ review.description }}</p>
+        <div class="likes-dislikes">
+          <i class="fa-solid fa-thumbs-up">Like</i>
+          <span>Likes: {{ review.likes }}</span>
+          <i class="fa-solid fa-thumbs-down">Dislike</i>
+          <span>Dislikes: {{ review.dislikes }}</span>
+        </div>
+        <div *ngIf="isReviewOwner()">
+          <button (click)="createOrUpdateReview()">Edit Review</button>
+          <button (click)="deleteReview()">Delete Review</button>
+        </div>
+      </div>
+    </div>
+    <!-- Create/Edit Review Form Section -->
+    <div *ngIf="editMode || !review.id">
+
+      <div class="review-container">
+
+        <h2> Edit Review</h2>
+        <div>
+          <label for="title">Title:</label>
+          <input type="text" id="title" [(ngModel)]="review.title">
+        </div>
+        <div>
+          <label for="description">Description:</label>
+          <textarea id="description" [(ngModel)]="review.description"></textarea>
+        </div>
+        <div>
+          <label for="score">Score:</label>
+          <input type="number" id="score" [(ngModel)]="review.score" min="0" max="10"> <!-- Added score input -->
+        </div>
+        <div>
+          <button (click)="createOrUpdateReview()">{{ review.id ? 'Update' : 'Create' }} Review</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
