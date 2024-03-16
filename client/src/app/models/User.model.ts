@@ -1,10 +1,7 @@
 import User from "../schemas/User.schema";
 
-
-const Users: any= {
-  findById: (id: string) => { /* implementation */ },
-  create: (user: User) => { /* implementation */ },
-  signIn: (username: string, email: string, password: string) => { /* implementation */ }
-};
-
-export default Users;
+export default interface Users {
+  findById: (id: string | null) => Promise<User> | null
+  signUp: (username: string, email: string, password: string) => Promise<User> | null
+  signIn: (username: string, password: string) => Promise<User> | null
+}

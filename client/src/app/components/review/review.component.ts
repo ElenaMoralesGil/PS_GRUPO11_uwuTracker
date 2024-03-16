@@ -1,6 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ReviewService } from '../../services/review.service';
+import {AuthService}   from "../../services/auth.service";
 import Users from "../../models/User.model";
 import Review from "../../schemas/Review.schema";
 import { FormsModule } from "@angular/forms";
@@ -34,7 +35,7 @@ export class ReviewComponent implements OnInit {
   showMode: boolean = true;
   showModal: boolean = true;
 
-  constructor(private reviewService: ReviewService, private route: ActivatedRoute, private router: Router) { }
+  constructor(private reviewService: ReviewService, private route: ActivatedRoute, private router: Router, protected Users: AuthService) { }
 
   async ngOnInit() {
     const contentId = this.route.snapshot.paramMap.get("id");
@@ -120,6 +121,4 @@ export class ReviewComponent implements OnInit {
       console.error(error);
     }
   }
-
-  protected readonly Users = Users;
 }

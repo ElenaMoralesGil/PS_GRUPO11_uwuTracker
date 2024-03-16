@@ -2,7 +2,8 @@ import { Component } from '@angular/core';
 import { SignInComponent } from './sign-in/sign-in.component';
 import {SignUpComponent} from "./sign-up/sign-up.component";
 import {RouterLink} from "@angular/router";
-import {NgIf} from "@angular/common"; // Import SignInComponent
+import {NgIf} from "@angular/common";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms"; // Import SignInComponent
 @Component({
   selector: 'app-header',
   standalone: true,
@@ -11,7 +12,10 @@ import {NgIf} from "@angular/common"; // Import SignInComponent
     SignInComponent,
     SignUpComponent,
     RouterLink,
-    NgIf
+    NgIf,
+    FormsModule,
+    ReactiveFormsModule,
+    SignInComponent
   ],
   styleUrls: ['./header.component.css']
 })
