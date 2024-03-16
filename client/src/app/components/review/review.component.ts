@@ -122,6 +122,7 @@ export class ReviewComponent implements OnInit {
       } else {
         await this.reviewService.createReview(this.review.user, this.review.content, this.review.score, this.review.title, this.review.description);
       }
+      this.closeModal()
       this.editMode = false;
     } catch (error) {
       console.error(error);

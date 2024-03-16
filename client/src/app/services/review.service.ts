@@ -4,11 +4,7 @@ import { Injectable } from '@angular/core';
 
 import Reviews from '../models/Review.model';
 import Review from "../schemas/Review.schema";
-import Content from "../schemas/Content.schema";
 
-@Injectable({
-  providedIn: 'root'
-})
 
 @Injectable({
   providedIn: 'root'
