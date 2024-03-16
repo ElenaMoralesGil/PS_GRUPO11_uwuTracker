@@ -54,7 +54,7 @@ export class ReviewComponent implements OnInit {
         title: '',
         description: '',
         score: 0,
-        user: '',
+        user: 'ExCxLVBGoRg0WGlQCVbX',
         content: contentId,
         likes: 0,
         dislikes: 0
