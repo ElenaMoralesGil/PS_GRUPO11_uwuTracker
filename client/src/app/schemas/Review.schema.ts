@@ -1,3 +1,4 @@
+import User from "./User.schema"
 
 export default interface Review {
   readonly id: string | null
@@ -5,7 +6,7 @@ export default interface Review {
   description: string
   score?: number
   user: string
-  content:string
-  likes:number
-  dislikes:number
+  content: string
+  likes: number
+  dislikes: number
 }

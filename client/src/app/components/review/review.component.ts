@@ -1,11 +1,13 @@
-import {Component, Input, OnInit} from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ReviewService } from '../../services/review.service';
-import {AuthService}   from "../../services/auth.service";
+import { AuthService } from "../../services/auth.service";
 import Users from "../../models/User.model";
 import Review from "../../schemas/Review.schema";
 import { FormsModule } from "@angular/forms";
-import {CommonModule, NgClass, NgForOf, NgIf} from "@angular/common";
+import { CommonModule, NgClass, NgForOf, NgIf } from "@angular/common";
+import { UsersService } from '../../services/users.service';
+import User from '../../schemas/User.schema';
 
 @Component({
   selector: 'app-review',
@@ -18,7 +20,7 @@ import {CommonModule, NgClass, NgForOf, NgIf} from "@angular/common";
     NgForOf
   ],
 
-  styleUrls: ['./review.component.css']
+  styleUrls: [ './review.component.css' ]
 })
 export class ReviewComponent implements OnInit {
   @Input() review: Review = {
@@ -35,7 +37,9 @@ export class ReviewComponent implements OnInit {
   showMode: boolean = true;
   showModal: boolean = true;
 
-  constructor(private reviewService: ReviewService, private route: ActivatedRoute, private router: Router, protected Users: AuthService) { }
+  protected user!: User | null
+
+  constructor(private reviewService: ReviewService, private route: ActivatedRoute, private router: Router, protected Users: UsersService) { }
 
   async ngOnInit() {
     const contentId = this.route.snapshot.paramMap.get("id");
@@ -67,6 +71,11 @@ export class ReviewComponent implements OnInit {
       try {
         // @ts-ignore
         this.review = await this.reviewService.findById(reviewId);
+        if (this.review) {
+          const user = await this.Users.findById(this.review.user as string)
+          user && (this.user = user)
+        }
+
       } catch (error) {
         console.error('Error fetching review:', error);
       }
@@ -82,8 +91,8 @@ export class ReviewComponent implements OnInit {
 
     this.showMode = false;
     this.showModal = false;
-      // Navigate back to the current route
-      window.location.href = '/content/' + this.review.content;
+    // Navigate back to the current route
+    window.location.href = '/content/' + this.review.content;
   }
 
 

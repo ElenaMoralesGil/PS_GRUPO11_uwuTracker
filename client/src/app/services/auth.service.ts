@@ -32,7 +32,7 @@ export class AuthService implements AuthModel {
   logout = (): Promise<null> => fetch(`${this.path}/logout`).then(() => null)
 
   isLoggedIn = (): Promise<Observable<User | null>> =>
-    fetch(`${this.path} / isLoggedIn`)
+    fetch(`${this.path}/isLoggedIn`)
       .then(res => res.json())
       .then(data => {
         data.user && this.userLogger.next(data.user)

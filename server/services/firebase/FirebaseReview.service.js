@@ -1,6 +1,6 @@
 const Review = require('../../schemas/Review.schema')
 
-const { collection, doc, getDoc, deleteDoc,arrayUnion,  addDoc,getDocs, updateDoc, query, where } = require('firebase/firestore/lite')
+const { collection, doc, getDoc, deleteDoc, arrayUnion, addDoc, getDocs, updateDoc, query, where } = require('firebase/firestore/lite')
 
 class FirebaseReview {
     #fss
@@ -16,7 +16,7 @@ class FirebaseReview {
 
     findById = async id => {
         try {
-            const review = await getDoc(doc(this.db, this.coll, String(id)));
+            const review = (await getDoc(doc(this.db, this.coll, String(id))));
             if (!review.exists()) {
                 console.error('review not found for ID:', id);
                 return null;

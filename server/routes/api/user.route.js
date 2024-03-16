@@ -3,6 +3,8 @@ const router = require('express').Router()
 const User = require('../../schemas/User.schema')
 const Users = require('../../models/Users.model')
 
+const bcrypt = require('bcrypt')
+const SALT = 10
 
 
 router.post('/signup', async (req, res) => {

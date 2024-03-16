@@ -4,10 +4,6 @@ const passport = require('passport')
 const User = require('../../schemas/User.schema')
 const Users = require('../../models/Users.model')
 
-const bcrypt = require('bcrypt')
-const SALT = 10
-
-
 
 router.post('/login', (req, res) => {
     if (!req.body.username) return res.status(400).json({ msg: 'no-username' })
