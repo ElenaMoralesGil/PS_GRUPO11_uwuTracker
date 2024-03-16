@@ -7,9 +7,7 @@
   <button (click)="toggleReviewCreation()">Create Review</button>
 
   <!-- Render the review components here -->
-  <ng-container *ngFor="let review of reviews">
-    <app-review [review]="review"></app-review>
-  </ng-container>
+
 
   <!-- Render the create review component if it is open -->
   <app-review *ngIf="isReviewCreationOpen"></app-review>
