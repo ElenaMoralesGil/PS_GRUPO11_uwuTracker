@@ -1,9 +1,10 @@
-// content.component.ts
 import { Component, OnInit } from '@angular/core';
 import { ApiContentService } from '../../services/api-content.service';
 import { ActivatedRoute, Router } from '@angular/router';
-import {ReviewComponent} from "../review/review.component";
-import {NgIf} from "@angular/common";
+import Review from "../../schemas/Review.schema";
+import { ReviewService } from '../../services/review.service';
+import { ReviewComponent } from "../review/review.component";
+import { NgForOf, NgIf } from "@angular/common";
 
 @Component({
   selector: 'app-content',
@@ -11,54 +12,73 @@ import {NgIf} from "@angular/common";
   standalone: true,
   imports: [
     ReviewComponent,
+    NgForOf,
     NgIf
   ],
   styleUrls: ['./content.component.css']
 })
 export class ContentComponent implements OnInit {
 
-  protected id?: string;
-  protected title?: string;
-  protected reviews?: string[];
-  isReviewCreationOpen: boolean = false; // Initialize to false
+  id?: string;
+  title?: string;
+  reviewIds?: string[]; // Array of review IDs
+  reviews: Review[] = []; // Array of full review objects
+  isReviewCreationOpen: boolean = false;
 
-  constructor(private contents: ApiContentService, private router: ActivatedRoute, private rout: Router) { }
+  constructor(
+    private contentService: ApiContentService,
+    private reviewService: ReviewService,
+    private router: ActivatedRoute,
+    private route: Router
+  ) { }
 
   async ngOnInit() {
     try {
-      const content = await this.contents.findById(this.router.snapshot.paramMap.get("id") || "");
+      const contentId = this.router.snapshot.paramMap.get("id") || "";
+      const content = await this.contentService.findById(contentId);
       if (!content?.id) {
-        this.id = 'not-found';
+        console.error('Content not found or ID is undefined.');
         return;
       }
 
       this.id = content.id;
       this.title = content.title;
 
-      // Extract review IDs from the content object
       if (content.reviews) {
-        this.reviews = content.reviews;
-        console.log('Review IDs:', this.reviews);
+        this.reviewIds = content.reviews;
+        console.log('Review IDs:', this.reviewIds);
       }
     } catch (error) {
       console.error('Error fetching content:', error);
     }
   }
 
+  async fetchReviewsByIds(reviewIds: string[] | undefined): Promise<void> {
+    if (!reviewIds) {
+      console.error('Review IDs are undefined.');
+      return;
+    }
+
+    const reviewPromises = reviewIds.map(id => this.reviewService.findById(id));
+    const reviews = await Promise.all(reviewPromises);
+  }
+
   toggleReviewCreation(): void {
-    // Toggle the boolean value to show/hide review creation
     this.isReviewCreationOpen = !this.isReviewCreationOpen;
   }
 
   openReviewCreation(): void {
-    console.log('Navigating to create review...');
-    console.log('Content ID:', this.id);
-    // Navigate to the review creation route, passing content ID as a parameter
-    this.rout.navigate(['content', this.id, 'review', 'create']);
+    this.route.navigate(['content', this.id, 'review', 'create']);
   }
 
   async showReviews() {
-    console.log('Navigating to reviews...');
-    this.rout.navigate(['content', this.id, 'reviews']);
+    try {
+      if (!this.reviewIds) return;
+
+      await this.fetchReviewsByIds(this.reviewIds);
+      console.log('Reviews:', this.reviews);
+    } catch (error) {
+      console.error('Error fetching reviews:', error);
+    }
   }
 }

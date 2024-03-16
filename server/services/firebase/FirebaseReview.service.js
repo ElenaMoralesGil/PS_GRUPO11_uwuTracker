@@ -1,4 +1,4 @@
-const Content = require('../../schemas/Review.schema')
+const Review = require('../../schemas/Review.schema')
 
 const { collection, doc, getDoc, deleteDoc,arrayUnion,  addDoc,getDocs, updateDoc, query, where } = require('firebase/firestore/lite')
 
@@ -14,12 +14,23 @@ class FirebaseReview {
     get db() { return this.#fss.db }
     get coll() { return this.#collection }
 
-    async findById(id) {
-        const docRef = doc(this.db, this.coll, id);
-        const docSnapshot = await getDoc(docRef);
-        if (docSnapshot.exists()) {
-            return { id: docSnapshot.id, ...docSnapshot.data() };
-        } else {
+    findById = async id => {
+        try {
+            const review = await getDoc(doc(this.db, this.coll, String(id)));
+            if (!review.exists()) {
+                console.error('review not found for ID:', id);
+                return null;
+            }
+
+            const reviewData = review.data();
+
+            // Log reviewData to inspect reviews field
+            console.log('review Data:', reviewData);
+
+
+            return Review.parse({ ...reviewData, id: review.id });
+        } catch (error) {
+            console.error('Error fetching content by ID:', error);
             return null;
         }
     }

@@ -4,6 +4,7 @@ import { Injectable } from '@angular/core';
 
 import Reviews from '../models/Review.model';
 import Review from "../schemas/Review.schema";
+import Content from "../schemas/Content.schema";
 
 @Injectable({
   providedIn: 'root'
@@ -19,20 +20,10 @@ export class ReviewService implements Reviews {
     this.path = `${__env.API_PATH}/review`;
   }
 
-  findById = (id: string): Promise<Review> | null =>
-    fetch(`${this.path}/${id}`)
-      .then(res => {
-        console.log("Response status:", res.status);
-        return res.json();
-      })
-      .then(data => {
-        console.log("Response data:", data);
-        return data;
-      })
-      .catch(err => {
-        console.error("Error fetching review:", err);
-        return null;
-      });
+
+  findById = (id: string | null): Promise<Review> | null =>
+    fetch(`${this.path}/${id}`).then(res => res.json()).catch(err => null)
+
   likeReview(id: string, userId: string ): Promise<void> | null {
     return fetch(`${this.path}/${id}/like`, {
       method: 'POST',

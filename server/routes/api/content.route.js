@@ -1,34 +1,17 @@
-const router = require('express').Router()
-
-const Contents = require('../../models/Contents.model')
-
-router.get('/search', (req, res) => {
-    Contents.findByName(req.query.name)
-        .then(contents => {
-            if (!contents.length) return res.status(404).json({ msg: 'not found' })
-            res.status(200).json(contents)
-        })
-        .catch(err => { console.log(err); res.status(500).json({ msg: err }) })
-})
+// content.route.js
+const router = require('express').Router();
+const Contents = require('../../models/Contents.model');
 
 router.get('/:id', (req, res) => {
     Contents.findById(req.params.id)
         .then(content => {
-            if (!content) return res.status(404).json({ msg: 'not found' })
-            res.status(200).json(content)
+            if (!content) return res.status(404).json({ msg: 'Content not found' });
+            res.status(200).json(content);
         })
-        .catch(err => { console.log(err); res.status(500).json({ msg: err }) })
-})
+        .catch(err => {
+            console.error(err);
+            res.status(500).json({ msg: 'Internal Server Error' });
+        });
+});
 
-
-router.post('/', (req, res) => {
-    Contents.create(req.body)
-        .then(content => {
-            if (!content) return res.status(409).json({ msg: 'already exists' })
-            res.status(200).json(content)
-        })
-        .catch(err => { console.log(err); res.status(500).json({ msg: err }) })
-})
-
-
-module.exports = router
+module.exports = router;

@@ -1,30 +1,17 @@
 const Review = require("../schemas/Review.schema");
-const FirebaseReviewService = require("../services/firebase/FirebaseReview.service");
 const db = require('../services/firebase/FirebaseReview.service')
+const Content = require("../schemas/Content.schema");
 class Reviews {
     #db
     constructor() {
         this.db = db
     }
 
-    findById = id => {
-        console.log("Searching for review with ID:", id);
-        return this.#db.findById(id)
-            .then(reviewData => {
-                if (!reviewData) {
-                    console.log("Review not found.");
-                    return null; // Return null if the review doesn't exist
-                }
-                console.log("Review data:", reviewData);
-                return new Review({ id: reviewData.id, ...reviewData }); // Assuming reviewData already contains the required fields
-            })
-            .catch(error => {
-                console.error("Error finding review:", error);
-                return null; // Handle errors gracefully by returning null
-            });
-    };
+    findById = id => this.#db.findById(id).then(review => {
 
+        if (review) return review
 
+    }).then(review => review ? Review.parse(review) : null)
 
     createReview = (userId, content, score, title, description) => {return this.db.create(userId, content, score, title, description);};
 

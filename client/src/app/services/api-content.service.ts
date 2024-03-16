@@ -14,7 +14,7 @@ export class ApiContentService implements Contents {
     this.path = `${__env.API_PATH}/content`
   }
 
-  findById = (id: string): Promise<Content> | null =>
+  findById = (id: string | null): Promise<Content> | null =>
     fetch(`${this.path}/${id}`).then(res => res.json()).catch(err => null)
 
   create = (content: Content): Promise<Content> | null =>

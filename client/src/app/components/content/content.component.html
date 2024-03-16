@@ -1,13 +1,16 @@
-<!-- content.component.html -->
-
 <div class="content">
   <!-- Your content details -->
-  <p>id: {{id}}</p>
-  <p>title: {{title}}</p>
+  <p>id: {{ id }}</p>
+  <p>title: {{ title }}</p>
   <button (click)="showReviews()">Reviews</button>
   <!-- Button to create a new review -->
   <button (click)="toggleReviewCreation()">Create Review</button>
 
-  <!-- Render the review component here -->
+  <!-- Render the review components here -->
+  <ng-container *ngFor="let review of reviews">
+    <app-review [review]="review"></app-review>
+  </ng-container>
+
+  <!-- Render the create review component if it is open -->
   <app-review *ngIf="isReviewCreationOpen"></app-review>
 </div>

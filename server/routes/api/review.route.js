@@ -25,8 +25,6 @@ router.get('/:id', (req, res) => {
             res.status(500).json({ error: 'Internal Server Error' });
         });
 });
-
-
 router.post('/', (req, res) => {
     const { userId, content, score, title, description } = req.body;
     Reviews.createReview(userId, content, score, title, description)
@@ -40,17 +38,6 @@ router.post('/', (req, res) => {
         });
 });
 
-router.post('/:id/like', (req, res) => {
-    Reviews.like(req.params.id, req.body.userId)
-        .then(() => res.status(200).json({ msg: 'Liked' }))
-        .catch(err => res.status(500).json({ msg: err }));
-});
-
-router.post('/:id/dislike', (req, res) => {
-    Reviews.dislike(req.params.id, req.body.userId)
-        .then(() => res.status(200).json({ msg: 'Disliked' }))
-        .catch(err => res.status(500).json({ msg: err }));
-});
 router.put('/:id', (req, res) => {
     Reviews.edit(req.params.id, req.body)
         .then(review => res.status(200).json(review))

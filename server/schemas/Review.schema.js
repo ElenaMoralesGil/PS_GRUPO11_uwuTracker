@@ -3,7 +3,7 @@ module.exports = class Review {
     static MINBODYSIZE = 50;
     static MAXBODYSIZE = 1000;
     constructor({ user, content, body, title, id }) {
-        this.#id = id;
+        this.id || id;
         this.likes = 0;
         this.dislikes = 0;
         this.user = user;
@@ -12,7 +12,10 @@ module.exports = class Review {
         this.title = title;
     }
 
-    static parse = review => new Review(review);
-    //get = () => ({ ...this, id: this.#id })
-    stringify = () => JSON.stringify({ ...this, id: this.#id })
+    static parse = review=> {
+        console.log('Parsed Review:', review);
+        return new Review(review);
+    }
+    stringify = () => JSON.stringify(this)
+    get = () => JSON.parse(JSON.stringify(this))
 }

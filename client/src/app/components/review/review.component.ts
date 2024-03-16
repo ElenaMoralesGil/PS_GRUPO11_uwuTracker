@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { ReviewService } from '../../services/review.service';
 import Users from "../../models/User.model";
@@ -16,10 +16,11 @@ import {CommonModule, NgClass, NgForOf, NgIf} from "@angular/common";
     NgIf,
     NgForOf
   ],
+
   styleUrls: ['./review.component.css']
 })
 export class ReviewComponent implements OnInit {
-  review: Review = {
+  @Input() review: Review = {
     id: '',
     title: '',
     description: '',
@@ -30,7 +31,7 @@ export class ReviewComponent implements OnInit {
     dislikes: 0
   };
   editMode: boolean = false;
-  showMode: boolean = false;
+  showMode: boolean = true;
   showModal: boolean = true;
 
   constructor(private reviewService: ReviewService, private route: ActivatedRoute, private router: Router) { }
@@ -44,7 +45,7 @@ export class ReviewComponent implements OnInit {
     }
 
     const reviewId = this.route.snapshot.paramMap.get("reviewId");
-
+    console.log('Review ID:', reviewId);
     if (reviewId === null || reviewId === 'edit') {
       this.showModal = true;
       this.editMode = true;
