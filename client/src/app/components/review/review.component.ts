@@ -85,28 +85,8 @@ export class ReviewComponent implements OnInit {
       window.location.href = '/content/' + this.review.content;
   }
 
-  async likeReview() {
-    try {
-      if (this.review.id != null) {
-        await this.reviewService.likeReview(this.review.id, this.review.user);
-      }
-      this.review.likes++;
-    } catch (error) {
-      console.error(error);
-    }
-  }
 
-  async dislikeReview() {
-    try {
 
-      if (this.review.id != null) {
-        await this.reviewService.dislikeReview(this.review.id, this.review.user);
-      }
-      this.review.dislikes++;
-    } catch (error) {
-      console.error(error);
-    }
-  }
 
   isReviewOwner(): boolean {
     return true; // Example implementation

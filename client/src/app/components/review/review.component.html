@@ -20,9 +20,9 @@
         </div>
         <p>{{ review.description }}</p>
         <div class="likes-dislikes">
-          <i class="fa-solid fa-thumbs-up" (click)="likeReview()">Like</i>
+          <i class="fa-solid fa-thumbs-up">Like</i>
           <span>Likes: {{ review.likes }}</span>
-          <i class="fa-solid fa-thumbs-down" (click)="dislikeReview()">Dislike</i>
+          <i class="fa-solid fa-thumbs-down">Dislike</i>
           <span>Dislikes: {{ review.dislikes }}</span>
         </div>
         <div *ngIf="isReviewOwner()">

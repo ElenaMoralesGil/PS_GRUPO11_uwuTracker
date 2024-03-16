@@ -2,13 +2,13 @@ module.exports = class Review {
     #id
     static MINBODYSIZE = 50;
     static MAXBODYSIZE = 1000;
-    constructor({ user, content, body, title, id }) {
-        this.id || id;
+    constructor({ userId, content, description, title, id }) {
+        this.id = id;
         this.likes = 0;
         this.dislikes = 0;
-        this.user = user;
+        this.userId = userId;
         this.content = content;
-        this.body = body;
+        this.description= description;
         this.title = title;
     }
 

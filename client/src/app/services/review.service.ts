@@ -20,25 +20,6 @@ export class ReviewService implements Reviews {
   findById = (id: string | null): Promise<Review> | null =>
     fetch(`${this.path}/${id}`).then(res => res.json()).catch(err => null)
 
-  likeReview(id: string, userId: string ): Promise<void> | null {
-    return fetch(`${this.path}/${id}/like`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ userId })
-    }).then(res => {
-      if (!res.ok) throw new Error('Failed to like review');
-    });
-  }
-
-  dislikeReview(id: string, userId: string ): Promise<void> | null {
-    return fetch(`${this.path}/${id}/dislike`, {
-      method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ userId })
-    }).then(res => {
-      if (!res.ok) throw new Error('Failed to dislike review');
-    });
-  }
 
   createReview(userId: string, content: string , score: number, title: string , description: string): Promise<Review> | null {
     return fetch(`${this.path}`, {

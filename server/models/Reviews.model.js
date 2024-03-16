@@ -20,30 +20,6 @@ class Reviews {
 
     createReview = (userId, content, score, title, description) => {return this.db.create(userId, content, score, title, description);};
 
-    like = (id, userId) => {
-        return this.findById(id)
-            .then(review => {
-                if (!review) throw new Error('Review not found');
-
-                if (review.likes.includes(userId)) throw new Error('Already liked');
-
-                review.likes.push(userId);
-                return this.#db.update(id, review.getData()); // Assuming `update` method in FirebaseReviewService
-            });
-    };
-
-    dislike = (id, userId) => {
-        return this.findById(id)
-            .then(review => {
-                if (!review) throw new Error('Review not found');
-
-                if (review.dislikes.includes(userId)) throw new Error('Already disliked');
-
-                review.dislikes.push(userId);
-                return this.#db.update(id, review.getData()); // Assuming `update` method in FirebaseReviewService
-            });
-    };
-
     edit = (id, user, title, description, score) => {
         return this.findById(id)
             .then(review => {
