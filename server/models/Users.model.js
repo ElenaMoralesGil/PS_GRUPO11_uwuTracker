@@ -13,7 +13,6 @@ class Users {
     find = queryObj => this.#service.find(queryObj)
     create = user => this.#service.create(user)
     update = (id, userProps) => this.#service.update(id, userProps)
-
 }
 
 module.exports = require('../bin/Singleton')(new Users())

@@ -12,8 +12,6 @@
 
 module.exports = class User {
 
-    #id
-
     constructor({ username, password, mail, id, uid }) {
         this.id = id | uid;
         this.username = username;
