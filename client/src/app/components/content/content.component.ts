@@ -47,6 +47,8 @@ export class ContentComponent implements OnInit {
       if (content.reviews) {
         this.reviewIds = content.reviews;
         console.log('Review IDs:', this.reviewIds);
+        await this.fetchReviewsByIds(this.reviewIds);
+        console.log('Reviews:', this.reviews);
       }
     } catch (error) {
       console.error('Error fetching content:', error);
@@ -59,15 +61,15 @@ export class ContentComponent implements OnInit {
       return;
     }
 
-    const reviewPromises = reviewIds.map(id => this.reviewService.findById(id));
-    const reviews = await Promise.all(reviewPromises);
+    try {
+      this.reviews = await this.reviewService.fetchReviewsByIds(reviewIds);
+    } catch (error) {
+      console.error('Error fetching reviews:', error);
+    }
   }
 
   toggleReviewCreation(): void {
     this.isReviewCreationOpen = !this.isReviewCreationOpen;
-  }
-
-  openReviewCreation(): void {
     this.route.navigate(['content', this.id, 'review', 'create']);
   }
 

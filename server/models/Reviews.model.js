@@ -1,11 +1,16 @@
-const Review = require("../schemas/Review.schema");
+const Review = require('../schemas/Review.schema')
 const db = require('../services/firebase/FirebaseReview.service')
-const Content = require("../schemas/Content.schema");
+const api = require('../services/jikan/JikanContent.service')
+
+
 class Reviews {
+    #api
     #db
     constructor() {
-        this.db = db
+        this.#api = api
+        this.#db = db
     }
+
 
     findById = id => this.#db.findById(id).then(review => {
 
