@@ -13,7 +13,6 @@ module.exports = class Review {
     }
 
     static parse = review=> {
-        console.log('Parsed Review:', review);
         return new Review(review);
     }
     stringify = () => JSON.stringify(this)

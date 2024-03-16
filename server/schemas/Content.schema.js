@@ -28,7 +28,6 @@ module.exports = class Content {
     //get = () => ({ ...this, id: this.#id })
 
     static parse = content => {
-        console.log('Parsed Content:', content);
         return new Content(content);
     }
     stringify = () => JSON.stringify(this)

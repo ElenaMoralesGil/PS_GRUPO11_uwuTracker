@@ -18,7 +18,7 @@ class Reviews {
 
     }).then(review => review ? Review.parse(review) : null)
 
-    createReview = (userId, content, score, title, description) => {return this.db.create(userId, content, score, title, description);};
+    createReview = (userId, content, score, title, description) => {return this.#db.create(userId, content, score, title, description);};
 
     edit = (id, user, title, description, score) => {
         return this.findById(id)

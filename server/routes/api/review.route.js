@@ -25,6 +25,7 @@ router.get('/:id', (req, res) => {
             res.status(500).json({ error: 'Internal Server Error' });
         });
 });
+
 router.post('/', (req, res) => {
     const { userId, content, score, title, description } = req.body;
     Reviews.createReview(userId, content, score, title, description)
