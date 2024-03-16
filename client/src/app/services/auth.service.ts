@@ -12,17 +12,37 @@ import Users from '../models/User.model';
   private path: string
 
   constructor() {
-    this.path = `${__env.API_PATH}/content`
+    this.path = `${__env.API_PATH}/auth`
   }
 
-  signUp = (username: string, email: string, password: string): Promise<User> | null =>
-    fetch(`${this.path}/sign-up`, {
+
+  signUp = (username: string, email: string, password: string, country: string, description: string, profilePicture: string): Promise<{ code: number, user: User }> => {
+    // @ts-ignore
+    return fetch(`${this.path}/sign-up`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({ username, email, password })
-    }).then(res => res.json()).catch(err => null)
+      body: JSON.stringify({ username, email, password, country, description, profilePicture })
+    })
+      .then((res: Response) => {
+        if (!res.ok) {
+          throw new Error("HTTP error " + res.status);
+        }
+        return res.json();
+      })
+      .then((data: { code: number, user: User } | null) => {
+        if (data === null) {
+          throw new Error("Unexpected response from server");
+        }
+        return data;
+      })
+      .catch(err => {
+        console.error(err);
+        return null;
+      });
+  };
+
 
   signIn = (username: string, password: string): Promise<User> | null =>
     fetch(`${this.path}/sign-in`, {
@@ -31,7 +51,7 @@ import Users from '../models/User.model';
         'Content-Type': 'application/json'
       },
       body: JSON.stringify({ username, password })
-    }).then(res => res.json()).catch(err => null)
+    }).then(res => res.json()).catch(err => null);
 
   // @ts-ignore
   findById = (id: string): Promise<User>=>

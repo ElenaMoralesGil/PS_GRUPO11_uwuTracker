@@ -5,4 +5,6 @@ export default interface User {
   password: string
   reviews?: string[]
   description?: string
+  country?: string
+  profilePicture?: string
 }

@@ -17,31 +17,36 @@ import {ActivatedRoute} from "@angular/router"; // Import Users as a named expor
 export class SignUpComponent {
   @Output() signUp = new EventEmitter();
   form: FormGroup;
-
+  country ="";
+  description="";
+  profilePicture = "";
   constructor(private formBuilder: FormBuilder, private Users: AuthService, private router: ActivatedRoute) {
     this.form = this.formBuilder.group({
       username: ['', [Validators.required, Validators.minLength(2)]],
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(8), Validators.pattern(/^(?=.*[0-9])(?=.*[a-zA-Z])[a-zA-Z0-9\s]{8,}$/)]],
-      repeat_password: ['', Validators.required] // Add repeat_password field
+      repeat_password: ['', Validators.required]
     }, {
-      validator: this.passwordMatchValidator // Add custom validator
+      validator: this.passwordMatchValidator
     });
   }
 
   submitForm() {
     if (this.form.valid) {
-      const { username, email, password } = this.form.value;
+      const { username, email, password } = this.form.value
       // @ts-ignore
-      this.Users.signUp(username, password)
+      this.Users.signUp(username, email, password, this.country, this.description, this.profilePicture  )
         .then((response: any)  => {
           const { code, user } = response;
+          console.log("response", response);
+          console.log("code", code);
+          console.log("user", user);
           if (code === 200 && user) {
-            // Valid user
+
             this.signUp.emit({ code, user });
-          } else if (code === 550) {
+          } else if (code === 480) {
             // User already exists
-          } else if (code === 580) {
+          } else if (code === 460) {
             // Email already exists
           }
         })

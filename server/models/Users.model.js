@@ -1,18 +1,41 @@
-const Singleton = require("../bin/Singleton")
-const service = require('../services/Users.firebase')
-const User = require("../schemas/User.schema")
+const User = require('../schemas/User.schema')
+const db = require('../services/firebase/Users.firebase')
+const api = require('../services/jikan/JikanContent.service')
+
+
 
 class Users {
-
-    #path
-    #service
-    constructor(path) {
-        this.#path = path
-        this.#service = service
+    #api
+    #db
+    constructor() {
+        this.#api = api
+        this.#db = db
     }
-    get path() { return this.#path }
 
-    findById = id => new User(this.#service.findById(id))
+    findById = id => this.#db.findById(id).then(user => {
+
+        if (user) return user
+
+    }).then(user=> user? User.parse(user) : null)
+
+    signUp = async user => {
+        // Check if username already exists
+        const existingUser = await this.#db.findByUsername(user.username);
+        if (existingUser) {
+            return { code: 480, user: null }; // User already exists
+        }
+
+        // Check if email already exists
+        const existingEmail = await this.#db.findByEmail(user.email);
+        if (existingEmail) {
+            return { code: 460, user: null }; // Email already exists
+        }
+
+        // Perform sign-up
+        const newUser = await this.#db.signUp(user);
+        return { code: 201, user: User.parse(newUser) }; // Sign-up successful
+    };
+
 }
 
-module.exports = Singleton(new Users("alguna-ruta"))
+module.exports = require(process.cwd() + '/bin/Singleton')(new Users());

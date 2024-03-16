@@ -1,41 +1,24 @@
-/*module.exports = class User {
-    #name
-    constructor(name) {
-        this.#name = name
-    }
 
-    //set name(name) { this.#name = name }
-    get name() { return this.#name }
-
-    talk = () => console.log("Buenas")
-}*/
 
 module.exports = class User {
 
-    #id
 
-    constructor({ name, password, mail, id }) {
-        this.#id = id;
-        this.name = name;
+
+    constructor({ username, password, email, id, reviews, country, description, profilePicture }) {
+        this.id = id;
+        this.username = username;
         this.password = password;
-        this.mail = mail;
-
-        this.animeList = [];
-        /*
-        {
-            content:null,
-            score:null,
-            status:null,
-            episodes:null
-        }*/
-
-        this.country = undefined;
-        this.profilePicture = undefined;
-        this.description = undefined;
-        this.socialNetworks = [];
+        this.email = email;
+        this.country = country;
+        this.description = description;
+        this.profilePicture = profilePicture;
+        this.reviews = reviews || [];
     }
 
-    get id() { return this.#id }
-
+    static parse =user => {
+        return new User(user);
+    }
+    stringify = () => JSON.stringify(this)
+    get = () => JSON.parse(JSON.stringify(this))
 }
 

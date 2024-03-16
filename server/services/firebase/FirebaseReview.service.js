@@ -25,7 +25,7 @@ class FirebaseReview {
             const reviewData = review.data();
 
             // Log reviewData to inspect reviews field
-            console.log('review Data:', reviewData);
+            //console.log('review Data:', reviewData);
 
 
             return Review.parse({ ...reviewData, id: review.id });
