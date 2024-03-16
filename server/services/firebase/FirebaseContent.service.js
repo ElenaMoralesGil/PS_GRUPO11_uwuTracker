@@ -23,7 +23,7 @@ class FirebaseContent {
             const contentData = content.data();
 
             // Log contentData to inspect reviews field
-            console.log('Content Data:', contentData);
+            //console.log('Content Data:', contentData);
 
             // Check if reviews field exists and log its content
             if (contentData.reviews) {
