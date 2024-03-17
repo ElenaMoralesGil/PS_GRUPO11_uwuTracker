@@ -6,6 +6,8 @@ import { FormsModule } from "@angular/forms";
 import { NgClass, NgForOf } from "@angular/common";
 import { ActivatedRoute } from "@angular/router";
 import { UsersService } from '../../services/users.service';
+import { Observable, firstValueFrom, lastValueFrom } from 'rxjs';
+import User from '../../schemas/User.schema';
 @Component({
   selector: 'app-review',
   templateUrl: './review.component.html',
@@ -38,15 +40,18 @@ export class ReviewComponent implements OnInit {
   showModal: boolean = true;
   userName?: string;
   contentId: string = "";
+  loggedInUser: Observable<User | null>
 
   constructor(
     private reviewService: ReviewService,
     private userService: UsersService,
-    private router: ActivatedRoute
-  ) { }
+    private router: ActivatedRoute,
+    private authService: AuthService
+  ) {
+    this.loggedInUser = this.authService.user
+  }
 
   ngOnInit() {
-
 
     this.contentId = this.router.snapshot.paramMap.get("id") || "";
     if (this.reviewId || this.isNewReview) {
@@ -57,7 +62,7 @@ export class ReviewComponent implements OnInit {
         console.log(this.review.content);
         console.log('review:', this.review); // Move the console.log here
         console.log('userId:', this.review.userId);
-        this.userService.findById(this.review.userId).then((user) => {
+        this.userService.findById(this.review.userId).then(async (user) => {
           console.log('user:', user);
           if (!user) return
           this.userName = user.username;
@@ -77,17 +82,20 @@ export class ReviewComponent implements OnInit {
         }
         console.log('ReviewInLoad:', this.review);
 
+
       } else if (this.isNewReview) {
+        console.log(this.review.userId)
         this.review = {
           id: '',
           title: '',
           description: '',
           score: 0,
-          userId: '4enMqCeUxGJ2282lSHLN',
+          userId: (await firstValueFrom(this.loggedInUser))?.id || "",
           content: this.contentId,
           likes: 0,
           dislikes: 0
         };
+
       }
       return Promise.resolve(); // Devuelve una promesa resuelta
     } catch (error) {
