@@ -3,15 +3,15 @@
 @if ( showMode && !editMode) {
 <div class="review-container">
     <div class="user-info">
-      <p>By: {{ userName }}</p>
+      <p>By: {{ userName ? userName : 'Unknown' }}</p>
     </div>
     <h3>{{ review.title }}</h3>
     <div class="rating">
-      <p>Score:
         <span class="stars">
+          <p> Score: {{review.score}}</p>
           <i *ngFor="let i of [].constructor(review.score)" class="fa-solid fa-star"></i>
         </span>
-      </p>
+
     </div>
     <p>{{ review.description }}</p>
     <div class="likes-dislikes">

@@ -5,7 +5,7 @@ const Users = require('../../models/Users.model')
 router.get('/:id', (req, res) => {
     Users.findById(req.params.id)
         .then(user => {
-            if (!user) return res.status(404).json({ msg: 'user not found' });
+            if (!user) return res.status(404).json({ msg: `User not found with ID ${req.params.id}` });
             res.status(200).json(user);
         })
         .catch(err => {
