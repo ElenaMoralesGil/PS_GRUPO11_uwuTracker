@@ -71,7 +71,7 @@ export class ContentComponent implements OnInit {
   }
 
   toggleReviewCreation(): void {
-    this.isReviewCreationOpen = !this.isReviewCreationOpen;
+    this.isReviewCreationOpen = !this.isReviewCreationOpen
   }
 
   async showReviews() {
@@ -82,5 +82,9 @@ export class ContentComponent implements OnInit {
     } else {
       this.areReviewsVisible = false; // Ocultar las revisiones si ya se están mostrando
     }
+  }
+
+  pushReview(review: string) {
+    this.reviewIds?.push(review)
   }
 }

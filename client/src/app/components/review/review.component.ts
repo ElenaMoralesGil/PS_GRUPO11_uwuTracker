@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import Review from "../../schemas/Review.schema";
 import { ReviewService } from '../../services/review.service';
 import { AuthService } from "../../services/auth.service";
@@ -28,8 +28,10 @@ export class ReviewComponent implements OnInit {
     likes: 0,
     dislikes: 0
   };
-  @Input() reviewId?: string;
+  @Input() reviewId?: string | null;
   @Input() isNewReview: boolean = false;
+
+  @Output() newReview = new EventEmitter();
 
   editMode: boolean = false;
   showMode: boolean = false;
@@ -44,6 +46,8 @@ export class ReviewComponent implements OnInit {
   ) { }
 
   ngOnInit() {
+
+
     this.contentId = this.router.snapshot.paramMap.get("id") || "";
     if (this.reviewId || this.isNewReview) {
       this.showMode = true;
@@ -119,6 +123,8 @@ export class ReviewComponent implements OnInit {
       } else {
         await this.reviewService.createReview(this.review.userId, this.review.content, this.review.score, this.review.title, this.review.description);
       }
+
+      this.newReview.emit(this.review.id)
 
       this.closeModal()
       this.editMode = false;
