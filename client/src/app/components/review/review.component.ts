@@ -5,7 +5,6 @@ import { AuthService } from "../../services/auth.service";
 import {FormsModule} from "@angular/forms";
 import {NgClass, NgForOf} from "@angular/common";
 import {ActivatedRoute} from "@angular/router";
-
 @Component({
   selector: 'app-review',
   templateUrl: './review.component.html',

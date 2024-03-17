@@ -20,7 +20,7 @@ import {FormsModule, ReactiveFormsModule} from "@angular/forms"; // Import SignI
   styleUrls: ['./header.component.css']
 })
 export class HeaderComponent {
-  userLogged = input(false, {
+  userLogged = input(true, {
     transform:booleanAttribute
   });
   @Output() isUserChange = new EventEmitter<boolean>();

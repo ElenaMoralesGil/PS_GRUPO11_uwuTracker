@@ -1,4 +1,3 @@
-/* Modal Container */
 .modal {
   position: fixed;
   z-index: 2;
@@ -7,17 +6,23 @@
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: rgba(0, 0, 0, 0.5);
+  background-color: rgba(255, 255, 255, 0.49);
+  /* Add animation for smooth appearance */
+  transition: opacity 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* Center vertically and horizontally */
 }
 
 /* Modal Content */
 .modal-content {
-  background-color: #fefefe;
+  background-color: #b5beca;
   margin: 0 auto;
   padding: 20px;
-  border: 1px solid #888;
+  border: 1px solid #344854;
   width: 80%;
   max-width: 600px;
+  border-radius: 10px; /* Slightly rounded corners */
 }
 
 /* Close Button */
@@ -39,25 +44,97 @@
 
 /* Review Display Section */
 .review-container {
-  margin-bottom: 20px; /* Adjust bottom margin */
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  margin: 1em auto;
+  background: #efeaea;
+  padding: 1em;
+  border-radius: 1.5em;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
+
+
 
 .review-card {
   padding: 20px;
-  border: 1px solid #ccc;
+  border: 1px solid #969494;
   border-radius: 5px;
-  background: #f9f9f9;
+  background: #dedede;
   margin-bottom: 20px;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); /* Add shadow to cards */
 }
-
+.userName{
+  font-size: 1.5em;
+  font-weight: bold;
+  color: #000000;
+  padding: 0.5em;
+  border-bottom: 0.3em solid #ffffff;
+}
 .user-info {
+  left: 1em;
   margin-bottom: 10px;
 }
+.description {
+  border-top: 1px solid #ffffff;
+  border-bottom: 1px solid #ffffff;
+  padding: 1em 1.5em;
 
-.rating {
-  color: orange;
 }
-
+.rating .stars {
+  display: flex;
+  flex-flow: row wrap;
+  color: orange;
+  gap: 0.5em;
+  font-size: 1em;
+  margin: 0.5em 0;
+}
+.title {
+  font-size: 2em;
+  font-weight: bold;
+  color: #000000;
+  padding: 0.5em;
+}
 .likes-dislikes {
-  margin-top: 10px;
+  display: flex;
+  gap: 1em;
+  padding: 2em;
+  font-size: 14px; /* Adjust font size */
+}
+.review-actions{
+  display: flex;
+  gap:2em;
+  align-items: center;
+  margin-top: 1em;
+}
+.deleteButton {
+  background-color: #f44336;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.deleteButton:hover {
+  background-color: #f44336;
+  color: white;
+}
+.editButton {
+  background-color: #4CAF50;
+  color: white;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.editButton:hover {
+  background-color: #4CAF50;
+  color: white;
 }
