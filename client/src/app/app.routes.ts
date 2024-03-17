@@ -1,8 +1,10 @@
 import { Routes } from '@angular/router';
 import { ContentComponent } from './components/content/content.component';
-import {ReviewComponent} from "./components/review/review.component";
-import {SignUpComponent} from "./components/header/sign-up/sign-up.component";
-import {SignInComponent} from "./components/header/sign-in/sign-in.component";
+import { ReviewComponent } from "./components/review/review.component";
+import { SignUpComponent } from "./components/header/sign-up/sign-up.component";
+import { SignInComponent } from "./components/header/sign-in/sign-in.component";
+
+import { HomeComponent } from './components/home/home.component';
 
 
 export const routes: Routes = [
@@ -15,10 +17,17 @@ export const routes: Routes = [
       { path: 'review/:reviewId', component: ReviewComponent },// Child route for viewing individual review by ID
       { path: 'reviews', component: ReviewComponent } // Child route for viewing reviews
     ]
-    },
+  },
   { path: 'auth/:id', component: SignUpComponent },
-  { path: 'auth/sign-up', component: SignUpComponent},
-  { path: 'auth/sign-in', component: SignInComponent},
-  { path: 'review/:id', component: SignUpComponent}
+  { path: 'auth/sign-up', component: SignUpComponent },
+  { path: 'auth/sign-in', component: SignInComponent },
+  { path: 'review/:id', component: SignUpComponent },
 
-];
+  {
+    'path': "", component: HomeComponent
+  },
+
+  {
+    'path': 'content/:id', component: ContentComponent
+  } ]
+
