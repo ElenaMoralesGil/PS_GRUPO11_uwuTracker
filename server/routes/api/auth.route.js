@@ -14,7 +14,9 @@ router.post('/login', (req, res, next) => {
 
         if (err) return
 
-        req.login(req.user, err => "next(res.status(500).json({ msg: 'login-error}' }))")
+        console.log('USER: ', user)
+
+        req.login(user, err => "next(res.status(500).json({ msg: 'login-error}' }))")
 
         delete user.password
         res.status(202).json({ user, msg: 'login-successful' })
@@ -35,7 +37,6 @@ router.get('/logout', (req, res) => {
 
 
 router.get('/isLoggedIn', (req, res) => {
-    console.log(req.headers.cookie)
     console.log('isLoggedIn ', req.user)
     if (!req.user) return res.status(200).json({ msg: 'not-logged-in', user: null })
 

@@ -8,6 +8,9 @@ const Users = require('../models/Users.model')
 passport.serializeUser((loggedUser, cb) => { cb(null, loggedUser.id) })
 
 passport.deserializeUser((userIdFromSession, cb) => {
+
+    console.log('deserializing user: ', userIdFromSession)
+
     Users.findById(userIdFromSession)
         .then(user => cb(null, user))
         .catch(err => console.error('ERROR: Passport deserializer'))

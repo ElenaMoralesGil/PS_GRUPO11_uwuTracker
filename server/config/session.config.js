@@ -7,7 +7,7 @@ module.exports = app => {
         saveUninitialized: true,
         cookie: {
             maxAge: 360000,
-            secure: true,
+            secure: process.env.ENV !== 'DEV',
             httpOnly: true
         }
     }))
