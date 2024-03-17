@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiContentService } from '../../services/api-content.service';
-import {ActivatedRoute, Router, RouterOutlet} from '@angular/router';
+import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import Review from "../../schemas/Review.schema";
 import { ReviewService } from '../../services/review.service';
 import { ReviewComponent } from "../review/review.component";
@@ -16,7 +16,7 @@ import { NgForOf, NgIf } from "@angular/common";
     NgIf,
     RouterOutlet
   ],
-  styleUrls: ['./content.component.css']
+  styleUrls: [ './content.component.css' ]
 })
 export class ContentComponent implements OnInit {
 
@@ -72,7 +72,6 @@ export class ContentComponent implements OnInit {
 
   toggleReviewCreation(): void {
     this.isReviewCreationOpen = !this.isReviewCreationOpen;
-    this.route.navigate(['content', this.id, 'review', 'create']);
   }
 
   async showReviews() {
