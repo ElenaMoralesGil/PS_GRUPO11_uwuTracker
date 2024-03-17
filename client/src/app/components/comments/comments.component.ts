@@ -21,7 +21,6 @@ export class CommentsComponent {
 
 
   onCommentInput(event: any) {
-    // Obtenemos el valor del textarea y lo asignamos a newComment
     this.newComment = event.target.value;
   }
   
