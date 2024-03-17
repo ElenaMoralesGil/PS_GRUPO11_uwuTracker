@@ -1,9 +1,14 @@
 import { Routes } from '@angular/router';
-import { ContentComponent } from './components/content/content.component';
-
+import { PerfilComponent } from './components/profile/profile.component';
+import { app } from '../../server';
 
 export const routes: Routes = [
-    {
-        'path': 'content/:id', component: ContentComponent
-    }
+  // ... otras rutas
+  { path: 'profile', component: PerfilComponent },
+
+  app.get('/profilePlanToWatch', function(req, res) {
+    res.sendFile(__dirname + '/client/src/app/components/profile/profilePlanToWatch.html');
+});
+
+  // ... otras rutas
 ];

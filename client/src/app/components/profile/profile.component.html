@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Profile Card</title>
+  <link rel="stylesheet" href="profile.component.css">
+</head>
+<body>
+
+<div class="profile-container">
+  
+  <div class="profile-header">
+    <button class="menu-button">Menu</button>
+    <button class="logout-button">Log-out</button>
+    <!-- More buttons or navigation items here -->
+  </div>
+
+  <div class="profile-body">
+    <div class="profile-photo">
+      <!-- Image container where selected photo will be displayed -->
+      <img id="profileImage" src="placeholder-image.png" alt="Foto de perfil">
+    </div>
+
+    <div class="profile-information">
+      <h2>Username</h2>
+      <p>Una descripción sencilla</p>
+      <div class="button-container">
+        <button class="edit-profile-button" id="editProfileButton">Edit Profile</button>
+        <div class="edit-fields" style="display: none;">
+          <input type="text" id="newUsername" placeholder="New Username">
+          <input type="password" id="newPassword" placeholder="New Password">
+          <button class="save-profile-button" id="saveProfileButton">Save</button>
+        </div>
+        <label for="photoInput" class="photo-select-label">Select Photo</label>
+        <!-- Hidden file input for selecting photo -->
+        <input type="file" id="photoInput" accept="image/*" style="display: none;">
+      </div>
+    </div>
+    <!-- Add other elements like text and lists as per design -->
+  </div>
+
+  <!-- Table -->
+  <div class="table-container">
+    <table class="profile-table">
+      <thead>
+        <tr>
+          <th>Title</th>
+          <th>Score</th>
+          <th>Progress</th>
+          <th>Type</th>
+          <th>List</th>
+        </tr>
+      </thead>
+      <tbody>
+        <!-- Rows will be added dynamically using JavaScript -->
+      </tbody>
+    </table>
+  </div>
+
+</div>
+
+<script src="profile.js"></script> <!-- Include separate JavaScript file -->
+
+</body>
+</html>
+
+
+
+
+
+
+
+
+
+
+
+
+  

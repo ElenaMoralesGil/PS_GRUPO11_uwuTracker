@@ -1,13 +1,75 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="en">
+
 <head>
-  <meta charset="utf-8">
-  <title>Client</title>
-  <base href="/">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <link rel="icon" type="image/x-icon" href="favicon.ico">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Perfil de Usuario</title>
+    <style>
+        /* Estilos internos para simplificar */
+        body {
+            font-family: Arial, sans-serif;
+            margin: 20px;
+        }
+
+        #profile-section {
+            margin-bottom: 20px;
+        }
+
+        #currently-watching {
+            margin-top: 20px;
+        }
+
+        #currently-watching button {
+            font-size: 16px;
+            margin: 5px;
+            padding: 5px 10px;
+        }
+
+        #episode-counter {
+            font-size: 20px;
+            margin: 0 15px;
+        }
+    </style>
 </head>
+
 <body>
-  <app-root></app-root>
+    <h1>Bienvenido a tu Perfil</h1>
+    <div id="profile-section">
+        <label for="username">Nombre de usuario:</label>
+        <input type="text" id="username" placeholder="Tu nombre de usuario aquí">
+        
+        <div id="currently-watching">
+            <h2>Viendo Actualmente</h2>
+            <button id="decrease">-</button>
+            <span id="episode-counter">0</span> Episodios
+            <button id="increase">+</button>
+        </div>
+    </div>
+
+    <script>
+        // Script interno para simplificar
+        document.addEventListener('DOMContentLoaded', () => {
+            const increaseBtn = document.getElementById('increase');
+            const decreaseBtn = document.getElementById('decrease');
+            const episodeCounter = document.getElementById('episode-counter');
+
+            let count = 0; // Inicializa el contador de episodios
+
+            increaseBtn.addEventListener('click', () => {
+                count++; // Incrementa el contador
+                episodeCounter.innerText = count; // Actualiza el texto del contador
+            });
+
+            decreaseBtn.addEventListener('click', () => {
+                if (count > 0) {
+                    count--; // Disminuye el contador si es mayor que 0
+                    episodeCounter.innerText = count; // Actualiza el texto del contador
+                }
+            });
+        });
+    </script>
 </body>
+
 </html>
+
