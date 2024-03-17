@@ -13,17 +13,44 @@
   align-items: center;
   justify-content: center; /* Center vertically and horizontally */
 }
-
+#title , #description {
+  width: 90%;
+  padding: 1em 2em;
+  margin: 1em 0;
+  display: inline-block;
+  border: 0.2em solid #ccc;
+  border-radius: 0.5em;
+  box-sizing: border-box;
+}
+#title:focus, #description:focus {
+  border-color: #000000;
+  outline: none;
+}
+#rating {
+  width: 90%;
+  padding: 1em 2em;
+  margin: 1em 0;
+  display: inline-block;
+  border: 0.2em solid #ccc;
+  border-radius: 0.5em;
+  box-sizing: border-box;
+}
+#rating:focus {
+  border-color: #000000;
+  outline: none;
+}
 /* Modal Content */
 .modal-content {
-  background-color: #b5beca;
+  background-color: #ffffff;
   margin: 0 auto;
   padding: 20px;
-  border: 1px solid #344854;
   width: 80%;
-  max-width: 600px;
-  border-radius: 10px; /* Slightly rounded corners */
+  max-width: 35%;
+  border: 1px solid #888;
+  border-radius: 2em;
+
 }
+
 
 /* Close Button */
 .close {
@@ -48,15 +75,16 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  margin: 1em auto;
+  align-items: center;
   background: #efeaea;
   padding: 1em;
   border-radius: 1.5em;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
+.user-info {
+  width: 80%;
 
-
-
+}
 .review-card {
   padding: 20px;
   border: 1px solid #969494;
@@ -72,11 +100,9 @@
   padding: 0.5em;
   border-bottom: 0.3em solid #ffffff;
 }
-.user-info {
-  left: 1em;
-  margin-bottom: 10px;
-}
+
 .description {
+
   border-top: 1px solid #ffffff;
   border-bottom: 1px solid #ffffff;
   padding: 1em 1.5em;
@@ -111,6 +137,7 @@
 .deleteButton {
   background-color: #f44336;
   color: white;
+  margin: 1em 1em;
   padding: 10px 20px;
   text-align: center;
   text-decoration: none;
@@ -123,10 +150,11 @@
   background-color: #f44336;
   color: white;
 }
-.editButton {
+.editButton, .submitBtn{
   background-color: #4CAF50;
   color: white;
-  padding: 10px 20px;
+  padding: 1em 2em;
+  margin: 1em 1em;
   text-align: center;
   text-decoration: none;
   display: inline-block;
@@ -134,7 +162,8 @@
   border-radius: 5px;
   cursor: pointer;
 }
-.editButton:hover {
+.editButton:hover .submitBtn  {
   background-color: #4CAF50;
   color: white;
 }
+

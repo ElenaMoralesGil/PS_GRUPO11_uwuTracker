@@ -1,7 +1,6 @@
 module.exports = class Review {
     #id
-    static MINBODYSIZE = 50;
-    static MAXBODYSIZE = 1000;
+
     constructor({ userId, score, content, description, title, id }) {
         this.id = id;
         this.likes = 0;
