@@ -5,8 +5,15 @@
   border-radius: 1.5em;
   justify-content: space-between;
 }
+
 .review {
-  width:100%;
+  width: 100%;
   border-radius: 1em;
   margin-bottom: 20px;
+}
+
+button {
+  background-color: var(--snow-color);
+  padding: .8rem 1.1rem;
+  margin: auto 1rem;
 }
