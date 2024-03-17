@@ -5,6 +5,7 @@ import { SignUpComponent } from "./components/header/sign-up/sign-up.component";
 import { SignInComponent } from "./components/header/sign-in/sign-in.component";
 
 import { HomeComponent } from './components/home/home.component';
+import { PerfilComponent } from './components/profile/profile.component';
 
 
 export const routes: Routes = [
@@ -29,5 +30,7 @@ export const routes: Routes = [
 
   {
     'path': 'content/:id', component: ContentComponent
-  } ]
+  },
+  { path: 'profile', component: PerfilComponent }
+]
 
