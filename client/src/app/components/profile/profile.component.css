@@ -1,19 +1,22 @@
-body {
+.profile-container {
+
+
   background-color: #007bff;
   font-family: 'Arial', sans-serif;
   margin: 0;
   padding: 0;
   min-height: 100vh;
-}
 
-.profile-container {
+
   width: 80%;
   max-width: 900px;
   background-color: #fff;
   border-radius: 15px;
   box-shadow: 0px 10px 20px rgba(0, 0, 0, 0.2);
-  position: relative; /* Added for positioning */
-  margin: 20px auto; /* Added margin to center vertically */
+  position: relative;
+  /* Added for positioning */
+  margin: 20px auto;
+  /* Added margin to center vertically */
 }
 
 .profile-header {
@@ -22,12 +25,15 @@ body {
   text-align: right;
 }
 
-.menu-button, .edit-profile-button, .photo-select-label {
+.menu-button,
+.edit-profile-button,
+.photo-select-label {
   background-color: #007bff;
   border: none;
   border-radius: 20px;
   color: white;
-  padding: 10px 20px; /* Adjust padding as needed */
+  padding: 10px 20px;
+  /* Adjust padding as needed */
   margin: 5px;
   cursor: pointer;
 }
@@ -48,7 +54,8 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
-  position: relative; /* Added for positioning */
+  position: relative;
+  /* Added for positioning */
 }
 
 .profile-photo img {
@@ -65,9 +72,12 @@ body {
 }
 
 .table-container {
-  margin-top: 20px; /* Added margin to separate table from profile body */
-  padding: 20px; /* Added padding to increase the size of the white box */
-  background-color: white; /* Added background color to the white box */
+  margin-top: 20px;
+  /* Added margin to separate table from profile body */
+  padding: 20px;
+  /* Added padding to increase the size of the white box */
+  background-color: white;
+  /* Added background color to the white box */
 }
 
 /* Resto de tus estilos CSS existentes */
@@ -88,9 +98,9 @@ body {
   border-collapse: collapse;
 }
 
-.profile-table th, .profile-table td {
+.profile-table th,
+.profile-table td {
   border: 1px solid #ccc;
   padding: 10px;
   text-align: center;
 }
-

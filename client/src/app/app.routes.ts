@@ -31,6 +31,6 @@ export const routes: Routes = [
   {
     'path': 'content/:id', component: ContentComponent
   },
-  { path: 'profile', component: PerfilComponent }
+  { "path": 'profile', component: PerfilComponent }
 ]
 
