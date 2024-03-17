@@ -7,11 +7,11 @@ import { TableComponent } from './table/table.component';
 import { NewCommentComponent } from '../comments/new-comment/new-comment.component';
 
 @Component({
-    selector: 'app-content',
-    standalone: true,
-    templateUrl: './content.component.html',
-    styleUrl: './content.component.css',
-    imports: [CommentsComponent, CabeceraComponent, TableComponent, NewCommentComponent]
+  selector: 'app-content',
+  standalone: true,
+  templateUrl: './content-page.component.html',
+  styleUrl: './content-page.component.css',
+  imports: [ CommentsComponent, CabeceraComponent, TableComponent, NewCommentComponent ]
 })
 export class ContentComponent implements OnInit {
 

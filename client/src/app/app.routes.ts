@@ -1,5 +1,5 @@
 import { Routes } from '@angular/router';
-import { ContentComponent } from './components/content/content.component';
+import { ContentComponent } from './components/content-page/content-page.component';
 import { CommentsComponent } from './components/comments/comments.component';
 
 
