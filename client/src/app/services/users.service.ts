@@ -13,8 +13,17 @@ export class UsersService implements Users {
   }
 
   findById: (id: string) => Promise<User | null> = id =>
-    fetch(`${this.path}/${id}`).then(res => res.status == 200 ? res.json() : null)
+    fetch(`${this.path}/id/${id}`).then(res => res.status == 200 ? res.json() : null)
 
+
+  find: (obj: Object) => Promise<Array<User | null>> = obj => {
+    let query = ""
+
+    for (let [ key, val ] of Object.entries(obj))
+      query += `&${key}=${val}`
+
+    return fetch(`${this.path}/search?${query}`).then(res => res.status == 200 ? res.json() : null)
+  }
 
   signup: ({ username, password, email }: { username: string, email: string, password: string }) => Promise<User | null> =
     ({ username, password, email }) => fetch(`${this.path}/signup`, {

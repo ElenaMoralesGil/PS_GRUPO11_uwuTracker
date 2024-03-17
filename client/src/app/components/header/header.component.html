@@ -6,11 +6,12 @@
     <a id="profile-anchor" routerLink="/profile">Profile</a>
   </nav>
   <div class="top-header-content-buttons">
-    @if ((userLogged$|async)) {
+    @if ((!(userLogged$|async))) {
     <button id="signInButton" name="Sign In" (click)="showSignIn()">Sign In</button>
     <button id="signUpButton" name="Sign Up" (click)="showSignUp()">Sign Up</button>
     } @else{
-    <button id="signOutButton" name="Sign Out" (click)="signOut()">Sign Out</button>
+    <p>{{(userLogged$|async)?.username}}</p>
+    <button id="signOutButton" name="Sign Out" (click)="logout()">Sign Out</button>
     }
 
   </div>

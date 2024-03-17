@@ -42,6 +42,16 @@ router.get('/search', (req, res) => {
         .catch(err => { console.error('ERROR: ' + err); res.status(500).json({ msg: err }) })
 })
 
+router.get('/id/:id', (req, res) => {
+    Users.findById(req.params.id).then(user => {
+        if (!user) return res.status(404).json({ msg: 'not-found' })
+
+        delete user.password
+        res.status(200).json(user)
+    })
+        .catch(err => { console.error('ERROR: ' + err); res.status(500).json({ msg: err }) })
+})
+
 router.get('/:username', (req, res) => {
     Users.find({ username: req.params.username }).then(user => {
         if (!user) return res.status(404).json({ msg: 'not-found' })

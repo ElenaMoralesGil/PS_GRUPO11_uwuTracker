@@ -69,7 +69,7 @@ export class ReviewComponent implements OnInit {
         // @ts-ignore
         this.review = await this.reviewService.findById(this.reviewId);
         if (this.review) {
-          const user = await this.userService.findById(this.review.user as string)
+          const user = await this.userService.findById(this.review.userId as string)
         }
         console.log('ReviewInLoad:', this.review);
 
