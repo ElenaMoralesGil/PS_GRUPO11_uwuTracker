@@ -153,8 +153,8 @@
 .editButton, .submitBtn{
   background-color: #4CAF50;
   color: white;
-  padding: 1em 2em;
   margin: 1em 1em;
+  padding: 10px 20px;
   text-align: center;
   text-decoration: none;
   display: inline-block;
