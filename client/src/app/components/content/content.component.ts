@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiContentService } from '../../services/api-content.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import {ActivatedRoute, Router, RouterOutlet} from '@angular/router';
 import Review from "../../schemas/Review.schema";
 import { ReviewService } from '../../services/review.service';
 import { ReviewComponent } from "../review/review.component";
@@ -13,7 +13,8 @@ import { NgForOf, NgIf } from "@angular/common";
   imports: [
     ReviewComponent,
     NgForOf,
-    NgIf
+    NgIf,
+    RouterOutlet
   ],
   styleUrls: ['./content.component.css']
 })
@@ -63,6 +64,7 @@ export class ContentComponent implements OnInit {
 
     try {
       this.reviews = await this.reviewService.fetchReviewsByIds(reviewIds);
+
     } catch (error) {
       console.error('Error fetching reviews:', error);
     }

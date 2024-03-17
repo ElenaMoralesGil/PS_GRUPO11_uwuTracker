@@ -21,6 +21,27 @@ export class ReviewService implements Reviews {
     fetch(`${this.path}/${id}`).then(res => res.json()).catch(err => null)
 
 
+  getTitle = (id: string): Promise<string> =>
+    fetch(`${this.path}/title/${id}`).then(res => res.json()).catch(err => null);
+
+  getDescription = (id: string): Promise<string> =>
+    fetch(`${this.path}/description/${id}`).then(res => res.json()).catch(err => null);
+
+  getScore = (id: string): Promise<number> =>
+    fetch(`${this.path}/score/${id}`).then(res => res.json()).catch(err => null);
+
+  getUser = (id: string): Promise<string> =>
+    fetch(`${this.path}/user/${id}`).then(res => res.json()).catch(err => null);
+
+  getContent = (id: string): Promise<string> =>
+    fetch(`${this.path}/content/${id}`).then(res => res.json()).catch(err => null);
+
+  getLikes = (id: string): Promise<number> =>
+    fetch(`${this.path}/likes/${id}`).then(res => res.json()).catch(err => null);
+
+  getDislikes = (id: string): Promise<number> =>
+    fetch(`${this.path}/dislikes/${id}`).then(res => res.json()).catch(err => null);
+
   createReview(userId: string, content: string , score: number, title: string , description: string): Promise<Review> | null {
     return fetch(`${this.path}`, {
       method: 'POST',

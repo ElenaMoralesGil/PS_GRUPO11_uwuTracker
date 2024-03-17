@@ -7,7 +7,7 @@
   <button (click)="toggleReviewCreation()">Create Review</button>
 
   <!-- Render the review components here -->
-
+  <router-outlet></router-outlet>
 
   <!-- Render the create review component if it is open -->
   <app-review *ngIf="isReviewCreationOpen"></app-review>

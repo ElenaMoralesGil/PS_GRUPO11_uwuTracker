@@ -15,6 +15,18 @@ import Users from '../models/User.model';
     this.path = `${__env.API_PATH}/auth`
   }
 
+  getUserName = (id: string): Promise<string> =>
+    fetch(`${this.path}/username/${id}`).then(res => res.json()).catch(err => null);
+
+  getProfilePicture = (id: string): Promise<string> =>
+    fetch(`${this.path}/profile-picture/${id}`).then(res => res.json()).catch(err => null);
+
+  getCountry = (id: string): Promise<string> =>
+    fetch(`${this.path}/country/${id}`).then(res => res.json()).catch(err => null);
+
+
+
+
 
   signUp = (username: string, email: string, password: string, country: string, description: string, profilePicture: string): Promise<{ code: number, user: User }> => {
     // @ts-ignore

@@ -20,6 +20,7 @@ export const routes: Routes = [
   children : [
     { path: 'sign-up', component: SignUpComponent},
     { path: 'sign-in', component: SignInComponent}
-  ]}
+  ]},
+  { path: 'review/:id', component: SignUpComponent}
 
 ];

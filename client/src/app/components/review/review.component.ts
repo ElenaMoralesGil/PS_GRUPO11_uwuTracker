@@ -21,7 +21,8 @@ import {CommonModule, NgClass, NgForOf, NgIf} from "@angular/common";
   styleUrls: ['./review.component.css']
 })
 export class ReviewComponent implements OnInit {
-  @Input() review: Review = {
+
+  review: Review = {
     id: '',
     title: '',
     description: '',
@@ -34,8 +35,11 @@ export class ReviewComponent implements OnInit {
   editMode: boolean = false;
   showMode: boolean = true;
   showModal: boolean = true;
+  userName: string | undefined;
 
-  constructor(private reviewService: ReviewService, private route: ActivatedRoute, private router: Router, protected Users: AuthService) { }
+  constructor(private reviewService: ReviewService, private route: ActivatedRoute, private router: Router, protected Users: AuthService) {
+
+  }
 
   async ngOnInit() {
     const contentId = this.route.snapshot.paramMap.get("id");
@@ -66,7 +70,14 @@ export class ReviewComponent implements OnInit {
       this.showMode = true;
       try {
         // @ts-ignore
-        this.review = await this.reviewService.findById(reviewId);
+        this.reviewService.findById(reviewId).then(review => {
+          this.review = review;
+        });
+
+        this.Users.getUserName(this.review.user).then(userName => {
+          this.userName = userName;
+        });
+
       } catch (error) {
         console.error('Error fetching review:', error);
       }
