@@ -16,10 +16,9 @@ export const routes: Routes = [
       { path: 'reviews', component: ReviewComponent } // Child route for viewing reviews
     ]
     },
-  { path: 'auth', component: SignUpComponent,
-  children : [
-    { path: 'sign-up', component: SignUpComponent},
-    { path: 'sign-in', component: SignInComponent}
-  ]}
+  { path: 'auth/:id', component: SignUpComponent },
+  { path: 'auth/sign-up', component: SignUpComponent},
+  { path: 'auth/sign-in', component: SignInComponent},
+  { path: 'review/:id', component: SignUpComponent}
 
 ];

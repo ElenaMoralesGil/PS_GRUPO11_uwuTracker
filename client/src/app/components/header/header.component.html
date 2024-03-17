@@ -1,16 +1,17 @@
 <div class="top-header-content">
-  <img title="web-logo" alt="logo of our website" src="../../../favicon.ico">
+  <img title="web-logo" alt="logo of our website" Src="../../../favicon.ico">
   <nav>
     <a id="home-anchor" routerLink="/home">Home</a>
     <a id="ranking-anchor" routerLink="/ranking">Ranking</a>
     <a id="profile-anchor" routerLink="/profile">Profile</a>
   </nav>
   <div class="top-header-content-buttons">
-    <button *ngIf="!(userLogged$|async)" id="signInButton" name="Sign In" (click)="showSignIn()">Sign In</button>
-    <button *ngIf="!(userLogged$|async)" id="signUpButton" name="Sign Up" (click)="showSignUp()">Sign Up</button>
-
-    <button *ngIf="(userLogged$|async)">{{(userLogged$|async)?.username}}</button>
-    <button *ngIf="(userLogged$|async)" (click)="logout()">Log out</button>
+    @if ((userLogged$|async)) {
+    <button id="signInButton" name="Sign In" (click)="showSignIn()">Sign In</button>
+    <button id="signUpButton" name="Sign Up" (click)="showSignUp()">Sign Up</button>
+    } @else{
+    <button id="signOutButton" name="Sign Out" (click)="signOut()">Sign Out</button>
+    }
 
   </div>
 </div>

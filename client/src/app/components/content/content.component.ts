@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiContentService } from '../../services/api-content.service';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import Review from "../../schemas/Review.schema";
 import { ReviewService } from '../../services/review.service';
 import { ReviewComponent } from "../review/review.component";
@@ -13,9 +13,10 @@ import { NgForOf, NgIf } from "@angular/common";
   imports: [
     ReviewComponent,
     NgForOf,
-    NgIf
+    NgIf,
+    RouterOutlet
   ],
-  styleUrls: ['./content.component.css']
+  styleUrls: [ './content.component.css' ]
 })
 export class ContentComponent implements OnInit {
 
@@ -24,6 +25,7 @@ export class ContentComponent implements OnInit {
   reviewIds?: string[]; // Array of review IDs
   reviews: Review[] = []; // Array of full review objects
   isReviewCreationOpen: boolean = false;
+  areReviewsVisible: boolean = false;
 
   constructor(
     private contentService: ApiContentService,
@@ -47,8 +49,7 @@ export class ContentComponent implements OnInit {
       if (content.reviews) {
         this.reviewIds = content.reviews;
         console.log('Review IDs:', this.reviewIds);
-        await this.fetchReviewsByIds(this.reviewIds);
-        console.log('Reviews:', this.reviews);
+
       }
     } catch (error) {
       console.error('Error fetching content:', error);
@@ -63,6 +64,7 @@ export class ContentComponent implements OnInit {
 
     try {
       this.reviews = await this.reviewService.fetchReviewsByIds(reviewIds);
+
     } catch (error) {
       console.error('Error fetching reviews:', error);
     }
@@ -70,17 +72,15 @@ export class ContentComponent implements OnInit {
 
   toggleReviewCreation(): void {
     this.isReviewCreationOpen = !this.isReviewCreationOpen;
-    this.route.navigate(['content', this.id, 'review', 'create']);
   }
 
   async showReviews() {
-    try {
-      if (!this.reviewIds) return;
-
+    if (!this.areReviewsVisible) {
       await this.fetchReviewsByIds(this.reviewIds);
       console.log('Reviews:', this.reviews);
-    } catch (error) {
-      console.error('Error fetching reviews:', error);
+      this.areReviewsVisible = true; // Mostrar las revisiones solo si no se están mostrando actualmente
+    } else {
+      this.areReviewsVisible = false; // Ocultar las revisiones si ya se están mostrando
     }
   }
 }

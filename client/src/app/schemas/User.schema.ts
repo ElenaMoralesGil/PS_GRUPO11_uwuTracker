@@ -3,8 +3,8 @@ export default interface User {
   username: string
   email: string
   password: string
-  reviews?: string[]
-  description?: string
-  country?: string
-  profilePicture?: string
+  reviews: string[]
+  description: string
+  country: string
+  profilePicture: string
 }

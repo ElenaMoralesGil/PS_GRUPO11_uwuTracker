@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { booleanAttribute, Component, EventEmitter, input, Output } from '@angular/core';
 import { SignInComponent } from './sign-in/sign-in.component';
 import { SignUpComponent } from "./sign-up/sign-up.component";
 import { RouterLink } from "@angular/router";
@@ -33,15 +33,6 @@ export class HeaderComponent {
     this.userLogged$ = Auth.user
   }
 
-  // funcion para enseñar el header de usuario registrado
-  // headerLogged() {
-  //   this.userLogged = true;
-  // }
-
-  // headerUnLogged() {
-  //   this.userLogged = false;
-  // }
-
   showSignIn() {
     this.showSignInModal = true;
     this.showSignUpModal = false;
@@ -63,5 +54,4 @@ export class HeaderComponent {
   logout() {
     this.Auth.logout()
   }
-
 }

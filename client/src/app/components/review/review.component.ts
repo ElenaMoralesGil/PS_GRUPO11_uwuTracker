@@ -1,14 +1,11 @@
 import { Component, Input, OnInit } from '@angular/core';
-import { ActivatedRoute, Router } from '@angular/router';
+import Review from "../../schemas/Review.schema";
 import { ReviewService } from '../../services/review.service';
 import { AuthService } from "../../services/auth.service";
-import Users from "../../models/User.model";
-import Review from "../../schemas/Review.schema";
 import { FormsModule } from "@angular/forms";
-import { CommonModule, NgClass, NgForOf, NgIf } from "@angular/common";
+import { NgClass, NgForOf } from "@angular/common";
+import { ActivatedRoute } from "@angular/router";
 import { UsersService } from '../../services/users.service';
-import User from '../../schemas/User.schema';
-
 @Component({
   selector: 'app-review',
   templateUrl: './review.component.html',
@@ -16,104 +13,116 @@ import User from '../../schemas/User.schema';
   imports: [
     FormsModule,
     NgClass,
-    NgIf,
     NgForOf
   ],
-
   styleUrls: [ './review.component.css' ]
 })
 export class ReviewComponent implements OnInit {
-  @Input() review: Review = {
+  review: Review = {
     id: '',
     title: '',
     description: '',
     score: 0,
-    user: '',
+    userId: '',
     content: '',
     likes: 0,
     dislikes: 0
   };
+  @Input() reviewId?: string;
+  @Input() isNewReview: boolean = false;
+
   editMode: boolean = false;
-  showMode: boolean = true;
+  showMode: boolean = false;
   showModal: boolean = true;
+  userName?: string;
+  contentId: string = "";
 
-  protected user!: User | null
+  constructor(
+    private reviewService: ReviewService,
+    private userService: UsersService,
+    private router: ActivatedRoute
+  ) { }
 
-  constructor(private reviewService: ReviewService, private route: ActivatedRoute, private router: Router, protected Users: UsersService) { }
-
-  async ngOnInit() {
-    const contentId = this.route.snapshot.paramMap.get("id");
-
-    if (!contentId) {
-      console.error('Content ID is missing.');
-      return;
-    }
-
-    const reviewId = this.route.snapshot.paramMap.get("reviewId");
-    console.log('Review ID:', reviewId);
-    if (reviewId === null || reviewId === 'edit') {
-      this.showModal = true;
-      this.editMode = true;
-      this.showMode = false;
-      this.review = {
-        id: '',
-        title: '',
-        description: '',
-        score: 0,
-        user: 'ExCxLVBGoRg0WGlQCVbX',
-        content: contentId,
-        likes: 0,
-        dislikes: 0
-      };
-    } else if (reviewId) {
-      this.showModal = true;
+  ngOnInit() {
+    this.contentId = this.router.snapshot.paramMap.get("id") || "";
+    if (this.reviewId || this.isNewReview) {
       this.showMode = true;
-      try {
-        // @ts-ignore
-        this.review = await this.reviewService.findById(reviewId);
-        if (this.review) {
-          const user = await this.Users.findById(this.review.user as string)
-          user && (this.user = user)
-        }
+      this.editMode = this.isNewReview;
+      this.loadReviewData().then(() => {
+        console.log('Review loaded:', this.review);
+        console.log(this.review.content);
+        console.log('review:', this.review); // Move the console.log here
+        console.log('userId:', this.review.userId);
+        this.userService.findById(this.review.userId).then((user) => {
+          console.log('user:', user);
+          if (!user) return
+          this.userName = user.username;
+          console.log('username:', this.userName);
+        });
+      });
+    }
+  }
 
-      } catch (error) {
-        console.error('Error fetching review:', error);
+  async loadReviewData(): Promise<void> {
+    try {
+      if (this.reviewId) {
+        // @ts-ignore
+        this.review = await this.reviewService.findById(this.reviewId);
+        if (this.review) {
+          const user = await this.userService.findById(this.review.user as string)
+        }
+        console.log('ReviewInLoad:', this.review);
+
+      } else if (this.isNewReview) {
+        this.review = {
+          id: '',
+          title: '',
+          description: '',
+          score: 0,
+          userId: '4enMqCeUxGJ2282lSHLN',
+          content: this.contentId,
+          likes: 0,
+          dislikes: 0
+        };
       }
+      return Promise.resolve(); // Devuelve una promesa resuelta
+    } catch (error) {
+      console.error('Error fetching review:', error);
+      return Promise.reject(error); // Devuelve una promesa rechazada en caso de error
     }
   }
 
   openModal() {
     this.showModal = true;
-    this.editMode = this.router.url.includes('review/create');
   }
 
   closeModal() {
-
-    this.showMode = false;
     this.showModal = false;
-    // Navigate back to the current route
-    window.location.href = '/content/' + this.review.content;
-  }
-
-
-
-
-  isReviewOwner(): boolean {
-    return true; // Example implementation
   }
 
   async createOrUpdateReview() {
     try {
-      if (!this.review || !this.review.user || !this.review.content || !this.review.score || !this.review.title || !this.review.description) {
-        throw new Error('Review, User, Content, Score, Title, or Description is not defined');
+      if (!this.review) {
+        throw new Error('Review is not defined');
+      }
+      if (!this.review.userId) {
+        throw new Error('User is not defined');
+      }
+      if (!this.review.content) {
+        throw new Error('Content is not defined');
+      }
+      if (!this.review.score || !this.review.title || !this.review.description) {
+        throw new Error('Review is not complete');
       }
       if (this.review.id) {
-        await this.reviewService.editReview(this.review.id, this.review.user, this.review.content, this.review.title, this.review.description, this.review.score);
+        await this.reviewService.editReview(this.review.id, this.review.userId, this.review.content, this.review.title, this.review.description, this.review.score);
       } else {
-        await this.reviewService.createReview(this.review.user, this.review.content, this.review.score, this.review.title, this.review.description);
+        await this.reviewService.createReview(this.review.userId, this.review.content, this.review.score, this.review.title, this.review.description);
       }
+
       this.closeModal()
       this.editMode = false;
+
     } catch (error) {
       console.error(error);
     }
@@ -129,5 +138,8 @@ export class ReviewComponent implements OnInit {
     } catch (error) {
       console.error(error);
     }
+  }
+  isReviewOwner(): boolean {
+    return true;
   }
 }
