@@ -6,8 +6,13 @@
     <a id="profile-anchor" routerLink="/profile">Profile</a>
   </nav>
   <div class="top-header-content-buttons">
-    <button id="signInButton" name="Sign In" (click)="showSignIn()">Sign In</button>
-    <button id="signUpButton" name="Sign Up" (click)="showSignUp()">Sign Up</button>
+    @if (userLogged()) {
+      <button id="signInButton" name="Sign In" (click)="showSignIn()">Sign In</button>
+      <button id="signUpButton" name="Sign Up" (click)="showSignUp()">Sign Up</button>
+    } @else{
+      <button id="signOutButton" name="Sign Out" (click)="signOut()">Sign Out</button>
+    }
+
    </div>
 </div>
 <app-sign-in *ngIf="showSignInModal" (signIn)="closeSignInModal()"></app-sign-in>
