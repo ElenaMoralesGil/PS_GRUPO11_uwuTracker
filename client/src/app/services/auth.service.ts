@@ -22,7 +22,10 @@ export class AuthService implements AuthModel {
   login = ({ username, password }: { username: string, password: string }): Promise<Observable<User | null>> =>
     fetch(`${this.path}/login`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      credentials: 'same-origin',
       body: JSON.stringify({ username, password })
     })
       .then(res => res.status == 202 ? res.json() : null)
@@ -33,10 +36,10 @@ export class AuthService implements AuthModel {
         return this.__loggedUser__
       })
 
-  logout = (): Promise<null> => fetch(`${this.path}/logout`).then(() => null)
+  logout = (): Promise<void> => fetch(`${this.path}/logout`, { credentials: 'same-origin' }).then(() => this.userLogger.next(null))
 
   isLoggedIn = (): Promise<Observable<User | null>> =>
-    fetch(`${this.path}/isLoggedIn`)
+    fetch(`${this.path}/isLoggedIn`, { credentials: 'same-origin' })
       .then(res => res.json())
       .then(data => {
         data.user && this.userLogger.next(data.user)

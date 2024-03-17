@@ -1,5 +1,5 @@
 import { Component, Output, EventEmitter } from '@angular/core';
-import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, AbstractControl } from '@angular/forms'; // Import AbstractControl
+import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, AbstractControl, FormsModule } from '@angular/forms'; // Import AbstractControl
 import { NgClass, NgIf } from "@angular/common";
 import { AuthService } from "../../../services/auth.service";
 import { ActivatedRoute } from "@angular/router"; // Import Users as a named export
@@ -10,6 +10,7 @@ import { UsersService } from '../../../services/users.service';
   templateUrl: './sign-up.component.html',
   imports: [
     ReactiveFormsModule,
+    FormsModule,
     NgIf,
     NgClass
   ],
@@ -36,12 +37,11 @@ export class SignUpComponent {
     if (this.form.valid) {
       const { username, email, password } = this.form.value
 
-      console.log('USERNAME ' + username)
       // @ts-ignore
       this.Users.signup({ username, email, password })
         .then((user: any): any => {
-
           if (!user) return null
+
           this.Auth.login({ username, password })
           this.closesignUp()
         })

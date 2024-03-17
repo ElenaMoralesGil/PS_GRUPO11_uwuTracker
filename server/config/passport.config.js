@@ -1,11 +1,11 @@
-const passport = require('passport')
 const LocalStrategy = require('passport-local').Strategy
+const passport = require('passport')
 const bcrypt = require('bcrypt')
 
 const Users = require('../models/Users.model')
 
 
-passport.serializeUser((loggedUser, cb) => { cb(null, loggedUser._id) })
+passport.serializeUser((loggedUser, cb) => { cb(null, loggedUser.id) })
 
 passport.deserializeUser((userIdFromSession, cb) => {
     Users.findById(userIdFromSession)
@@ -14,16 +14,18 @@ passport.deserializeUser((userIdFromSession, cb) => {
 })
 
 passport.use(new LocalStrategy((username, password, done) => {
-    Users.findOne({ username })
-        .then(user => {
 
-            if (!user) return done(null, false, { msg: 'user-not-found' })
-            if (!bcrypt.compareSync(password, user.password)) done(null, false, { msg: 'incorrect-password' })
+    Users.find({ username })
+        .then(users => {
+            if (!users.length) return done(null, null, { msg: 'user-not-found' })
+            const user = users[0]
+            if (!bcrypt.compareSync(password, user.password)) done(null, null, { msg: 'incorrect-password' })
 
             done(null, user)
         })
         .catch(err => done(err))
 }))
+
 
 module.exports = app => {
     app.use(passport.initialize())

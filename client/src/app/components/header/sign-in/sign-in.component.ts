@@ -2,11 +2,11 @@ import { Component, Output, EventEmitter } from '@angular/core';
 import { AuthService } from '../../../services/auth.service';
 import { ActivatedRoute } from '@angular/router';
 import { UsersService } from '../../../services/users.service';
-import { FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators, FormsModule, ReactiveFormsModule } from '@angular/forms';
 @Component({
   selector: 'app-sign-in',
   standalone: true,
-  imports: [],
+  imports: [ FormsModule, ReactiveFormsModule ],
   templateUrl: './sign-in.component.html',
   styleUrl: '../sign-up/sign-up.component.css',
 })
@@ -31,5 +31,4 @@ export class SignInComponent {
     await this.Auth.login({ username, password })
     this.signUpClicked()
   }
-
 }
