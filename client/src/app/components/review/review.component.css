@@ -1,24 +1,23 @@
 /* Modal Container */
 .modal {
-
-  position: fixed; /* Stay in place */
-  z-index: 2; /* Sit on top */
+  position: fixed;
+  z-index: 2;
   left: 0;
   top: 0;
-  width: 100%; /* Full width */
-  height: 100%; /* Full height */
-  overflow: auto; /* Enable scroll if needed */
-  background-color: rgba(0, 0, 0, 0.5); /* Black w/ opacity */
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  background-color: rgba(0, 0, 0, 0.5);
 }
 
 /* Modal Content */
 .modal-content {
   background-color: #fefefe;
-  margin: 0 auto; /* Centered */
+  margin: 0 auto;
   padding: 20px;
   border: 1px solid #888;
-  width: 80%; /* 80% of parent */
-  max-width: 600px; /* Maximum width */
+  width: 80%;
+  max-width: 600px;
 }
 
 /* Close Button */
@@ -27,8 +26,8 @@
   float: right;
   font-size: 28px;
   font-weight: bold;
-  z-index: 9999; /* Ensure it's above other elements */
-  margin-top: -18px; /* Added margin-top to adjust position */
+  z-index: 9999;
+  margin-top: -18px;
 }
 
 .close:hover,
@@ -38,12 +37,21 @@
   cursor: pointer;
 }
 
+/* Review Display Section */
 .review-container {
-  margin: 20px 0;
+  margin-bottom: 20px; /* Adjust bottom margin */
+}
+
+.review-card {
   padding: 20px;
   border: 1px solid #ccc;
   border-radius: 5px;
   background: #f9f9f9;
+  margin-bottom: 20px;
+}
+
+.user-info {
+  margin-bottom: 10px;
 }
 
 .rating {

@@ -27,9 +27,6 @@ export class HeaderComponent {
   showSignInModal = false;
   showSignUpModal = false;
 
-  // funcion para enseñar el header de usuario registrado
-
-
   showSignIn() {
     this.showSignInModal = true;
     this.showSignUpModal = false;
@@ -49,6 +46,6 @@ export class HeaderComponent {
   }
 
   signOut() {
-
+    this.isUserChange.emit(false);
   }
 }
