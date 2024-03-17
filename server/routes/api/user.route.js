@@ -5,6 +5,7 @@ const Users = require('../../models/Users.model')
 
 const bcrypt = require('bcrypt')
 const SALT = 10
+const emailReEx = /^ (([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{ 1, 3 }\.[0-9]{ 1, 3 }\.[0-9]{ 1, 3 }\.[0-9]{ 1, 3 }\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{ 2,}))$/
 
 
 router.post('/signup', async (req, res) => {
@@ -13,7 +14,7 @@ router.post('/signup', async (req, res) => {
 
     if (!username) return res.status(403).json({ msg: 'no-username', user: null })
     if (!password) return res.status(403).json({ msg: 'no-password', user: null })
-    if (!email) return res.status(403).json({ msg: 'no-email', user: null })
+    if (!email || emailReEx.test(email)) return res.status(403).json({ msg: 'invalid-email', user: null })
 
     const hashedPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(SALT))
 
@@ -21,16 +22,32 @@ router.post('/signup', async (req, res) => {
 
         if (!user) return res.status(409).json({ msg: 'already-exists' })
 
-        req.login(user, err => err && res.status(500).json({ msg: 'creation-error ' + err }))
-
+        delete user.password
         res.status(201).json(user)
     })
         .catch(err => { console.error('ERROR: ' + err); res.status(500).json({ msg: err }) })
 })
 
-router.get(':id', (req, res) => {
-    Users.findById(req.params.id).then(user => {
+router.get('/search', (req, res) => {
+    Users.find(req.query, 'AND').then(users => {
         if (!user) return res.status(404).json({ msg: 'not-found' })
+        users = users.map(elm => {
+            delete elm.password
+            return elm
+        })
+
+        delete user.password
+        res.status(200).json(user)
+    })
+        .catch(err => { console.error('ERROR: ' + err); res.status(500).json({ msg: err }) })
+})
+
+router.get('/:username', (req, res) => {
+    Users.find({ username: req.params.username }).then(user => {
+        if (!user) return res.status(404).json({ msg: 'not-found' })
+        user = user[0]
+
+        delete user.password
         res.status(200).json(user)
     })
         .catch(err => { console.error('ERROR: ' + err); res.status(500).json({ msg: err }) })

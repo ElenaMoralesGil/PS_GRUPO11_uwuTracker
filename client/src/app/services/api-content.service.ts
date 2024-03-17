@@ -18,6 +18,6 @@ export class ApiContentService implements Contents {
     fetch(`${this.path}/${id}`).then(res => res.json()).catch(err => null)
 
   create = (content: Content): Promise<Content> | null =>
-    fetch(`${this.path}/content`, { method: 'POST' }).then(res => res.json()).catch(err => null)
+    fetch(`${this.path}/content`, { method: 'POST', body: JSON.stringify(content) }).then(res => res.json()).catch(err => null)
 
 }

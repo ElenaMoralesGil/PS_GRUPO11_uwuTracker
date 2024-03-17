@@ -15,7 +15,12 @@ export class UsersService implements Users {
   findById: (id: string) => Promise<User | null> = id =>
     fetch(`${this.path}/${id}`).then(res => res.status == 200 ? res.json() : null)
 
-  signin: ({ username, password }: { username: string, password: string }) => Promise<User | null> =
-    ({ username, password }) => fetch(`${this.path}/signin`, { method: 'POST' })
+
+  signup: ({ username, password, email }: { username: string, email: string, password: string }) => Promise<User | null> =
+    ({ username, password, email }) => fetch(`${this.path}/signup`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password, email })
+    })
       .then(res => res.status == 201 ? res.json() : null)
 }

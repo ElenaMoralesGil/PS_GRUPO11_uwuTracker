@@ -5,7 +5,7 @@ const User = require('../../schemas/User.schema')
 const Users = require('../../models/Users.model')
 
 
-router.post('/login', (req, res) => {
+router.post('/login', (req, res, next) => {
     if (!req.body.username) return res.status(400).json({ msg: 'no-username' })
     if (!req.body.password) return res.status(400).json({ msg: 'no-password' })
 
@@ -15,6 +15,7 @@ router.post('/login', (req, res) => {
 
         req.login(user, err => err && res.status(500).json({ msg: 'login-error' }))
 
+        delete user.password
         res.status(202).json({ user, msg: 'login-successful' })
     })(req, res, next)
 })
@@ -29,6 +30,7 @@ router.get('/logout', (req, res) => {
 router.get('/isLoggedIn', (req, res) => {
     if (!req.user) return res.status(200).json({ msg: 'not-logged-in', user: null })
 
+    delete user.password
     return res.status(200).json({ msg: 'logged-in', user: req.user })
 })
 
