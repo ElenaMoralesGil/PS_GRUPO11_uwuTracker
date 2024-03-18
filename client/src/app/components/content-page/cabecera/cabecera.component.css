@@ -1,0 +1,236 @@
+img {
+    min-width: 0;
+    min-height: 0;
+    object-fit: cover;
+    box-sizing: border-box;
+}
+
+button {
+    border-radius: 1vw;
+}
+
+select {
+    box-sizing: border-box;
+    border-radius: 10px;
+}
+.background {
+    background-color: white;
+    border-radius: 50%;
+    padding: 5px; 
+}
+
+input {
+    color: #1d1d1f;
+    outline: none;
+    border-radius: 10px;
+}
+
+
+input:hover {
+    outline: none;
+}
+.navbar-main-content .episodes {
+    display: flex;
+    flex-flow: column nowrap;
+    overflow: auto;
+    max-height: 98%;
+    height: 98%;
+}
+
+
+.top-image {
+    width: 100%;
+    height: auto;
+    box-sizing: border-box;
+}
+
+.top-image img {
+    width: 100%;
+    height: 50vh;
+    box-sizing: border-box;
+}
+
+.aside-main-content-container {
+
+    display: flex;
+    flex-flow: row nowrap;
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 2%;
+}
+
+.aside-main-content-container .aside-anime-information {
+    box-sizing: border-box;
+    width: auto;
+    margin: 1% 1% 1% 8%;
+}
+
+
+.top-description-and-buttons {
+    position: relative;
+    box-sizing: border-box;
+    width: 100%;
+    height: 40vh;
+}
+
+.top-description-and-buttons .anime-score-container {
+    position: absolute;
+    width: 10%;
+    font-size: var(--extra-big-font-size);
+    top: 5%;
+    right: 1%;
+    text-align: center;
+    background: #1d1d1fcc;
+    color: white;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10%;
+}
+
+.anime-score-container i {
+    font-size: var(--small-font-size);
+}
+
+.top-description-and-buttons .cover-name {
+    position: relative;
+    max-width: 100%;
+    height: 80%;
+    padding-left: 8%;
+}
+
+.top-description-and-buttons .cover-name img {
+    position: absolute;
+    width: 20%;
+    height: 150%;
+    top: -60%;
+    box-shadow: 0 0 3px black;
+    border-radius: 10px;
+}
+
+.top-description-and-buttons .cover-name p {
+    position: absolute;
+    left: 32.5%;
+    top: 20%;
+    bottom: 0;
+    margin: auto;
+    font-size: var(--medium-big-font-size);
+    font-weight: bold;
+    color: white;
+}
+
+.top-description-and-buttons .anime-description {
+    position: absolute;
+    top: 25%;
+    left: 32.5%;
+    max-width: 50%;
+    max-height: 55%;
+    color: white;
+    opacity: 0.8;
+    line-height: 1.5;
+    overflow: auto;
+}
+
+.top-description-and-buttons .anime-description::-webkit-scrollbar {
+    display: none;
+}
+
+.top-description-and-buttons .button-palette {
+    display: flex;
+    flex-flow: row nowrap;
+    width: 20%;
+    height: 15%;
+    max-height: 14%;
+    gap: 5%;
+    margin-left: 8%;
+}
+
+.button-palette .rate-container {
+    flex:4;
+    height: 100%;
+}
+
+.button-palette .addList-container {
+    flex:4;
+    height: 100%;
+}
+
+.button-palette .favourite-container {
+    position: relative;
+    flex: 2;
+    height: 100%;
+}
+
+.favourite-container{
+    color: white;
+}
+
+.button-palette .anime-menu-button-container {
+    position: relative;
+    display: flex;
+    flex-flow: column nowrap;
+    height: 100%;
+    justify-content: center;
+}
+
+.anime-menu-button-container label {
+    user-select: none;
+    position: absolute;
+    left: 10%;
+    z-index: 1;
+}
+.favourite-container:active {
+    transform: translateY(1px); 
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2); 
+}
+
+.anime-menu-button-container input {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    border: none;
+    box-shadow: 0 3px 10px rgba(255, 255, 255, 0.1);
+}
+
+.anime-menu-button-container i {
+    position: absolute;
+    right: 10%;
+    overflow-y: scroll;
+}
+
+.favourite-container button {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    border: none;
+    box-shadow: 0 3px 10px rgb(255, 255, 255);
+}
+
+
+.anime-dropdown-menu {
+    display: none;
+    flex-flow: column nowrap;
+    position: relative;
+    z-index: 1;
+    height: auto;
+    margin-top: 10%;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    width: auto;
+    color: white;
+    font-size: var(--medium-small-font-size);
+    overflow: auto;
+    background: #70859caa;
+}
+.anime-dropdown-menu::-webkit-scrollbar {
+    display: none;
+}
+.anime-dropdown-menu article {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    gap: 50%;
+    margin: 10%;
+}

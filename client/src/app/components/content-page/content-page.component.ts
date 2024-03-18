@@ -5,13 +5,15 @@ import { CommentsComponent } from '../comments/comments.component';
 import { CabeceraComponent } from './cabecera/cabecera.component';
 import { TableComponent } from './table/table.component';
 import { NewCommentComponent } from '../comments/new-comment/new-comment.component';
+import { AsideInformationComponent } from './aside-information/aside-information.component';
+import { NavComponent } from './nav/nav.component';
 
 @Component({
   selector: 'app-content-page',
   standalone: true,
   templateUrl: './content-page.component.html',
   styleUrl: './content-page.component.css',
-  imports: [ CommentsComponent, CabeceraComponent, TableComponent, NewCommentComponent ]
+  imports: [ CommentsComponent, CabeceraComponent, TableComponent, AsideInformationComponent, NewCommentComponent, NavComponent ]
 })
 export class ContentPageComponent implements OnInit {
 

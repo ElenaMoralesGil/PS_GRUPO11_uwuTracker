@@ -1,8 +1,4 @@
-<head>
-    <title>Anime Page With Episodes Tab</title>
-    <link rel="stylesheet" href="../content-page.component.css">
 
-</head>
 <section class="top-image">
     <img alt="A wide image based on the anime show that displays in the top part of the page."
         title="A wide image based on the anime" src="../../../../assets/images/frieren.jpg">
@@ -11,10 +7,10 @@
     <script src="../../../../node_modules/fontawesome/generate.js" crossorigin="anonymous"></script>
     <section class="top-description-and-buttons">
         <section class="cover-name">
-            <p>{{ title }}</p>
-            <img alt="" title="" src="../../../../assets/images/shoujo-shuumatsu.jpeg">
+            <p>{{ title() }}</p>
+            <img alt="" title="" [src]="image()">
         </section>
-        <p class="anime-description">{{ description }}</p>
+        <p class="anime-description">{{ description() }}</p>
         <section class="anime-score-container">
             <i class="fa-regular fa-star" aria-hidden="true"></i>
             <p>5</p>
@@ -35,7 +31,7 @@
                 <option value="option3">Option 3</option>
 
             </select>
-            <div class="favourite-container">
+            <div class="favourite-container backround">
                 <button type="button" class="fa fa-heart" aria-hidden="true"></button>
             </div>
         </section>
