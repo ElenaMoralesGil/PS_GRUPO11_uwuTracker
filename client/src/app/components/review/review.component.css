@@ -102,7 +102,7 @@
 }
 
 .description {
-
+  color:black;
   border-top: 1px solid #ffffff;
   border-bottom: 1px solid #ffffff;
   padding: 1em 1.5em;
@@ -123,6 +123,7 @@
   padding: 0.5em;
 }
 .likes-dislikes {
+  color:black;
   display: flex;
   gap: 1em;
   padding: 2em;
