@@ -6,8 +6,8 @@ import { FormsModule } from "@angular/forms";
 import { NgClass, NgForOf } from "@angular/common";
 import { ActivatedRoute } from "@angular/router";
 import { UsersService } from '../../services/users.service';
-import { Observable, firstValueFrom, lastValueFrom } from 'rxjs';
 import User from '../../schemas/User.schema';
+import { Observable } from 'rxjs';
 @Component({
   selector: 'app-review',
   templateUrl: './review.component.html',
@@ -85,12 +85,13 @@ export class ReviewComponent implements OnInit {
 
       } else if (this.isNewReview) {
         console.log(this.review.userId)
+        console.log(this.loggedInUser)
         this.review = {
           id: '',
           title: '',
           description: '',
           score: 0,
-          userId: (await firstValueFrom(this.loggedInUser))?.id || "",
+          userId: (await this.loggedInUser.toPromise())?.id || "",
           content: this.contentId,
           likes: 0,
           dislikes: 0
