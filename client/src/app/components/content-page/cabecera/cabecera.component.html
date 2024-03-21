@@ -4,20 +4,18 @@
         title="A wide image based on the anime" src="../../../../assets/images/frieren.jpg">
 </section>
 <section class="top-cover-image-and-description">
-    <script src="../../../../node_modules/fontawesome/generate.js" crossorigin="anonymous"></script>
     <section class="top-description-and-buttons">
         <section class="cover-name">
-            <p>{{ title() }}</p>
-            <img alt="" title="" [src]="image()">
+            <p>{{ title }}</p>
+            <p>{{ img }}</p>
         </section>
-        <p class="anime-description">{{ description() }}</p>
+        <p class="anime-description">{{ description }}</p>
         <section class="anime-score-container">
             <i class="fa-regular fa-star" aria-hidden="true"></i>
             <p>5</p>
         </section>
         <section class="button-palette">
             <select class="rate-container">
-                <i class="fa-solid fa-arrow-down" aria-hidden="true"></i>
                 <option value="option1">Add</option>
                 <option value="option2">Option 1</option>
                 <option value="option3">Option 2</option>
@@ -32,7 +30,7 @@
 
             </select>
             <div class="favourite-container backround">
-                <button type="button" class="fa fa-heart" aria-hidden="true"></button>
+                <button type="button" class="fa fa-heart white" aria-hidden="true"></button>
             </div>
         </section>
     </section>

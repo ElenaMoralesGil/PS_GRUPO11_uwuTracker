@@ -1,8 +1,15 @@
 <aside class="aside-anime-information">
     <section class="anime-info-container">
-        <article *ngFor="let item of animeData" class="anime-data">
-            <p>{{ item.text1 }}</p>
-            <p>{{ item.text2 }}</p>
+        <article *ngFor="let item of information" class="anime-data">
+            <p>{{ item }}</p>
         </article>
     </section>
 </aside>
+
+
+
+<!-- 
+<article *ngFor="let item of informacion" class="anime-data">
+    <p>{{ item.title }}: {{ item.info }}</p>
+</article>
+ -->

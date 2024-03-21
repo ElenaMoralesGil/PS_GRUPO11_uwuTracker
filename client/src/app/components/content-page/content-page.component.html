@@ -1,18 +1,8 @@
-<body id="episodes-anime-body">
-    <main>
-        <app-cabecera></app-cabecera>
-
+        <app-cabecera [description]="description" [title]="title" [img]="img"></app-cabecera>
         <section class="aside-main-content-container">
-            <app-aside-information></app-aside-information>
-            <section class="navbar-main-content">
+                <app-aside-information [information]="informationAside"></app-aside-information>
+                         
+                <section class="navbar-main-content">
                 <app-nav></app-nav>
-                <app-table></app-table>
             </section>
         </section>
-        <section class="comments-section">
-            <app-new-comment></app-new-comment>
-        </section>
-
-    </main>
-
-</body>
