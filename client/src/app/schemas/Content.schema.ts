@@ -19,4 +19,5 @@ export default interface Content {
     episodes: number
     comments: string
     reviews: string[]
+    characters: string[]
 }
