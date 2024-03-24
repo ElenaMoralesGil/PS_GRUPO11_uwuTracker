@@ -1,6 +1,7 @@
 .content-navbar {
     display: flex;
     flex-flow: row nowrap;
+    margin-top: 20px;
     justify-content: space-evenly;
     align-items: center;
     background: #1d1d1f;
@@ -12,4 +13,18 @@
 
 .content-navbar a {
     cursor: pointer;
+    
+}
+
+
+.content-navbar .anime-data {
+    background-color: transparent;
+    color: white;
+}
+
+.content-navbar .anime-data.selected {
+    background-color: white;
+    color: black;
+    border-radius: 10px;
+    padding: 10px;
 }
