@@ -1,0 +1,48 @@
+.navbar-main-content .characters {
+    width: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+    overflow: auto;
+    max-height: 98%;
+    height: 98%;
+}
+.characters .character {
+    margin-top: 0.5%;
+    box-shadow: 0 0 3px black;
+}
+
+.characters .character:nth-child(even) {
+    background: #1d1d1f;
+}
+
+.characters .character:nth-child(odd) {
+    background: #1d1d1f55;
+}
+
+.anime-character-container {
+    flex : 1;
+    position: relative;
+    margin-top: 0.5%;
+    min-height: 2cm;
+    max-height: 2cm;
+    color: white;
+    text-align: center;
+    background: transparent;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+}
+
+.anime-character-container .character-rol {
+    flex:2;
+}
+
+.anime-character-container .character-name {
+    flex:5;
+    color: lightsteelblue;
+    font-weight: bold;
+}
+
+.anime-character-container .character-voice {
+    flex: 5; 
+}

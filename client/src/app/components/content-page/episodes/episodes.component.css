@@ -1,0 +1,49 @@
+.navbar-main-content .episodes {
+    width: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+    overflow: auto;
+    max-height: 98%;
+    height: 98%;
+}
+.episodes .episode {
+    margin-top: 0.5%;
+    box-shadow: 0 0 3px black;
+}
+
+.episodes .episode:nth-child(even) {
+    background: #1d1d1f;
+}
+
+.episodes .episode:nth-child(odd) {
+    background: #1d1d1f55;
+}
+
+.anime-episode-container {
+    flex : 1;
+    position: relative;
+    margin-top: 0.5%;
+    min-height: 2cm;
+    max-height: 2cm;
+    color: white;
+    text-align: center;
+    background: transparent;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+}
+
+.anime-episode-container .episode-number {
+    flex:2;
+}
+
+.anime-episode-container .episode-name {
+    flex:10;
+    color: lightsteelblue;
+    font-weight: bold;
+}
+
+.anime-episode-container .episode-duration,
+.anime-episode-container .episode-aired {
+    flex: 5; 
+}
