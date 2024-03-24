@@ -15,19 +15,19 @@
             <p>5</p>
         </section>
         <section class="button-palette">
-            <select class="rate-container">
-                <option value="option1">Add</option>
-                <option value="option2">Option 1</option>
-                <option value="option3">Option 2</option>
-                <option value="option3">Option 3</option>
-
-            </select>
             <select class="addList-container">
-                <option value="option1">Text</option>
-                <option value="option2">Option 1</option>
-                <option value="option3">Option 2</option>
-                <option value="option3">Option 3</option>
-
+                <option value="" disabled selected hidden></option>
+                <option *ngFor="let rating of ratingOptions ">
+                {{ rating }}
+                </option>
+            </select>
+            
+            
+            <select class="addList-container">
+                <option value="" disabled selected hidden></option>
+                <option *ngFor="let list of addList ">
+                    {{ list }}
+                </option>
             </select>
             <div class="favourite-container backround">
                 <button type="button" class="fa fa-heart white" aria-hidden="true"></button>

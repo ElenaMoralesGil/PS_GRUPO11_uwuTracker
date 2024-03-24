@@ -237,3 +237,11 @@ input:hover {
     gap: 50%;
     margin: 10%;
 }
+
+.dropdown-center select {
+    width: 200px;
+}
+
+
+
+
