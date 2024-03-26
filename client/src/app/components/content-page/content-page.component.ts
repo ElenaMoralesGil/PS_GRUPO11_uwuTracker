@@ -24,9 +24,9 @@ export class ContentPageComponent implements OnInit {
 
   protected year?: Date
   protected type?: string
+  protected rating?: number
 
-
-  informationAside: string[] = [];
+  informationAside: { year: string; type: string; episodesNumber: string; season: string; }[] = []
   protected description?: string
   protected title?: string
   protected img?: string
@@ -47,7 +47,9 @@ export class ContentPageComponent implements OnInit {
     this.id = content.id
     this.title = content.title
     this.description = content.synopsis
+    this.rating = content.score
     this.img = '../../assets/shoujo-shuumatsu.jpeg'
+
    
     /*this.episodes = [
       `${content.episodes.number}`,
@@ -56,12 +58,12 @@ export class ContentPageComponent implements OnInit {
       `${content.episodes.aired}`
     ]*/
 
-
+    //Info que tendrá el Aside
     try {
+      
       this.informationAside = [ 
-        `Year: ${content.year}`,
-        `Type: ${content.type}`,
-        `Episodes Number: ${content.episodesNumber}`
+        { year: `${content.year}`, type: `${content.type}`, episodesNumber: `${content.episodesNumber}`, season: `${content.season}`},      
+        
       ]
 
       //this.informacion = await this.Contents.obtenerInformacion(); // cambiar metodo por la info de la API
