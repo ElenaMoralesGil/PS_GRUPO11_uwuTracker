@@ -77,9 +77,9 @@ input:hover {
 .top-description-and-buttons .anime-score-container {
     position: absolute;
     width: 10%;
-    font-size: var(--extra-big-font-size);
-    top: 5%;
-    right: 1%;
+    font-size: 150%;
+    top: 8%;
+    right: 1.5%;
     text-align: center;
     background: #1d1d1fcc;
     color: white;
@@ -93,6 +93,21 @@ input:hover {
 .anime-score-container i {
     font-size: var(--small-font-size);
 }
+
+.fa-regular, .far {
+    font-weight: 400;
+}
+
+p {
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    unicode-bidi: isolate;
+}
+
+
 
 .top-description-and-buttons .cover-name {
     position: relative;
@@ -180,6 +195,7 @@ input:hover {
     position: absolute;
     left: 10%;
     z-index: 1;
+    
 }
 .favourite-container:active {
     transform: translateY(1px); 
@@ -201,7 +217,9 @@ input:hover {
 .anime-menu-button-container i {
     position: absolute;
     right: 10%;
-    overflow-y: scroll;
+}
+.fa-solid, .fas {
+    font-weight: 900;
 }
 
 .favourite-container button {
@@ -213,7 +231,6 @@ input:hover {
 }
 
 .anime-dropdown-menu {
-    display: none;
     flex-flow: column nowrap;
     position: relative;
     z-index: 1;
@@ -236,12 +253,39 @@ input:hover {
     justify-content: center;
     gap: 50%;
     margin: 10%;
+    
 }
 
 .dropdown-center select {
     width: 200px;
 }
 
+.button-palette .rate-container {
+    flex: 4;
+    height: 100%;
+}
+
+div {
+    display: block;
+    unicode-bidi: isolate;
+}
 
 
+[type="checkbox"], [type="radio"] {
+    box-sizing: border-box;
+    padding: 0;
+}
+
+input {
+    color: #1d1d1f;
+    outline: none;
+    border-radius: 10px;
+}
+
+
+.button-palette .addList-container {
+    flex: 4;
+    height: 100%;
+    width: 100%;
+}
 
