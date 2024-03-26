@@ -1,9 +1,10 @@
 <section class="characters">
-    <article class="character" *ngFor="let character of characters2">
-        <div class="anime-character-container">
-            <p class="character-name">{{ character.name }}</p>
-            <p class="character-rol">{{ character.rol }}</p>
-            <p class="character-voice">{{ character.voiceOf }}</p>
+    <article class="character">
+        <div class="anime-character-container" *ngFor="let character of characters2">
+            <p class="character-description">{{ character.description }} </p>  
+            <div class="anime-character-name-image"><p>{{ character.name }}</p>
+                <img alt="" title="" [src]="character.img">
+            </div>
         </div>
     </article>
 </section>

@@ -16,10 +16,9 @@ export class CharactersComponent {
 
   
   characters2 = [
-    { name: 'name', rol: 'Rol', voiceOf: 'Voice Of' },
-    { name: 'Son Goku', rol: 'Protagonista', voiceOf: 'Mazaco Nozawa' },
-    { name: 'Vegeta', rol: 'Protagonista', voiceOf: 'Rio Horikawa' },
-    { name: 'Broly', rol: 'Secundario', voiceOf: 'Bin Shimada' },
+    { name: 'Text', description: 'Lorem Ipsum', img: '../../../../assets/images/shoujo-shuumatsu.jpeg' },
+    { name: 'Text', description: 'Lorem Ipsum', img: '../../../../assets/images/shoujo-shuumatsu.jpeg' },
+    { name: 'Text', description: 'Lorem Ipsum', img: '../../../../assets/images/shoujo-shuumatsu.jpeg' },
 
   ];
 
