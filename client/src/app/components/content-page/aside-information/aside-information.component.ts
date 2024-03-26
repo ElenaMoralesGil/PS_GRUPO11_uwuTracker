@@ -13,7 +13,12 @@ import { Component, Input } from '@angular/core';
   styleUrl: './aside-information.component.css'
 })
 export class AsideInformationComponent {
-  @Input() information: string[] = [];
-  
-  
+  @Input() information: { year: string; type: string; episodesNumber: string; season: string; }[] = [];
+
+    infoTitle = [
+      `Year`,
+      `Type`,
+      `Episodes Number`,
+      'Season'
+    ]
 }

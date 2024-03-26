@@ -1,7 +1,13 @@
 <aside class="aside-anime-information">
     <section class="anime-info-container">
-        <article *ngFor="let item of information" class="anime-data">
-            <p>{{ item }}</p>
+        <article *ngFor="let item1 of infoTitle" class="anime-data">
+            <article *ngFor="let item2 of information" class="anime-data">
+                <p>{{ item1 }}</p>
+                <p *ngIf="item1 === 'Year'">{{ item2.year }}</p>
+                <p *ngIf="item1 === 'Type'">{{ item2.type }}</p>
+                <p *ngIf="item1 === 'Episodes Number'">{{ item2.episodesNumber }}</p>
+                <p *ngIf="item1 === 'Season'">{{ item2.season }}</p>
+            </article>
         </article>
     </section>
 </aside>
