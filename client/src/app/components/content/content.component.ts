@@ -71,6 +71,7 @@ export class ContentComponent implements OnInit {
     const index = this.reviews.findIndex(review => review.id === updatedReview.id);
     if (index !== -1) {
       this.reviews[index] = updatedReview;
+      console.log('Updated review:', updatedReview);
     }
   }
 
