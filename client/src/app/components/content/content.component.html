@@ -12,10 +12,13 @@
 
     <div *ngFor="let reviewId of reviewIds" class="review">
       <app-review [reviewId]="reviewId" (reviewDeleted)="handleReviewDeleted($event)"></app-review>
+      <app-review [reviewId]="reviewId" class="review"
+                  (reviewUpdated)="updateReview($event)"></app-review>
     </div>
   </div>
 
-  <!-- Render the create review component if it is open -->
+
+
   <app-review *ngIf="isReviewCreationOpen" [isNewReview]=true class="review"
     (newReview)="pushReview($event)"></app-review>
 </div>

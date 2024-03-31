@@ -66,6 +66,13 @@ export class ContentComponent implements OnInit {
       this.reviewIds.splice(index, 1);
     }
   }
+  updateReview(updatedReview: Review) {
+
+    const index = this.reviews.findIndex(review => review.id === updatedReview.id);
+    if (index !== -1) {
+      this.reviews[index] = updatedReview;
+    }
+  }
 
   async fetchReviewsByIds(reviewIds: string[] | undefined): Promise<void> {
     if (!reviewIds) {
@@ -89,13 +96,14 @@ export class ContentComponent implements OnInit {
     if (!this.areReviewsVisible) {
       await this.fetchReviewsByIds(this.reviewIds);
       console.log('Reviews:', this.reviews);
-      this.areReviewsVisible = true; // Mostrar las revisiones solo si no se están mostrando actualmente
+      this.areReviewsVisible = true;
     } else {
-      this.areReviewsVisible = false; // Ocultar las revisiones si ya se están mostrando
+      this.areReviewsVisible = false;
     }
   }
 
   pushReview(review: string) {
     this.reviewIds?.push(review)
+    this.isReviewCreationOpen = false;
   }
 }

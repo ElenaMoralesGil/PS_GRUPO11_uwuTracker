@@ -3,7 +3,7 @@ import Review from "../../schemas/Review.schema";
 import { ReviewService } from '../../services/review.service';
 import { AuthService } from "../../services/auth.service";
 import { FormsModule } from "@angular/forms";
-import { NgClass, NgForOf } from "@angular/common";
+import {NgClass, NgForOf, NgIf} from "@angular/common";
 import { ActivatedRoute } from "@angular/router";
 import { UsersService } from '../../services/users.service';
 import { Observable, firstValueFrom, lastValueFrom } from 'rxjs';
@@ -15,7 +15,8 @@ import User from '../../schemas/User.schema';
   imports: [
     FormsModule,
     NgClass,
-    NgForOf
+    NgForOf,
+    NgIf
   ],
   styleUrls: [ './review.component.css' ]
 })
@@ -34,7 +35,8 @@ export class ReviewComponent implements OnInit {
   @Input() isNewReview: boolean = false;
   @Output() reviewDeleted: EventEmitter<string> = new EventEmitter();
   @Output() newReview = new EventEmitter();
-
+  @Output() editReviewClicked: EventEmitter<Review> = new EventEmitter();
+  @Output() reviewUpdated: EventEmitter<Review> = new EventEmitter();
   editMode: boolean = false;
   showMode: boolean = false;
   showModal: boolean = true;
@@ -89,10 +91,10 @@ export class ReviewComponent implements OnInit {
         };
 
       }
-      return Promise.resolve(); // Devuelve una promesa resuelta
+      return Promise.resolve();
     } catch (error) {
       console.error('Error fetching review:', error);
-      return Promise.reject(error); // Devuelve una promesa rechazada en caso de error
+      return Promise.reject(error);
     }
   }
 
@@ -103,7 +105,13 @@ export class ReviewComponent implements OnInit {
   closeModal() {
     this.showModal = false;
   }
-
+  editReview() {
+    this.showModal = true;
+    this.editMode = true;
+    this.showMode = false;
+    console.log('Edit review clicked:', this.review);
+    this.editReviewClicked.emit(this.review);
+  }
   async createOrUpdateReview() {
     try {
       if (!this.review) {
@@ -119,7 +127,11 @@ export class ReviewComponent implements OnInit {
         throw new Error('Review is not complete');
       }
       if (this.review.id) {
-        await this.reviewService.editReview(this.review.id, this.review.userId, this.review.content, this.review.title, this.review.description, this.review.score);
+        // @ts-ignore
+        this.reviewService.editReview(this.review.id,  this.review.title, this.review.description, this.review.score).then(() => {
+          this.reviewUpdated.emit(this.review);
+        });
+
       } else {
         await this.reviewService.createReview(this.review.userId, this.review.content, this.review.score, this.review.title, this.review.description);
       }
