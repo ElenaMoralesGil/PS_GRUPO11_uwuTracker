@@ -1,6 +1,6 @@
 const Review = require('../../schemas/Review.schema')
 
-const { collection, doc, getDoc, deleteDoc, arrayUnion, addDoc, getDocs, updateDoc, query, where } = require('firebase/firestore/lite')
+const { collection, doc, arrayRemove, getDoc, deleteDoc, arrayUnion, addDoc, getDocs, updateDoc, query, where } = require('firebase/firestore/lite')
 
 class FirebaseReview {
     #fss
@@ -43,10 +43,44 @@ class FirebaseReview {
 
 
     async delete(id) {
-        const reviewRef = doc(this.db, this.coll, id);
-        await deleteDoc(reviewRef);
-    }
+        try {
+            const reviewRef = doc(this.db, this.coll, id);
 
+            const reviewSnapshot = await getDoc(reviewRef);
+            if (!reviewSnapshot.exists()) {
+                console.error('Review not found for ID:', id);
+                return false;
+            }
+
+            const reviewData = reviewSnapshot.data();
+
+            await deleteDoc(reviewRef);
+
+            // Update content's reviews list
+            const contentId = reviewData.content;
+            const contentQuerySnapshot = await getDocs(query(collection(this.db, 'Contents'), where('id', '==', contentId)));
+            if (!contentQuerySnapshot.empty) {
+                const contentDocRef = contentQuerySnapshot.docs[0].ref;
+                await updateDoc(contentDocRef, {
+                    reviews: arrayRemove(id)
+                });
+            } else {
+                console.error("Content not found with ID:", contentId);
+            }
+
+            // Update user's reviews list
+            const userId = reviewData.userId;
+            const userRef = doc(this.db, 'Users', userId);
+            await updateDoc(userRef, {
+                reviews: arrayRemove(id)
+            });
+
+            return true;
+        } catch (error) {
+            console.error("Error deleting review:", error);
+            return false;
+        }
+    }
     async create(userId, content, score, title, description) {
         console.log("Creating review...");
         const review = {

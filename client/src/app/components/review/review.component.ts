@@ -32,7 +32,7 @@ export class ReviewComponent implements OnInit {
   };
   @Input() reviewId?: string | null;
   @Input() isNewReview: boolean = false;
-
+  @Output() reviewDeleted: EventEmitter<string> = new EventEmitter();
   @Output() newReview = new EventEmitter();
 
   editMode: boolean = false;
@@ -58,15 +58,9 @@ export class ReviewComponent implements OnInit {
       this.showMode = true;
       this.editMode = this.isNewReview;
       this.loadReviewData().then(() => {
-        console.log('Review loaded:', this.review);
-        console.log(this.review.content);
-        console.log('review:', this.review); // Move the console.log here
-        console.log('userId:', this.review.userId);
         this.userService.findById(this.review.userId).then(async (user) => {
-          console.log('user:', user);
           if (!user) return
           this.userName = user.username;
-          console.log('username:', this.userName);
         });
       });
     }
@@ -80,11 +74,9 @@ export class ReviewComponent implements OnInit {
         if (this.review) {
           const user = await this.userService.findById(this.review.userId as string)
         }
-        console.log('ReviewInLoad:', this.review);
 
 
       } else if (this.isNewReview) {
-        console.log(this.review.userId)
         this.review = {
           id: '',
           title: '',
@@ -147,8 +139,11 @@ export class ReviewComponent implements OnInit {
       if (!this.review.id) {
         throw new Error('ID is not defined');
       }
-      await this.reviewService.deleteReview(this.review.id);
-      // Handle success
+      this.reviewService.deleteReview(this.review.id).then(() => {
+
+        this.reviewDeleted.emit(this.review.id || "");
+        console.log('Review deleted:', this.review.id);
+      });
     } catch (error) {
       console.error(error);
     }

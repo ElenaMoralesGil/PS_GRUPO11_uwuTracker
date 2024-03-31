@@ -55,6 +55,17 @@ export class ContentComponent implements OnInit {
       console.error('Error fetching content:', error);
     }
   }
+  async handleReviewDeleted(reviewId: string): Promise<void> {
+    // Remove the deleted review from the list of reviewIds
+    if (!this.reviewIds) {
+      return;
+    }
+
+    const index = this.reviewIds.indexOf(reviewId);
+    if (index !== -1) {
+      this.reviewIds.splice(index, 1);
+    }
+  }
 
   async fetchReviewsByIds(reviewIds: string[] | undefined): Promise<void> {
     if (!reviewIds) {
