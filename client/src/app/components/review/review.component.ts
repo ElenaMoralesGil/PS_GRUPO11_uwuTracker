@@ -108,6 +108,8 @@ export class ReviewComponent implements OnInit {
 
   closeModal() {
     this.showModal = false;
+    this.editMode = false;
+    this.showMode = true;
   }
   editReview() {
     this.showModal = true;
@@ -138,7 +140,6 @@ export class ReviewComponent implements OnInit {
           console.log( "edited",this.review);
           this.reviewUpdated.emit(this.review )
             this.showMode = true;
-            this.showModal = false;
             this.editMode = false;
         });
 
