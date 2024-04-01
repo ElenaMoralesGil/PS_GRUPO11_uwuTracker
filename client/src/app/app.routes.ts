@@ -8,6 +8,8 @@ import { HomeComponent } from './components/home/home.component';
 import { PerfilComponent } from './components/profile/profile.component';
 import { CommentsComponent } from './components/comments/comments.component';
 import { ContentPageComponent } from './components/content-page/content-page.component';
+import { CharactersComponent } from './components/content-page/characters/characters.component';
+import { EpisodesComponent } from './components/content-page/episodes/episodes.component';
 
 
 export const routes: Routes = [
@@ -27,12 +29,22 @@ export const routes: Routes = [
     { path: 'review/:id', component: SignUpComponent },
 
     {
+        path: 'content-page/:id',
+        component: ContentPageComponent,
+        children: [
+            { path: '', redirectTo: 'characters', pathMatch: 'full' }, 
+            { path: 'characters', component: CharactersComponent },
+            { path: 'episodes', component: EpisodesComponent },
+            { path: 'comments', component: CommentsComponent },
+            { path: 'reviews', component: ReviewComponent } 
+        ]
+    },
+
+    {
         'path': "", component: HomeComponent
     },
     { "path": 'profile', component: PerfilComponent },
-    {
-        'path': 'content-page/:id', component: ContentPageComponent,
-    },
+   
     {
         'path': 'content/:id/comments', component: CommentsComponent,
     }

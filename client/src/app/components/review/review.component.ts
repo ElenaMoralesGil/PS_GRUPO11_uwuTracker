@@ -3,11 +3,11 @@ import Review from "../../schemas/Review.schema";
 import { ReviewService } from '../../services/review.service';
 import { AuthService } from "../../services/auth.service";
 import { FormsModule } from "@angular/forms";
-import {AsyncPipe, NgClass, NgForOf, NgIf} from "@angular/common";
+import { AsyncPipe, NgClass, NgForOf, NgIf } from "@angular/common";
 import { ActivatedRoute } from "@angular/router";
 import { UsersService } from '../../services/users.service';
-import { Observable, firstValueFrom, lastValueFrom } from 'rxjs';
 import User from '../../schemas/User.schema';
+import { Observable } from 'rxjs';
 @Component({
   selector: 'app-review',
   templateUrl: './review.component.html',
@@ -84,12 +84,13 @@ export class ReviewComponent implements OnInit {
 
 
       } else if (this.isNewReview) {
+        console.log(this.review.userId)
         this.review = {
           id: '',
           title: '',
           description: '',
           score: 0,
-          userId: (await firstValueFrom(this.loggedInUser))?.id || "",
+          userId: (await this.loggedInUser.toPromise())?.id || "",
           content: this.contentId,
           likes: 0,
           dislikes: 0
@@ -135,14 +136,14 @@ export class ReviewComponent implements OnInit {
       }
       if (this.review.id) {
         // @ts-ignore
-        this.reviewService.editReview(this.review.id,  this.review.title, this.review.description, this.review.score)
+        this.reviewService.editReview(this.review.id, this.review.title, this.review.description, this.review.score)
           .then(() => {
 
-          console.log( "edited",this.review);
-          this.reviewUpdated.emit(this.review )
+            console.log("edited", this.review);
+            this.reviewUpdated.emit(this.review)
             this.showMode = true;
             this.editMode = false;
-        });
+          });
 
       } else {
         await this.reviewService.createReview(this.review.userId, this.review.content, this.review.score, this.review.title, this.review.description);
@@ -172,10 +173,10 @@ export class ReviewComponent implements OnInit {
       console.error(error);
     }
   }
-   isReviewOwner(): Promise<boolean> {
+  isReviewOwner(): Promise<boolean> {
 
-return  firstValueFrom(this.loggedInUser)
-  .then(user => user?.id || "")
-  .then(session_user => this.review.userId === session_user)
+    return firstValueFrom(this.loggedInUser)
+      .then(user => user?.id || "")
+      .then(session_user => this.review.userId === session_user)
   }
 }
