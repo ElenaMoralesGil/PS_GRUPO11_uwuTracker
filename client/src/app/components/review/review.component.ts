@@ -173,10 +173,5 @@ export class ReviewComponent implements OnInit {
       console.error(error);
     }
   }
-  isReviewOwner(): Promise<boolean> {
 
-    return this.loggedInUser).toPromise()
-      .then(user => user?.id || "")
-      .then(session_user => this.review.userId === session_user)
-  }
 }

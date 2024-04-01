@@ -20,7 +20,7 @@
       <span>{{ review.dislikes }}</span>
     </div>
     <!-- Review actions -->
-    @if (isReviewOwner()| async) {
+    @if ((loggedInUser | async)?.id === review.userId ) {
     <div class="review-actions">
       <button class="editButton" (click)="editReview()">Edit Review</button>
       <button class="deleteButton" (click)="deleteReview()">Delete Review</button>
@@ -38,7 +38,8 @@
     <div class="review-container">
       <div class="user-info">
         <input id="title" placeholder="Title" required type="text" [(ngModel)]="review.title">
-        <textarea id="description" placeholder="Description" required type="text" [(ngModel)]="review.description"></textarea>
+        <textarea id="description" placeholder="Description" required type="text"
+          [(ngModel)]="review.description"></textarea>
         <input type="number" id="score" placeholder="Score" required [(ngModel)]="review.score" min="0" max="5"> / 5
       </div>
     </div>
