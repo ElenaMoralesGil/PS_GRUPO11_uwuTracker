@@ -175,7 +175,7 @@ export class ReviewComponent implements OnInit {
   }
   isReviewOwner(): Promise<boolean> {
 
-    return firstValueFrom(this.loggedInUser)
+    return this.loggedInUser).toPromise()
       .then(user => user?.id || "")
       .then(session_user => this.review.userId === session_user)
   }
