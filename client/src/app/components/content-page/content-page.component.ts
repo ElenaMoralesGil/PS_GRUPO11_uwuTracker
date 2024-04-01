@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ApiContentService } from '../../services/api-content.service';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterOutlet } from '@angular/router';
 import { CommentsComponent } from '../comments/comments.component';
 import { CabeceraComponent } from './cabecera/cabecera.component';
 import { NewCommentComponent } from '../comments/new-comment/new-comment.component';
@@ -15,7 +15,7 @@ import { CharactersComponent } from './characters/characters.component';
   standalone: true,
   templateUrl: './content-page.component.html',
   styleUrl: './content-page.component.css',
-  imports: [ CommentsComponent, NgFor, NgIf, CabeceraComponent, CharactersComponent, EpisodesComponent, AsideInformationComponent, NewCommentComponent, NavComponent ]
+  imports: [ CommentsComponent, NgFor, NgIf, CabeceraComponent, RouterOutlet, CharactersComponent, EpisodesComponent, AsideInformationComponent, NewCommentComponent, NavComponent ]
 })
 export class ContentPageComponent implements OnInit {
 
@@ -50,6 +50,7 @@ export class ContentPageComponent implements OnInit {
     this.rating = content.score
     this.img = '../../assets/shoujo-shuumatsu.jpeg'
 
+    
    
     /*this.episodes = [
       `${content.episodes.number}`,
@@ -74,6 +75,10 @@ export class ContentPageComponent implements OnInit {
    
 
     return
+  }
+
+  getId() {
+    return this.id
   }
 
   showEpisodes() {
