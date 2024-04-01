@@ -1,23 +1,11 @@
 <nav class="content-navbar">
-    <article *ngFor="let item of informationNav; let i = index" class="anime-data" [class.selected]="selectedIndex === i" >
-        <a (click)="showHide(i)">{{ item }}</a>
+    <article *ngFor="let item of informationNav; let i = index" class="anime-data" 
+             [ngClass]="{'selected': selectedIndex === i}" 
+             (click)="showHide(i)">
+        <a [routerLink]="['./', item.toLowerCase()]">{{ item }}</a>
     </article>
-    
 </nav>
+
 <div class="contenedor">
-    <section *ngIf="start">
-        <app-characters></app-characters>
-    </section>
-    <section *ngIf="showCharacters">
-        <app-characters></app-characters>
-    </section>
-    <section *ngIf="showEpisodes">
-        <app-episodes></app-episodes>
-    </section>
-    <section *ngIf="showComments">
-        <app-comments></app-comments>
-    </section>
-    <section *ngIf="showReviews">
-        <app-review></app-review>
-    </section>
+    <router-outlet></router-outlet>
 </div>
