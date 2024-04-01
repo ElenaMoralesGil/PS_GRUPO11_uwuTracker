@@ -5,7 +5,7 @@ import { SignUpComponent } from "./components/header/sign-up/sign-up.component";
 import { SignInComponent } from "./components/header/sign-in/sign-in.component";
 
 import { HomeComponent } from './components/home/home.component';
-import { PerfilComponent } from './components/profile/profile.component';
+import { ProfileComponent } from './components/profile/profile.component';
 import { CommentsComponent } from './components/comments/comments.component';
 import { ContentPageComponent } from './components/content-page/content-page.component';
 import { CharactersComponent } from './components/content-page/characters/characters.component';
@@ -32,19 +32,19 @@ export const routes: Routes = [
         path: 'content-page/:id',
         component: ContentPageComponent,
         children: [
-            { path: '', redirectTo: 'characters', pathMatch: 'full' }, 
+            { path: '', redirectTo: 'characters', pathMatch: 'full' },
             { path: 'characters', component: CharactersComponent },
             { path: 'episodes', component: EpisodesComponent },
             { path: 'comments', component: CommentsComponent },
-            { path: 'reviews', component: ReviewComponent } 
+            { path: 'reviews', component: ReviewComponent }
         ]
     },
 
     {
         'path': "", component: HomeComponent
     },
-    { "path": 'profile', component: PerfilComponent },
-   
+    { "path": 'profile/:id', component: ProfileComponent },
+
     {
         'path': 'content/:id/comments', component: CommentsComponent,
     }

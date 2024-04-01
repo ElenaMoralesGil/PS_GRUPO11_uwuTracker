@@ -1,53 +1,10 @@
-<div class="profile-container">
-  <link rel="stylesheet" href="profile.component.css">
 
-  <div class="profile-header">
-    <button class="menu-button">Menu</button>
-    <button class="logout-button">Log-out</button>
-    <!-- More buttons or navigation items here -->
-  </div>
-
-  <div class="profile-body">
-    <div class="profile-photo">
-      <!-- Image container where selected photo will be displayed -->
-      <img id="profileImage" src="placeholder-image.png" alt="Foto de perfil">
-    </div>
-
-    <div class="profile-information">
-      <h2>Username</h2>
-      <p>Una descripción sencilla</p>
-      <div class="button-container">
-        <button class="edit-profile-button" id="editProfileButton">Edit Profile</button>
-        <div class="edit-fields" style="display: none;">
-          <input type="text" id="newUsername" placeholder="New Username">
-          <input type="password" id="newPassword" placeholder="New Password">
-          <button class="save-profile-button" id="saveProfileButton">Save</button>
-        </div>
-        <label for="photoInput" class="photo-select-label">Select Photo</label>
-        <!-- Hidden file input for selecting photo -->
-        <input type="file" id="photoInput" accept="image/*" style="display: none;">
-      </div>
-    </div>
-    <!-- Add other elements like text and lists as per design -->
-  </div>
-
-  <!-- Table -->
-  <div class="table-container">
-    <table class="profile-table">
-      <thead>
-        <tr>
-          <th>Title</th>
-          <th>Score</th>
-          <th>Progress</th>
-          <th>Type</th>
-          <th>List</th>
-        </tr>
-      </thead>
-      <tbody>
-        <!-- Rows will be added dynamically using JavaScript -->
-      </tbody>
-    </table>
-  </div>
-
+<div class ="container">
+  <div id="profile-info">
+  <app-user-info  [username] = "user.username" [description]="user.description"></app-user-info>
 </div>
-<script type="text/javascript" src="./profile.js"></script> <!-- Include separate JavaScript file -->
+  <app-profile-nav></app-profile-nav>
+<app-edit-profile></app-edit-profile>
+<app-table></app-table>
+</div>
+
