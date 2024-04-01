@@ -20,7 +20,7 @@
       <span>{{ review.dislikes }}</span>
     </div>
     <!-- Review actions -->
-    @if (isReviewOwner()) {
+    @if (isReviewOwner()| async) {
     <div class="review-actions">
       <button class="editButton" (click)="editReview()">Edit Review</button>
       <button class="deleteButton" (click)="deleteReview()">Delete Review</button>

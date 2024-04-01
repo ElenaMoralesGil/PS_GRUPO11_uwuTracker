@@ -3,7 +3,7 @@ import Review from "../../schemas/Review.schema";
 import { ReviewService } from '../../services/review.service';
 import { AuthService } from "../../services/auth.service";
 import { FormsModule } from "@angular/forms";
-import {NgClass, NgForOf, NgIf} from "@angular/common";
+import {AsyncPipe, NgClass, NgForOf, NgIf} from "@angular/common";
 import { ActivatedRoute } from "@angular/router";
 import { UsersService } from '../../services/users.service';
 import { Observable, firstValueFrom, lastValueFrom } from 'rxjs';
@@ -16,7 +16,8 @@ import User from '../../schemas/User.schema';
     FormsModule,
     NgClass,
     NgForOf,
-    NgIf
+    NgIf,
+    AsyncPipe
   ],
   styleUrls: [ './review.component.css' ]
 })
@@ -171,7 +172,10 @@ export class ReviewComponent implements OnInit {
       console.error(error);
     }
   }
-  isReviewOwner(): boolean {
-    return true;
+   isReviewOwner(): Promise<boolean> {
+
+return  firstValueFrom(this.loggedInUser)
+  .then(user => user?.id || "")
+  .then(session_user => this.review.userId === session_user)
   }
 }
