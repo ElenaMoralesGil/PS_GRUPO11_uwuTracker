@@ -1,43 +1,60 @@
-<head>
-    <title>Anime Page With Episodes Tab</title>
-    <link rel="stylesheet" href="../content-page.component.css">
 
-</head>
 <section class="top-image">
     <img alt="A wide image based on the anime show that displays in the top part of the page."
         title="A wide image based on the anime" src="../../../../assets/images/frieren.jpg">
 </section>
 <section class="top-cover-image-and-description">
-    <script src="../../../../node_modules/fontawesome/generate.js" crossorigin="anonymous"></script>
     <section class="top-description-and-buttons">
         <section class="cover-name">
             <p>{{ title }}</p>
-            <img alt="" title="" src="../../../../assets/images/shoujo-shuumatsu.jpeg">
+            <img alt="" title="" [src]="img">
         </section>
         <p class="anime-description">{{ description }}</p>
+       
+
         <section class="anime-score-container">
             <i class="fa-regular fa-star" aria-hidden="true"></i>
-            <p>5</p>
+            <p>{{ rating }}</p>
         </section>
+
         <section class="button-palette">
-            <select class="rate-container">
-                <i class="fa-solid fa-arrow-down" aria-hidden="true"></i>
-                <option value="option1">Add</option>
-                <option value="option2">Option 1</option>
-                <option value="option3">Option 2</option>
-                <option value="option3">Option 3</option>
-
-            </select>
-            <select class="addList-container">
-                <option value="option1">Text</option>
-                <option value="option2">Option 1</option>
-                <option value="option3">Option 2</option>
-                <option value="option3">Option 3</option>
-
-            </select>
-            <div class="favourite-container">
-                <button type="button" class="fa fa-heart" aria-hidden="true"></button>
+            <div class="rate-container">
+                <div id="rate-container" class="anime-menu-button-container">
+                    <label for="rate-button" id="rate-label"> Rate </label>
+                    <input type="button" id="rate-button" (click)="scrollValorar()">
+                    <i class="fa-solid fa-arrow-down" aria-hidden="true"></i>
+                </div>
+                <div *ngIf="ratingSelected" class="anime-dropdown-menu" id="rate-dropdown-container">
+                    <article class="rate-option" *ngFor="let rating of ratingOptions">
+                        <label class="rate-label" >
+                            <input id="rate-option{{rating}}" type="radio" name="rate-radio" class="rate-input" 
+                            (click)="ratingSelection(rating)" [checked]="isRatingSelected(rating)">
+                            {{ rating }}
+                        </label>
+                    </article>
+                </div>
             </div>
-        </section>
-    </section>
+
+            <div class="addList-container">  
+
+                <div id="addList-container" class="anime-menu-button-container">
+                    <label for="addList-button" id="addList-label"> Add </label>
+                    <input type="button" id="addList-button" (click)="scrollListas()">
+                    <i class="fa-solid fa-arrow-down" aria-hidden="true"></i>
+                </div>
+                <div *ngIf="listSelected" class="anime-dropdown-menu" id="addList-dropdown-container">
+                    <article class="addList-option" *ngFor="let list of addList">
+                        <label class="addList-label" >
+                            {{ list }}
+                        </label>
+                        <input id="addList-option{{list}}" type="radio" name="rate-radio" class="addList-input"
+                        (click)="listSelection(list)" [checked]="isListSelected(list)">
+                    </article>
+                </div>
+            </div>
+            <div class="favourite-container backround">
+                <button type="button" class="fa fa-heart white" aria-hidden="true"></button>
+            </div>
+            
+        
 </section>

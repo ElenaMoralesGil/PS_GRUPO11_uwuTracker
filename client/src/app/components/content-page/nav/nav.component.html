@@ -1,0 +1,11 @@
+<nav class="content-navbar">
+    <article *ngFor="let item of informationNav; let i = index" class="anime-data" 
+             [ngClass]="{'selected': selectedIndex === i}" 
+             (click)="showHide(i)">
+        <a [routerLink]="['./', item.toLowerCase()]">{{ item }}</a>
+    </article>
+</nav>
+
+<div class="contenedor">
+    <router-outlet></router-outlet>
+</div>

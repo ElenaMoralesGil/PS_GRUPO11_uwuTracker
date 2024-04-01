@@ -1,0 +1,93 @@
+.navbar-main-content .characters {
+    width: 100%;
+    display: flex;
+    flex-flow: column nowrap;
+    overflow: auto;
+    max-height: 98%;
+    height: 98%;
+}
+.characters .character {
+    margin-top: 0.5%;
+    box-shadow: 0 0 3px black;
+}
+
+.characters .character:nth-child(even) {
+    background: #1d1d1f;
+}
+
+.characters .character:nth-child(odd) {
+    background: #1d1d1f55;
+}
+
+.anime-character-container {
+    flex: 1;
+    position: relative;
+    margin-top: 0.5%;
+    background: #1d1d1f;
+    box-shadow: 0 0 3px black;
+    min-height: 8cm;
+    max-height: 8cm;
+}
+
+
+.navbar-main-content .characters {
+    display: flex;
+    flex-flow: column nowrap;
+    overflow: auto;
+    max-height: 98%;
+    height: 98%;
+}
+.characters::-webkit-scrollbar {
+    display: none;
+}
+
+.anime-character-name-image img {
+    position: absolute;
+    top: 0;
+    width: 20%;
+    height: 100%;
+    padding-top: 0.5%;
+    padding-bottom: 0.5%;
+    right: 2%;
+    border-radius: 25px;
+
+}
+
+
+.anime-character-name-image p {
+    position: absolute;
+    width: 80%;
+    text-align: center;
+    margin-top: 3%;
+    color: white;
+    top: 8%;
+}
+
+p {
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    unicode-bidi: isolate;
+}
+
+.anime-character-container .character-description {
+    position: absolute;
+    width: 70%;
+    height: 50%;
+    top: 30%;
+    left: 5%;
+    color: white;
+    text-align: center;
+    overflow: scroll;
+}
+
+p {
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    unicode-bidi: isolate;
+}
