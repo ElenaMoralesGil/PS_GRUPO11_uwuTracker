@@ -31,15 +31,19 @@ export class ReviewComponent implements OnInit {
     likes: 0,
     dislikes: 0
   };
+
   @Input() reviewId?: string | null;
   @Input() isNewReview: boolean = false;
+
   @Output() reviewDeleted: EventEmitter<string> = new EventEmitter();
   @Output() newReview = new EventEmitter();
   @Output() editReviewClicked: EventEmitter<Review> = new EventEmitter();
   @Output() reviewUpdated: EventEmitter<Review> = new EventEmitter();
+
   editMode: boolean = false;
   showMode: boolean = false;
   showModal: boolean = true;
+
   userName?: string;
   contentId: string = "";
   loggedInUser: Observable<User | null>
@@ -128,8 +132,14 @@ export class ReviewComponent implements OnInit {
       }
       if (this.review.id) {
         // @ts-ignore
-        this.reviewService.editReview(this.review.id,  this.review.title, this.review.description, this.review.score).then(() => {
-          this.reviewUpdated.emit(this.review);
+        this.reviewService.editReview(this.review.id,  this.review.title, this.review.description, this.review.score)
+          .then(() => {
+
+          console.log( "edited",this.review);
+          this.reviewUpdated.emit(this.review )
+            this.showMode = true;
+            this.showModal = false;
+            this.editMode = false;
         });
 
       } else {

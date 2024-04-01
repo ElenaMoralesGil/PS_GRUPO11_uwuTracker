@@ -67,12 +67,14 @@ export class ContentComponent implements OnInit {
     }
   }
   updateReview(updatedReview: Review) {
-
+    console.log('Updated review 1:', updatedReview);
     const index = this.reviews.findIndex(review => review.id === updatedReview.id);
+    console.log(index);
     if (index !== -1) {
       this.reviews[index] = updatedReview;
       console.log('Updated review:', updatedReview);
     }
+    console.log(this.reviews);
   }
 
   async fetchReviewsByIds(reviewIds: string[] | undefined): Promise<void> {
