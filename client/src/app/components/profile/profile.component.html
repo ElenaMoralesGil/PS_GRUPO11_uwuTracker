@@ -3,13 +3,15 @@
   <div id="profile-info">
   <app-user-info  [username] = "user.username" [description]="user.description"></app-user-info>
 </div>
-
+  @if(false){
   <app-edit-profile></app-edit-profile>
+  }
   <div id="profile-nav">
   <app-profile-nav></app-profile-nav>
   </div>
+  <div id="table">
   <router-outlet></router-outlet>
-
+  </div>
 
 </div>
 

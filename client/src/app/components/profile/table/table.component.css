@@ -1,0 +1,29 @@
+.table-descriptor {
+  flex: 1;
+  min-height: 1cm;
+  align-items: center;
+  display: flex;
+  flex-flow: row nowrap;
+  justify-content: space-around;
+  font-size: var(--small-font-size);
+}
+.table-descriptor {
+  background-color: #1D1D1F88;
+}
+
+.table-descriptor > p {
+  flex: 1;
+  text-align: center;
+  color: white;
+}
+
+.positions {
+  flex: 9;
+  display:block;
+  color: #f5f5f5;
+  overflow: auto;
+}
+
+.positions::-webkit-scrollbar {
+  display: none;
+}

@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { NormalRowComponent } from './normal-row.component';
+import { EmergencyPopupComponent } from './emergency-popup.component';
 
-describe('NormalRowComponent', () => {
-  let component: NormalRowComponent;
-  let fixture: ComponentFixture<NormalRowComponent>;
+describe('EmergencyPopupComponent', () => {
+  let component: EmergencyPopupComponent;
+  let fixture: ComponentFixture<EmergencyPopupComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [NormalRowComponent]
+      imports: [EmergencyPopupComponent]
     })
     .compileComponents();
-
-    fixture = TestBed.createComponent(NormalRowComponent);
+    
+    fixture = TestBed.createComponent(EmergencyPopupComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

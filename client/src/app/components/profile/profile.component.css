@@ -4,21 +4,35 @@
   position: relative;
   box-sizing: border-box;
 }
-#profile-nav {
-  padding: 2% 2% 0 2%;
-  width: 100%;
-  height:5rem;
-  min-height: 2em;
-  box-sizing: border-box;
-}
+
 #profile-info {
   width: 100%;
   height: 34vh;
   box-sizing: border-box;
   padding: 2% 2% 0 2%;
 }
+
+#profile-nav {
+  padding: 2% 2% 0 2%;
+  width: 100%;
+  height: 9vh;
+  min-height: 2.25cm;
+  box-sizing: border-box;
+}
+#table {
+  width: 100%;
+  height: 60vh;
+  max-height: 60vh;
+  overflow: auto;
+  box-sizing: border-box;
+  display: flex;
+  flex-flow: column nowrap;
+  border-radius: 0 0 10px 10px;
+  padding: 0 2% 2% 2%;
+}
 @media screen and (width < 70em) and (width >= 35em){
-  #profile-info {
+
+  #profile-info{
     height: fit-content;
   }
 }
@@ -29,10 +43,8 @@
     box-sizing: border-box;
     border: 1px solid transparent;
     position: relative;
-
   }
-
   #profile-info {
-    height: 30em;
+    height:30em;
   }
 }
