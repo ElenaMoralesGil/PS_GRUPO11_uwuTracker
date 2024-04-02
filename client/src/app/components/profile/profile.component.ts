@@ -1,57 +1,54 @@
-import {Component, OnInit} from '@angular/core';
-import {EditProfileComponent} from "./edit-profile/edit-profile.component";
-import {ProfileNavComponent} from "./profile-nav/profile-nav.component";
-import {TableComponent} from "./table/table.component";
-import {UserInfoComponent} from "./user-info/user-info.component";
-import {ActivatedRoute, Router} from "@angular/router";
-import {UsersService} from "../../services/users.service";
+import { Component, OnInit } from '@angular/core';
+import {ActivatedRoute, RouterOutlet} from "@angular/router";
+import { UsersService } from "../../services/users.service";
 import User from "../../schemas/User.schema";
+import {EditProfileComponent} from "./edit-profile/edit-profile.component";
+import {UserInfoComponent} from "./user-info/user-info.component";
+import {ProfileNavComponent} from "./profile-nav/profile-nav.component";
 
 @Component({
   selector: 'app-profile',
+  templateUrl: './profile.component.html',
   standalone: true,
   imports: [
     EditProfileComponent,
-    ProfileNavComponent,
-    TableComponent,
-    UserInfoComponent
+    RouterOutlet,
+    UserInfoComponent,
+    ProfileNavComponent
   ],
-  templateUrl: './profile.component.html',
-  styleUrl: './profile.component.css'
+  styleUrls: ['./profile.component.css']
 })
 export class ProfileComponent implements OnInit {
   user: User = {
-    id: ' ',
-    username: ' ',
-    email: ' ',
-    password: ' ',
+    id: '',
+    username: '',
+    email: '',
+    password: '',
     reviews: [],
-    description: ' ',
-   country: ' ',
-    profilePicture: ' '
+    description: '',
+    country: '',
+    profilePicture: ''
   };
-  userId: string ="";
+  userId: string = "";
+
   constructor(
     private userService: UsersService,
-    private router: ActivatedRoute,
-    private route: Router
+    private router: ActivatedRoute
   ) { }
 
-    async ngOnInit(): Promise<void> {
-      try {
-       this.userId = this.router.snapshot.paramMap.get("id") || "";
-        const user = await this.userService.findById(this.userId);
+  async ngOnInit(): Promise<void> {
+    try {
+      this.userId = this.router.snapshot.paramMap.get("id") || "";
+      const user = await this.userService.findById(this.userId);
 
-        if (!user?.id) {
-          console.error('Content not found or ID is undefined.');
-          return;
-        } else {
-          this.user = user;
-        }
-      } catch (error) {
-        console.error('Error fetching content:', error);
+      if (!user?.id) {
+        console.error('User not found or ID is undefined.');
+        return;
+      } else {
+        this.user = user;
       }
+    } catch (error) {
+      console.error('Error fetching user:', error);
     }
-
-
+  }
 }

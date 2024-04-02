@@ -10,11 +10,11 @@ import { CommentsComponent } from './components/comments/comments.component';
 import { ContentPageComponent } from './components/content-page/content-page.component';
 import { CharactersComponent } from './components/content-page/characters/characters.component';
 import { EpisodesComponent } from './components/content-page/episodes/episodes.component';
+import {TableComponent} from "./components/profile/table/table.component";
 
 
 export const routes: Routes = [
-    {
-        path: 'content/:id',
+    {path: 'content/:id',
         component: ContentComponent,
         children: [
             { path: 'review/create', component: ReviewComponent }, // Child route for creating a review
@@ -40,14 +40,19 @@ export const routes: Routes = [
         ]
     },
 
-    {
-        'path': "", component: HomeComponent
-    },
-    { "path": 'profile/:id', component: ProfileComponent },
+    {'path': "", component: HomeComponent},
+    { "path": 'profile/:id', component: ProfileComponent ,
+    children: [
+      { path: '', redirectTo: '/watching', pathMatch: 'full' },
+      { path: 'watching', component: TableComponent },
+      { path: 'completed', component: TableComponent },
+      { path: 'plan-to-watch', component: TableComponent },
+      { path: 'favorites', component: TableComponent },
+      { path: 'dropped', component:TableComponent}
+      ]
+},
 
-    {
-        'path': 'content/:id/comments', component: CommentsComponent,
-    }
+    {'path': 'content/:id/comments', component: CommentsComponent,}
 ]
 
 

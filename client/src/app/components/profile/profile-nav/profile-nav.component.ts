@@ -1,12 +1,14 @@
-import { Component } from '@angular/core';
+import {Component, Input} from '@angular/core';
+import {RouterLink} from "@angular/router";
 
 @Component({
   selector: 'app-profile-nav',
   standalone: true,
-  imports: [],
+  imports: [
+    RouterLink
+  ],
   templateUrl: './profile-nav.component.html',
   styleUrl: './profile-nav.component.css'
 })
 export class ProfileNavComponent {
-
 }

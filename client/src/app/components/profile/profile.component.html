@@ -3,8 +3,13 @@
   <div id="profile-info">
   <app-user-info  [username] = "user.username" [description]="user.description"></app-user-info>
 </div>
+
+  <app-edit-profile></app-edit-profile>
+  <div id="profile-nav">
   <app-profile-nav></app-profile-nav>
-<app-edit-profile></app-edit-profile>
-<app-table></app-table>
+  </div>
+  <router-outlet></router-outlet>
+
+
 </div>
 
