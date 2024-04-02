@@ -8,6 +8,8 @@ import { ActivatedRoute } from "@angular/router";
 import { UsersService } from '../../services/users.service';
 import User from '../../schemas/User.schema';
 import { Observable } from 'rxjs';
+import {MatFormField} from "@angular/material/form-field";
+import {MatOption, MatSelect} from "@angular/material/select";
 @Component({
   selector: 'app-review',
   templateUrl: './review.component.html',
@@ -17,7 +19,10 @@ import { Observable } from 'rxjs';
     NgClass,
     NgForOf,
     NgIf,
-    AsyncPipe
+    AsyncPipe,
+    MatFormField,
+    MatSelect,
+    MatOption
   ],
   styleUrls: [ './review.component.css' ]
 })
@@ -32,7 +37,13 @@ export class ReviewComponent implements OnInit {
     likes: 0,
     dislikes: 0
   };
-
+  score  = [
+    {value: '1', viewValue: '1'},
+    {value: '2', viewValue: '2'},
+    {value: '3', viewValue: '3'},
+    {value: '4', viewValue: '4'},
+    {value: '5', viewValue: '5'}
+  ];
   @Input() reviewId?: string | null;
   @Input() isNewReview: boolean = false;
 
@@ -111,7 +122,7 @@ export class ReviewComponent implements OnInit {
   closeModal() {
     this.showModal = false;
     this.editMode = false;
-    this.showMode = true;
+    this.showMode = false;
   }
   editReview() {
     this.showModal = true;

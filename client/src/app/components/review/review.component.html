@@ -2,21 +2,20 @@
 <div *ngIf="showMode && !editMode ">
   <!-- Review details -->
   <div class="review-container">
-    <div class="user-info">
-      <p class="userName">By: {{ userName ? userName : 'Unknown' }}</p>
+    <div class="image-section">
+    <img class="user-pfp" src="favicon.ico" alt="{{userName}} profile picture">
     </div>
-    <h2 class="title">{{ review.title }}</h2>
+      <h2 class="title">{{ review.title }}</h2>
     <div class="rating">
       <span class="stars">
-        <p> Score: {{ review.score }}</p>
-        <i *ngFor="let i of [].constructor(review.score)" class="fa-solid fa-star"></i>
+        <i *ngFor="let i of [].constructor(review.score)" class="fa-solid fa-star score"></i>
       </span>
     </div>
     <p class="description">{{ review.description }}</p>
     <div class="likes-dislikes">
-      <i class="fa-solid fa-thumbs-up"></i>
+      <i class="fa-solid fa-thumbs-up" id="thumbs-up"></i>
       <span>{{ review.likes }}</span>
-      <i class="fa-solid fa-thumbs-down"></i>
+      <i class="fa-solid fa-thumbs-down"  id="thumbs-down"></i>
       <span>{{ review.dislikes }}</span>
     </div>
     <!-- Review actions -->
@@ -33,16 +32,32 @@
 <div *ngIf="(showModal && editMode)">
   <div class="modal-content">
     <span class="close" (click)="closeModal()">&times;</span>
-    <h2>{{ isNewReview ? 'Create Review' : 'Edit Review' }}</h2>
+
     <!-- Edit/Create review form -->
     <div class="review-container">
+      <h2 class="edit-title">{{ isNewReview ? 'Create Review' : 'Edit Review' }}</h2>
       <div class="user-info">
         <input id="title" placeholder="Title" required type="text" [(ngModel)]="review.title">
         <textarea id="description" placeholder="Description" required type="text"
           [(ngModel)]="review.description"></textarea>
-        <input type="number" id="score" placeholder="Score" required [(ngModel)]="review.score" min="0" max="5"> / 5
+        <!--<input type="number" id="score" placeholder="Score" required [(ngModel)]="review.score" min="0" max="5"> / 5 -->
+        <mat-form-field>
+          <mat-select id="score" [(ngModel)]="review.score">
+            <mat-option *ngFor="let score of score" [value]="score.value">
+              {{ score.viewValue }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
+        <mat-form-field>
+          <mat-select placeholder="Favorite food">
+            <mat-option  *ngFor="let item of [].constructor(10); let i = index" [value]="item.value">
+              {{ item.viewValue }}
+            </mat-option>
+          </mat-select>
+        </mat-form-field>
       </div>
+      <button class="submitBtn" (click)="createOrUpdateReview()">{{ !isNewReview ? 'Update' : 'Create' }} Review</button>
     </div>
-    <button class="submitBtn" (click)="createOrUpdateReview()">{{ !isNewReview ? 'Update' : 'Create' }} Review</button>
+
   </div>
 </div>

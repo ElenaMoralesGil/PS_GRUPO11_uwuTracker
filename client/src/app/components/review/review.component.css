@@ -7,11 +7,10 @@
   height: 100%;
   overflow: auto;
   background-color: rgba(255, 255, 255, 0.49);
-  /* Add animation for smooth appearance */
   transition: opacity 0.3s ease;
   display: flex;
   align-items: center;
-  justify-content: center; /* Center vertically and horizontally */
+  justify-content: center;
 }
 #title , #description {
   width: 90%;
@@ -26,6 +25,10 @@
   border-color: #000000;
   outline: none;
 }
+.edit-title{
+  color:black;
+  font-size: 2em;
+}
 #rating {
   width: 90%;
   padding: 1em 2em;
@@ -35,24 +38,25 @@
   border-radius: 0.5em;
   box-sizing: border-box;
 }
+#score{
+  font-size: 1.5em;
+  width: fit-content;
+}
 #rating:focus {
   border-color: #000000;
   outline: none;
 }
 /* Modal Content */
 .modal-content {
-  background-color: #3c4856;
+  background-color: #f6f6f6;
   margin: 0 auto;
   padding: 20px;
-  width: 80%;
-  max-width: 35%;
+  max-width: 30em;
   border: 1px solid #888;
   border-radius: 2em;
 
 }
 
-
-/* Close Button */
 .close {
   color: #aaa;
   float: right;
@@ -69,22 +73,23 @@
   cursor: pointer;
 }
 
-/* Review Display Section */
 .review-container {
   width: 100%;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
+  justify-content: center;
   align-items: center;
-  background: #5e5e7a;
+  background: #ffffff;
   padding: 1em ;
   margin: 1em 0em;
   border-radius: 1.5em;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
-.user-info {
-  width: 80%;
 
+.image-section {
+  display:flex;
+  width:100%;
+  height:fit-content;
 }
 .review-card {
   padding: 20px;
@@ -94,12 +99,13 @@
   margin-bottom: 20px;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); /* Add shadow to cards */
 }
+
+
 .userName{
-  font-size: 1.5em;
+  font-size: 1em;
   font-weight: bold;
   color: #000000;
   padding: 0.5em;
-  border-bottom: 0.3em solid #ffffff;
 }
 
 .description {
@@ -107,6 +113,7 @@
   border-top: 1px solid #ffffff;
   border-bottom: 1px solid #ffffff;
   padding: 1em 1.5em;
+  text-align: justify;
 
 }
 .rating .stars {
@@ -118,23 +125,43 @@
   margin: 0.5em 0;
 }
 .title {
-  font-size: 2em;
+
+  font-size: 3em;
   font-weight: bold;
   color: #000000;
-  padding: 0.5em;
+}
+.user-pfp {
+
+  max-width: 6em;
+
+}
+.user-info{
+  display:flex;
+  flex-flow: column nowrap;
+  justify-content: center;
 }
 .likes-dislikes {
   color:black;
   display: flex;
   gap: 1em;
   padding: 2em;
-  font-size: 14px; /* Adjust font size */
+  font-size: 1.5em;
+}
+.score {
+  font-size: 2.5em;
 }
 .review-actions{
   display: flex;
   gap:2em;
   align-items: center;
   margin-top: 1em;
+}
+
+#thumbs-down:hover{
+  color: red;
+}
+#thumbs-up:hover {
+  color: green;
 }
 .deleteButton {
   background-color: #f44336;
@@ -168,4 +195,5 @@
   background-color: #4CAF50;
   color: white;
 }
+
 
