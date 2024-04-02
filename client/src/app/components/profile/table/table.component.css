@@ -12,8 +12,7 @@
 }
 
 .table-descriptor > p {
-  flex: 1;
-  text-align: center;
+  margin: 0;
   color: white;
 }
 
@@ -26,4 +25,9 @@
 
 .positions::-webkit-scrollbar {
   display: none;
+}
+@media screen and (width < 35rem){
+.last_title {
+  display: none;
+}
 }

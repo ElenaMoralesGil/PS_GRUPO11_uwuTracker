@@ -8,6 +8,7 @@
   align-items: center;
   justify-content: center;
   gap:15%;
+  padding: 1em;
   border-radius: 10px 10px 0 0;
 
 }
@@ -22,8 +23,15 @@
 .nav-item:hover {
   color: #646465;
 }
+@media screen and (width < 70rem){
+  .user-profile-nav {
+    gap:10%;
+  }
+
+}
 @media screen and (width < 35rem) {
   .user-profile-nav{
-    gap:12%;
+    gap:5%;
   }
 }
+
