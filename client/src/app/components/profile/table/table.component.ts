@@ -46,12 +46,12 @@ export class TableComponent implements OnInit{
       const parentRoute = this.route.parent;
 
       if (parentRoute) {
-        // Subscribe to the parent route's params observable
+
         parentRoute.params.subscribe(params => {
-          // Retrieve the userId parameter from the parent route
           this.userId = params['id'];
         });
       }
+
 
 
 

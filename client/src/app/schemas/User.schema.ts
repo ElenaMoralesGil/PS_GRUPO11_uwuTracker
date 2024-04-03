@@ -11,5 +11,5 @@ export default interface User {
   dropped: string[]
   completed: string[]
   planToWatch: string[]
-  favourites: string[]
+  favorites: string[]
 }

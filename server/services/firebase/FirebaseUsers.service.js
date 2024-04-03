@@ -45,10 +45,8 @@ class FirebaseUsers {
         return true
     }
 
-    getContentsFromList = async  (userId, listField) => {
+    getContentsFromList = async (userId, listField) => {
         try {
-
-
             const userDoc = await getDoc(doc(this.#db, this.#coll, userId));
             if (!userDoc.exists()) {
                 console.log('User not found');
@@ -63,24 +61,29 @@ class FirebaseUsers {
                 return null;
             }
 
-
             const contentPromises = references.map(async reference => {
-                const contentDoc = await getDoc(doc(this.#db, 'Contents', reference));
-                if (contentDoc.exists()) {
-                    return contentDoc.data();
-                } else {
-                    console.log(`Content with reference ${reference} not found`);
+                try {
+                    const contentDoc = await getDoc(doc(this.#db, 'Contents', reference.id));
+                    if (contentDoc.exists()) {
+                        return contentDoc.data();
+                    } else {
+                        console.log(`Content with reference ${reference.id} not found`);
+                        return null;
+                    }
+                } catch (error) {
+                    console.error(`Error processing reference ${reference.id}:`, error);
                     return null;
                 }
             });
 
             const contents = await Promise.all(contentPromises);
-            return contents.filter(content => content !== null); // Filter out null values
+            return contents.filter(content => content !== null);
         } catch (error) {
-            console.error('Error fetching contents:', error);
+            console.error('Error getting contents from list:', error);
             return null;
         }
     }
+
 }
 
 module.exports = require('../../bin/Singleton')(new FirebaseUsers())
