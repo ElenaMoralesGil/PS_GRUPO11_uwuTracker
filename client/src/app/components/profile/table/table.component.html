@@ -5,19 +5,21 @@
   <p class="table-title">TEXT</p>
   <p class="table-title last_title">TEXT</p>
 </section>
-<app-normal-row
-  [rowTitle]= "title"
-  [rowContentCover]="contentCover"
-  [rowContentScore]="contentScore"
-  [rowGenre]="genre"
-  [rowType]="type"
-  [rowYear]="year"
-  [rowUserScore]="userScore"
-  [isDropped]="isDropped"
-  class="positions"></app-normal-row>
-<app-normal-row class="positions" ></app-normal-row>
-<app-normal-row class="positions" ></app-normal-row>
-<app-normal-row class="positions" ></app-normal-row>
+@for (content of list; track content?.id) {
+  <app-normal-row
+    [rowTitle]= "content?.title"
+    [rowContentCover]="content?.coverImg"
+    [rowContentScore]="content?.score"
+
+    [rowType]="content?.type"
+    [rowYear]="content?.year"
+    [isDropped]="isDropped"
+    class="positions"></app-normal-row>
+     <!--
+     [rowGenre]="content?.genre"
+     [rowUserScore]="userScore"
+     -->
+}
 
 
 @if(false){

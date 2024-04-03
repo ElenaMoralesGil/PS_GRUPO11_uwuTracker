@@ -35,7 +35,7 @@ export class ProfileComponent implements OnInit {
     dropped: [],
     completed: [],
     planToWatch: [],
-    favourites: []
+    favorites: []
   };
   userId: string = "";
 

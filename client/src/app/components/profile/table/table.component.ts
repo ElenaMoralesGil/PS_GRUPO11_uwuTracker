@@ -17,15 +17,7 @@ import {UsersService} from "../../../services/users.service";
   styleUrl: './table.component.css'
 })
 export class TableComponent implements OnInit{
-  @Input() title: string = "text";
-  @Input() userScore?: string = "text";
-  @Input() contentScore?: string = "text";
-  @Input() type?: string = "text";
-  @Input() genre?: string= "text";
-  @Input() year?: string = "text";
-  @Input() contentCover?: string = "text";
-  @Input() episodesNumber?: string = "text";
-  @Input() episodesWatched?: string = "0";
+
   userId: string = "" ;
 
   listName: string = 'watching';

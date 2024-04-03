@@ -9,12 +9,12 @@ import {ActivatedRoute} from "@angular/router";
   styleUrl: './normal-row.component.css'
 })
 export class NormalRowComponent implements OnInit{
-  @Input() rowTitle: string = "text";
+  @Input() rowTitle?: string = "text";
   @Input() rowUserScore?: string = "text";
-  @Input() rowContentScore?: string = "text";
+  @Input() rowContentScore?: number = 0;
   @Input() rowType?: string = "text";
   @Input() rowGenre?: string= "text";
-  @Input() rowYear?: string = "text";
+  @Input() rowYear?: Date ;
   @Input() rowContentCover?: string = "text";
   @Input() isDropped?: boolean = false;
   constructor() { }
