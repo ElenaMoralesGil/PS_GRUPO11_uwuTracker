@@ -5,7 +5,16 @@
   <p class="table-title">TEXT</p>
   <p class="table-title last_title">TEXT</p>
 </section>
-<app-normal-row class="positions"></app-normal-row>
+<app-normal-row
+  [rowTitle]= "title"
+  [rowContentCover]="contentCover"
+  [rowContentScore]="contentScore"
+  [rowGenre]="genre"
+  [rowType]="type"
+  [rowYear]="year"
+  [rowUserScore]="userScore"
+  [isDropped]="isDropped"
+  class="positions"></app-normal-row>
 <app-normal-row class="positions" ></app-normal-row>
 <app-normal-row class="positions" ></app-normal-row>
 <app-normal-row class="positions" ></app-normal-row>

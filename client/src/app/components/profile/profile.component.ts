@@ -5,6 +5,7 @@ import User from "../../schemas/User.schema";
 import {EditProfileComponent} from "./edit-profile/edit-profile.component";
 import {UserInfoComponent} from "./user-info/user-info.component";
 import {ProfileNavComponent} from "./profile-nav/profile-nav.component";
+import {TableComponent} from "./table/table.component";
 
 @Component({
   selector: 'app-profile',
@@ -14,7 +15,8 @@ import {ProfileNavComponent} from "./profile-nav/profile-nav.component";
     EditProfileComponent,
     RouterOutlet,
     UserInfoComponent,
-    ProfileNavComponent
+    ProfileNavComponent,
+    TableComponent
   ],
   styleUrls: ['./profile.component.css']
 })
@@ -46,6 +48,7 @@ export class ProfileComponent implements OnInit {
         return;
       } else {
         this.user = user;
+
       }
     } catch (error) {
       console.error('Error fetching user:', error);
