@@ -44,6 +44,43 @@ class FirebaseUsers {
 
         return true
     }
+
+    getContentsFromList = async  (userId, listField) => {
+        try {
+
+
+            const userDoc = await getDoc(doc(this.#db, this.#coll, userId));
+            if (!userDoc.exists()) {
+                console.log('User not found');
+                return null;
+            }
+
+            const userData = userDoc.data();
+            const references = userData[listField];
+
+            if (!Array.isArray(references)) {
+                console.log('Invalid list field or it does not contain an array');
+                return null;
+            }
+
+
+            const contentPromises = references.map(async reference => {
+                const contentDoc = await getDoc(doc(this.#db, 'Contents', reference));
+                if (contentDoc.exists()) {
+                    return contentDoc.data();
+                } else {
+                    console.log(`Content with reference ${reference} not found`);
+                    return null;
+                }
+            });
+
+            const contents = await Promise.all(contentPromises);
+            return contents.filter(content => content !== null); // Filter out null values
+        } catch (error) {
+            console.error('Error fetching contents:', error);
+            return null;
+        }
+    }
 }
 
 module.exports = require('../../bin/Singleton')(new FirebaseUsers())

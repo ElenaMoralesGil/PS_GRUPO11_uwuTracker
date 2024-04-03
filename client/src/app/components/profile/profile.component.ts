@@ -6,6 +6,7 @@ import {EditProfileComponent} from "./edit-profile/edit-profile.component";
 import {UserInfoComponent} from "./user-info/user-info.component";
 import {ProfileNavComponent} from "./profile-nav/profile-nav.component";
 import {TableComponent} from "./table/table.component";
+import {ApiContentService} from "../../services/api-content.service";
 
 @Component({
   selector: 'app-profile',
@@ -29,13 +30,19 @@ export class ProfileComponent implements OnInit {
     reviews: [],
     description: '',
     country: '',
-    profilePicture: ''
+    profilePicture: '',
+    watching: [],
+    dropped: [],
+    completed: [],
+    planToWatch: [],
+    favourites: []
   };
   userId: string = "";
 
   constructor(
     private userService: UsersService,
-    private router: ActivatedRoute
+    private router: ActivatedRoute,
+
   ) { }
 
   async ngOnInit(): Promise<void> {
@@ -54,4 +61,6 @@ export class ProfileComponent implements OnInit {
       console.error('Error fetching user:', error);
     }
   }
+
+
 }

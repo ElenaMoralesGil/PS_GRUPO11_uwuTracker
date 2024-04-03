@@ -61,5 +61,19 @@ router.get('/:username', (req, res) => {
         .catch(err => { console.error('ERROR: ' + err); res.status(500).json({ msg: err }) })
 })
 
+router.get('/:userId/contents/:listField', async (req, res) => {
+    const { userId, listField } = req.params;
+    console.log('userId:', userId, 'listField:', listField);
+    try {
+        const contents = await Users.getContentsFromList(userId, listField);
+        if (!contents) {
+            return res.status(404).json({ msg: 'contents-not-found' });
+        }
+        res.status(200).json(contents);
+    } catch (error) {
+        console.error('ERROR:', error);
+        res.status(500).json({ msg: 'internal-server-error' });
+    }
+});
 
 module.exports = router

@@ -41,12 +41,13 @@ export const routes: Routes = [
     },
 
     {'path': "", component: HomeComponent},
-    { "path": 'profile/:id', component: ProfileComponent ,
+
+  { "path": 'profile/:id', component: ProfileComponent ,
     children: [
       { path: '', redirectTo: '/watching', pathMatch: 'full' },
       { path: 'watching', component: TableComponent },
       { path: 'completed', component: TableComponent },
-      { path: 'plan-to-watch', component: TableComponent },
+      { path: 'planToWatch', component: TableComponent },
       { path: 'favorites', component: TableComponent },
       { path: 'dropped', component:TableComponent}
       ]

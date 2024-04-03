@@ -7,4 +7,9 @@ export default interface User {
   description: string
   country: string
   profilePicture: string
+  watching: string[]
+  dropped: string[]
+  completed: string[]
+  planToWatch: string[]
+  favourites: string[]
 }

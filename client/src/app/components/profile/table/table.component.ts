@@ -2,6 +2,9 @@ import {Component, Input, OnInit, Output} from '@angular/core';
 import {EmergencyPopupComponent} from "../emergency-popup/emergency-popup.component";
 import {NormalRowComponent} from "./normal-row/normal-row.component";
 import {ActivatedRoute} from "@angular/router";
+import Content from "../../../schemas/Content.schema";
+import {ApiContentService} from "../../../services/api-content.service";
+import {UsersService} from "../../../services/users.service";
 
 @Component({
   selector: 'app-table',
@@ -23,30 +26,70 @@ export class TableComponent implements OnInit{
   @Input() contentCover?: string = "text";
   @Input() episodesNumber?: string = "text";
   @Input() episodesWatched?: string = "0";
+  userId: string = "" ;
 
-
-
+  listName: string = 'watching';
   isWatching: boolean = false;
-  constructor(private route: ActivatedRoute) { }
+  list: (Content | null)[] = [];
+  constructor(
+    private route: ActivatedRoute,
+  private UserService: UsersService
+  ) { }
 
 
   isDropped?: boolean = false;
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
+    try {
 
-    this.route.url.subscribe(urlSegments => {
-      const lastSegment = urlSegments[urlSegments.length - 1].path;
-      if (lastSegment === 'watching') {
-        this.isWatching = true;
+
+      const parentRoute = this.route.parent;
+
+      if (parentRoute) {
+        // Subscribe to the parent route's params observable
+        parentRoute.params.subscribe(params => {
+          // Retrieve the userId parameter from the parent route
+          this.userId = params['id'];
+        });
       }
-      if (lastSegment === 'dropped') {
-        this.isDropped= true;
-      }
-
-
-    });
 
 
 
+      this.route.url.subscribe(async urlSegments => {
+        const lastSegment = urlSegments[urlSegments.length - 1].path;
+        if (lastSegment === 'watching') {
+          this.isWatching = true;
+        }
+        if (lastSegment === 'dropped') {
+          this.isDropped = true;
+        }
+        this.listName = lastSegment;
+
+        this.getContentsFromList(this.listName).then(() => {
+          console.log("list", this.list);
+        });
+
+      });
+    }
+    catch (error) {
+      console.error('Error fetching table:', error);
+    }
   }
+  async getContentsFromList(contentList: string): Promise<void> {
+    if (!contentList) {
+      console.error('contentList is undefined.');
+      return;
+    }
+
+    try {
+      console.log('fetching contents from user', this.userId, 'and list', contentList);
+      // @ts-ignore
+      this.list = await this.UserService.getContentsFromList( this.userId, contentList);
+
+    } catch (error) {
+      console.error('Error fetching reviews:', error);
+    }
+  }
+
+
 }

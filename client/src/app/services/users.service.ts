@@ -2,14 +2,32 @@ import { __env } from '../../environments/env.dev';
 import { Injectable } from '@angular/core';
 import Users from '../models/User.model';
 import User from '../schemas/User.schema';
+import Content from '../schemas/Content.schema';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UsersService implements Users {
   private path: string
+
   constructor() {
     this.path = `${__env.API_PATH}/user`
+  }
+
+  getContentsFromList(userId: string, listField: string): Promise<Array<Content | null>> {
+    console.log('fetching contents from user', userId,"and list", listField);
+    return fetch(`${this.path}/${userId}/contents/${listField}`).then(res => {
+      if (res.status === 404) {
+        return null;
+      }
+      if (res.status === 200) {
+        return res.json();
+      }
+      throw new Error('Failed to fetch contents');
+    }).catch(error => {
+      console.error('ERROR:', error);
+      return null;
+    });
   }
 
   findById: (id: string) => Promise<User | null> = id =>
