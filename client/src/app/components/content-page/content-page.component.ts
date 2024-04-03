@@ -35,7 +35,7 @@ export class ContentPageComponent implements OnInit {
 
 
 
-  constructor(private Contents: ApiContentService, private router: ActivatedRoute) {}
+  constructor(private Contents: ApiContentService, private router: ActivatedRoute) { }
 
   async ngOnInit() {
     let content
@@ -48,10 +48,10 @@ export class ContentPageComponent implements OnInit {
     this.title = content.title
     this.description = content.synopsis
     this.rating = content.score
-    this.img = '../../assets/shoujo-shuumatsu.jpeg'
+    this.img = content?.coverImg || '../../assets/shoujo-shuumatsu.jpeg'
 
-    
-   
+
+
     /*this.episodes = [
       `${content.episodes.number}`,
       `${content.episodes.name}`,
@@ -61,18 +61,18 @@ export class ContentPageComponent implements OnInit {
 
     //Info que tendrá el Aside
     try {
-      
-      this.informationAside = [ 
-        { year: `${content.year}`, type: `${content.type}`, episodesNumber: `${content.episodesNumber}`, season: `${content.season}`},      
-        
+
+      this.informationAside = [
+        { year: `${content.year}`, type: `${content.type}`, episodesNumber: `${content.episodesNumber}`, season: `${content.season}` },
+
       ]
 
       //this.informacion = await this.Contents.obtenerInformacion(); // cambiar metodo por la info de la API
-    } catch(error) {
+    } catch (error) {
       console.error('Information Aside not found', error);
     }
 
-   
+
 
     return
   }
@@ -82,7 +82,7 @@ export class ContentPageComponent implements OnInit {
   }
 
   showEpisodes() {
-    
+
   }
 
 }
