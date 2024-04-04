@@ -14,8 +14,10 @@ router.post('/signup', async (req, res) => {
     if (!username) return res.status(403).json({ msg: 'no-username', user: null })
     if (!password) return res.status(403).json({ msg: 'no-password', user: null })
     if (!email || emailReEx.test(email)) return res.status(403).json({ msg: 'invalid-email', user: null })
+    if (await Users.find({ email })) return res.status(403).json({ msg: 'email-already-exist', user: null })
 
-    const hashedPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(process.env.SALT))
+    console.log(process.env.SALT)
+    const hashedPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(Number(process.env.SALT)))
 
     Users.create(User.parse({ ...req.body, password: hashedPassword })).then(user => {
 
