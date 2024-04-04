@@ -26,10 +26,15 @@ export class ContentPageComponent implements OnInit {
   protected type?: string
   protected rating?: number
 
-  informationAside: { year: string; type: string; episodesNumber: string; season: string; }[] = []
+  informationAside: { type: string; source:string; episodesNumber: string; duration:string, status:string, season: string; year: string; studios: string; genres: string; rating: string;}[] = []
   protected description?: string
   protected title?: string
   protected img?: string
+
+  protected source?: string
+  protected duration?: number
+  protected status?: string
+  protected season?: string
 
   episodes: string[] = [];
 
@@ -51,6 +56,8 @@ export class ContentPageComponent implements OnInit {
     this.img = '../../assets/shoujo-shuumatsu.jpeg'
 
     
+
+    
    
     /*this.episodes = [
       `${content.episodes.number}`,
@@ -63,7 +70,7 @@ export class ContentPageComponent implements OnInit {
     try {
       
       this.informationAside = [ 
-        { year: `${content.year}`, type: `${content.type}`, episodesNumber: `${content.episodesNumber}`, season: `${content.season}`},      
+        { type: `${content.type}`, source: `${content.source}`, episodesNumber: `${content.episodesNumber}`, duration: `${content.duration}`, status: `${content.status}`, season: `${content.season}`, year: `${content.year}`, studios: `${content.studio}`, genres: `genres`, rating: `${content.score}` },      
         
       ]
 

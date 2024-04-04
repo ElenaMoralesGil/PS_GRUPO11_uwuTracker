@@ -39,6 +39,7 @@ input:hover {
 
 
 .top-image {
+    position: relative;
     width: 100%;
     height: auto;
     box-sizing: border-box;
@@ -74,12 +75,13 @@ input:hover {
     height: 40vh;
 }
 
-.top-description-and-buttons .anime-score-container {
+
+.anime-score-container {
     position: absolute;
     width: 10%;
-    font-size: 150%;
-    top: 8%;
-    right: 1.5%;
+    font-size: 170%;
+    bottom: 5%; 
+    right: 3%; 
     text-align: center;
     background: #1d1d1fcc;
     color: white;
@@ -158,7 +160,7 @@ p {
     width: 20%;
     height: 15%;
     max-height: 14%;
-    gap: 5%;
+    gap: 3%;
     margin-left: 8%;
 }
 
@@ -231,6 +233,7 @@ p {
 }
 
 .anime-dropdown-menu {
+
     flex-flow: column nowrap;
     position: relative;
     z-index: 1;
@@ -244,20 +247,25 @@ p {
     overflow: auto;
     background: #70859caa;
 }
-.anime-dropdown-menu::-webkit-scrollbar {
-    display: none;
-}
+
+
 .anime-dropdown-menu article {
     display: flex;
     flex-flow: row nowrap;
-    justify-content: center;
-    gap: 50%;
-    margin: 10%;
+    justify-content:left;
+    margin: 10px;
+    width: 100%; 
+    overflow: hidden;
     
+}
+.addList-option {
+    margin-right: 10px; 
+    white-space: nowrap; 
 }
 
 .dropdown-center select {
     width: 200px;
+    
 }
 
 .button-palette .rate-container {
@@ -284,8 +292,25 @@ input {
 
 
 .button-palette .addList-container {
+    
     flex: 4;
     height: 100%;
     width: 100%;
 }
+
+/* Tablet */
+@media only screen and (max-width: 1200px) {
+    
+}
+
+/* Phones */
+@media only screen and (max-width: 750px) {
+    
+}
+
+
+
+
+
+
 

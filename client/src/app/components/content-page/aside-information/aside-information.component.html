@@ -3,10 +3,16 @@
         <article *ngFor="let item1 of infoTitle" class="anime-data">
             <article *ngFor="let item2 of information" class="anime-data">
                 <p>{{ item1 }}</p>
-                <p *ngIf="item1 === 'Year'">{{ item2.year }}</p>
                 <p *ngIf="item1 === 'Type'">{{ item2.type }}</p>
-                <p *ngIf="item1 === 'Episodes Number'">{{ item2.episodesNumber }}</p>
+                <p *ngIf="item1 === 'Year'">{{ item2.year }}</p>
+                <p *ngIf="item1 === 'Episodes'">{{ item2.episodesNumber }}</p>
                 <p *ngIf="item1 === 'Season'">{{ item2.season }}</p>
+                <p *ngIf="item1 === 'Source'">{{ item2.source }}</p>
+                <p *ngIf="item1 === 'Duration'">{{ item2.duration }}</p>
+                <p *ngIf="item1 === 'Status'">{{ item2.status }}</p>
+                <p *ngIf="item1 === 'Studios'">{{ item2.studios }}</p>
+                <p *ngIf="item1 === 'Genres'">{{ item2.genres }}</p>
+                <p *ngIf="item1 === 'Rating'">{{ item2.rating }}</p>
             </article>
         </article>
     </section>

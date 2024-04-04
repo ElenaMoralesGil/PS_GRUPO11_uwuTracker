@@ -64,3 +64,13 @@ p {
     margin-inline-end: 0px;
     unicode-bidi: isolate;
 }
+
+/* Tablet */
+@media only screen and (max-width: 1200px) {
+    
+}
+
+/* Phones */
+@media only screen and (max-width: 750px) {
+    
+}
