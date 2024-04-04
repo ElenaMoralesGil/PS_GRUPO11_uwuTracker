@@ -3,11 +3,11 @@ import Review from "../../schemas/Review.schema";
 import { ReviewService } from '../../services/review.service';
 import { AuthService } from "../../services/auth.service";
 import { FormsModule } from "@angular/forms";
-import { NgClass, NgForOf } from "@angular/common";
+import { AsyncPipe, NgClass, NgForOf, NgIf } from "@angular/common";
 import { ActivatedRoute } from "@angular/router";
 import { UsersService } from '../../services/users.service';
-import { Observable, firstValueFrom, lastValueFrom } from 'rxjs';
 import User from '../../schemas/User.schema';
+import { Observable } from 'rxjs';
 @Component({
   selector: 'app-review',
   templateUrl: './review.component.html',
@@ -15,7 +15,9 @@ import User from '../../schemas/User.schema';
   imports: [
     FormsModule,
     NgClass,
-    NgForOf
+    NgForOf,
+    NgIf,
+    AsyncPipe
   ],
   styleUrls: [ './review.component.css' ]
 })
@@ -30,14 +32,19 @@ export class ReviewComponent implements OnInit {
     likes: 0,
     dislikes: 0
   };
+
   @Input() reviewId?: string | null;
   @Input() isNewReview: boolean = false;
 
+  @Output() reviewDeleted: EventEmitter<string> = new EventEmitter();
   @Output() newReview = new EventEmitter();
+  @Output() editReviewClicked: EventEmitter<Review> = new EventEmitter();
+  @Output() reviewUpdated: EventEmitter<Review> = new EventEmitter();
 
   editMode: boolean = false;
   showMode: boolean = false;
   showModal: boolean = true;
+
   userName?: string;
   contentId: string = "";
   loggedInUser: Observable<User | null>
@@ -58,15 +65,9 @@ export class ReviewComponent implements OnInit {
       this.showMode = true;
       this.editMode = this.isNewReview;
       this.loadReviewData().then(() => {
-        console.log('Review loaded:', this.review);
-        console.log(this.review.content);
-        console.log('review:', this.review); // Move the console.log here
-        console.log('userId:', this.review.userId);
         this.userService.findById(this.review.userId).then(async (user) => {
-          console.log('user:', user);
           if (!user) return
           this.userName = user.username;
-          console.log('username:', this.userName);
         });
       });
     }
@@ -80,7 +81,6 @@ export class ReviewComponent implements OnInit {
         if (this.review) {
           const user = await this.userService.findById(this.review.userId as string)
         }
-        console.log('ReviewInLoad:', this.review);
 
 
       } else if (this.isNewReview) {
@@ -90,17 +90,17 @@ export class ReviewComponent implements OnInit {
           title: '',
           description: '',
           score: 0,
-          userId: (await firstValueFrom(this.loggedInUser))?.id || "",
+          userId: (await this.loggedInUser.toPromise())?.id || "",
           content: this.contentId,
           likes: 0,
           dislikes: 0
         };
 
       }
-      return Promise.resolve(); // Devuelve una promesa resuelta
+      return Promise.resolve();
     } catch (error) {
       console.error('Error fetching review:', error);
-      return Promise.reject(error); // Devuelve una promesa rechazada en caso de error
+      return Promise.reject(error);
     }
   }
 
@@ -110,8 +110,16 @@ export class ReviewComponent implements OnInit {
 
   closeModal() {
     this.showModal = false;
+    this.editMode = false;
+    this.showMode = true;
   }
-
+  editReview() {
+    this.showModal = true;
+    this.editMode = true;
+    this.showMode = false;
+    console.log('Edit review clicked:', this.review);
+    this.editReviewClicked.emit(this.review);
+  }
   async createOrUpdateReview() {
     try {
       if (!this.review) {
@@ -127,7 +135,16 @@ export class ReviewComponent implements OnInit {
         throw new Error('Review is not complete');
       }
       if (this.review.id) {
-        await this.reviewService.editReview(this.review.id, this.review.userId, this.review.content, this.review.title, this.review.description, this.review.score);
+        // @ts-ignore
+        this.reviewService.editReview(this.review.id, this.review.title, this.review.description, this.review.score)
+          .then(() => {
+
+            console.log("edited", this.review);
+            this.reviewUpdated.emit(this.review)
+            this.showMode = true;
+            this.editMode = false;
+          });
+
       } else {
         await this.reviewService.createReview(this.review.userId, this.review.content, this.review.score, this.review.title, this.review.description);
       }
@@ -147,13 +164,14 @@ export class ReviewComponent implements OnInit {
       if (!this.review.id) {
         throw new Error('ID is not defined');
       }
-      await this.reviewService.deleteReview(this.review.id);
-      // Handle success
+      this.reviewService.deleteReview(this.review.id).then(() => {
+
+        this.reviewDeleted.emit(this.review.id || "");
+        console.log('Review deleted:', this.review.id);
+      });
     } catch (error) {
       console.error(error);
     }
   }
-  isReviewOwner(): boolean {
-    return true;
-  }
+
 }

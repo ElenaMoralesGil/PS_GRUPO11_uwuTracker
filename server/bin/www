@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 // *=> imports
 const server = require('../app')
+process.sessions = process.sessions || {}
 
 server.use((req, res, next) => res.json({ status: 'ko', msg: 'not-found' }))
 

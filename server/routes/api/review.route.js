@@ -2,14 +2,7 @@ const router = require('express').Router()
 
 const Reviews = require('../../models/Reviews.model')
 
-router.get('/search', (req, res) => {
-    Reviews.findByName(req.query.name)
-        .then(reviews => {
-            if (!reviews.length) return res.status(404).json({ msg: 'not found' })
-            res.status(200).json(reviews)
-        })
-        .catch(err => { console.log(err); res.status(500).json({ msg: err }) })
-})
+
 
 router.get('/:id', (req, res) => {
     const reviewId = req.params.id;
@@ -39,10 +32,20 @@ router.post('/', (req, res) => {
         });
 });
 
-router.put('/:id', (req, res) => {
-    Reviews.edit(req.params.id, req.body)
-        .then(review => res.status(200).json(review))
-        .catch(err => res.status(500).json({ msg: err }));
+router.put('/:id', async (req, res) => {
+    const { title, description, score } = req.body;
+    const reviewId = req.params.id;
+
+    try {
+        const updatedReview = await Reviews.edit(reviewId, title, description, score);
+        if (!updatedReview) {
+            return res.status(404).json({ error: 'Review not found' });
+        }
+        res.status(200).json(updatedReview);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: 'Internal Server Error' });
+    }
 });
 
 router.delete('/:id', (req, res) => {

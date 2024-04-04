@@ -12,9 +12,7 @@ require('./config/debug.config')
 
 require('./config/cors.config')(app)
 
-require('./config/session.config')(app)
-
-require('./config/passport.config')(app)
+require('./config/auth/session.config')(app)
 
 
 app.use('/favicon', (req, res) => res.sendFile(__dirname + '/public/favicon.ico'))

@@ -55,6 +55,27 @@ export class ContentComponent implements OnInit {
       console.error('Error fetching content:', error);
     }
   }
+  async handleReviewDeleted(reviewId: string): Promise<void> {
+    // Remove the deleted review from the list of reviewIds
+    if (!this.reviewIds) {
+      return;
+    }
+
+    const index = this.reviewIds.indexOf(reviewId);
+    if (index !== -1) {
+      this.reviewIds.splice(index, 1);
+    }
+  }
+  updateReview(updatedReview: Review) {
+    console.log('Updated review 1:', updatedReview);
+    const index = this.reviews.findIndex(review => review.id === updatedReview.id);
+    console.log(index);
+    if (index !== -1) {
+      this.reviews[index] = updatedReview;
+      console.log('Updated review:', updatedReview);
+    }
+    console.log(this.reviews);
+  }
 
   async fetchReviewsByIds(reviewIds: string[] | undefined): Promise<void> {
     if (!reviewIds) {
@@ -78,13 +99,14 @@ export class ContentComponent implements OnInit {
     if (!this.areReviewsVisible) {
       await this.fetchReviewsByIds(this.reviewIds);
       console.log('Reviews:', this.reviews);
-      this.areReviewsVisible = true; // Mostrar las revisiones solo si no se están mostrando actualmente
+      this.areReviewsVisible = true;
     } else {
-      this.areReviewsVisible = false; // Ocultar las revisiones si ya se están mostrando
+      this.areReviewsVisible = false;
     }
   }
 
   pushReview(review: string) {
     this.reviewIds?.push(review)
+    this.isReviewCreationOpen = false;
   }
 }

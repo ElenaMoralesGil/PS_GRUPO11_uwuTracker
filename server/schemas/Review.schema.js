@@ -11,7 +11,18 @@ module.exports = class Review {
         this.description= description;
         this.title = title;
     }
-
+    getData() {
+        return {
+            id: this.id,
+            userId: this.userId,
+            score: this.score,
+            content: this.content,
+            description: this.description,
+            title: this.title,
+            likes: this.likes,
+            dislikes: this.dislikes
+        };
+    }
     static parse = review=> {
         return new Review(review);
     }

@@ -1,6 +1,6 @@
 const Review = require('../../schemas/Review.schema')
-
-const { collection, doc, getDoc, deleteDoc, arrayUnion, addDoc, getDocs, updateDoc, query, where } = require('firebase/firestore/lite')
+const { collection, doc, arrayRemove, getDoc, deleteDoc, arrayUnion, addDoc, getDocs, query, where } = require('firebase/firestore/lite')
+const { updateDoc } = require('firebase/firestore/lite');
 
 class FirebaseReview {
     #fss
@@ -24,7 +24,7 @@ class FirebaseReview {
 
             const reviewData = review.data();
 
-            // Log reviewData to inspect reviews field
+
             //console.log('review Data:', reviewData);
 
 
@@ -36,17 +36,66 @@ class FirebaseReview {
     }
 
     async update(id, data) {
-        const docRef = doc(this.db, this.coll, id);
-        await updateDoc(docRef, data);
-        return true;
+        try {
+            const docRef = doc(this.db, this.coll, id);
+            const reviewSnapshot = await getDoc(docRef);
+            if (!reviewSnapshot.exists()) {
+                console.error('Review not found for ID:', id);
+                return false;
+            }
+
+            await updateDoc(docRef, data);
+            console.log("Review updated successfully with ID:", id);
+            return true;
+        } catch (error) {
+            console.log("Error updating review:", error);
+            console.error("Error updating review:", error);
+            return false;
+        }
     }
+
+
 
 
     async delete(id) {
-        const reviewRef = doc(this.db, this.coll, id);
-        await deleteDoc(reviewRef);
-    }
+        try {
+            const reviewRef = doc(this.db, this.coll, id);
 
+            const reviewSnapshot = await getDoc(reviewRef);
+            if (!reviewSnapshot.exists()) {
+                console.error('Review not found for ID:', id);
+                return false;
+            }
+
+            const reviewData = reviewSnapshot.data();
+
+            await deleteDoc(reviewRef);
+
+            // Update content's reviews list
+            const contentId = reviewData.content;
+            const contentQuerySnapshot = await getDocs(query(collection(this.db, 'Contents'), where('id', '==', contentId)));
+            if (!contentQuerySnapshot.empty) {
+                const contentDocRef = contentQuerySnapshot.docs[0].ref;
+                await updateDoc(contentDocRef, {
+                    reviews: arrayRemove(id)
+                });
+            } else {
+                console.error("Content not found with ID:", contentId);
+            }
+
+            // Update user's reviews list
+            const userId = reviewData.userId;
+            const userRef = doc(this.db, 'Users', userId);
+            await updateDoc(userRef, {
+                reviews: arrayRemove(id)
+            });
+
+            return true;
+        } catch (error) {
+            console.error("Error deleting review:", error);
+            return false;
+        }
+    }
     async create(userId, content, score, title, description) {
         console.log("Creating review...");
         const review = {
@@ -91,23 +140,3 @@ class FirebaseReview {
 
 module.exports = require(process.cwd() + '/bin/Singleton')(new FirebaseReview(require('./firebase.service')))
 
-
-// *=> concento de auto-actualizacion añadiendo la id
-
-// const content = await addDoc(collection(this.db, this.coll), content)
-// await updateDoc(doc(this.db, this.coll, content.id), { id: content.id })
-
-
-// console.log({ ...content.data(), id: content.id })
-
-// return { ...content.data(), id: content.id }
-
-// *=>  version antigua
-
-// return (await getDoc(doc(this.db, this.coll, (await addDoc(collection(this.db, this.coll), content)).id))).data()
-
-
-// *=> Busqueda mediante querys
-
-// getDocs(query(collection(this.db, this.coll), where("id", "==", id)))
-//         .then(res => res.docs.length ? res.docs[0].data() : null)
