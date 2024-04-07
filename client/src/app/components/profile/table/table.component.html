@@ -5,23 +5,22 @@
   <p class="table-title">TEXT</p>
   <p class="table-title last_title">TEXT</p>
 </section>
-@for (content of list; track content?.id) {
-  <app-normal-row
-    [rowTitle]= "content?.title"
-    [rowContentCover]="content?.coverImg"
-    [rowContentScore]="content?.score"
 
-    [rowType]="content?.type"
-    [rowYear]="content?.year"
-    [isDropped]="isDropped"
-    class="positions"></app-normal-row>
-     <!--
-     [rowGenre]="content?.genre"
-     [rowUserScore]="userScore"
-     -->
-}
+<ng-container *ngIf="list">
+  <ng-container *ngFor="let item of list | keyvalue">
+    <app-normal-row
+      [rowTitle]="item.value?.title"
+      [rowContentCover]="item.value?.coverImg"
+      [rowContentScore]="item.value?.score"
+      [rowType]="item.value?.type"
+      [rowYear]="item.value?.year"
+      [isDropped]="isDropped"
+      class="positions">
+    </app-normal-row>
+  </ng-container>
+</ng-container>
 
 
 @if(false){
-<app-emergency-popup></app-emergency-popup>
+  <app-emergency-popup></app-emergency-popup>
 }

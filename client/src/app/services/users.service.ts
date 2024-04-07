@@ -14,7 +14,7 @@ export class UsersService implements Users {
     this.path = `${__env.API_PATH}/user`
   }
 
-  getContentsFromList(userId: string, listField: string): Promise<Array<Content | null>> {
+  getContentsFromList(userId: string, listField: string):Promise<Array<Map<string, string> | null>>{
     console.log('fetching contents from user', userId,"and list", listField);
     return fetch(`${this.path}/${userId}/contents/${listField}`).then(res => {
       if (res.status === 404) {

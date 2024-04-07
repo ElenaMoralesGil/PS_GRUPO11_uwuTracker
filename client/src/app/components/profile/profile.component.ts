@@ -35,7 +35,8 @@ export class ProfileComponent implements OnInit {
     dropped: [],
     completed: [],
     planToWatch: [],
-    favorites: []
+    favorites: [],
+    userScores: new Map<string, string>()
   };
   userId: string = "";
 

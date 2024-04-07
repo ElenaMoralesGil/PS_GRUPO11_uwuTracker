@@ -45,7 +45,7 @@ class FirebaseUsers {
         return true
     }
 
-    getContentsFromList = async (userId, listField) => {
+    getContentsFromList = async (userId, listField, userScores) => {
         try {
             const userDoc = await getDoc(doc(this.#db, this.#coll, userId));
             if (!userDoc.exists()) {
@@ -54,35 +54,92 @@ class FirebaseUsers {
             }
 
             const userData = userDoc.data();
-            const references = userData[listField];
+            let references;
+            let year;
 
-            if (!Array.isArray(references)) {
-                console.log('Invalid list field or it does not contain an array');
-                return null;
-            }
-
-            const contentPromises = references.map(async reference => {
-                try {
-                    const contentDoc = await getDoc(doc(this.#db, 'Contents', reference.id));
-                    if (contentDoc.exists()) {
-                        return contentDoc.data();
-                    } else {
-                        console.log(`Content with reference ${reference.id} not found`);
-                        return null;
-                    }
-                } catch (error) {
-                    console.error(`Error processing reference ${reference.id}:`, error);
+            if (listField) {
+                references = userData[listField];
+                if (!Array.isArray(references)) {
+                    console.log('Invalid list field or it does not contain an array');
                     return null;
                 }
-            });
+            } else {
+                const contentsRef = collection(this.#db, 'Contents');
+                const contentsQuery = query(contentsRef, where('id', 'in', Object.keys(userScores)));
+                const contentsSnapshot = await getDocs(contentsQuery);
 
-            const contents = await Promise.all(contentPromises);
-            return contents.filter(content => content !== null);
+                if (contentsSnapshot.empty) {
+                    console.log('No contents found for the provided user scores');
+                    return null;
+                }
+
+                const contentsData = contentsSnapshot.docs.map(doc => doc.data());
+                if (contentsData.some(content => !content.year)) {
+                    console.log('Year not found for some contents');
+                    return null;
+                }
+
+                year = contentsData[0].year; // Assuming all contents have the same year
+            }
+
+            const contentMap = {};
+
+            if (references) {
+                for (const reference of references) {
+                    try {
+                        const contentDoc = await getDoc(doc(this.#db, 'Contents', reference));
+                        if (contentDoc.exists()) {
+                            const contentData = contentDoc.data();
+                            contentMap[reference] = {
+                                coverImg: contentData.coverImg,
+                                title: contentData.title,
+                                score: contentData.score,
+                                status: contentData.status,
+                                type: contentData.type,
+                                year: contentData.year
+                            };
+                        } else {
+                            console.log(`Content with reference ${reference} not found`);
+                        }
+                    } catch (error) {
+                        console.error(`Error processing reference ${reference}:`, error);
+                    }
+                }
+            } else {
+                for (const contentId of Object.keys(userScores)) {
+                    const score = userScores[contentId][userId] || '-';
+                    try {
+                        const contentDoc = await getDoc(doc(this.#db, 'Contents', contentId));
+                        if (contentDoc.exists()) {
+                            const contentData = contentDoc.data();
+                            contentMap[contentId] = {
+                                coverImg: contentData.coverImg,
+                                title: contentData.title,
+                                score: contentData.score,
+                                status: contentData.status,
+                                type: contentData.type,
+                                year: year,
+                                userScore: score
+                            };
+                        } else {
+                            console.log(`Content with ID ${contentId} not found`);
+                        }
+                    } catch (error) {
+                        console.error(`Error processing content ID ${contentId}:`, error);
+                    }
+                }
+            }
+
+            return contentMap;
         } catch (error) {
             console.error('Error getting contents from list:', error);
             return null;
         }
     }
+
+
+
+
 
 }
 

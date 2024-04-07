@@ -14,7 +14,7 @@ export class NormalRowComponent implements OnInit{
   @Input() rowContentScore?: number = 0;
   @Input() rowType?: string = "text";
   @Input() rowGenre?: string= "text";
-  @Input() rowYear?: Date ;
+  @Input() rowYear?: number= 0;
   @Input() rowContentCover?: string = "text";
   @Input() isDropped?: boolean = false;
   constructor() { }

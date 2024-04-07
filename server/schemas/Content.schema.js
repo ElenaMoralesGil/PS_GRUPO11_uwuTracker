@@ -1,6 +1,6 @@
 
 module.exports = class Content {
-    constructor({ mal_id, title, synopsis, score, status, episodesNumber, episodes, type, source, duration, coverImg, backgroundImg, images, trailer, year, season, studio, id, reviews }) {
+    constructor({ mal_id, title, synopsis, score, status, episodesNumber, episodes, type, source, duration, coverImg, backgroundImg, images, trailer, year, season, studio, id, reviews, genres }) {
         // Initialize reviews array
         this.reviews = reviews || [];
 
@@ -19,6 +19,7 @@ module.exports = class Content {
         this.year = year;
         this.season = season;
         this.studio = studio;
+        this.genres = genres | []
         this.episodes = episodes;
         this.comments = [];
     }
