@@ -13,6 +13,8 @@ export class UsersService implements Users {
   constructor() {
     this.path = `${__env.API_PATH}/user`
   }
+  findByUsername: (username: string) => Promise<User | null> = username =>
+    fetch(`${this.path}/${username}`).then(res => res.json())
 
   getContentsFromList(userId: string, listField: string):Promise<Array<Map<string, string> | null>>{
     console.log('fetching contents from user', userId,"and list", listField);
@@ -34,13 +36,13 @@ export class UsersService implements Users {
     fetch(`${this.path}/id/${id}`, { credentials: 'include' }).then(res => res.status == 200 ? res.json() : null)
 
 
-  find: (obj: Object) => Promise<Array<User | null>> = obj => {
+  find: (obj: Object) => Promise<Array<User>> = obj => {
     let query = ""
 
     for (let [ key, val ] of Object.entries(obj))
       query += `&${key}=${val}`
 
-    return fetch(`${this.path}/search?${query}`, { credentials: 'include' }).then(res => res.status == 200 ? res.json() : null)
+    return fetch(`${this.path}/search?${query}`, { credentials: 'include' }).then(res => res.status == 200 ? res.json() : [])
   }
 
   findOne: (obj: Object) => Promise<User | null> = obj => {

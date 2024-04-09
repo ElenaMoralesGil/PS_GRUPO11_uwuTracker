@@ -14,10 +14,18 @@ export class ApiContentService implements Contents {
     this.path = `${__env.API_PATH}/content`
   }
 
-  findById = (id: string | null): Promise<Content> | null =>
-    fetch(`${this.path}/${id}`).then(res => res.json()).catch(err => null)
+  findById = (id: string | null): Promise<Content | null> =>
+    fetch(`${this.path}/${id}`, { credentials: 'include' }).then(res => res.json())
 
-  create = (content: Content): Promise<Content> | null =>
-    fetch(`${this.path}/content`, { method: 'POST', body: JSON.stringify(content) }).then(res => res.json()).catch(err => null)
+  find = (obj: Object): Promise<Content[]> => {
+    let query = ""
+    for (let [ key, value ] of Object.entries(obj))
+      query += `&${key}=${value}`
+
+    return fetch(`${this.path}?${query}`, { credentials: 'include' }).then(res => res.status == 200 ? res.json() : [])
+  }
+
+  // create = (content: Content): Promise<Content> | null =>
+  //   fetch(`${ this.path } / content`, { method: 'POST', body: JSON.stringify(content) }).then(res => res.json()).catch(err => null)
 
 }
