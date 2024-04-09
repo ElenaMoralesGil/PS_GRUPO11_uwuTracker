@@ -4,7 +4,7 @@ import { ReviewService } from '../../services/review.service';
 import { AuthService } from "../../services/auth.service";
 import { FormsModule } from "@angular/forms";
 import { AsyncPipe, NgClass, NgForOf, NgIf } from "@angular/common";
-import { ActivatedRoute } from "@angular/router";
+import {ActivatedRoute, RouterLink} from "@angular/router";
 import { UsersService } from '../../services/users.service';
 import User from '../../schemas/User.schema';
 import { Observable } from 'rxjs';
@@ -23,7 +23,8 @@ import {Router} from "@angular/router"
     AsyncPipe,
     MatFormField,
     MatSelect,
-    MatOption
+    MatOption,
+    RouterLink
   ],
   styleUrls: [ './review.component.css' ]
 })
@@ -181,7 +182,5 @@ export class ReviewComponent implements OnInit {
     }
   }
 
-  redirectToUser() {
-    this.route.navigate(["/profile/", this.userName])
-  }
+
 }

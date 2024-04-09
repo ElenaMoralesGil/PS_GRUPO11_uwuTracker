@@ -3,6 +3,10 @@
   align-items: center;
   min-height: 6em;
 }
+ a{
+  text-decoration: none;
+  color:inherit;
+}
 .position-content {
   display: flex;
   flex-flow: row nowrap;

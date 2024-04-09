@@ -13,13 +13,13 @@
 <ng-container *ngIf="list">
   <ng-container *ngFor="let item of list | keyvalue">
     <app-normal-row
-      [rowTitle]="item.value?.title"
-      [rowContentCover]="item.value?.coverImg"
-      [rowContentScore]="item.value?.score"
-      [rowType]="item.value?.type"
-      [rowYear]="item.value?.year"
+      [rowTitle]="item.value.title"
+      [rowContentCover]="item.value.coverImg"
+      [rowContentScore]="item.value.score"
+      [rowType]="item.value.type"
+      [rowYear]="item.value.year"
       [isDropped]="isDropped"
-      [rowUserScore]="item.value?.userScore"
+      [rowUserScore]="item.value.userScore"
       [rowContentId]="item.key"
       class="positions">
     </app-normal-row>

@@ -3,7 +3,9 @@
   <!-- Review details -->
   <div class="review-container">
     <div class="image-section">
-    <img class="user-pfp" src="favicon.ico" alt="{{userName}} profile picture" (click)=redirectToUser()>
+      <a [routerLink]="['/profile',userName]">
+        <img class="user-pfp" src="favicon.ico" alt="{{userName}} profile picture" >
+      </a>
     </div>
       <h2 class="title">{{ review.title }}</h2>
     <div class="rating">
@@ -44,6 +46,5 @@
       </div>
       <button class="submitBtn" (click)="createOrUpdateReview()">{{ !isNewReview ? 'Update' : 'Create' }} Review</button>
     </div>
-
   </div>
 </div>

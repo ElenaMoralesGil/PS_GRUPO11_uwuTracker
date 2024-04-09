@@ -64,9 +64,6 @@ export class TableComponent implements OnInit{
         this.listName = lastSegment;
 
         this.getContentsFromList(this.listName).then(() => {
-          console.log("list", this.list);
-
-
         });
 
       });
@@ -88,9 +85,6 @@ export class TableComponent implements OnInit{
       const user = users? users[0]: null;
       // @ts-ignore
       this.list = await this.UserService.getContentsFromList( user?.id, contentList);
-
-
-
     } catch (error) {
       console.error('Error fetching reviews:', error);
     }
