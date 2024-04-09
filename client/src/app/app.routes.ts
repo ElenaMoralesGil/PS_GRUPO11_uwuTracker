@@ -10,6 +10,7 @@ import { CommentsComponent } from './components/comments/comments.component';
 import { ContentPageComponent } from './components/content-page/content-page.component';
 import { CharactersComponent } from './components/content-page/characters/characters.component';
 import { EpisodesComponent } from './components/content-page/episodes/episodes.component';
+import { StaffComponent } from './components/content-page/staff/staff.component';
 
 
 export const routes: Routes = [
@@ -35,6 +36,7 @@ export const routes: Routes = [
             { path: '', redirectTo: 'characters', pathMatch: 'full' }, 
             { path: 'characters', component: CharactersComponent },
             { path: 'episodes', component: EpisodesComponent },
+            { path: 'staff', component: StaffComponent },
             { path: 'comments', component: CommentsComponent },
             { path: 'reviews', component: ReviewComponent } 
         ]

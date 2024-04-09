@@ -10,6 +10,8 @@ import Review from "../schemas/Review.schema";
 })
 export class ApiContentService implements Contents {
   private path: string
+  private baseUrl = 'https://api.jikan.moe/v4/anime/';
+
   constructor() {
     this.path = `${__env.API_PATH}/content`
   }
@@ -19,5 +21,16 @@ export class ApiContentService implements Contents {
 
   create = (content: Content): Promise<Content> | null =>
     fetch(`${this.path}/content`, { method: 'POST', body: JSON.stringify(content) }).then(res => res.json()).catch(err => null)
+
+  async getAnimeCharacters(animeId: string): Promise<any> {
+    try {
+      const response = await fetch(`${this.baseUrl}${animeId}/characters`);
+      const data = await response.json();
+      return data;
+    } catch (error) {
+      console.error('Error fetching anime characters:', error);
+      return null;
+    }
+  }
 
 }

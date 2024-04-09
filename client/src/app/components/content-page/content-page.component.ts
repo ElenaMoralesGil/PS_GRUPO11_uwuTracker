@@ -9,13 +9,14 @@ import { NavComponent } from './nav/nav.component';
 import { NgFor, NgIf } from '@angular/common';
 import { EpisodesComponent } from './episodes/episodes.component';
 import { CharactersComponent } from './characters/characters.component';
+import { StaffComponent } from './staff/staff.component';
 
 @Component({
   selector: 'app-content-page',
   standalone: true,
   templateUrl: './content-page.component.html',
   styleUrl: './content-page.component.css',
-  imports: [ CommentsComponent, NgFor, NgIf, CabeceraComponent, RouterOutlet, CharactersComponent, EpisodesComponent, AsideInformationComponent, NewCommentComponent, NavComponent ]
+  imports: [ CommentsComponent, NgFor, NgIf, CabeceraComponent, StaffComponent, RouterOutlet, CharactersComponent, EpisodesComponent, AsideInformationComponent, NewCommentComponent, NavComponent ]
 })
 export class ContentPageComponent implements OnInit {
 
@@ -36,7 +37,11 @@ export class ContentPageComponent implements OnInit {
   protected status?: string
   protected season?: string
 
+  protected characterName?: string
+
+
   episodes: string[] = [];
+  characters: string[] = [];
 
 
 
@@ -48,6 +53,12 @@ export class ContentPageComponent implements OnInit {
     catch { return this.id = 'not-found' }
 
     if (!content?.id) return this.id = 'not found'
+
+   
+    
+
+   
+
 
     this.id = content.id
     this.title = content.title
