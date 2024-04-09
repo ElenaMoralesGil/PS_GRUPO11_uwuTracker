@@ -23,11 +23,11 @@ import {KeyValuePipe, NgForOf, NgIf} from "@angular/common";
 })
 export class TableComponent implements OnInit{
 
-  userId: string = "" ;
+  username: string = "" ;
   listName: string = 'watching';
   isWatching: boolean = false;
 
-  list: { [key: string]: { coverImg: string, title: string, score: number, status: string, type: string, year?: number, userScore?:number | null } } | undefined;
+  list: { [key: string]: { coverImg: string, title: string, score: number, status: string, type: string, year?: number, userScore?:number } } | undefined;
 
   constructor(
     private route: ActivatedRoute,
@@ -46,7 +46,7 @@ export class TableComponent implements OnInit{
       if (parentRoute) {
 
         parentRoute.params.subscribe(params => {
-          this.userId = params['id'];
+          this.username = params['username'];
         });
       }
 
@@ -82,9 +82,12 @@ export class TableComponent implements OnInit{
     }
 
     try {
-      console.log('fetching contents from user', this.userId, 'and list', contentList);
+      console.log('fetching contents from user', this.username, 'and list', contentList);
+
+      const users = await this.UserService.find({"username": this.username});
+      const user = users? users[0]: null;
       // @ts-ignore
-      this.list = await this.UserService.getContentsFromList( this.userId, contentList);
+      this.list = await this.UserService.getContentsFromList( user?.id, contentList);
 
 
 

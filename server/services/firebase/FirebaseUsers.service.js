@@ -45,7 +45,7 @@ class FirebaseUsers {
         return true
     }
 
-    getContentsFromList = async (userId, listField, userScores) => {
+    getContentsFromList = async (userId, listField) => {
         try {
             const userDoc = await getDoc(doc(this.#db, this.#coll, userId));
             if (!userDoc.exists()) {
@@ -55,31 +55,26 @@ class FirebaseUsers {
 
             const userData = userDoc.data();
             let references;
-            let year;
-
+            let userScores;
             if (listField) {
                 references = userData[listField];
                 if (!Array.isArray(references)) {
                     console.log('Invalid list field or it does not contain an array');
                     return null;
                 }
-            } else {
+                userScores = userData["userScores"]
                 const contentsRef = collection(this.#db, 'Contents');
                 const contentsQuery = query(contentsRef, where('id', 'in', Object.keys(userScores)));
                 const contentsSnapshot = await getDocs(contentsQuery);
 
                 if (contentsSnapshot.empty) {
                     console.log('No contents found for the provided user scores');
-                    return null;
                 }
 
                 const contentsData = contentsSnapshot.docs.map(doc => doc.data());
                 if (contentsData.some(content => !content.year)) {
                     console.log('Year not found for some contents');
-                    return null;
                 }
-
-                year = contentsData[0].year; // Assuming all contents have the same year
             }
 
             const contentMap = {};
@@ -88,6 +83,7 @@ class FirebaseUsers {
                 for (const reference of references) {
                     try {
                         const contentDoc = await getDoc(doc(this.#db, 'Contents', reference));
+                        const score = userScores[reference]  || '-';
                         if (contentDoc.exists()) {
                             const contentData = contentDoc.data();
                             contentMap[reference] = {
@@ -96,7 +92,8 @@ class FirebaseUsers {
                                 score: contentData.score,
                                 status: contentData.status,
                                 type: contentData.type,
-                                year: contentData.year
+                                year: contentData.year,
+                                userScore: score
                             };
                         } else {
                             console.log(`Content with reference ${reference} not found`);
@@ -105,31 +102,7 @@ class FirebaseUsers {
                         console.error(`Error processing reference ${reference}:`, error);
                     }
                 }
-            } else {
-                for (const contentId of Object.keys(userScores)) {
-                    const score = userScores[contentId][userId] || '-';
-                    try {
-                        const contentDoc = await getDoc(doc(this.#db, 'Contents', contentId));
-                        if (contentDoc.exists()) {
-                            const contentData = contentDoc.data();
-                            contentMap[contentId] = {
-                                coverImg: contentData.coverImg,
-                                title: contentData.title,
-                                score: contentData.score,
-                                status: contentData.status,
-                                type: contentData.type,
-                                year: year,
-                                userScore: score
-                            };
-                        } else {
-                            console.log(`Content with ID ${contentId} not found`);
-                        }
-                    } catch (error) {
-                        console.error(`Error processing content ID ${contentId}:`, error);
-                    }
-                }
             }
-
             return contentMap;
         } catch (error) {
             console.error('Error getting contents from list:', error);

@@ -10,7 +10,7 @@ import {ActivatedRoute} from "@angular/router";
 })
 export class NormalRowComponent implements OnInit{
   @Input() rowTitle?: string = "text";
-  @Input() rowUserScore?: string = "text";
+  @Input() rowUserScore?: number = 0
   @Input() rowContentScore?: number = 0;
   @Input() rowType?: string = "text";
   @Input() rowGenre?: string= "text";

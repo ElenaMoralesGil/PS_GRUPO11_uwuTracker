@@ -38,7 +38,7 @@ export class ProfileComponent implements OnInit {
     favorites: [],
     userScores: new Map<string, string>()
   };
-  userId: string = "";
+  username: string = "";
 
   constructor(
     private userService: UsersService,
@@ -48,9 +48,10 @@ export class ProfileComponent implements OnInit {
 
   async ngOnInit(): Promise<void> {
     try {
-      this.userId = this.router.snapshot.paramMap.get("id") || "";
-      const user = await this.userService.findById(this.userId);
+      this.username = this.router.snapshot.paramMap.get("username") || "";
 
+      const users = await this.userService.find({"username": this.username});
+      const user = users? users[0]: null
       if (!user?.id) {
         console.error('User not found or ID is undefined.');
         return;

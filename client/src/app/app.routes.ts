@@ -42,7 +42,7 @@ export const routes: Routes = [
 
     {'path': "", component: HomeComponent},
 
-  { "path": 'profile/:id', component: ProfileComponent ,
+  { "path": 'profile/:username', component: ProfileComponent ,
     children: [
       { path: '', redirectTo: '/watching', pathMatch: 'full' },
       { path: 'watching', component: TableComponent },
