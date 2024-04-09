@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {ActivatedRoute} from "@angular/router";
+import {Router} from "@angular/router"
 
 @Component({
   selector: 'app-normal-row',
@@ -17,10 +18,16 @@ export class NormalRowComponent implements OnInit{
   @Input() rowYear?: number= 0;
   @Input() rowContentCover?: string = "text";
   @Input() isDropped?: boolean = false;
-  constructor() { }
+  constructor( private router : Router) {
+
+  }
 
   ngOnInit(): void {
 
   }
 
+  redirectToContent() {
+    let contentId ="1111"
+    this.router.navigate(["/content-page/", contentId]).then( );
+  }
 }

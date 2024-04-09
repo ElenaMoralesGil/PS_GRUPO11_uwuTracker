@@ -1,11 +1,12 @@
 .table-descriptor {
   flex: 1;
   min-height: 1cm;
+  padding: 1em;
   align-items: center;
   display: flex;
   flex-flow: row nowrap;
-  justify-content: space-around;
-  font-size: var(--small-font-size);
+  justify-content:space-around;
+  font-size: var(--medium-font-size);
 }
 .table-descriptor {
   background-color: #1D1D1F88;
@@ -15,6 +16,8 @@
   margin: 0;
   color: white;
 }
+
+
 
 .positions {
   flex: 9;
