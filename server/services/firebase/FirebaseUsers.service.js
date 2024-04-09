@@ -63,19 +63,6 @@ class FirebaseUsers {
                     return null;
                 }
                 userScores = userData["userScores"]
-                const contentsRef = collection(this.#db, 'Contents');
-                const contentsQuery = query(contentsRef, where('id', 'in', Object.keys(userScores)));
-                const contentsSnapshot = await getDocs(contentsQuery);
-
-                if (contentsSnapshot.empty) {
-                    console.log('No contents found for the provided user scores');
-                }
-
-                const contentsData = contentsSnapshot.docs.map(doc => doc.data());
-                if (contentsData.some(content => !content.year)) {
-                    console.log('Year not found for some contents');
-                }
-            }
 
             const contentMap = {};
 
@@ -83,7 +70,7 @@ class FirebaseUsers {
                 for (const reference of references) {
                     try {
                         const contentDoc = await getDoc(doc(this.#db, 'Contents', reference));
-                        const score = userScores[reference]  || '-';
+                        const score = userScores[reference] || '-';
                         if (contentDoc.exists()) {
                             const contentData = contentDoc.data();
                             contentMap[reference] = {
@@ -103,7 +90,9 @@ class FirebaseUsers {
                     }
                 }
             }
-            return contentMap;
+
+                return contentMap;
+            }
         } catch (error) {
             console.error('Error getting contents from list:', error);
             return null;

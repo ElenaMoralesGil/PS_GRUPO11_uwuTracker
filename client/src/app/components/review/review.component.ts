@@ -10,6 +10,7 @@ import User from '../../schemas/User.schema';
 import { Observable } from 'rxjs';
 import {MatFormField} from "@angular/material/form-field";
 import {MatOption, MatSelect} from "@angular/material/select";
+import {Router} from "@angular/router"
 @Component({
   selector: 'app-review',
   templateUrl: './review.component.html',
@@ -37,13 +38,7 @@ export class ReviewComponent implements OnInit {
     likes: 0,
     dislikes: 0
   };
-  score  = [
-    {value: '1', viewValue: '1'},
-    {value: '2', viewValue: '2'},
-    {value: '3', viewValue: '3'},
-    {value: '4', viewValue: '4'},
-    {value: '5', viewValue: '5'}
-  ];
+
   @Input() reviewId?: string | null;
   @Input() isNewReview: boolean = false;
 
@@ -64,7 +59,8 @@ export class ReviewComponent implements OnInit {
     private reviewService: ReviewService,
     private userService: UsersService,
     private router: ActivatedRoute,
-    private authService: AuthService
+    private authService: AuthService,
+    private route: Router
   ) {
     this.loggedInUser = this.authService.user
   }
@@ -185,4 +181,7 @@ export class ReviewComponent implements OnInit {
     }
   }
 
+  redirectToUser() {
+    this.route.navigate(["/profile/", this.userName])
+  }
 }

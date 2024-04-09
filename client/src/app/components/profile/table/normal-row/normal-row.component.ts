@@ -18,6 +18,7 @@ export class NormalRowComponent implements OnInit{
   @Input() rowYear?: number= 0;
   @Input() rowContentCover?: string = "text";
   @Input() isDropped?: boolean = false;
+  @Input() rowContentId?: string = "1111";
   constructor( private router : Router) {
 
   }
@@ -26,8 +27,8 @@ export class NormalRowComponent implements OnInit{
 
   }
 
-  redirectToContent() {
-    let contentId ="1111"
+  redirectToContent(contentId: string | undefined) {
+  console.log( "contentId", contentId)
     this.router.navigate(["/content-page/", contentId]).then( );
   }
 }

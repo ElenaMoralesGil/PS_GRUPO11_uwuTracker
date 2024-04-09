@@ -27,7 +27,7 @@ export class TableComponent implements OnInit{
   listName: string = 'watching';
   isWatching: boolean = false;
 
-  list: { [key: string]: { coverImg: string, title: string, score: number, status: string, type: string, year?: number, userScore?:number } } | undefined;
+  list: { [key: string]: { contentId: string, coverImg: string, title: string, score: number, status: string, type: string, year?: number, userScore?:number } } | undefined;
 
   constructor(
     private route: ActivatedRoute,
