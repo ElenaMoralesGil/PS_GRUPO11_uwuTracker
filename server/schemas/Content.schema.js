@@ -1,6 +1,6 @@
 
 module.exports = class Content {
-    constructor({ mal_id, title, synopsis, score, status, episodesNumber, episodes, type, source, duration, coverImg, backgroundImg, images, trailer, year, season, studio, id, reviews, likes }) {
+    constructor({ mal_id, title, synopsis, comments, genres, score, status, episodesNumber, episodes, type, source, duration, coverImg, backgroundImg, images, trailer, year, season, studio, id, reviews, likes }) {
         // Initialize reviews array
         this.reviews = reviews || [];
 
@@ -14,15 +14,15 @@ module.exports = class Content {
         this.type = type;
         this.source = source;
         this.duration = duration;
-        this.coverImg = coverImg || images.jpg.large_image_url || trailer.images?.maximum_image_url
-        this.backgroundImg = backgroundImg || trailer.images?.maximum_image_url || images.jpg.large_image_url
+        this.coverImg = coverImg || images?.jpg.large_image_url || trailer?.images?.maximum_image_url
+        this.backgroundImg = backgroundImg || trailer?.images.maximum_image_url || images?.jpg.large_image_url
         this.year = year;
         this.season = season;
         this.studio = studio;
         this.genres = genres | []
         this.episodes = episodes;
-        this.comments = [];
-
+        this.comments = comments || [];
+        this.genres = genres || []
         this.likes = likes || 0
     }
 

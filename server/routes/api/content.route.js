@@ -4,9 +4,9 @@ const Contents = require('../../models/Contents.model')
 const Content = require('../../schemas/Content.schema')
 
 router.get('/search', (req, res) => {
-    Contents.findByName(req.query.name)
+    Contents.find(req.query)
         .then(contents => {
-            if (!contents.length) return res.status(404).json({ msg: 'not found' })
+            if (!contents.data.length) return res.status(404).json({ msg: 'not found' })
             res.status(201).json(contents)
         })
         .catch(err => { console.error('ERROR:' + err); res.status(500).json({ msg: err }) })
