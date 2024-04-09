@@ -26,6 +26,16 @@ class FirebaseUsers {
             .then(res => res.docs.length ? res.docs.map(elm => User.parse(elm.data())) : null)
     }
 
+    findOne = (queryObj, opt = 'OR') => {
+
+        const constrains = []
+        for (let [key, val] of Object.entries(queryObj))
+            constrains.push(where(String(key), '==', val))
+
+        return getDocs(query(collection(this.#db, this.#coll), opt === 'OR' ? or(...constrains) : and(...constrains)))
+            .then(res => res.docs.length ? User.parse(res.docs[0].data()) : null)
+    }
+
     create = async user => {
 
 
