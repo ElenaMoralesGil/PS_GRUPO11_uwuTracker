@@ -39,7 +39,8 @@ export class ContentPageComponent implements OnInit {
 
   async ngOnInit() {
     let content
-    try { content = await this.Contents.findById(this.router.snapshot.paramMap.get("id") || "") }
+    try { content = await this.Contents.findById(this.router.snapshot.paramMap.get("id") || "")
+    }
     catch { return this.id = 'not-found' }
 
     if (!content?.id) return this.id = 'not found'

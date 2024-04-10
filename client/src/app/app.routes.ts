@@ -36,7 +36,15 @@ export const routes: Routes = [
             { path: 'characters', component: CharactersComponent },
             { path: 'episodes', component: EpisodesComponent },
             { path: 'comments', component: CommentsComponent },
-            { path: 'reviews', component: ReviewComponent }
+          {
+            path: 'reviews', component: ContentComponent,
+              children: [
+                {path: 'review/create', component: ReviewComponent}, // Child route for creating a review
+                {path: 'review/:reviewId/edit', component: ReviewComponent},// Child route for editing a review
+                {path: 'review/:reviewId', component: ReviewComponent},// Child route for viewing individual review by ID
+                {path: 'reviews', component: ReviewComponent} // Child route for viewing reviews
+              ]
+          },
         ]
     },
 

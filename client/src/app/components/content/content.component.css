@@ -1,13 +1,21 @@
 .review-content {
-  color: var(--snow-color)
+  width: fit-content;
+  color: var(--snow-color);
+  align-items: center;
+  display: flex; /* Add flex display */
+  flex-direction: column; /* Column layout */
 }
 
 .review-container {
-  width: 50%;
-  margin: 2em;
+  width: 100%;
+  min-width: 30%;
   padding: 1em;
   border-radius: 1.5em;
-  justify-content: space-between;
+  flex-direction: column;
+  margin-top: 20px; /* Add margin for spacing */
+  display: flex; /* Add flex display */
+  justify-content: center; /* Center horizontally */
+  align-items: center; /* Center vertically */
 }
 
 .review {

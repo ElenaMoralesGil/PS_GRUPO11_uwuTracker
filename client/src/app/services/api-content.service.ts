@@ -14,7 +14,7 @@ export class ApiContentService implements Contents {
     this.path = `${__env.API_PATH}/content`
   }
 
-  findById = (id: string | null): Promise<Content | null> =>
+  findById = (id: string | undefined): Promise<Content | null> =>
     fetch(`${this.path}/${id}`, { credentials: 'include' }).then(res => res.json())
 
   find = (obj: Object): Promise<Content[]> => {

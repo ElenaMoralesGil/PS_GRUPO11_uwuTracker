@@ -26,7 +26,7 @@ export class ContentComponent implements OnInit {
   reviews: Review[] = []; // Array of full review objects
   isReviewCreationOpen: boolean = false;
   areReviewsVisible: boolean = false;
-
+  contentId:string | undefined;
   constructor(
     private contentService: ApiContentService,
     private reviewService: ReviewService,
@@ -36,8 +36,17 @@ export class ContentComponent implements OnInit {
 
   async ngOnInit() {
     try {
-      const contentId = this.router.snapshot.paramMap.get("id") || "";
-      const content = await this.contentService.findById(contentId);
+
+      const parentRoute = this.router.parent;
+
+      if (parentRoute) {
+
+        parentRoute.params.subscribe(params => {
+          this.contentId = params['id'];
+        });
+      }
+
+      const content = await this.contentService.findById(this.contentId);
       if (!content?.id) {
         console.error('Content not found or ID is undefined.');
         return;
