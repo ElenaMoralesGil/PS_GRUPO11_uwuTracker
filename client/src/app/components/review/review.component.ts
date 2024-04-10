@@ -64,7 +64,14 @@ export class ReviewComponent implements OnInit {
 
   ngOnInit() {
 
-    this.contentId = this.router.snapshot.paramMap.get("id") || "";
+    const parentRoute = this.router.parent;
+    if (parentRoute) {
+
+      parentRoute.params.subscribe(params => {
+        this.contentId = params['id'];
+
+      });
+    }
     if (this.reviewId || this.isNewReview) {
       this.showMode = true;
       this.editMode = this.isNewReview;
@@ -111,9 +118,6 @@ export class ReviewComponent implements OnInit {
     }
   }
 
-  openModal() {
-    this.showModal = true;
-  }
 
   closeModal() {
     this.showModal = false;
@@ -149,18 +153,19 @@ export class ReviewComponent implements OnInit {
 
             console.log("edited", this.review);
             this.reviewUpdated.emit(this.review)
-            this.showMode = true;
-            this.editMode = false;
+            this.closeModal()
           });
 
       } else {
-        await this.reviewService.createReview(this.review.userId, this.review.content, this.review.score, this.review.title, this.review.description);
+        // @ts-ignore
+        await this.reviewService.
+        createReview(this.review.userId, this.review.content, this.review.score, this.review.title, this.review.description)
+          .then(r => {
+            this.newReview.emit(r)
+            this.closeModal()
+
+          });
       }
-
-      this.newReview.emit(this.review.id)
-
-      this.closeModal()
-      this.editMode = false;
 
 
     } catch (error) {

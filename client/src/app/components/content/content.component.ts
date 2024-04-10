@@ -76,14 +76,15 @@ export class ContentComponent implements OnInit {
 
 
   updateReview(updatedReview: Review) {
-    console.log('Updated review 1:', updatedReview);
-    const index = this.reviews.findIndex(review => review.id === updatedReview.id);
-    console.log(index);
+    const index = this.reviews?.findIndex(review => review.id === updatedReview.id);
     if (index !== -1) {
       this.reviews[index] = updatedReview;
       console.log('Updated review:', updatedReview);
     }
     console.log(this.reviews);
+    this.areReviewsVisible = true;
+    this.isReviewCreationOpen=false;
+
   }
 
   async fetchReviewsByIds(reviewIds: string[] | undefined): Promise<void> {
@@ -112,14 +113,17 @@ export class ContentComponent implements OnInit {
 
   async showReviews() {
     if (!this.isReviewCreationOpen) {
-      await this.fetchReviewsByIds(this.reviewIds); // Always fetch reviews if the creation modal is not open
-      this.areReviewsVisible = true; // Set areReviewsVisible to true whenever showing reviews
+      await this.fetchReviewsByIds(this.reviewIds);
+      this.areReviewsVisible = true;
+      this.isReviewCreationOpen=false;
     } else {
-      this.areReviewsVisible = false; // Hide reviews if creation modal is open
+      this.areReviewsVisible = false;
+      this.isReviewCreationOpen=true;
     }
   }
-  pushReview(review: string) {
-    this.reviewIds?.push(review)
+  pushReview(reviewId:string) {
+
+    this.reviewIds?.push(reviewId)
     this.isReviewCreationOpen = false;
     this.areReviewsVisible=true;
   }
