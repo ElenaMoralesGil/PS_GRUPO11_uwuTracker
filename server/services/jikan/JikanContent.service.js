@@ -1,3 +1,5 @@
+const Content = require('../../schemas/Content.schema');
+
 class JikanService {
 
     #seasons = {
@@ -26,23 +28,14 @@ class JikanService {
 
     // Primera funcionalidad.
     findById = (animeId) => fetch(`${this.contentpath}/${animeId}`).then(res => res.json()).then(res => res.data)
-        .then(content => {
-            content.genres = content.genres.map(elm => elm.name.toLowerCase())
-            return content
-        });
+        .then(content => Content.parse(content));
 
     // Segunda funcionalidad.
     animeSearch = ({ name, genres, year, season, type, page }) => {
         let [start_date, end_date] = this.#getDates(year, season);
         let searchURL = `${this.contentpath}?${name ? `q=${name}&` : ""}${genres ? `genres=${genres.join(",")}&` : ""}${start_date}${end_date}${type ? `genres=${type.join(",")}&` : ""}${page ? `page=${page}` : ""}`;
 
-        return fetch(searchURL).then(res => res.json()).then(contents => {
-
-            for (let i = 0; i < contents.data.length; i++)
-                contents.data[i].genres = contents.data[i].genres.map(elm => elm.name.toLowerCase())
-
-            return contents
-        });
+        return fetch(searchURL).then(res => res.json()).then(contents => contents.map(content => Content.parse(content)));
     };
 
     // Tercera funcionalidad.
