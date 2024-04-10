@@ -12,6 +12,12 @@
   align-items: center;
   justify-content: center;
 }
+
+.username {
+  color:black;
+  padding: 0.5em 1em;
+  font-weight: bold;
+}
 #title , #description {
   width: 90%;
   padding: 1em 2em;
@@ -75,6 +81,7 @@
 
 .review-container {
   width: 100%;
+  max-width: 80%;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -90,6 +97,7 @@
   display:flex;
   width:100%;
   height:fit-content;
+  align-items: flex-start;
 }
 .review-card {
   padding: 20px;
@@ -133,20 +141,53 @@
 .user-pfp {
 
   max-width: 6em;
-
+  transition: transform 0.3s ease;
+}
+.user-pfp:hover,
+.user-pfp:focus {
+  transform: scale(1.1); /* Increase size on hover/click */
 }
 .user-info{
   display:flex;
   flex-flow: column nowrap;
   justify-content: center;
 }
+
+
 .likes-dislikes {
-  color:black;
   display: flex;
   gap: 1em;
   padding: 2em;
   font-size: 1.5em;
+  color: #333
 }
+
+.likes-dislikes i {
+  cursor: pointer;
+  transition: color 0.3s, transform 0.3s;
+
+}
+.likes-dislikes span {
+  line-height: 1em;
+}
+
+.likes-dislikes i:hover {
+  color: #333;
+  transform: scale(1.1);
+}
+
+.likes-dislikes i:focus {
+  outline: none;
+}
+
+#thumbs-up:hover {
+  color: green;
+}
+
+#thumbs-down:hover {
+  color: red;
+}
+
 .score {
   font-size: 2.5em;
 }
@@ -157,12 +198,7 @@
   margin-top: 1em;
 }
 
-#thumbs-down:hover{
-  color: red;
-}
-#thumbs-up:hover {
-  color: green;
-}
+
 .deleteButton {
   background-color: #f44336;
   color: white;

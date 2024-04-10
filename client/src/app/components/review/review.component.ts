@@ -7,9 +7,7 @@ import { AsyncPipe, NgClass, NgForOf, NgIf } from "@angular/common";
 import {ActivatedRoute, RouterLink} from "@angular/router";
 import { UsersService } from '../../services/users.service';
 import User from '../../schemas/User.schema';
-import { Observable } from 'rxjs';
-import {MatFormField} from "@angular/material/form-field";
-import {MatOption, MatSelect} from "@angular/material/select";
+import { Observable } from 'rxjs';;
 import {Router} from "@angular/router"
 @Component({
   selector: 'app-review',
@@ -21,9 +19,6 @@ import {Router} from "@angular/router"
     NgForOf,
     NgIf,
     AsyncPipe,
-    MatFormField,
-    MatSelect,
-    MatOption,
     RouterLink
   ],
   styleUrls: [ './review.component.css' ]
@@ -53,6 +48,7 @@ export class ReviewComponent implements OnInit {
   showModal: boolean = true;
 
   userName?: string;
+  pfp?:string;
   contentId: string = "";
   loggedInUser: Observable<User | null>
 
@@ -76,6 +72,7 @@ export class ReviewComponent implements OnInit {
         this.userService.findById(this.review.userId).then(async (user) => {
           if (!user) return
           this.userName = user.username;
+          this.pfp = user.profilePicture;
         });
       });
     }
