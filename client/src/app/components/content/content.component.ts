@@ -57,15 +57,13 @@ export class ContentComponent implements OnInit {
 
       if (content.reviews) {
         this.reviewIds = content.reviews;
-        console.log('Review IDs:', this.reviewIds);
-
+        await this.showReviews()
       }
     } catch (error) {
       console.error('Error fetching content:', error);
     }
   }
   async handleReviewDeleted(reviewId: string): Promise<void> {
-    // Remove the deleted review from the list of reviewIds
     if (!this.reviewIds) {
       return;
     }
@@ -75,6 +73,8 @@ export class ContentComponent implements OnInit {
       this.reviewIds.splice(index, 1);
     }
   }
+
+
   updateReview(updatedReview: Review) {
     console.log('Updated review 1:', updatedReview);
     const index = this.reviews.findIndex(review => review.id === updatedReview.id);
@@ -104,18 +104,23 @@ export class ContentComponent implements OnInit {
     this.isReviewCreationOpen = !this.isReviewCreationOpen
   }
 
-  async showReviews() {
-    if (!this.areReviewsVisible) {
-      await this.fetchReviewsByIds(this.reviewIds);
-      console.log('Reviews:', this.reviews);
-      this.areReviewsVisible = true;
-    } else {
-      this.areReviewsVisible = false;
-    }
+  handleReviewModalClosed(): void {
+    console.log("Modal closed, calling showReviews()");
+    this.areReviewsVisible = true;
+    this.isReviewCreationOpen=false;
   }
 
+  async showReviews() {
+    if (!this.isReviewCreationOpen) {
+      await this.fetchReviewsByIds(this.reviewIds); // Always fetch reviews if the creation modal is not open
+      this.areReviewsVisible = true; // Set areReviewsVisible to true whenever showing reviews
+    } else {
+      this.areReviewsVisible = false; // Hide reviews if creation modal is open
+    }
+  }
   pushReview(review: string) {
     this.reviewIds?.push(review)
     this.isReviewCreationOpen = false;
+    this.areReviewsVisible=true;
   }
 }

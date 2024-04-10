@@ -42,10 +42,10 @@ export class ReviewComponent implements OnInit {
   @Output() newReview = new EventEmitter();
   @Output() editReviewClicked: EventEmitter<Review> = new EventEmitter();
   @Output() reviewUpdated: EventEmitter<Review> = new EventEmitter();
-
+  @Output() reviewModalClosed: EventEmitter<any> = new EventEmitter();
   editMode: boolean = false;
-  showMode: boolean = false;
-  showModal: boolean = true;
+  showMode: boolean = true;
+  showModal: boolean = false;
 
   userName?: string;
   pfp?:string;
@@ -89,7 +89,9 @@ export class ReviewComponent implements OnInit {
 
 
       } else if (this.isNewReview) {
-        console.log(this.review.userId)
+        this.showMode =false;
+        this.showModal =true;
+        this.editMode =true
         this.review = {
           id: '',
           title: '',
@@ -117,6 +119,7 @@ export class ReviewComponent implements OnInit {
     this.showModal = false;
     this.editMode = false;
     this.showMode = false;
+    this.reviewModalClosed.emit(true);
   }
   editReview() {
     this.showModal = true;
@@ -158,6 +161,7 @@ export class ReviewComponent implements OnInit {
 
       this.closeModal()
       this.editMode = false;
+
 
     } catch (error) {
       console.error(error);

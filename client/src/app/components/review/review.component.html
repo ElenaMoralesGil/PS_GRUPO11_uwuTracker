@@ -1,6 +1,7 @@
+
 <!-- Review Display Section -->
-<div *ngIf="showMode && !editMode ">
-  <!-- Review details -->
+<div *ngIf="showMode && !editMode && !showModal ">
+
   <div class="review-container">
     <div class="image-section">
       <a [routerLink]="['/profile', userName, 'watching']">
@@ -32,11 +33,10 @@
 </div>
 
 <!-- Edit/Create Review Modal -->
-<div *ngIf="(showModal && editMode)">
+
+<div *ngIf="(showModal && editMode && !showMode)">
   <div class="modal-content">
     <span class="close" (click)="closeModal()">&times;</span>
-
-    <!-- Edit/Create review form -->
     <div class="review-container">
       <h2 class="edit-title">{{ isNewReview ? 'Create Review' : 'Edit Review' }}</h2>
       <div class="user-info">
