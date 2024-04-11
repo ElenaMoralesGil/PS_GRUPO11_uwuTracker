@@ -76,14 +76,16 @@ export class ContentComponent implements OnInit {
 
 
   updateReview(updatedReview: Review) {
+    this.areReviewsVisible = true;
+    this.isReviewCreationOpen=false;
+
     const index = this.reviews?.findIndex(review => review.id === updatedReview.id);
     if (index !== -1) {
       this.reviews[index] = updatedReview;
       console.log('Updated review:', updatedReview);
     }
     console.log(this.reviews);
-    this.areReviewsVisible = true;
-    this.isReviewCreationOpen=false;
+
 
   }
 

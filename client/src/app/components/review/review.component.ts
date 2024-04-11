@@ -84,7 +84,6 @@ export class ReviewComponent implements OnInit {
       });
     }
   }
-
   async loadReviewData(): Promise<void> {
     try {
       if (this.reviewId) {
@@ -109,7 +108,6 @@ export class ReviewComponent implements OnInit {
           likes: 0,
           dislikes: 0
         };
-
       }
       return Promise.resolve();
     } catch (error) {
@@ -117,12 +115,10 @@ export class ReviewComponent implements OnInit {
       return Promise.reject(error);
     }
   }
-
-
   closeModal() {
     this.showModal = false;
     this.editMode = false;
-    this.showMode = false;
+    this.showMode = true;
     this.reviewModalClosed.emit(true);
   }
   editReview() {
@@ -150,12 +146,10 @@ export class ReviewComponent implements OnInit {
         // @ts-ignore
         this.reviewService.editReview(this.review.id, this.review.title, this.review.description, this.review.score)
           .then(() => {
-
             console.log("edited", this.review);
             this.reviewUpdated.emit(this.review)
             this.closeModal()
           });
-
       } else {
         // @ts-ignore
         await this.reviewService.
@@ -166,13 +160,10 @@ export class ReviewComponent implements OnInit {
 
           });
       }
-
-
     } catch (error) {
       console.error(error);
     }
   }
-
   async deleteReview() {
     try {
       if (!this.review.id) {
@@ -187,6 +178,4 @@ export class ReviewComponent implements OnInit {
       console.error(error);
     }
   }
-
-
 }
