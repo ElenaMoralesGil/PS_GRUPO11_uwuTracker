@@ -5,10 +5,14 @@ const Content = require('../schemas/Content.schema')
 class Contents {
     #api
     #db
+    #opts
     constructor() {
         this.#api = require('../services/jikan/JikanContent.service')
         this.#db = require('../services/firebase/FirebaseContents.service')
+        this.#opts = ['limit', 'orderBy', 'endAt', 'startAt', 'join', 'orderByDir']
     }
+
+    get opts() { return this.#opts }
 
     findById = id => this.#db.findById(id).then(content => {
 
@@ -19,7 +23,7 @@ class Contents {
     }).then(content => content ? Content.parse(content) : null)
 
     find = obj => this.#api.animeSearch(obj).then(contents => contents.data.length ? { ...contents, data: contents.data.map(elm => Content.parse(elm)) } : null)
-
+    persistenceFind = (obj, opt) => this.#db.find(obj, opt)
     create = async content => this.#db.create(content).then(content => content ? Content.parse(content) : null)
 }
 
