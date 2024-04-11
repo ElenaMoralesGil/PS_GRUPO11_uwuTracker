@@ -29,14 +29,14 @@ export class ContentPageComponent implements OnInit {
   protected type?: string
   protected rating?: number
 
-  informationAside: { year: string; type: string; episodesNumber: string; season: string; }[] = []
+  informationAside: { likes:number, year: string; type: string; episodesNumber: string; season: string; }[] = []
   protected description?: string
   protected title?: string
   protected img?: string
   userId?: string;
   episodes: string[] = [];
   loggedInUser: Observable<User | null>
-
+  likes?:number
 
 
   constructor(private Contents: ApiContentService, private router: ActivatedRoute, private authService: AuthService) {
@@ -56,9 +56,10 @@ export class ContentPageComponent implements OnInit {
     this.title = content.title
     this.description = content.synopsis
     this.rating = content.score
+    this.likes=content.likes
     this.img = content?.coverImg || '../../assets/shoujo-shuumatsu.jpeg'
 
-
+    console.log("likes", this.likes);
 
     /*this.episodes = [
       `${content.episodes.number}`,
@@ -71,7 +72,7 @@ export class ContentPageComponent implements OnInit {
     try {
 
       this.informationAside = [
-        { year: `${content.year}`, type: `${content.type}`, episodesNumber: `${content.episodesNumber}`, season: `${content.season}` },
+        { likes:content.likes ,year: `${content.year}`, type: `${content.type}`, episodesNumber: `${content.episodesNumber}`, season: `${content.season}` },
 
       ]
 

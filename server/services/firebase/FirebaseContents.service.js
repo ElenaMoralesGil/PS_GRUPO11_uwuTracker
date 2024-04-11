@@ -25,7 +25,21 @@ class FirebaseContent {
     addLike = async (userId, contentId) => {
         try {
             const userDocRef = doc(this.#db, "Users", userId);
-            const contentDocRef = doc(this.#db, this.#coll,contentId);
+            const contentDocRef = doc(this.#db, this.#coll, contentId);
+
+            // Check if the content is already in favorites
+            const userDocSnapshot = await getDoc(userDocRef);
+            if (!userDocSnapshot.exists()) {
+                console.log('User not found');
+                return false;
+            }
+
+            const userData = userDocSnapshot.data();
+            const favorites = userData.favorites || [];
+            if (favorites.includes(contentId)) {
+                // If content is already in favorites, return the current number of likes
+                return userData.likes || 0;
+            }
 
             // Increment likes in the content document
             await updateDoc(contentDocRef, {
@@ -37,7 +51,8 @@ class FirebaseContent {
                 favorites: arrayUnion(contentId)
             });
 
-            return true;
+            // Return the new number of likes
+            return userData.likes || 0;
         } catch (error) {
             console.error("Error adding like:", error);
             return false;

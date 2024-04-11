@@ -72,8 +72,11 @@ export class CabeceraComponent {
 
 
   likeContent() {
+    console.log(this.user)
     if (this.user) {
-      this.ContentService.addLike(this.user, this.id).then();
+     this.ContentService.addLike(this.user, this.id).then( likes =>
+     this.likes=likes
+     );
     } else {
       alert('You need to be logged in to give likes.');
     }

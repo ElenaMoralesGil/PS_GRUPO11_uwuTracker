@@ -20,5 +20,6 @@ export default interface Content {
     comments: string
     genre: string[]
     reviews: string[]
+    likes:number
     characters: string[]
 }
