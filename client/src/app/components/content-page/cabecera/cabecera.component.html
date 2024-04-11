@@ -10,7 +10,7 @@
             <img alt="" title="" [src]="img">
         </section>
         <p class="anime-description">{{ description }}</p>
-       
+
 
         <section class="anime-score-container">
             <i class="fa-regular fa-star" aria-hidden="true"></i>
@@ -27,7 +27,7 @@
                 <div *ngIf="ratingSelected" class="anime-dropdown-menu" id="rate-dropdown-container">
                     <article class="rate-option" *ngFor="let rating of ratingOptions">
                         <label class="rate-label" >
-                            <input id="rate-option{{rating}}" type="radio" name="rate-radio" class="rate-input" 
+                            <input id="rate-option{{rating}}" type="radio" name="rate-radio" class="rate-input"
                             (click)="ratingSelection(rating)" [checked]="isRatingSelected(rating)">
                             {{ rating }}
                         </label>
@@ -35,7 +35,7 @@
                 </div>
             </div>
 
-            <div class="addList-container">  
+            <div class="addList-container">
 
                 <div id="addList-container" class="anime-menu-button-container">
                     <label for="addList-button" id="addList-label"> Add </label>
@@ -53,8 +53,9 @@
                 </div>
             </div>
             <div class="favourite-container backround">
-                <button type="button" class="fa fa-heart white" aria-hidden="true"></button>
+                <button type="button" class="fa fa-heart white" (click) = "likeContent()" aria-hidden="true"></button>
+                <p class="likes-number">{{likes}}</p>
             </div>
-            
-        
+
+
 </section>

@@ -9,6 +9,9 @@ import { NavComponent } from './nav/nav.component';
 import { NgFor, NgIf } from '@angular/common';
 import { EpisodesComponent } from './episodes/episodes.component';
 import { CharactersComponent } from './characters/characters.component';
+import {Observable} from "rxjs";
+import User from "../../schemas/User.schema";
+import {AuthService} from "../../services/auth.service";
 
 @Component({
   selector: 'app-content-page',
@@ -30,16 +33,20 @@ export class ContentPageComponent implements OnInit {
   protected description?: string
   protected title?: string
   protected img?: string
-
+  userId?: string;
   episodes: string[] = [];
+  loggedInUser: Observable<User | null>
 
 
 
-  constructor(private Contents: ApiContentService, private router: ActivatedRoute) { }
+  constructor(private Contents: ApiContentService, private router: ActivatedRoute, private authService: AuthService) {
+    this.loggedInUser = this.authService.user
+  }
 
   async ngOnInit() {
     let content
     try { content = await this.Contents.findById(this.router.snapshot.paramMap.get("id") || "")
+      this.userId = (await this.loggedInUser.toPromise())?.id || ""
     }
     catch { return this.id = 'not-found' }
 

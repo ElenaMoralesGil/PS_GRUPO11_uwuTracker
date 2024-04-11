@@ -12,13 +12,19 @@ import { CommonModule, NgFor, NgIf } from '@angular/common';
 })
 
 export class CabeceraComponent {
-  
-  constructor(private cdr: ChangeDetectorRef) { }
+
+  constructor(
+    private cdr: ChangeDetectorRef,
+    private ContentService:  ApiContentService
+  ) { }
 
   @Input() title: string | undefined;
   @Input() description: string | undefined;
   @Input() img: string | undefined;
   @Input() rating: number | undefined;
+  @Input() id?:string;
+  @Input() user?:string;
+  @Input() likes?: number;
 
 
   selectedRate: number | undefined;
@@ -64,5 +70,12 @@ export class CabeceraComponent {
       this.listSelected = !this.listSelected;
   }
 
-    
+
+  likeContent() {
+    if (this.user) {
+      this.ContentService.addLike(this.user, this.id).then();
+    } else {
+      alert('You need to be logged in to give likes.');
+    }
+  }
 }
