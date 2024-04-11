@@ -25,6 +25,14 @@ export class ApiContentService implements Contents {
     return fetch(`${this.path}?${query}`, { credentials: 'include' }).then(res => res.status == 200 ? res.json() : [])
   }
 
+  addLike = (userId: string, contentId: string): Promise<boolean> =>
+    fetch(`${this.path}/${userId}/addLike/${contentId}`, { method: 'POST', credentials: 'include' })
+      .then(res => res.status === 200)
+      .catch(err => {
+        console.error('Error adding like:', err);
+        return false;
+      });
+
   // create = (content: Content): Promise<Content> | null =>
   //   fetch(`${ this.path } / content`, { method: 'POST', body: JSON.stringify(content) }).then(res => res.json()).catch(err => null)
 

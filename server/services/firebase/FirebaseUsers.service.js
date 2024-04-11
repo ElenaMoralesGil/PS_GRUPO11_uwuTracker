@@ -55,6 +55,7 @@ class FirebaseUsers {
         return true
     }
 
+
     getContentsFromList = async (userId, listField) => {
         try {
             const userDoc = await getDoc(doc(this.#db, this.#coll, userId));
