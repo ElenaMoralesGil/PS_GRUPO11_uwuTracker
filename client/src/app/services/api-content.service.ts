@@ -16,6 +16,7 @@ export class ApiContentService implements Contents {
     this.path = `${__env.API_PATH}/content`
   }
 
+
   findById = (id: string | null): Promise<Content> | null =>
     fetch(`${this.path}/${id}`).then(res => res.json()).catch(err => null)
 
@@ -26,7 +27,7 @@ export class ApiContentService implements Contents {
     try {
       const response = await fetch(`${this.baseUrl}${animeId}/characters`);
       const data = await response.json();
-      return data;
+      return data.data;
     } catch (error) {
       console.error('Error fetching anime characters:', error);
       return null;

@@ -55,10 +55,6 @@ export class ContentPageComponent implements OnInit {
     if (!content?.id) return this.id = 'not found'
 
    
-    
-
-   
-
 
     this.id = content.id
     this.title = content.title

@@ -8,6 +8,8 @@ import { Component, input } from '@angular/core';
   styleUrl: './animecard.component.css'
 })
 export class AnimecardComponent {
+
+  
   animeName = input("Shoujo Shuumatsu Ryoukou");
   imageSource = input("../../assets/shoujo-shuumatsu.jpeg");
 }
