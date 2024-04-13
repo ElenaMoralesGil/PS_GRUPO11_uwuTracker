@@ -9,6 +9,7 @@ class Users {
 
     findById = id => this.#service.findById(id)
     find = queryObj => this.#service.find(queryObj)
+    findOne = queryObj => this.#service.findOne(queryObj)
     create = user => this.#service.create(user)
     update = (id, userProps) => this.#service.update(id, userProps)
 }

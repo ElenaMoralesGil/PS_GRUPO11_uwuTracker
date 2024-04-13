@@ -1,6 +1,6 @@
 
 module.exports = class Content {
-    constructor({ mal_id, title, synopsis, score, status, episodesNumber, episodes, type, source, duration, coverImg, backgroundImg, images, trailer, year, season, studio, id, reviews }) {
+    constructor({ mal_id, title, synopsis, comments, genres, score, status, episodesNumber, episodes, type, source, duration, coverImg, backgroundImg, images, trailer, year, season, studios, id, reviews, likes }) {
         // Initialize reviews array
         this.reviews = reviews || [];
 
@@ -10,17 +10,21 @@ module.exports = class Content {
         this.title = title;
         this.synopsis = synopsis;
         this.status = status;
-        this.episodesNumber = episodesNumber;
         this.type = type;
         this.source = source;
         this.duration = duration;
-        this.coverImg = coverImg || images.jpg.large_image_url || trailer.images?.maximum_image_url
-        this.backgroundImg = backgroundImg || trailer.images?.maximum_image_url || images.jpg.large_image_url
+        this.coverImg = coverImg || images?.jpg.large_image_url || trailer?.images?.maximum_image_url
+        this.backgroundImg = backgroundImg || trailer?.images.maximum_image_url || images?.jpg.large_image_url
         this.year = year;
         this.season = season;
-        this.studio = studio;
-        this.episodes = episodes;
-        this.comments = [];
+        this.comments = comments || [];
+        this.likes = likes || 0
+
+        this.episodesNumber = episodesNumber || episodes;
+        this.episodes = this.episodesNumber
+
+        this.genres = genres ? typeof genres[0] == "string" ? genres : genres.map(genre => genre.name.toLowerCase()) : []
+        this.studios = studios ? typeof studios[0] == "string" ? studios : studios.map(studio => studio.name.toLowerCase()) : []
     }
 
     //get id() { return this.#id }

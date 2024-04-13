@@ -17,14 +17,15 @@ export class ReviewService implements Reviews {
   }
 
   findById = (id: string | null): Promise<Review> | null =>
-    fetch(`${this.path}/${id}`).then(res => res.json()).catch(err => null)
+    fetch(`${this.path}/${id}`, { credentials: 'include' }).then(res => res.json()).catch(err => null)
 
 
-  createReview(userId: string, content: string , score: number, title: string , description: string): Promise<Review> | null {
+  createReview(userId: string, content: string, score: number, title: string, description: string): Promise<Review> | null {
     return fetch(`${this.path}`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ userId, content, score, title, description })
+      body: JSON.stringify({ userId, content, score, title, description }),
+      credentials: 'include'
     }).then(res => {
       if (!res.ok) throw new Error('Failed to create review');
       return res.json();
@@ -33,17 +34,19 @@ export class ReviewService implements Reviews {
 
   deleteReview(id: string): Promise<void> {
     return fetch(`${this.path}/${id}`, {
-      method: 'DELETE'
+      method: 'DELETE',
+      credentials: 'include'
     }).then(res => {
       if (!res.ok) throw new Error('Failed to delete review');
     });
   }
 
-  editReview(id: string,  title: string, description: string, score?: number): Promise<void> | null {
+  editReview(id: string, title: string, description: string, score?: number): Promise<void> | null {
     return fetch(`${this.path}/${id}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ id,  title, description, score })
+      body: JSON.stringify({ id, title, description, score }),
+      credentials: 'include'
     }).then(res => {
       if (!res.ok) throw new Error('Failed to edit review');
     });

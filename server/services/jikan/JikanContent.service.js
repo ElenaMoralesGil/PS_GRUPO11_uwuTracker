@@ -1,21 +1,23 @@
+const Content = require('../../schemas/Content.schema');
+
 class JikanService {
 
     #seasons = {
-        autumm:{
-            start:"10-01",
-            end:"12-31"
+        autumm: {
+            start: "10-01",
+            end: "12-31"
         },
-        summer:{
-            start:"07-01",
-            end:"09-30"
+        summer: {
+            start: "07-01",
+            end: "09-30"
         },
-        spring:{
-            start:"04-01",
-            end:"06-30"
+        spring: {
+            start: "04-01",
+            end: "06-30"
         },
-        winter:{
-            start:"01-01",
-            end:"03-31"
+        winter: {
+            start: "01-01",
+            end: "03-31"
         }
     }
 
@@ -23,15 +25,17 @@ class JikanService {
         this.contentpath = `${process.env.JIKAN_PATH}/anime`
         this.characterspath = `${process.env.JIKAN_PATH}/characters`
     }
-    
+
     // Primera funcionalidad.
-    findById = (animeId) => fetch(`${this.contentpath}/${animeId}`).then(res => res.json()).then(res => res.data);
+    findById = (animeId) => fetch(`${this.contentpath}/${animeId}`).then(res => res.json()).then(res => res.data)
+        .then(content => Content.parse(content));
 
     // Segunda funcionalidad.
-    animeSearch = ({name, genres, year, season, type, page}) => {
+    animeSearch = ({ name, genres, year, season, type, page }) => {
         let [start_date, end_date] = this.#getDates(year, season);
-        let searchURL = `${this.contentpath}?${name ? `q=${name}&` : ""}${genres ? `genres=${genres.join(",")}&` : ""}${start_date}${end_date}${type ? `type=${type}&` : ""}${page ? `page=${page}` : ""}`;
-        return fetch(searchURL).then(res => res.json());
+        let searchURL = `${this.contentpath}?${name ? `q=${name}&` : ""}${genres ? `genres=${genres.join(",")}&` : ""}${start_date}${end_date}${type ? `genres=${type.join(",")}&` : ""}${page ? `page=${page}` : ""}`;
+
+        return fetch(searchURL).then(res => res.json()).then(contents => contents.map(content => Content.parse(content)));
     };
 
     // Tercera funcionalidad.

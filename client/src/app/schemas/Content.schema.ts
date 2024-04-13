@@ -18,6 +18,7 @@ export default interface Content {
     studio: string
     episodes: number
     comments: string
+    genre: string[]
     reviews: string[]
     characters: string[]
 }

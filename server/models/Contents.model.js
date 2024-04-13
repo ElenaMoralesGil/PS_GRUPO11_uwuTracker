@@ -18,7 +18,7 @@ class Contents {
 
     }).then(content => content ? Content.parse(content) : null)
 
-    findByName = name => this.#api.findByName(name).then(contents => contents.length ? contents.map(elm => Content.parse(elm)) : null)
+    find = obj => this.#api.animeSearch(obj).then(contents => contents.data.length ? { ...contents, data: contents.data.map(elm => Content.parse(elm)) } : null)
 
     create = async content => this.#db.create(content).then(content => content ? Content.parse(content) : null)
 }
