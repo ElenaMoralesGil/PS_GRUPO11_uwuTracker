@@ -48,19 +48,18 @@ export const routes: Routes = [
         ]
     },
 
-    {'path': "", component: HomeComponent},
-
-  { "path": 'profile/:username', component: ProfileComponent ,
+  { path: "", redirectTo: "profile/:username/watching", pathMatch: "full" },
+  {
+    path: 'profile/:username', component: ProfileComponent,
     children: [
-      { path: '', redirectTo: '/watching', pathMatch: 'full' },
+      { path: '', redirectTo: 'watching', pathMatch: 'full' },
       { path: 'watching', component: TableComponent },
       { path: 'completed', component: TableComponent },
       { path: 'planToWatch', component: TableComponent },
       { path: 'favorites', component: TableComponent },
-      { path: 'dropped', component:TableComponent}
-      ]
-},
-
+      { path: 'dropped', component: TableComponent }
+    ]
+  },
     {'path': 'content/:id/comments', component: CommentsComponent,}
 ]
 

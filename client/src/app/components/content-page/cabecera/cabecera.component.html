@@ -43,7 +43,7 @@
                     <i class="fa-solid fa-arrow-down" aria-hidden="true"></i>
                 </div>
                 <div *ngIf="listSelected" class="anime-dropdown-menu" id="addList-dropdown-container">
-                    <article class="addList-option" *ngFor="let list of addList">
+                    <article class="addList-option" *ngFor="let list of trackinglists">
                         <label class="addList-label" >
                             {{ list }}
                         </label>
@@ -55,7 +55,6 @@
           <div class="favourite-container backround">
             <button type="button" [ngClass]="{'fa': true, 'fa-heart': true, 'white': !isInFavorites, 'liked': isInFavorites}" (click)="likeContent()" aria-hidden="true"></button>
           </div>
-
-
-
         </section>
+    </section>
+</section>

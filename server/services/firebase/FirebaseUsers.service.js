@@ -1,6 +1,6 @@
 const User = require(process.cwd() + '/schemas/User.schema.js')
 
-const { collection, doc, getDoc, addDoc, query, where, getDocs, updateDoc, and, or } = require('firebase/firestore/lite')
+const { collection, doc, arrayUnion, getDoc, addDoc, query, where, getDocs, updateDoc, and, or } = require('firebase/firestore/lite')
 
 
 class FirebaseUsers {
@@ -72,6 +72,45 @@ class FirebaseUsers {
             return listField.includes(contentId);
         } catch (error) {
             console.error('Error checking content on list:', error);
+            return false;
+        }
+    }
+    addToList = async (userId, contentId, listName) => {
+        console.log(`Adding ${contentId} to ${listName} list`);
+        try {
+            const userRef = doc(this.#db, this.#coll, userId);
+            const userDoc = await getDoc(userRef);
+
+            if (!userDoc.exists()) {
+                console.log('User not found');
+                return false;
+            }
+
+            const userData = userDoc.data();
+            if (!userData.hasOwnProperty(listName)) {
+                console.log(`Field '${listName}' does not exist in the user document`);
+                return false;
+            }
+
+            const fieldValue = userData[listName];
+            if (!Array.isArray(fieldValue)) {
+                console.log(`Field '${listName}' is not of type array`);
+                return false;
+            }
+
+            if (fieldValue.includes(contentId)) {
+                console.log('Content already exists in the list');
+                return false;
+            }
+
+            const updatedList = [...fieldValue, contentId];
+            await updateDoc(userRef, { [listName]: updatedList });
+
+            console.log('Content added to the list successfully');
+            return true;
+
+        } catch (error) {
+            console.error('Error adding content to list:', error);
             return false;
         }
     }

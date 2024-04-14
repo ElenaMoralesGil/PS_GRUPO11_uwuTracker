@@ -35,7 +35,7 @@ export class CabeceraComponent  implements OnChanges {
   ratingSelected: boolean = false;
   ratingOptions: number[] = [0, 1, 2, 3, 4, 5];
   listSelected: boolean = false;
-  addList: string[] = ['Completed', 'Pending', 'Not wanted'];
+  trackinglists: string[] = ['completed', 'planToWatch', 'dropped', 'watching'];
   isInFavorites: boolean = false;
 
   ngOnChanges(changes: SimpleChanges): void {
@@ -47,9 +47,7 @@ export class CabeceraComponent  implements OnChanges {
   getRatings(): number[] {
     return this.ratingOptions
   }
-  getLists(): string[] {
-    return this.addList
-  }
+
 
   isRatingSelected(option: number): boolean {
     return this.selectedRate === option;
@@ -64,6 +62,9 @@ export class CabeceraComponent  implements OnChanges {
   }
   listSelection(option: string) {
     this.selectedList = option;
+    if (this.user && this.id) {
+      this.UserService.addToList(this.user, this.id, option);
+    }
     this.cdr.detectChanges();
   }
 
@@ -82,7 +83,7 @@ export class CabeceraComponent  implements OnChanges {
     } else {
       this.isInFavorites = false;
     }
-    this.cdr.detectChanges(); // Trigger change detection
+    this.cdr.detectChanges();
   }
 
   likeContent() {

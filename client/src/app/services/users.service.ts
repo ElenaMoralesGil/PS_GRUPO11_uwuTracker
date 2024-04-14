@@ -83,5 +83,28 @@ export class UsersService implements Users {
       });
   }
 
+  addToList = async (userId: string, contentId: string, listField: string): Promise<void> => {
+    const url = `${this.path}/${userId}/${contentId}/add-to-list/${listField}`;
+    const body = JSON.stringify({ contentId });
+
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body,
+        credentials: 'include'
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to add content to list');
+      }
+    } catch (error) {
+      console.error('Error adding content to list:', error);
+      throw error;
+    }
+  };
+
 }
 
