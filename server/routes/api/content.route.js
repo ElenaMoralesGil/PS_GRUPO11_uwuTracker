@@ -17,6 +17,8 @@ router.get('/persistent-search', (req, res) => {
     const params = {}, options = {}
     for (let [key, value] of Object.entries(req.query)) Contents.opts.includes(key) ? options[key] = value : params[key] = value
 
+    for (let [key, val] of Object.entries(params))
+        if (key === 'genres' || key === 'studios') params[key] = val.split(',')
 
     Contents.persistenceFind(params, options).then(contents => {
 

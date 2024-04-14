@@ -16,10 +16,15 @@ class FirebaseContent {
     findById = async id => getDoc(doc(this.#db, this.#coll, String(id))).then(res => res.data()).then(data => data ? Content.parse(data) : null)
 
     find = (props, opts) => {
-        const constrains = []
-        for (let [key, val] of Object.entries(props))
-            constrains.push(where(`${key}`, '==', val))
 
+        // constrains
+        const constrains = []
+
+        for (let [key, val] of Object.entries(props))
+            if (key === 'genres' || key === 'studios') constrains.push(where(`${key}`, 'array-contains-any', val))
+            else constrains.push(where(`${key}`, '==', val))
+
+        // options
         const options = []
 
         opts.orderByDir = opts.orderByDir || 'asc'
@@ -27,11 +32,13 @@ class FirebaseContent {
         delete opts.orderBy
         delete opts.orderByDir
 
-        opts.join = opts?.join || 'or'
-        for (let [key, val] of Object.entries(props))
+        const join = opts?.join || 'or'
+        delete opts.join
+        for (let [key, val] of Object.entries(opts))
             options.push(this.#opts[key](val))
 
-        return getDocs(query(collection(this.#db, this.#coll), this.#opts.join[opts.join](...constrains), ...options))
+        // query
+        return getDocs(query(collection(this.#db, this.#coll), this.#opts.join[join](...constrains), ...options))
             .then(data => data.docs ? data.docs.map(content => Content.parse(content)) : null)
     }
 
