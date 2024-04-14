@@ -1,58 +1,83 @@
-import {OnChanges, SimpleChanges, ChangeDetectorRef, Component, EventEmitter, Input, input, OnInit, Output} from '@angular/core';
+import {
+  OnChanges,
+  SimpleChanges,
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  Output,
+  OnInit
+} from '@angular/core';
 import { ApiContentService } from '../../../services/api-content.service';
-import { ActivatedRoute } from '@angular/router';
-import { CommonModule, NgFor, NgIf } from '@angular/common';
-import {UsersService} from "../../../services/users.service";
+import { UsersService } from "../../../services/users.service";
+import {NgClass, NgForOf, NgIf} from "@angular/common";
 
 @Component({
   selector: 'app-cabecera',
-  standalone: true,
-  imports: [NgFor, CommonModule, NgIf],
   templateUrl: './cabecera.component.html',
-  styleUrl: './cabecera.component.css'
+  standalone: true,
+  imports: [
+    NgClass,
+    NgIf,
+    NgForOf
+  ],
+  styleUrls: ['./cabecera.component.css']
 })
-
-export class CabeceraComponent  implements OnChanges {
+export class CabeceraComponent implements OnChanges {
 
   constructor(
     private cdr: ChangeDetectorRef,
-    private ContentService:  ApiContentService,
-    private UserService:  UsersService
+    private contentService: ApiContentService,
+    private userService: UsersService
   ) { }
 
   @Input() title: string | undefined;
   @Input() description: string | undefined;
   @Input() img: string | undefined;
   @Input() rating: number | undefined;
-  @Input() id?:string;
-  @Input() user?:string;
+  @Input() id?: string;
+  @Input() user?: string;
   @Input() likes?: number;
 
   @Output() likesChanged = new EventEmitter<number>();
 
   selectedRate: number | undefined;
-  selectedList: string | undefined;
+  selectedList: string | null = null; // Store the selected list name
   ratingSelected: boolean = false;
   ratingOptions: number[] = [0, 1, 2, 3, 4, 5];
   listSelected: boolean = false;
   trackinglists: string[] = ['completed', 'planToWatch', 'dropped', 'watching'];
   isInFavorites: boolean = false;
 
+
   ngOnChanges(changes: SimpleChanges): void {
     if ('user' in changes || 'id' in changes) {
       this.checkFavorites();
+      this.setDefaultSelectedList();
     }
   }
-
-  getRatings(): number[] {
-    return this.ratingOptions
+  private async setDefaultSelectedList(): Promise<void> {
+    try {
+      if (this.user && this.id) {
+        const listName = await this.userService.isOnList(this.user, this.id);
+        console.log(listName);
+        if (listName) {
+          this.selectedList = listName;
+        }
+      }
+    } catch (error) {
+      console.error('Error checking list:', error);
+    }
   }
-
+  getRatings(): number[] {
+    return this.ratingOptions;
+  }
 
   isRatingSelected(option: number): boolean {
     return this.selectedRate === option;
   }
-  ratingSelection(option: number) {
+
+  ratingSelection(option: number): void {
     this.selectedRate = option;
     this.cdr.detectChanges();
   }
@@ -60,34 +85,41 @@ export class CabeceraComponent  implements OnChanges {
   isListSelected(option: string): boolean {
     return this.selectedList === option;
   }
-  listSelection(option: string) {
-    this.selectedList = option;
+
+  async listSelection(option: string): Promise<void> {
+    if (option === this.selectedList) {
+
+      this.selectedList = null;
+    } else {
+      this.selectedList = option;
+    }
     if (this.user && this.id) {
-      this.UserService.trackingList(this.user, this.id, option).then();
+      await this.userService.trackingList(this.user, this.id, option);
     }
     this.cdr.detectChanges();
+
   }
 
-  scrollValorar() {
-      this.ratingSelected = !this.ratingSelected;
+  scrollValorar(): void {
+    this.ratingSelected = !this.ratingSelected;
   }
 
-  scrollListas() {
-      this.listSelected = !this.listSelected;
+  scrollListas(): void {
+    this.listSelected = !this.listSelected;
   }
 
-  async checkFavorites() {
+  async checkFavorites(): Promise<void> {
     if (this.user && this.id) {
-      this.isInFavorites = await this.UserService.checkOnList(this.user, this.id, "favorites");
+      this.isInFavorites = await this.userService.checkOnList(this.user, this.id, "favorites");
     } else {
       this.isInFavorites = false;
     }
     this.cdr.detectChanges();
   }
 
-  likeContent() {
+  likeContent(): void {
     if (this.user) {
-      this.ContentService.like(this.user, this.id).then(likes => {
+      this.contentService.like(this.user, this.id).then(likes => {
         this.likes = likes;
         this.likesChanged.emit(likes);
         this.isInFavorites = !this.isInFavorites; // Toggle favorite status

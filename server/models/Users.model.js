@@ -15,6 +15,7 @@ class Users {
     getContentsFromList = (userId, listField) => this.#service.getContentsFromList(userId, listField)
     checkOnList =  async (contentId, nameList, userId) => this.#service.checkOnList(contentId, nameList, userId);
     trackingList = (userId,contentId, listField) => this.#service.trackingList(userId, contentId, listField)
+    isOnList = (userId, contentId) => this.#service.isOnList(userId, contentId)
 }
 
 module.exports = require('../bin/Singleton')(new Users())

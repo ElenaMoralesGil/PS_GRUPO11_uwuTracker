@@ -10,4 +10,5 @@ export default interface Users {
   getContentsFromList: (userId: string, listField: string) => Promise<Array<Map<string,any> | null>>
   checkOnList: (userId: string | undefined, contentId: string | undefined, listField: string) => Promise<boolean>
   trackingList: (userId: string, contentId:string, listField: string) => Promise<void>
+  isOnList: (userId: string | undefined, contentId: string | undefined) => Promise<string | null>
 }

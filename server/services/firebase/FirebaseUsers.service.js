@@ -88,46 +88,44 @@ class FirebaseUsers {
 
             const userData = userDoc.data();
 
-            // Check if the contentId is already in the new list
-            if (userData.hasOwnProperty(newListName) && Array.isArray(userData[newListName])) {
-                const newList = userData[newListName];
-                if (newList.includes(contentId)) {
-                    console.log('Content already exists in the new list');
-                    return true;
-                }
-            }
+            // Get the name of the current list if the contentId is already in a list
+            const currentListName = await this.isOnList(userId, contentId);
 
-            const trackingLists =['completed', 'planToWatch', 'dropped', 'watching'];
-
-            // Iterate through tracking lists to remove contentId if exists
-            for (const listName of trackingLists) {
-                if (userData.hasOwnProperty(listName) && Array.isArray(userData[listName])) {
-                    const list = userData[listName];
-                    if (list.includes(contentId)) {
-                        const updatedList = list.filter(item => item !== contentId);
-                        await updateDoc(userRef, { [listName]: updatedList });
-                        break;
-                    }
-                }
+            // Remove contentId from the current list if it exists
+            if (currentListName && userData[currentListName]) {
+                const updatedList = userData[currentListName].filter(item => item !== contentId);
+                await updateDoc(userRef, { [currentListName]: updatedList });
             }
 
             // Add contentId to the new list
-            if (userData.hasOwnProperty(newListName) && Array.isArray(userData[newListName])) {
-                const newList = userData[newListName];
-                const updatedList = [...newList, contentId];
-                await updateDoc(userRef, { [newListName]: updatedList });
-            }
+            const updatedList = [...userData[newListName], contentId];
+            await updateDoc(userRef, { [newListName]: updatedList });
 
             console.log('Content moved to the new list successfully');
             return true;
-
         } catch (error) {
             console.error('Error moving content to the new list:', error);
             return false;
         }
     }
+    isOnList  = async (userId, contentId) => {
+        const userRef = doc(this.#db, this.#coll, userId);
+        const userDoc = await getDoc(userRef);
+        const userData = userDoc.data();
+        const trackingLists =['completed', 'planToWatch', 'dropped', 'watching'];
+        for (const listName of trackingLists) {
+            if (userData.hasOwnProperty(listName) && Array.isArray(userData[listName])) {
+                const list = userData[listName];
+                if (list.includes(contentId)) {
+                    console.log("list name", listName)
+                    return listName;
+                }
+            }
+        }
+        return null;
+    }
 
-    getContentsFromList = async (userId, listField) => {
+    getContentsFromList = async (userId,contentId, listField) => {
         try {
             const userDoc = await getDoc(doc(this.#db, this.#coll, userId));
             if (!userDoc.exists()) {

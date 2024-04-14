@@ -115,4 +115,19 @@ router.post('/:userId/:contentId/tracking-list/:listField', async (req, res) => 
         res.status(500).json({ msg: 'Internal server error' });
     }
 });
+
+router.get('/:userId/check-list/:contentId', async (req, res) => {
+    const { userId, contentId } = req.params;
+    try {
+        const listName = await Users.isOnList(userId, contentId);
+        if (listName) {
+            res.status(200).json({ isOnList: true, listName });
+        } else {
+            res.status(200).json({ isOnList: false });
+        }
+    } catch (error) {
+        console.error('ERROR:', error);
+        res.status(500).json({ msg: 'internal-server-error' });
+    }
+});
 module.exports = router

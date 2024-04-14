@@ -105,6 +105,29 @@ export class UsersService implements Users {
       throw error;
     }
   };
+  isOnList = (userId: string | undefined, contentId: string | undefined): Promise<string | null> => {
+    const url = `${this.path}/${userId}/check-list/${contentId}`;
+    console.log('Requesting URL:', url);
+    return fetch(url, { method: 'GET', credentials: 'include' })
+      .then(res => {
+        if (res.status === 200) {
+          return res.json();
+        } else {
+          throw new Error('Failed to check on list');
+        }
+      })
+      .then(result => {
+        if (result.isOnList) {
+          return result.listName; // Return the name of the list where contentId is found
+        } else {
+          return null; // Return null if contentId is not on any list
+        }
+      })
+      .catch(err => {
+        console.error('Error checking on list:', err);
+        throw err;
+      });
+  };
 
 }
 
