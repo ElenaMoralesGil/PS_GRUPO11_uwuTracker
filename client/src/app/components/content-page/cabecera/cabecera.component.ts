@@ -63,12 +63,11 @@ export class CabeceraComponent  implements OnChanges {
   listSelection(option: string) {
     this.selectedList = option;
     if (this.user && this.id) {
-      this.UserService.addToList(this.user, this.id, option);
+      this.UserService.trackingList(this.user, this.id, option).then();
     }
     this.cdr.detectChanges();
   }
 
-  // clics en los botones
   scrollValorar() {
       this.ratingSelected = !this.ratingSelected;
   }

@@ -104,11 +104,11 @@ router.get('/:userId/check-list/:contentId/:listField', async (req, res) => {
         res.status(500).json({ msg: 'internal-server-error' });
     }
 });
-router.post('/:userId/:contentId/add-to-list/:listField', async (req, res) => {
+router.post('/:userId/:contentId/tracking-list/:listField', async (req, res) => {
     const { userId, contentId, listField } = req.params;
 
     try {
-        await Users.addToList(userId, contentId, listField);
+        await Users.trackingList(userId, contentId, listField);
         res.status(200).json({ msg: 'Content added to list successfully' });
     } catch (error) {
         console.error('Error adding content to list:', error);

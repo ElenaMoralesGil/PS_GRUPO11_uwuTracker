@@ -83,8 +83,8 @@ export class UsersService implements Users {
       });
   }
 
-  addToList = async (userId: string, contentId: string, listField: string): Promise<void> => {
-    const url = `${this.path}/${userId}/${contentId}/add-to-list/${listField}`;
+  trackingList = async (userId: string, contentId: string, listField: string): Promise<void> => {
+    const url = `${this.path}/${userId}/${contentId}/tracking-list/${listField}`;
     const body = JSON.stringify({ contentId });
 
     try {
