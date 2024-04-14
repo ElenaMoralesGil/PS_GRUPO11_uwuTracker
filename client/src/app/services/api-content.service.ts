@@ -25,8 +25,8 @@ export class ApiContentService implements Contents {
     return fetch(`${this.path}?${query}`, { credentials: 'include' }).then(res => res.status == 200 ? res.json() : [])
   }
 
-  addLike = (userId: string | undefined, contentId: string | undefined): Promise<number> => {
-    const url = `${this.path}/${userId}/addLike/${contentId}`;
+  like = (userId: string | undefined, contentId: string | undefined): Promise<number> => {
+    const url = `${this.path}/${userId}/like/${contentId}`;
     console.log('Requesting URL:', url); // Log the constructed URL
     return fetch(url, { method: 'POST', credentials: 'include' })
       .then(res => {

@@ -36,13 +36,14 @@ export class CabeceraComponent  implements OnChanges {
   ratingOptions: number[] = [0, 1, 2, 3, 4, 5];
   listSelected: boolean = false;
   addList: string[] = ['Completed', 'Pending', 'Not wanted'];
-
+  isInFavorites: boolean = false;
 
   ngOnChanges(changes: SimpleChanges): void {
     if ('user' in changes || 'id' in changes) {
-      this.likeButtonChanges();
+      this.checkFavorites();
     }
   }
+
   getRatings(): number[] {
     return this.ratingOptions
   }
@@ -75,21 +76,21 @@ export class CabeceraComponent  implements OnChanges {
       this.listSelected = !this.listSelected;
   }
 
-  async likeButtonChanges() {
-
+  async checkFavorites() {
     if (this.user && this.id) {
-      let isInList = await this.UserService.checkOnList(this.user, this.id, "favorites");
-      if (isInList) {
-        document.querySelector('.favourite-container button')?.classList.add('liked');
-      }
+      this.isInFavorites = await this.UserService.checkOnList(this.user, this.id, "favorites");
+    } else {
+      this.isInFavorites = false;
     }
+    this.cdr.detectChanges(); // Trigger change detection
   }
 
   likeContent() {
     if (this.user) {
-      this.ContentService.addLike(this.user, this.id).then(likes => {
+      this.ContentService.like(this.user, this.id).then(likes => {
         this.likes = likes;
         this.likesChanged.emit(likes);
+        this.isInFavorites = !this.isInFavorites; // Toggle favorite status
       });
     } else {
       alert('You need to be logged in to give likes.');

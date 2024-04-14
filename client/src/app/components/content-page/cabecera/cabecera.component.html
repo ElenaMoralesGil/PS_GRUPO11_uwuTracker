@@ -52,9 +52,10 @@
                     </article>
                 </div>
             </div>
-            <div class="favourite-container backround">
-                <button type="button" class="fa fa-heart white" (click) = "likeContent()" aria-hidden="true"></button>
-            </div>
+          <div class="favourite-container backround">
+            <button type="button" [ngClass]="{'fa': true, 'fa-heart': true, 'white': !isInFavorites, 'liked': isInFavorites}" (click)="likeContent()" aria-hidden="true"></button>
+          </div>
 
 
-</section>
+
+        </section>

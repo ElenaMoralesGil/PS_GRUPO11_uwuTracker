@@ -20,10 +20,10 @@ router.get('/:id', (req, res) => {
         })
         .catch(err => { console.error('ERROR: ' + err); res.status(500).json({ msg: err }) })
 })
-router.post('/:userId/addLike/:contentId', async (req, res) => {
+router.post('/:userId/like/:contentId', async (req, res) => {
     const { userId, contentId } = req.params;
     try {
-        const likes = await Contents.addLike(userId, contentId);
+        const likes = await Contents.like(userId, contentId);
         if (likes !== undefined) {
             res.status(200).json(likes); // Return the number of likes directly
         } else {

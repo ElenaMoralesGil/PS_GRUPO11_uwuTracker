@@ -21,7 +21,7 @@ class Contents {
     find = obj => this.#api.animeSearch(obj).then(contents => contents.data.length ? { ...contents, data: contents.data.map(elm => Content.parse(elm)) } : null)
 
     create = async content => this.#db.create(content).then(content => content ? Content.parse(content) : null)
-    addLike = async (userId, contentId) => this.#db.addLike(userId, contentId);
+    like = async (userId, contentId) => this.#db.like(userId, contentId);
 
 }
 
