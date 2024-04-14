@@ -20,20 +20,19 @@ router.get('/:id', (req, res) => {
         })
         .catch(err => { console.error('ERROR: ' + err); res.status(500).json({ msg: err }) })
 })
-router.post('/:userId/addLike/:contentId', (req, res) => {
+router.post('/:userId/addLike/:contentId', async (req, res) => {
     const { userId, contentId } = req.params;
-    Contents.addLike(userId, contentId)
-        .then(success => {
-            if (success) {
-                res.status(200).json({ msg: 'Like added successfully' });
-            } else {
-                res.status(404).json({ msg: 'Failed to add like' });
-            }
-        })
-        .catch(err => {
-            console.error('ERROR: ' + err);
-            res.status(500).json({ msg: err });
-        });
+    try {
+        const likes = await Contents.addLike(userId, contentId);
+        if (likes !== undefined) {
+            res.status(200).json(likes); // Return the number of likes directly
+        } else {
+            res.status(404).json({ msg: 'Failed to add like' });
+        }
+    } catch (error) {
+        console.error('ERROR: ' + error);
+        res.status(500).json({ msg: error });
+    }
 });
 
 

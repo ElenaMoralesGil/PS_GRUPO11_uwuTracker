@@ -1,7 +1,8 @@
-import { ChangeDetectorRef, Component, Input, input } from '@angular/core';
+import {OnChanges, SimpleChanges, ChangeDetectorRef, Component, EventEmitter, Input, input, OnInit, Output} from '@angular/core';
 import { ApiContentService } from '../../../services/api-content.service';
 import { ActivatedRoute } from '@angular/router';
 import { CommonModule, NgFor, NgIf } from '@angular/common';
+import {UsersService} from "../../../services/users.service";
 
 @Component({
   selector: 'app-cabecera',
@@ -11,11 +12,12 @@ import { CommonModule, NgFor, NgIf } from '@angular/common';
   styleUrl: './cabecera.component.css'
 })
 
-export class CabeceraComponent {
+export class CabeceraComponent  implements OnChanges {
 
   constructor(
     private cdr: ChangeDetectorRef,
-    private ContentService:  ApiContentService
+    private ContentService:  ApiContentService,
+    private UserService:  UsersService
   ) { }
 
   @Input() title: string | undefined;
@@ -26,18 +28,21 @@ export class CabeceraComponent {
   @Input() user?:string;
   @Input() likes?: number;
 
+  @Output() likesChanged = new EventEmitter<number>();
 
   selectedRate: number | undefined;
   selectedList: string | undefined;
-
-
-
   ratingSelected: boolean = false;
   ratingOptions: number[] = [0, 1, 2, 3, 4, 5];
-
   listSelected: boolean = false;
   addList: string[] = ['Completed', 'Pending', 'Not wanted'];
 
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if ('user' in changes || 'id' in changes) {
+      this.likeButtonChanges();
+    }
+  }
   getRatings(): number[] {
     return this.ratingOptions
   }
@@ -70,13 +75,22 @@ export class CabeceraComponent {
       this.listSelected = !this.listSelected;
   }
 
+  async likeButtonChanges() {
+
+    if (this.user && this.id) {
+      let isInList = await this.UserService.checkOnList(this.user, this.id, "favorites");
+      if (isInList) {
+        document.querySelector('.favourite-container button')?.classList.add('liked');
+      }
+    }
+  }
 
   likeContent() {
-    console.log(this.user)
     if (this.user) {
-     this.ContentService.addLike(this.user, this.id).then( likes =>
-     this.likes=likes
-     );
+      this.ContentService.addLike(this.user, this.id).then(likes => {
+        this.likes = likes;
+        this.likesChanged.emit(likes);
+      });
     } else {
       alert('You need to be logged in to give likes.');
     }

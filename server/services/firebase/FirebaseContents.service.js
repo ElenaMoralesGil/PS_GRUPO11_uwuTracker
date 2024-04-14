@@ -29,16 +29,17 @@ class FirebaseContent {
 
             // Check if the content is already in favorites
             const userDocSnapshot = await getDoc(userDocRef);
+            const contentDocSnapshot = await getDoc(contentDocRef);
             if (!userDocSnapshot.exists()) {
                 console.log('User not found');
                 return false;
             }
 
             const userData = userDocSnapshot.data();
+            const contentData = contentDocSnapshot.data();
             const favorites = userData.favorites || [];
             if (favorites.includes(contentId)) {
-                // If content is already in favorites, return the current number of likes
-                return userData.likes || 0;
+                return contentData.likes || 0;
             }
 
             // Increment likes in the content document
@@ -51,8 +52,8 @@ class FirebaseContent {
                 favorites: arrayUnion(contentId)
             });
 
-            // Return the new number of likes
-            return userData.likes || 0;
+            console.log("sucess", contentData.likes);
+            return contentData.likes + 1 || 0;
         } catch (error) {
             console.error("Error adding like:", error);
             return false;
