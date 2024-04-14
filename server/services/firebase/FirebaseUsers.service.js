@@ -54,7 +54,27 @@ class FirebaseUsers {
 
         return true
     }
+    checkOnList = async (contentId, nameList, userId) => {
+        try {
+            const userDoc = await getDoc(doc(this.#db, this.#coll, userId));
+            if (!userDoc.exists()) {
+                console.log('User not found');
+                return false;
+            }
 
+            const userData = userDoc.data();
+            const listField = userData[nameList];
+            if (!Array.isArray(listField)) {
+                console.log('Invalid list field or it does not contain an array');
+                return false;
+            }
+
+            return listField.includes(contentId);
+        } catch (error) {
+            console.error('Error checking content on list:', error);
+            return false;
+        }
+    }
 
     getContentsFromList = async (userId, listField) => {
         try {

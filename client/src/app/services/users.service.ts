@@ -62,4 +62,26 @@ export class UsersService implements Users {
       credentials: 'include'
     })
       .then(res => res.status == 201 ? res.json() : null)
+
+  checkOnList = (userId: string | undefined, contentId: string | undefined, listField: string): Promise<boolean> => {
+    const url = `${this.path}/${userId}/check-list/${contentId}/${listField}`;
+    console.log('Requesting URL:', url);
+    return fetch(url, { method: 'GET', credentials: 'include' })
+      .then(res => {
+        if (res.status === 200) {
+          return res.json();
+        } else {
+          throw new Error('Failed to check on list');
+        }
+      })
+      .then(result => {
+        return result.isOnList;
+      })
+      .catch(err => {
+        console.error('Error checking on list:', err);
+        throw err;
+      });
+  }
+
 }
+

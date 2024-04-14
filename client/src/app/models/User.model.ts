@@ -8,6 +8,6 @@ export default interface Users {
   findOne: (obj: Object) => Promise<User | null>
   signup: ({ username, password, email }: { username: string, password: string, email: string }) => Promise<User | null>
   getContentsFromList: (userId: string, listField: string) => Promise<Array<Map<string,any> | null>>
-
+  checkOnList: (userId: string | undefined, contentId: string | undefined, listField: string) => Promise<boolean>
 
 }

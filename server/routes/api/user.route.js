@@ -94,4 +94,15 @@ router.get('/:userId/contents/:listField', async (req, res) => {
     }
 });
 
+router.get('/:userId/check-list/:contentId/:listField', async (req, res) => {
+    const { userId, contentId, listField } = req.params;
+    try {
+        const isOnList = await Users.checkOnList(contentId, listField, userId);
+        res.status(200).json({ isOnList });
+    } catch (error) {
+        console.error('ERROR:', error);
+        res.status(500).json({ msg: 'internal-server-error' });
+    }
+});
+
 module.exports = router

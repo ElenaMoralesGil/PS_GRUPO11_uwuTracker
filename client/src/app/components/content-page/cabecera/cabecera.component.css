@@ -289,3 +289,6 @@ input {
     width: 100%;
 }
 
+.liked {
+  color: red;
+}

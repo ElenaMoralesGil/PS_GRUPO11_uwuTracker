@@ -13,6 +13,7 @@ class Users {
     create = user => this.#service.create(user)
     update = (id, userProps) => this.#service.update(id, userProps)
     getContentsFromList = (userId, listField) => this.#service.getContentsFromList(userId, listField)
+    checkOnList =  async (contentId, nameList, userId) => this.#service.checkOnList(contentId, nameList, userId);
 }
 
 module.exports = require('../bin/Singleton')(new Users())
