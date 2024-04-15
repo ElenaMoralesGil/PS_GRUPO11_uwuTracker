@@ -10,10 +10,6 @@ import { RouterLink } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AnimecardComponent {
-  //@Input() animeName: string | undefined;
-  //@Input() imageSource: string | undefined;
-
-
   animeName = input("Shoujo Shuumatsu Ryoukou");
   imageSource = input("../../assets/images/shoujo-shuumatsu.jpeg");
 }

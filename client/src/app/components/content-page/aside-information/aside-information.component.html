@@ -4,7 +4,6 @@
             <article *ngFor="let item2 of information" class="anime-data">
                 <p>{{ item1 }}</p>
                 <p *ngIf="item1 === 'Likes'">{{ item2.likes}}</p>
-                <p *ngIf="item1 === 'Year'">{{ item2.year }}</p>
                 <p *ngIf="item1 === 'Type'">{{ item2.type }}</p>
                 <p *ngIf="item1 === 'Year'">{{ item2.year }}</p>
                 <p *ngIf="item1 === 'Episodes'">{{ item2.episodesNumber }}</p>
