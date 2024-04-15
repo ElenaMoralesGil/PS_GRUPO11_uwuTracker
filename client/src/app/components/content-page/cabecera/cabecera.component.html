@@ -1,60 +1,58 @@
-
 <section class="top-image">
-    <img alt="A wide image based on the anime show that displays in the top part of the page."
-        title="A wide image based on the anime" src="../../../../assets/images/frieren.jpg">
+  <img alt="A wide image based on the anime show that displays in the top part of the page."
+       title="A wide image based on the anime" [src]="img">
 </section>
 <section class="top-cover-image-and-description">
-    <section class="top-description-and-buttons">
-        <section class="cover-name">
-            <p>{{ title }}</p>
-            <img alt="" title="" [src]="img">
-        </section>
-        <p class="anime-description">{{ description }}</p>
-       
+  <section class="top-description-and-buttons">
+    <section class="cover-name">
+      <p>{{ title }}</p>
+      <img alt="" title="" [src]="img">
+    </section>
+    <p class="anime-description">{{ description }}</p>
 
-        <section class="anime-score-container">
-            <i class="fa-regular fa-star" aria-hidden="true"></i>
-            <p>{{ rating }}</p>
-        </section>
+    <section class="anime-score-container">
+      <i class="fa-regular fa-star" aria-hidden="true"></i>
+      <p>{{ rating }}</p>
+    </section>
 
-        <section class="button-palette">
-            <div class="rate-container">
-                <div id="rate-container" class="anime-menu-button-container">
-                    <label for="rate-button" id="rate-label"> Rate </label>
-                    <input type="button" id="rate-button" (click)="scrollValorar()">
-                    <i class="fa-solid fa-arrow-down" aria-hidden="true"></i>
-                </div>
-                <div *ngIf="ratingSelected" class="anime-dropdown-menu" id="rate-dropdown-container">
-                    <article class="rate-option" *ngFor="let rating of ratingOptions">
-                        <label class="rate-label" >
-                            <input id="rate-option{{rating}}" type="radio" name="rate-radio" class="rate-input" 
-                            (click)="ratingSelection(rating)" [checked]="isRatingSelected(rating)">
-                            {{ rating }}
-                        </label>
-                    </article>
-                </div>
-            </div>
+    <section class="button-palette">
+      <div class="rate-container">
+        <div id="rate-container" class="anime-menu-button-container">
+          <label for="rate-button" id="rate-label"> Rate </label>
+          <input type="button" id="rate-button" (click)="scrollValorar()">
+          <i class="fa-solid fa-arrow-down" aria-hidden="true"></i>
+        </div>
+        <div *ngIf="ratingSelected" class="anime-dropdown-menu" id="rate-dropdown-container">
+          <article class="rate-option" *ngFor="let rating of ratingOptions">
+            <label class="rate-label">
+              <input id="rate-option{{rating}}" type="radio" name="rate-radio" class="rate-input"
+                     (click)="ratingSelection(rating)" [checked]="isRatingSelected(rating)">
+              {{ rating }}
+            </label>
+          </article>
+        </div>
+      </div>
 
-            <div class="addList-container">  
-
-                <div id="addList-container" class="anime-menu-button-container">
-                    <label for="addList-button" id="addList-label"> Add </label>
-                    <input type="button" id="addList-button" (click)="scrollListas()">
-                    <i class="fa-solid fa-arrow-down" aria-hidden="true"></i>
-                </div>
-                <div *ngIf="listSelected" class="anime-dropdown-menu" id="addList-dropdown-container">
-                    <article class="addList-option" *ngFor="let list of addList">
-                        <label class="addList-label" >
-                            {{ list }}
-                        </label>
-                        <input id="addList-option{{list}}" type="radio" name="rate-radio" class="addList-input"
-                        (click)="listSelection(list)" [checked]="isListSelected(list)">
-                    </article>
-                </div>
-            </div>
-            <div class="favourite-container backround">
-                <button type="button" class="fa fa-heart white" aria-hidden="true"></button>
-            </div>
-            
-        
+      <div class="addList-container">
+        <div id="addList-container" class="anime-menu-button-container">
+          <label for="addList-button" id="addList-label"> Add </label>
+          <input type="button" id="addList-button" (click)="scrollListas()">
+          <i class="fa-solid fa-arrow-down" aria-hidden="true"></i>
+        </div>
+        <div *ngIf="listSelected" class="anime-dropdown-menu" id="addList-dropdown-container">
+          <article class="addList-option" *ngFor="let list of trackinglists">
+            <label class="addList-label">
+              {{ list }}
+            </label>
+            <input id="addList-option{{list}}" type="radio" name="rate-radio" class="addList-input"
+                   (click)="listSelection(list)" [checked]="isListSelected(list)">
+          </article>
+        </div>
+      </div>
+      <div class="favourite-container backround">
+        <button type="button" [ngClass]="{'fa': true, 'fa-heart': true, 'white': !isInFavorites, 'liked': isInFavorites}"
+                (click)="likeContent()" aria-hidden="true"></button>
+      </div>
+    </section>
+  </section>
 </section>

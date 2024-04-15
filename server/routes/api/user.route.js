@@ -79,5 +79,55 @@ router.get('/:username', (req, res) => {
         .catch(err => { console.error('ERROR: ' + err); res.status(500).json({ msg: err }) })
 })
 
+router.get('/:userId/contents/:listField', async (req, res) => {
+    const { userId, listField } = req.params;
+    console.log('userId:', userId, 'listField:', listField);
+    try {
+        const contents = await Users.getContentsFromList(userId, listField);
+        if (!contents) {
+            return res.status(404).json({ msg: 'contents-not-found' });
+        }
+        res.status(200).json(contents);
+    } catch (error) {
+        console.error('ERROR:', error);
+        res.status(500).json({ msg: 'internal-server-error' });
+    }
+});
 
+router.get('/:userId/check-list/:contentId/:listField', async (req, res) => {
+    const { userId, contentId, listField } = req.params;
+    try {
+        const isOnList = await Users.checkOnList(contentId, listField, userId);
+        res.status(200).json({ isOnList });
+    } catch (error) {
+        console.error('ERROR:', error);
+        res.status(500).json({ msg: 'internal-server-error' });
+    }
+});
+router.post('/:userId/:contentId/tracking-list/:listField', async (req, res) => {
+    const { userId, contentId, listField } = req.params;
+
+    try {
+        await Users.trackingList(userId, contentId, listField);
+        res.status(200).json({ msg: 'Content added to list successfully' });
+    } catch (error) {
+        console.error('Error adding content to list:', error);
+        res.status(500).json({ msg: 'Internal server error' });
+    }
+});
+
+router.get('/:userId/check-list/:contentId', async (req, res) => {
+    const { userId, contentId } = req.params;
+    try {
+        const listName = await Users.isOnList(userId, contentId);
+        if (listName) {
+            res.status(200).json({ isOnList: true, listName });
+        } else {
+            res.status(200).json({ isOnList: false });
+        }
+    } catch (error) {
+        console.error('ERROR:', error);
+        res.status(500).json({ msg: 'internal-server-error' });
+    }
+});
 module.exports = router

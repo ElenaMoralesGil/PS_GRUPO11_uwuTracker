@@ -26,7 +26,7 @@ export class ContentComponent implements OnInit {
   reviews: Review[] = []; // Array of full review objects
   isReviewCreationOpen: boolean = false;
   areReviewsVisible: boolean = false;
-
+  contentId:string | undefined;
   constructor(
     private contentService: ApiContentService,
     private reviewService: ReviewService,
@@ -36,8 +36,17 @@ export class ContentComponent implements OnInit {
 
   async ngOnInit() {
     try {
-      const contentId = this.router.snapshot.paramMap.get("id") || "";
-      const content = await this.contentService.findById(contentId);
+
+      const parentRoute = this.router.parent;
+
+      if (parentRoute) {
+
+        parentRoute.params.subscribe(params => {
+          this.contentId = params['id'];
+        });
+      }
+
+      const content = await this.contentService.findById(this.contentId);
       if (!content?.id) {
         console.error('Content not found or ID is undefined.');
         return;
@@ -48,15 +57,13 @@ export class ContentComponent implements OnInit {
 
       if (content.reviews) {
         this.reviewIds = content.reviews;
-        console.log('Review IDs:', this.reviewIds);
-
+        await this.showReviews()
       }
     } catch (error) {
       console.error('Error fetching content:', error);
     }
   }
   async handleReviewDeleted(reviewId: string): Promise<void> {
-    // Remove the deleted review from the list of reviewIds
     if (!this.reviewIds) {
       return;
     }
@@ -66,15 +73,20 @@ export class ContentComponent implements OnInit {
       this.reviewIds.splice(index, 1);
     }
   }
+
+
   updateReview(updatedReview: Review) {
-    console.log('Updated review 1:', updatedReview);
-    const index = this.reviews.findIndex(review => review.id === updatedReview.id);
-    console.log(index);
+    this.areReviewsVisible = true;
+    this.isReviewCreationOpen=false;
+
+    const index = this.reviews?.findIndex(review => review.id === updatedReview.id);
     if (index !== -1) {
       this.reviews[index] = updatedReview;
       console.log('Updated review:', updatedReview);
     }
     console.log(this.reviews);
+
+
   }
 
   async fetchReviewsByIds(reviewIds: string[] | undefined): Promise<void> {
@@ -95,18 +107,26 @@ export class ContentComponent implements OnInit {
     this.isReviewCreationOpen = !this.isReviewCreationOpen
   }
 
-  async showReviews() {
-    if (!this.areReviewsVisible) {
-      await this.fetchReviewsByIds(this.reviewIds);
-      console.log('Reviews:', this.reviews);
-      this.areReviewsVisible = true;
-    } else {
-      this.areReviewsVisible = false;
-    }
+  handleReviewModalClosed(): void {
+    console.log("Modal closed, calling showReviews()");
+    this.areReviewsVisible = true;
+    this.isReviewCreationOpen=false;
   }
 
-  pushReview(review: string) {
-    this.reviewIds?.push(review)
+  async showReviews() {
+    if (!this.isReviewCreationOpen) {
+      await this.fetchReviewsByIds(this.reviewIds);
+      this.areReviewsVisible = true;
+      this.isReviewCreationOpen=false;
+    } else {
+      this.areReviewsVisible = false;
+      this.isReviewCreationOpen=true;
+    }
+  }
+  pushReview(reviewId:string) {
+
+    this.reviewIds?.push(reviewId)
     this.isReviewCreationOpen = false;
+    this.areReviewsVisible=true;
   }
 }

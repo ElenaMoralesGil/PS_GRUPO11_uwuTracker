@@ -37,16 +37,20 @@ router.get('/:id', (req, res) => {
         })
         .catch(err => { console.error('ERROR: ' + err); res.status(500).json({ msg: err }) })
 })
-
-
-// router.post('/', (req, res) => {
-//     Contents.create(Content.parse(req.body))
-//         .then(content => {
-//             if (!content) return res.status(409).json({ msg: 'already exists' })
-//             res.status(200).json(content)
-//         })
-//         .catch(err => { console.log(err); res.status(500).json({ msg: err }) })
-// })
+router.post('/:userId/like/:contentId', async (req, res) => {
+    const { userId, contentId } = req.params;
+    try {
+        const likes = await Contents.like(userId, contentId);
+        if (likes !== undefined) {
+            res.status(200).json(likes); // Return the number of likes directly
+        } else {
+            res.status(404).json({ msg: 'Failed to add like' });
+        }
+    } catch (error) {
+        console.error('ERROR: ' + error);
+        res.status(500).json({ msg: error });
+    }
+});
 
 
 module.exports = router;

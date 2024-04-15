@@ -4,10 +4,11 @@ import { ReviewService } from '../../services/review.service';
 import { AuthService } from "../../services/auth.service";
 import { FormsModule } from "@angular/forms";
 import { AsyncPipe, NgClass, NgForOf, NgIf } from "@angular/common";
-import { ActivatedRoute } from "@angular/router";
+import {ActivatedRoute, RouterLink} from "@angular/router";
 import { UsersService } from '../../services/users.service';
 import User from '../../schemas/User.schema';
-import { Observable } from 'rxjs';
+import { Observable } from 'rxjs';;
+import {Router} from "@angular/router"
 @Component({
   selector: 'app-review',
   templateUrl: './review.component.html',
@@ -17,7 +18,8 @@ import { Observable } from 'rxjs';
     NgClass,
     NgForOf,
     NgIf,
-    AsyncPipe
+    AsyncPipe,
+    RouterLink
   ],
   styleUrls: [ './review.component.css' ]
 })
@@ -40,12 +42,13 @@ export class ReviewComponent implements OnInit {
   @Output() newReview = new EventEmitter();
   @Output() editReviewClicked: EventEmitter<Review> = new EventEmitter();
   @Output() reviewUpdated: EventEmitter<Review> = new EventEmitter();
-
+  @Output() reviewModalClosed: EventEmitter<any> = new EventEmitter();
   editMode: boolean = false;
-  showMode: boolean = false;
-  showModal: boolean = true;
+  showMode: boolean = true;
+  showModal: boolean = false;
 
   userName?: string;
+  pfp?:string;
   contentId: string = "";
   loggedInUser: Observable<User | null>
 
@@ -53,14 +56,22 @@ export class ReviewComponent implements OnInit {
     private reviewService: ReviewService,
     private userService: UsersService,
     private router: ActivatedRoute,
-    private authService: AuthService
+    private authService: AuthService,
+    private route: Router
   ) {
     this.loggedInUser = this.authService.user
   }
 
   ngOnInit() {
 
-    this.contentId = this.router.snapshot.paramMap.get("id") || "";
+    const parentRoute = this.router.parent;
+    if (parentRoute) {
+
+      parentRoute.params.subscribe(params => {
+        this.contentId = params['id'];
+
+      });
+    }
     if (this.reviewId || this.isNewReview) {
       this.showMode = true;
       this.editMode = this.isNewReview;
@@ -68,11 +79,11 @@ export class ReviewComponent implements OnInit {
         this.userService.findById(this.review.userId).then(async (user) => {
           if (!user) return
           this.userName = user.username;
+          this.pfp = user.profilePicture;
         });
       });
     }
   }
-
   async loadReviewData(): Promise<void> {
     try {
       if (this.reviewId) {
@@ -84,7 +95,9 @@ export class ReviewComponent implements OnInit {
 
 
       } else if (this.isNewReview) {
-        console.log(this.review.userId)
+        this.showMode =false;
+        this.showModal =true;
+        this.editMode =true
         this.review = {
           id: '',
           title: '',
@@ -95,7 +108,6 @@ export class ReviewComponent implements OnInit {
           likes: 0,
           dislikes: 0
         };
-
       }
       return Promise.resolve();
     } catch (error) {
@@ -103,15 +115,11 @@ export class ReviewComponent implements OnInit {
       return Promise.reject(error);
     }
   }
-
-  openModal() {
-    this.showModal = true;
-  }
-
   closeModal() {
     this.showModal = false;
     this.editMode = false;
     this.showMode = true;
+    this.reviewModalClosed.emit(true);
   }
   editReview() {
     this.showModal = true;
@@ -138,27 +146,24 @@ export class ReviewComponent implements OnInit {
         // @ts-ignore
         this.reviewService.editReview(this.review.id, this.review.title, this.review.description, this.review.score)
           .then(() => {
-
             console.log("edited", this.review);
             this.reviewUpdated.emit(this.review)
-            this.showMode = true;
-            this.editMode = false;
+            this.closeModal()
           });
-
       } else {
-        await this.reviewService.createReview(this.review.userId, this.review.content, this.review.score, this.review.title, this.review.description);
+        // @ts-ignore
+        await this.reviewService.
+        createReview(this.review.userId, this.review.content, this.review.score, this.review.title, this.review.description)
+          .then(r => {
+            this.newReview.emit(r)
+            this.closeModal()
+
+          });
       }
-
-      this.newReview.emit(this.review.id)
-
-      this.closeModal()
-      this.editMode = false;
-
     } catch (error) {
       console.error(error);
     }
   }
-
   async deleteReview() {
     try {
       if (!this.review.id) {
@@ -173,5 +178,4 @@ export class ReviewComponent implements OnInit {
       console.error(error);
     }
   }
-
 }

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import {ChangeDetectorRef, Component, OnInit} from '@angular/core';
 import { ApiContentService } from '../../services/api-content.service';
 import { ActivatedRoute, RouterOutlet } from '@angular/router';
 import { CommentsComponent } from '../comments/comments.component';
@@ -9,6 +9,9 @@ import { NavComponent } from './nav/nav.component';
 import { NgFor, NgIf } from '@angular/common';
 import { EpisodesComponent } from './episodes/episodes.component';
 import { CharactersComponent } from './characters/characters.component';
+import {Observable} from "rxjs";
+import User from "../../schemas/User.schema";
+import {AuthService} from "../../services/auth.service";
 
 @Component({
   selector: 'app-content-page',
@@ -26,21 +29,32 @@ export class ContentPageComponent implements OnInit {
   protected type?: string
   protected rating?: number
 
-  informationAside: { year: string; type: string; episodesNumber: string; season: string; }[] = []
+  informationAside: { likes:number, year: string; type: string; episodesNumber: string; season: string; }[] = []
   protected description?: string
   protected title?: string
   protected img?: string
-
+  userId?: string;
   episodes: string[] = [];
+  loggedInUser: Observable<User | null>
+  likes?:number
 
 
-
-  constructor(private Contents: ApiContentService, private router: ActivatedRoute) { }
+  constructor(private Contents: ApiContentService,
+              private router: ActivatedRoute,
+              private authService: AuthService,
+              private cdr: ChangeDetectorRef)
+  {
+    this.loggedInUser = this.authService.user
+  }
 
   async ngOnInit() {
     let content
-    try { content = await this.Contents.findById(this.router.snapshot.paramMap.get("id") || "") }
-    catch { return this.id = 'not-found' }
+    try { content = await this.Contents.findById(this.router.snapshot.paramMap.get("id") || "")
+      this.authService.user.subscribe((user: User | null) => {
+        this.userId = user?.id;
+        this.cdr.detectChanges();
+      });
+    } catch { return this.id = 'not-found' }
 
     if (!content?.id) return this.id = 'not found'
 
@@ -48,6 +62,7 @@ export class ContentPageComponent implements OnInit {
     this.title = content.title
     this.description = content.synopsis
     this.rating = content.score
+    this.likes=content.likes
     this.img = content?.coverImg || '../../assets/shoujo-shuumatsu.jpeg'
 
 
@@ -63,7 +78,7 @@ export class ContentPageComponent implements OnInit {
     try {
 
       this.informationAside = [
-        { year: `${content.year}`, type: `${content.type}`, episodesNumber: `${content.episodesNumber}`, season: `${content.season}` },
+        { likes:content.likes ,year: `${content.year}`, type: `${content.type}`, episodesNumber: `${content.episodesNumber}`, season: `${content.season}` },
 
       ]
 
@@ -76,7 +91,12 @@ export class ContentPageComponent implements OnInit {
 
     return
   }
-
+  onLikesChanged(likes: number) {
+    this.likes = likes;
+    this.informationAside = this.informationAside.map(info => ({ ...info, likes })); // Immutable update
+    console.log("content-page", this.likes);
+    this.cdr.detectChanges();
+  }
   getId() {
     return this.id
   }

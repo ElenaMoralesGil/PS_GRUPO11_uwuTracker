@@ -7,4 +7,10 @@ export default interface User {
   description: string
   country: string
   profilePicture: string
+  watching: []
+  dropped: []
+  completed: []
+  planToWatch: []
+  favorites: []
+  userScores: Map<string,string>
 }

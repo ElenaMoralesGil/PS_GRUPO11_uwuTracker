@@ -24,13 +24,13 @@ class JikanService {
     findCharacter = (characterid) => fetch(`${this.characterpath}/${characterid}`).then(res => res.json()).then(res => res.data ? res.data : ''); // Works
 
     // Function to get a full content season finding by year and season.
-    findSeasonContents = (year, season, format, page) => fetch(`${this.seasonpath}/${year}/${season}?${format !== '' ? `filter=${format}&` : ''}${page !== undefined ? `page=${page}`: ''}`).then(res => res.json()); // Works
+    findSeasonContents = (year, season, format, page) => fetch(`${this.seasonpath}/${year}/${season}?${format !== '' ? `filter=${format}&` : ''}${page !== undefined ? `page=${page}` : ''}`).then(res => res.json()); // Works
 
     // Function to search for content based on Name, Genres and other few filters.
     findNameGenres = (name, genres, format, page) => fetch(`${this.contentpath}?${name !== "" ? `q=${name}&` : ''}${genres.length !== 0 ? `genres=${genres.join(',')}&` : ''}${format !== '' ? `type=${format}&` : ''}${page !== undefined ? `page=${page}` : ''}`).then(res => res.json()); // Works
 
-    find({name, genres, year, season, format, page}){
-        if(year || season) return this.findSeasonContents(year, season, format, page);
+    find({ name, genres, year, season, format, page }) {
+        if (year || season) return this.findSeasonContents(year, season, format, page);
         return this.findNameGenres(name, genres.map(elem => genres[elem]), format, page);
     }
 }

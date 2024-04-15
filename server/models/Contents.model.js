@@ -25,6 +25,9 @@ class Contents {
     find = obj => this.#api.animeSearch(obj).then(contents => contents.data.length ? { ...contents, data: contents.data.map(elm => Content.parse(elm)) } : null)
     persistenceFind = (obj, opt) => this.#db.find(obj, opt)
     create = async content => this.#db.create(content).then(content => content ? Content.parse(content) : null)
+    like = async (userId, contentId) => this.#db.like(userId, contentId);
+
 }
+
 
 module.exports = require(process.cwd() + '/bin/Singleton')(new Contents())

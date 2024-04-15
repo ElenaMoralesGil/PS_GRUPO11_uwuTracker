@@ -1,6 +1,6 @@
 const User = require(process.cwd() + '/schemas/User.schema.js')
 
-const { collection, doc, getDoc, addDoc, query, where, getDocs, updateDoc, and, or } = require('firebase/firestore/lite')
+const { collection, doc, arrayUnion, getDoc, addDoc, query, where, getDocs, updateDoc, and, or } = require('firebase/firestore/lite')
 
 
 class FirebaseUsers {
@@ -38,6 +38,12 @@ class FirebaseUsers {
 
     create = async user => {
 
+        return getDocs(query(collection(this.#db, this.#coll), opt === 'OR' ? or(...constrains) : and(...constrains)))
+            .then(res => res.docs.length ? User.parse(res.docs[0].data()) : null)
+    }
+
+    create = async user => {
+
         if (await this.find({ username: user.username, email: user.email }, 'OR')) return null
 
         const userRef = await addDoc(collection(this.#db, this.#coll), user.get())
@@ -53,6 +59,135 @@ class FirebaseUsers {
 
         return true
     }
+    checkOnList = async (contentId, nameList, userId) => {
+        try {
+            const userDoc = await getDoc(doc(this.#db, this.#coll, userId));
+            if (!userDoc.exists()) {
+                console.log('User not found');
+                return false;
+            }
+
+            const userData = userDoc.data();
+            const listField = userData[nameList];
+            if (!Array.isArray(listField)) {
+                console.log('Invalid list field or it does not contain an array');
+                return false;
+            }
+
+            return listField.includes(contentId);
+        } catch (error) {
+            console.error('Error checking content on list:', error);
+            return false;
+        }
+    }
+    trackingList = async (userId, contentId, newListName) => {
+        console.log(`Moving ${contentId} to ${newListName} list`);
+        try {
+            const userRef = doc(this.#db, this.#coll, userId);
+            const userDoc = await getDoc(userRef);
+
+            if (!userDoc.exists()) {
+                console.log('User not found');
+                return false;
+            }
+
+            const userData = userDoc.data();
+
+            // Get the name of the current list if the contentId is already in a list
+            const currentListName = await this.isOnList(userId, contentId);
+
+            // Remove contentId from the current list if it exists
+            if (currentListName && userData[currentListName]) {
+                const updatedList = userData[currentListName].filter(item => item !== contentId);
+                await updateDoc(userRef, { [currentListName]: updatedList });
+            }
+
+            // Add contentId to the new list
+            const updatedList = [...userData[newListName], contentId];
+            await updateDoc(userRef, { [newListName]: updatedList });
+
+            console.log('Content moved to the new list successfully');
+            return true;
+        } catch (error) {
+            console.error('Error moving content to the new list:', error);
+            return false;
+        }
+    }
+    isOnList = async (userId, contentId) => {
+        const userRef = doc(this.#db, this.#coll, userId);
+        const userDoc = await getDoc(userRef);
+        const userData = userDoc.data();
+        const trackingLists = ['completed', 'planToWatch', 'dropped', 'watching'];
+        for (const listName of trackingLists) {
+            if (userData.hasOwnProperty(listName) && Array.isArray(userData[listName])) {
+                const list = userData[listName];
+                if (list.includes(contentId)) {
+                    console.log("list name", listName)
+                    return listName;
+                }
+            }
+        }
+        return null;
+    }
+
+    getContentsFromList = async (userId, contentId, listField) => {
+        try {
+            const userDoc = await getDoc(doc(this.#db, this.#coll, userId));
+            if (!userDoc.exists()) {
+                console.log('User not found');
+                return null;
+            }
+
+            const userData = userDoc.data();
+            let references;
+            let userScores;
+            if (listField) {
+                references = userData[listField];
+                if (!Array.isArray(references)) {
+                    console.log('Invalid list field or it does not contain an array');
+                    return null;
+                }
+                userScores = userData["userScores"]
+
+                const contentMap = {};
+
+                if (references) {
+                    for (const reference of references) {
+                        try {
+                            const contentDoc = await getDoc(doc(this.#db, 'Contents', reference));
+                            const score = userScores[reference] || '-';
+                            if (contentDoc.exists()) {
+                                const contentData = contentDoc.data();
+                                contentMap[reference] = {
+                                    coverImg: contentData.coverImg,
+                                    title: contentData.title,
+                                    score: contentData.score,
+                                    status: contentData.status,
+                                    type: contentData.type,
+                                    year: contentData.year,
+                                    userScore: score
+                                };
+                            } else {
+                                console.log(`Content with reference ${reference} not found`);
+                            }
+                        } catch (error) {
+                            console.error(`Error processing reference ${reference}:`, error);
+                        }
+                    }
+                }
+
+                return contentMap;
+            }
+        } catch (error) {
+            console.error('Error getting contents from list:', error);
+            return null;
+        }
+    }
+
+
+
+
+
 }
 
 module.exports = require('../../bin/Singleton')(new FirebaseUsers())

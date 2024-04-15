@@ -3,7 +3,7 @@
   <nav>
     <a id="home-anchor" routerLink="/home">Home</a>
     <a id="ranking-anchor" routerLink="/content-page/:id">Ranking</a>
-    <a id="profile-anchor" routerLink="/profile">Profile</a>
+    <a id="profile-anchor" routerLink="/profile/{{(userLogged$|async)?.id}}/watching">Profile</a>
   </nav>
   <div class="top-header-content-buttons">
     @if ((!(userLogged$|async))) {
