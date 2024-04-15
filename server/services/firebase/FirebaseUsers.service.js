@@ -125,7 +125,7 @@ class FirebaseUsers {
         return null;
     }
 
-    getContentsFromList = async (userId,contentId, listField) => {
+    getContentsFromList = async (userId, listField) => {
         try {
             const userDoc = await getDoc(doc(this.#db, this.#coll, userId));
             if (!userDoc.exists()) {
@@ -170,7 +170,7 @@ class FirebaseUsers {
                     }
                 }
             }
-
+                console.log("firebase", contentMap)
                 return contentMap;
             }
         } catch (error) {
