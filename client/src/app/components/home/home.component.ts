@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { HeroComponent } from './hero/hero.component';
 import { AnimelistComponent } from './animelist/animelist.component';
-import { SearchbarComponent } from '../sharedComponents/searchbar.component';
+import { SearchbarComponent } from '../sharedComponents/searchbar/searchbar.component';
 
 @Component({
   selector: 'app-home',
