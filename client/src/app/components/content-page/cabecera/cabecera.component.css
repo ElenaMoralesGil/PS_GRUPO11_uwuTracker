@@ -262,6 +262,10 @@ p {
 .anime-dropdown-menu article {
     display: flex;
     flex-flow: row nowrap;
+    justify-content: center;
+    gap: 50%;
+    margin: 10%;
+
     justify-content: left;
     margin: 10px;
     width: 100%;

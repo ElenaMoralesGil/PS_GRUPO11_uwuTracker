@@ -11,6 +11,8 @@ import { ContentPageComponent } from './components/content-page/content-page.com
 import { CharactersComponent } from './components/content-page/characters/characters.component';
 import { EpisodesComponent } from './components/content-page/episodes/episodes.component';
 import { StaffComponent } from './components/content-page/staff/staff.component';
+import { SearchComponent } from './components/search/search.component';
+import { TableComponent } from './components/profile/table/table.component';
 
 
 export const routes: Routes = [
