@@ -1,14 +1,15 @@
 import { AfterViewChecked, ChangeDetectionStrategy, Component, DoCheck, Input, OnChanges, SimpleChanges, WritableSignal, effect, signal } from '@angular/core';
+import { SearchbarComponent } from '../sharedComponents/searchbar/searchbar.component';
 import { TagsComponent } from './tags/tags.component';
 import { ResultsComponent } from './results/results.component';
-import { SearchbarComponent } from '../sharedComponents/searchbar.component';
-import { PaginationComponent } from '../sharedComponents/pagination.component';
+import { PaginationComponent } from '../sharedComponents/pagination/pagination.component';
+
 
 
 @Component({
   selector: 'app-search',
   standalone: true,
-  imports: [TagsComponent, ResultsComponent, SearchbarComponent, PaginationComponent],
+  imports: [SearchbarComponent, TagsComponent, ResultsComponent, PaginationComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './search.component.html',
   styleUrl: './search.component.css'
