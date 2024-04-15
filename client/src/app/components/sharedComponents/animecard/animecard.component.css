@@ -4,7 +4,6 @@
     color: var(--snow-color);
     display: flex;
     flex-flow: column nowrap;
-    padding: 20px;
 }
 
 .anime-name {
