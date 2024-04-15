@@ -38,12 +38,6 @@ class FirebaseUsers {
 
     create = async user => {
 
-        return getDocs(query(collection(this.#db, this.#coll), opt === 'OR' ? or(...constrains) : and(...constrains)))
-            .then(res => res.docs.length ? User.parse(res.docs[0].data()) : null)
-    }
-
-    create = async user => {
-
         if (await this.find({ username: user.username, email: user.email }, 'OR')) return null
 
         const userRef = await addDoc(collection(this.#db, this.#coll), user.get())
@@ -130,7 +124,7 @@ class FirebaseUsers {
         return null;
     }
 
-    getContentsFromList = async (userId, contentId, listField) => {
+    getContentsFromList = async (userId, listField) => {
         try {
             const userDoc = await getDoc(doc(this.#db, this.#coll, userId));
             if (!userDoc.exists()) {

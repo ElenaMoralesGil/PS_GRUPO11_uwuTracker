@@ -81,7 +81,7 @@ router.get('/:username', (req, res) => {
 
 router.get('/:userId/contents/:listField', async (req, res) => {
     const { userId, listField } = req.params;
-    console.log('userId:', userId, 'listField:', listField);
+    console.log("sitio correcto", 'userId:', userId, 'listField:', listField);
     try {
         const contents = await Users.getContentsFromList(userId, listField);
         if (!contents) {
