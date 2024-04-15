@@ -29,12 +29,9 @@ class JikanService {
     // Function to search for content based on Name, Genres and other few filters.
     findNameGenres = (name, genres, format, page) => fetch(`${this.contentpath}?${name !== "" ? `q=${name}&` : ''}${genres.length !== 0 ? `genres=${genres.join(',')}&` : ''}${format !== '' ? `type=${format}&` : ''}${page !== undefined ? `page=${page}` : ''}`).then(res => res.json()); // Works
 
-    find({Name, Genres, Year, Season, Format, Page}){
-        if(Year || Season){
-            return this.findSeasonContents(Year, Season, Format, Page);
-        } else {
-            return this.findNameGenres(Name, Genres.map(elem => genres[elem]), Format, Page);
-        }
+    find({name, genres, year, season, format, page}){
+        if(year || season) return this.findSeasonContents(year, season, format, page);
+        return this.findNameGenres(name, genres.map(elem => genres[elem]), format, page);
     }
 }
 
