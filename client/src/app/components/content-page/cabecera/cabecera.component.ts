@@ -27,10 +27,10 @@ export class CabeceraComponent {
 
 
   ratingSelected: boolean = false;
-  ratingOptions: number[] = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10];
+  ratingOptions: number[] = [0, 1, 2, 3, 4, 5];
 
   listSelected: boolean = false;
-  addList: string[] = ['Completed', 'Planned', 'Dropped'];
+  addList: string[] = ['Completed', 'PlanToWatch', 'Dropped', 'Watching'];
 
   getRatings(): number[] {
     return this.ratingOptions

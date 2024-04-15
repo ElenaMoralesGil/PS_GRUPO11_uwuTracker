@@ -156,6 +156,7 @@ p {
 
 .top-description-and-buttons .button-palette {
     display: flex;
+    position: relative;
     flex-flow: row nowrap;
     width: 20%;
     height: 15%;
@@ -170,6 +171,7 @@ p {
 }
 
 .button-palette .addList-container {
+    position: relative;
     flex:4;
     height: 100%;
 }
@@ -189,6 +191,7 @@ p {
     display: flex;
     flex-flow: column nowrap;
     height: 100%;
+    width: 100px;
     justify-content: center;
 }
 
@@ -235,7 +238,7 @@ p {
 .anime-dropdown-menu {
 
     flex-flow: column nowrap;
-    position: relative;
+    position: absolute;
     z-index: 1;
     height: auto;
     margin-top: 10%;
@@ -246,6 +249,7 @@ p {
     font-size: var(--medium-small-font-size);
     overflow: auto;
     background: #70859caa;
+    justify-content: left;
 }
 
 
