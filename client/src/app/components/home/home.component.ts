@@ -1,12 +1,12 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { HeroComponent } from './hero/hero.component';
-import { SarchbarComponent} from '../sharedComponents/sarchbar/sarchbar.component'
 import { AnimelistComponent } from './animelist/animelist.component';
+import { SearchbarComponent } from '../sharedComponents/searchbar.component';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [HeroComponent, SarchbarComponent, AnimelistComponent],
+  imports: [HeroComponent, SearchbarComponent, AnimelistComponent],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'

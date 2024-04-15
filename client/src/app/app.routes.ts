@@ -10,6 +10,7 @@ import { CommentsComponent } from './components/comments/comments.component';
 import { ContentPageComponent } from './components/content-page/content-page.component';
 import { CharactersComponent } from './components/content-page/characters/characters.component';
 import { EpisodesComponent } from './components/content-page/episodes/episodes.component';
+import { SearchComponent } from './components/search/search.component';
 
 
 export const routes: Routes = [
@@ -47,6 +48,9 @@ export const routes: Routes = [
    
     {
         'path': 'content/:id/comments', component: CommentsComponent,
+    },
+    {
+        'path':'search/:page', component:SearchComponent
     }
 ]
 

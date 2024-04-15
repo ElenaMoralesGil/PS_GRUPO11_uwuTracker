@@ -1,16 +1,24 @@
 :root {
     font-family: 'Roboto Light', -apple-system, 'system-ui';
     --snow-color: snow;
+    --snow-color-lo:#fffafa44;
+    --snow-color-no:#fffafa77;
+    --snow-color-mo:#fffafacc;
+
     --dull-blue: #6f849b;
     --dark-blue: hsl(240, 16%, 18%);
 
     --black: #1d1d1f;
     --black-lo: #1d1d1f44;
     --black-no: #1d1d1f77;
-    --black-mo: #1d1d1fbb;
+    --black-mo: #1d1d1fcc;
+    --black-ex: #1d1d1fee;
 
     --black-box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
     --white-box-shadow: 0 3px 10px rgba(255, 255, 255, 0.1);
+
+    --search-bar-green: #828a7d;
+    --search-bar-red: #8a7d7f;
 }
 
 body {
