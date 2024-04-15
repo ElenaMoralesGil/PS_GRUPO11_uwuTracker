@@ -10,7 +10,7 @@ import {
 } from '@angular/core';
 import { ApiContentService } from '../../../services/api-content.service';
 import { UsersService } from "../../../services/users.service";
-import {NgClass, NgForOf, NgIf} from "@angular/common";
+import { NgClass, NgForOf, NgIf } from "@angular/common";
 
 @Component({
   selector: 'app-cabecera',
@@ -21,7 +21,7 @@ import {NgClass, NgForOf, NgIf} from "@angular/common";
     NgIf,
     NgForOf
   ],
-  styleUrls: ['./cabecera.component.css']
+  styleUrls: [ './cabecera.component.css' ]
 })
 export class CabeceraComponent implements OnChanges {
 
@@ -44,9 +44,9 @@ export class CabeceraComponent implements OnChanges {
   selectedRate: number | undefined;
   selectedList: string | null = null; // Store the selected list name
   ratingSelected: boolean = false;
-  ratingOptions: number[] = [0, 1, 2, 3, 4, 5];
+  ratingOptions: number[] = [ 0, 1, 2, 3, 4, 5 ];
   listSelected: boolean = false;
-  trackinglists: string[] = ['completed', 'planToWatch', 'dropped', 'watching'];
+  trackinglists: string[] = [ 'completed', 'planToWatch', 'dropped', 'watching' ];
   isInFavorites: boolean = false;
 
 

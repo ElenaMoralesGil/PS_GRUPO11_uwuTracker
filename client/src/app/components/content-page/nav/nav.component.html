@@ -1,8 +1,7 @@
 <nav class="content-navbar">
     <article *ngFor="let item of informationNav; let i = index" class="anime-data" 
-             [ngClass]="{'selected': selectedIndex === i}" 
-             (click)="showHide(i)">
-        <a [routerLink]="['./', item.toLowerCase()]">{{ item }}</a>
+             [ngClass]="{'selected': selectedIndex === i}" >
+        <a (click)="showHide(i)" [routerLink]="['./', item.toLowerCase()]">{{ item }}</a>
     </article>
 </nav>
 

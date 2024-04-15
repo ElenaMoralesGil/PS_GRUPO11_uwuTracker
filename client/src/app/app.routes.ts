@@ -10,8 +10,7 @@ import { CommentsComponent } from './components/comments/comments.component';
 import { ContentPageComponent } from './components/content-page/content-page.component';
 import { CharactersComponent } from './components/content-page/characters/characters.component';
 import { EpisodesComponent } from './components/content-page/episodes/episodes.component';
-import { SearchComponent } from './components/search/search.component';
-import { TableComponent } from "./components/profile/table/table.component";
+import { StaffComponent } from './components/content-page/staff/staff.component';
 
 
 export const routes: Routes = [
@@ -38,13 +37,14 @@ export const routes: Routes = [
       { path: 'characters', component: CharactersComponent },
       { path: 'episodes', component: EpisodesComponent },
       { path: 'comments', component: CommentsComponent },
+      { path: 'staff', component: StaffComponent },
       {
         path: 'reviews', component: ContentComponent,
         children: [
           { path: 'review/create', component: ReviewComponent }, // Child route for creating a review
           { path: 'review/:reviewId/edit', component: ReviewComponent },// Child route for editing a review
           { path: 'review/:reviewId', component: ReviewComponent },// Child route for viewing individual review by ID
-          { path: 'reviews', component: ReviewComponent } // Child route for viewing reviews
+          { path: 'reviews', component: ReviewComponent }, // Child route for viewing reviews
         ]
       },
     ]

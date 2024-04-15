@@ -27,6 +27,7 @@
     text-align: center;
     height: fit-content;
     box-sizing: border-box;
+    justify-content: center;
 }
 
 .anime-data {
@@ -45,12 +46,10 @@
     max-width: 80%;
     margin-left: 10%;
     height: 40%;
-    overflow: auto;
     opacity: 0.8;
+    
 }
-.anime-data p:nth-child(2)::-webkit-scrollbar {
-    display: none;
-}
+
 .info-line {
     margin-bottom: 5px; 
 }
@@ -63,4 +62,52 @@ p {
     margin-inline-start: 0px;
     margin-inline-end: 0px;
     unicode-bidi: isolate;
+}
+
+/* Tablet */
+@media only screen and (max-width: 1200px) {
+    .aside-anime-information {
+        display: flex;
+        flex-direction: row; 
+        justify-content: center;
+        justify-content: space-between;
+        width: auto;
+        margin: 1% 1% 1% 1%;
+        padding: 30px;
+        overflow-x: auto;
+    }
+    
+    
+    .anime-info-container {
+        flex-flow: row nowrap;
+        justify-content: center;
+        width: 100%;
+        height: 15vh;
+        min-height: 6.75em;
+        overflow: auto;
+        gap: 20%;
+    }
+    
+    .anime-info-container .anime-data {
+        align-items: center; 
+        text-align: center;
+        justify-content: center;
+        margin: 1% 1% 1% 3%;
+    }
+
+    .aside-main-content-container .aside-anime-information {
+        flex: 2;
+        box-sizing: border-box;
+        height: auto;
+    }
+    
+
+    
+
+    
+}
+
+/* Phones */
+@media only screen and (max-width: 750px) {
+    
 }

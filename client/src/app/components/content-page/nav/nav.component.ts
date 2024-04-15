@@ -10,11 +10,12 @@ import { EpisodesComponent } from '../episodes/episodes.component';
 import { CommentsComponent } from '../../comments/comments.component';
 import { ReviewComponent } from '../../review/review.component';
 import { ContentPageComponent } from '../content-page.component';
+import { StaffComponent } from '../staff/staff.component';
 
 @Component({
   selector: 'app-nav',
   standalone: true,
-  imports: [ContentComponent, NgIf, NgClass, NgFor, RouterLink, RouterOutlet, CharactersComponent, EpisodesComponent, CommentsComponent, ReviewComponent],
+  imports: [ContentComponent, NgIf, NgClass, NgFor, RouterLink, RouterOutlet, CharactersComponent, EpisodesComponent, CommentsComponent, ReviewComponent, StaffComponent],
   templateUrl: './nav.component.html',
   styleUrl: './nav.component.css'
 })
@@ -35,6 +36,7 @@ export class NavComponent {
   informationNav: string[] = [
     'Characters',
     'Episodes',
+    'Staff',
     'Comments',
     'Reviews'
   ];

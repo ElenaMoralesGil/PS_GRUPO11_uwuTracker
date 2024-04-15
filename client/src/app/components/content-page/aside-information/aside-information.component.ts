@@ -14,13 +14,23 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
   styleUrl: './aside-information.component.css'
 })
 export class AsideInformationComponent {
-  @Input() information: { likes:number,   year: string; type: string; episodesNumber: string; season: string; }[] = [];
+  @Input() information: {
+    likes: number, source: string, year: string; type: string; episodesNumber: string; season: string;
+    duration: string; status: string; studios: string; genres: string; rating: string;
+  }[] = [];
 
-    infoTitle = [
-      'Likes',
-      `Year`,
-      `Type`,
-      `Episodes Number`,
-      'Season'
-    ]
+  infoTitle = [
+    `Likes`,
+    `Type`,
+    `Source`,
+    `Episodes`,
+    `Duration`,
+    `Status`,
+    `Season`,
+    `Year`,
+    `Studios`,
+    `Genres`,
+    `Rating`,
+
+  ]
 }

@@ -2,6 +2,7 @@
     width: 100%;
     color: var(--snow-color);
     margin-bottom: 5%;
+    
 }
 
 .row-name {
@@ -14,4 +15,11 @@
     display: flex;
     flex-flow: row wrap;
     justify-content: space-evenly;
+    flex-flow: row nowrap; 
+    overflow: auto;
+    white-space: nowrap;
+}
+
+.row-animes::-webkit-scrollbar {
+    display: none; 
 }
