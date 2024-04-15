@@ -26,7 +26,7 @@ export class ContentComponent implements OnInit {
   reviews: Review[] = []; // Array of full review objects
   isReviewCreationOpen: boolean = false;
   areReviewsVisible: boolean = false;
-  contentId:string | undefined;
+  contentId: string | undefined;
   constructor(
     private contentService: ApiContentService,
     private reviewService: ReviewService,
@@ -42,11 +42,11 @@ export class ContentComponent implements OnInit {
       if (parentRoute) {
 
         parentRoute.params.subscribe(params => {
-          this.contentId = params['id'];
+          this.contentId = params[ 'id' ];
         });
       }
 
-      const content = await this.contentService.findById(this.contentId);
+      const content = await this.contentService.findById(<string>this.contentId);
       if (!content?.id) {
         console.error('Content not found or ID is undefined.');
         return;
@@ -77,11 +77,11 @@ export class ContentComponent implements OnInit {
 
   updateReview(updatedReview: Review) {
     this.areReviewsVisible = true;
-    this.isReviewCreationOpen=false;
+    this.isReviewCreationOpen = false;
 
     const index = this.reviews?.findIndex(review => review.id === updatedReview.id);
     if (index !== -1) {
-      this.reviews[index] = updatedReview;
+      this.reviews[ index ] = updatedReview;
       console.log('Updated review:', updatedReview);
     }
     console.log(this.reviews);
@@ -110,23 +110,23 @@ export class ContentComponent implements OnInit {
   handleReviewModalClosed(): void {
     console.log("Modal closed, calling showReviews()");
     this.areReviewsVisible = true;
-    this.isReviewCreationOpen=false;
+    this.isReviewCreationOpen = false;
   }
 
   async showReviews() {
     if (!this.isReviewCreationOpen) {
       await this.fetchReviewsByIds(this.reviewIds);
       this.areReviewsVisible = true;
-      this.isReviewCreationOpen=false;
+      this.isReviewCreationOpen = false;
     } else {
       this.areReviewsVisible = false;
-      this.isReviewCreationOpen=true;
+      this.isReviewCreationOpen = true;
     }
   }
-  pushReview(reviewId:string) {
+  pushReview(reviewId: string) {
 
     this.reviewIds?.push(reviewId)
     this.isReviewCreationOpen = false;
-    this.areReviewsVisible=true;
+    this.areReviewsVisible = true;
   }
 }
