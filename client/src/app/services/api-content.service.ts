@@ -17,12 +17,19 @@ export class ApiContentService implements Contents {
   findById = (id: string | null): Promise<Content | null> =>
     fetch(`${this.path}/${id}`, { credentials: 'include' }).then(res => res.json())
 
-  find = (obj: Object): Promise<Content[]> => {
+  find = (params: Object, opts: { limit: number, orderBy: string, endAt: number, startAt: number, join: 'or' | 'and', orderByDir: string }): Promise<Content[]> => {
     let query = ""
-    for (let [ key, value ] of Object.entries(obj))
+
+    // params
+    for (let [ key, value ] of Object.entries(params))
+      if (key === 'genres' || key === 'studios') query += `${key}=${value.join(',')}`
+      else query += `&${key}=${value}`
+
+    // opts
+    for (let [ key, value ] of Object.entries(opts))
       query += `&${key}=${value}`
 
-    return fetch(`${this.path}?${query}`, { credentials: 'include' }).then(res => res.status == 200 ? res.json() : [])
+    return fetch(`${this.path}?${query} `, { credentials: 'include' }).then(res => res.status == 200 ? res.json() : [])
   }
 
   // create = (content: Content): Promise<Content> | null =>

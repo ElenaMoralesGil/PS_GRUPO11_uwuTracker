@@ -38,7 +38,6 @@ class FirebaseUsers {
 
     create = async user => {
 
-
         if (await this.find({ username: user.username, email: user.email }, 'OR')) return null
 
         const userRef = await addDoc(collection(this.#db, this.#coll), user.get())
