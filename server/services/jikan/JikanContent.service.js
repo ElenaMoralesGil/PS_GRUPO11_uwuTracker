@@ -2,60 +2,39 @@ const Content = require('../../schemas/Content.schema');
 
 class JikanService {
 
-    #seasons = {
-        autumm: {
-            start: "10-01",
-            end: "12-31"
-        },
-        summer: {
-            start: "07-01",
-            end: "09-30"
-        },
-        spring: {
-            start: "04-01",
-            end: "06-30"
-        },
-        winter: {
-            start: "01-01",
-            end: "03-31"
-        }
-    }
-
     constructor() {
         this.contentpath = `${process.env.JIKAN_PATH}/anime`
         this.characterspath = `${process.env.JIKAN_PATH}/characters`
+        this.seasonpath = `${process.env.JIKAN_PATH}/seasons`;
     }
 
-    // Primera funcionalidad.
-    findById = (animeId) => fetch(`${this.contentpath}/${animeId}`).then(res => res.json()).then(res => res.data)
-        .then(content => Content.parse(content));
+    // Function to get a content by ID in Jikan
+    findById = (id) => fetch(`${this.contentpath}/${id}`).then(res => res.json()).then(res => res.data).then(content => Content.parse(content)); // Works
 
-    // Segunda funcionalidad.
-    animeSearch = ({ name, genres, year, season, type, page }) => {
-        let [start_date, end_date] = this.#getDates(year, season);
-        let searchURL = `${this.contentpath}?${name ? `q=${name}&` : ""}${genres ? `genres=${genres.join(",")}&` : ""}${start_date}${end_date}${type ? `genres=${type.join(",")}&` : ""}${page ? `page=${page}` : ""}`;
+    // Function to get the characters of a content finding by ID.
+    animeCharacters = (id) => fetch(`${this.contentpath}/${id}/characters`).then(res => res.json()).then(res => res.data); // Works
 
-        return fetch(searchURL).then(res => res.json()).then(contents => contents.map(content => Content.parse(content)));
-    };
+    // Function to get the episodes of a content finding by ID.
+    animeEpisodes = (id, page) => fetch(`${this.contentpath}/${id}/episodes?page=${page}`).then(res => res.json()); // Works
 
-    // Tercera funcionalidad.
-    animeCharacters = (animeid) => fetch(`${this.contentpath}/${animeid}/characters`).then(res => res.json()).then(res => res.data);
+    // Function to get the images of a content finding by ID.
+    animeImages = (id) => fetch(`${this.contentpath}/${id}/pictures`).then(res => res.json()).then(res => res.data); // Works
 
-    // Cuarta funcionalidad.
-    animeEpisodes = (animeid) => fetch(`${this.contentpath}/${animeid}/episodes`).then(res => res.json()).then(res => res.data);
+    // Function to get a characters description finding by character ID.
+    findCharacter = (characterid) => fetch(`${this.characterpath}/${characterid}`).then(res => res.json()).then(res => res.data ? res.data : ''); // Works
 
-    // Quinta funcionalidad.
-    animeImages = (animeid) => fetch(`${this.contentpath}/${animeid}/pictures`).then(res => res.json()).then(res => res.data);
+    // Function to get a full content season finding by year and season.
+    findSeasonContents = (year, season, format, page) => fetch(`${this.seasonpath}/${year}/${season}?${format !== '' ? `filter=${format}&` : ''}${page !== undefined ? `page=${page}`: ''}`).then(res => res.json()); // Works
 
-    // Sexta funcionalidad.
-    characterDescription = (characterid) => fetch(`${this.characterspath}/${characterid}`).then(res => res.json()).then(res => res.data.about);
+    // Function to search for content based on Name, Genres and other few filters.
+    findNameGenres = (name, genres, format, page) => fetch(`${this.contentpath}?${name !== "" ? `q=${name}&` : ''}${genres.length !== 0 ? `genres=${genres.join(',')}&` : ''}${format !== '' ? `type=${format}&` : ''}${page !== undefined ? `page=${page}` : ''}`).then(res => res.json()); // Works
 
-
-    #getDates = (year, season) => {
-        if (year && season) return [`start_date=${year}-${this.#seasons[season].start}&`, `end_date=${year}-${this.#seasons[season].end}&`]
-        if (year) return [`start_date=${year}-01-01&`, end_date = `end_date=${year}-31-12&`]
-        if (season) return [`start_date=2024-${this.#seasons[season].start}&`, `end_date=2024-${this.#seasons[season].end}&`]
-        return ["", ""];
+    find({Name, Genres, Year, Season, Format, Page}){
+        if(Year || Season){
+            return this.findSeasonContents(Year, Season, Format, Page);
+        } else {
+            return this.findNameGenres(Name, Genres.map(elem => genres[elem]), Format, Page);
+        }
     }
 }
 
