@@ -7,6 +7,7 @@ import {ApiContentService} from "../../../services/api-content.service";
 import {UsersService} from "../../../services/users.service";
 import {of} from "rxjs";
 import {KeyValuePipe, NgForOf, NgIf} from "@angular/common";
+import {ProgressRowComponent} from "./progress-row/progress-row.component";
 
 @Component({
   selector: 'app-table',
@@ -16,7 +17,8 @@ import {KeyValuePipe, NgForOf, NgIf} from "@angular/common";
     NormalRowComponent,
     NgForOf,
     KeyValuePipe,
-    NgIf
+    NgIf,
+    ProgressRowComponent
   ],
   templateUrl: './table.component.html',
   styleUrl: './table.component.css'

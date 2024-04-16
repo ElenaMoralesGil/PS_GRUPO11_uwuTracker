@@ -11,7 +11,7 @@ import {Router} from "@angular/router"
   templateUrl: './normal-row.component.html',
   styleUrl: './normal-row.component.css'
 })
-export class NormalRowComponent implements OnInit{
+export class NormalRowComponent{
   @Input() rowTitle?: string = "text";
   @Input() rowUserScore?: number = 0
   @Input() rowContentScore?: number = 0;
@@ -21,11 +21,5 @@ export class NormalRowComponent implements OnInit{
   @Input() rowContentCover?: string = "text";
   @Input() isDropped?: boolean = false;
   @Input() rowContentId?: string = "1111";
-  constructor() {
-  }
-
-  ngOnInit(): void {
-
-  }
 
 }
