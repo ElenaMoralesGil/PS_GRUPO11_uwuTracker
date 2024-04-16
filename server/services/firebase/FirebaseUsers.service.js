@@ -159,7 +159,8 @@ class FirebaseUsers {
                                     status: contentData.status,
                                     type: contentData.type,
                                     year: contentData.year,
-                                    userScore: score
+                                    userScore: score,
+                                    genres: contentData.genres
                                 };
                             } else {
                                 console.log(`Content with reference ${reference} not found`);

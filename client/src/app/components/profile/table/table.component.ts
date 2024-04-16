@@ -27,7 +27,7 @@ export class TableComponent implements OnInit{
   listName: string = 'watching';
   isWatching: boolean = false;
 
-  list: { [key: string]: { contentId: string, coverImg: string, title: string, score: number, status: string, type: string, year?: number, userScore?:number } } | undefined;
+  list: { [key: string]: { contentId: string, coverImg: string, title: string, score: number, status: string, type: string, year?: number, userScore?:number, genres?:string[] } } | undefined;
 
   constructor(
     private route: ActivatedRoute,
@@ -85,6 +85,7 @@ export class TableComponent implements OnInit{
       const user = users? users[0]: null;
       // @ts-ignore
       this.list = await this.UserService.getContentsFromList( user?.id, contentList);
+      console.log(this.list)
     } catch (error) {
       console.error('Error fetching reviews:', error);
     }
