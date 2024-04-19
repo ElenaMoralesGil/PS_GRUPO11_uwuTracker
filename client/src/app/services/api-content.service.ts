@@ -41,7 +41,7 @@ export class ApiContentService implements Contents {
     for (let [ key, value ] of Object.entries(opts))
       query += `&${key}=${value}`
 
-    return fetch(`${this.path}?${query} `, { credentials: 'include' }).then(res => res.status == 200 ? res.json() : [])
+    return fetch(`${this.path}/persistent-search?${query} `, { credentials: 'include' }).then(res => res.status == 200 ? res.json() : [])
   }
 
 
