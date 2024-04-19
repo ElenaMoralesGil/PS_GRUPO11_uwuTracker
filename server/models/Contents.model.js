@@ -1,6 +1,4 @@
-
 const Content = require('../schemas/Content.schema')
-
 
 class Contents {
     #api
