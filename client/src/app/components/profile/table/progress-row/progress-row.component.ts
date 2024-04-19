@@ -29,10 +29,15 @@ export class ProgressRowComponent {
   }
 
  async incrementEpisodesCount() {
-    console.log("here");
     if (<number>this.rowProgress < <number>this.episodes ) {
       this.rowProgress = await this.UsersService.incrementEpisodesCount(this.user, this.rowContentId);
     }
+ }
+
+ async decrementEpisodesCount() {
+   if (<number>this.rowProgress > 0 ) {
+     this.rowProgress = await this.UsersService.decrementEpisodesCount(this.user, this.rowContentId);
+   }
  }
 
 }

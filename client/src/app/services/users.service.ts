@@ -151,4 +151,25 @@ export class UsersService implements Users {
         throw error;
       });
   }
+  decrementEpisodesCount(userId: string | undefined, contentId: string | undefined): Promise<number> {
+    const url = `${this.path}/${userId}/${contentId}/decrement-episodes-count`;
+
+    return fetch(url, {
+      method: 'POST',
+      credentials: 'include'
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Failed to increment episodes count');
+        }
+        return response.json();
+      })
+      .then(data => {
+        return data.episodesCount;
+      })
+      .catch(error => {
+        console.error('Error incrementing episodes count:', error);
+        throw error;
+      });
+  }
 }

@@ -6,7 +6,7 @@
     </a>
     <img alt="" title="" src= "{{rowContentCover}}">
     <section class="progress">
-      <i class="fa-solid fa-minus" id="minusBtn"></i>
+      <i class="fa-solid fa-minus" id="minusBtn" (click)="decrementEpisodesCount()"></i>
       <span class="progress-counter" id="counter">{{rowProgress}}</span>
       <i class="fa-solid fa-plus" id="plusBtn" (click)="incrementEpisodesCount()"></i>
     </section>

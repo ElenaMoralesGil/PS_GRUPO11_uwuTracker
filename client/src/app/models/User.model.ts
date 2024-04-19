@@ -12,4 +12,6 @@ export default interface Users {
   trackingList: (userId: string, contentId: string, listField: string) => Promise<void>
   isOnList: (userId: string | undefined, contentId: string | undefined) => Promise<string | null>
   incrementEpisodesCount: (userId: string | undefined, contentId: string | undefined) => Promise<number>
+  decrementEpisodesCount: (userId: string | undefined, contentId: string | undefined) => Promise<number>
+
 }
