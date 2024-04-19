@@ -30,7 +30,7 @@ export class TableComponent implements OnInit{
   listName: string = 'watching';
   isWatching: boolean = false;
   user?:User | null;
-  list: { [key: string]: {  coverImg: string, title: string, score: number, status: string, type: string, year?: number, userScore?:number, genres?:string[], contentProgress?:number, episodes?:number} } | undefined;
+  list: { [key: string]: {  coverImg: string, title: string, score: number, status: string, type: string, year?: number, userScore?:number, genres?:string[], contentProgress:number, episodes?:number} } | undefined;
 
   constructor(
     private route: ActivatedRoute,
@@ -92,6 +92,11 @@ export class TableComponent implements OnInit{
       console.log(this.list)
     } catch (error) {
       console.error('Error fetching reviews:', error);
+    }
+  }
+  updateListOnCompleted(contentId: string): void {
+    if (this.list) {
+      delete this.list[contentId];
     }
   }
 }
