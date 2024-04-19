@@ -13,10 +13,9 @@ import { ReviewComponent } from "./components/review/review.component";
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   title = 'client';
-  constructor(private authService: AuthService) { }
-  ngOnInit(): void {
+  constructor(private authService: AuthService) {
     this.authService.isLoggedIn()
   }
 }

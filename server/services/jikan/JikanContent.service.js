@@ -21,7 +21,7 @@ class JikanService {
     animeImages = (id) => fetch(`${this.contentpath}/${id}/pictures`).then(res => res.json()).then(res => res.data); // Works
 
     // Function to get a characters description finding by character ID.
-    findCharacter = (characterid) => fetch(`${this.characterpath}/${characterid}`).then(res => res.json()).then(res => res.data ? res.data : ''); // Works
+    findCharacter = (characterid) => fetch(`${this.characterspath}/${characterid}`).then(res => res.json()).then(res => res.data ? res.data : ''); // Works
 
     // Function to get a full content season finding by year and season.
     findSeasonContents = (year, season, format, page) => fetch(`${this.seasonpath}/${year}/${season}?${format !== '' ? `filter=${format}&` : ''}${page !== undefined ? `page=${page}` : ''}`).then(res => res.json()); // Works

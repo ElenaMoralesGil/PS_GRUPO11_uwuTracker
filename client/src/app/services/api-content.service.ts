@@ -15,10 +15,19 @@ export class ApiContentService implements Contents {
   constructor() {
     this.path = `${__env.API_PATH}/content`
   }
+  getCharacterById: (id: string) => Promise<any> = id => fetch(`${this.path}character/${id}`, { credentials: 'include' })
+    .then(res => res.json())
+    .then(characters => characters || null)
+    .catch(err => null)
 
+  getEpisodes: (id: string) => Promise<any> = id => fetch(`${this.path}/${id}/episodes`, { credentials: 'include' })
+    .then(res => res.json())
+    .then(episodes => episodes || null)
+    .catch(err => null)
 
   findById = (id: string | null): Promise<Content | null> =>
     fetch(`${this.path}/${id}`, { credentials: 'include' }).then(res => res.json())
+
 
   find = (params: Object, opts: { limit: number, orderBy: string, endAt: number, startAt: number, join: 'or' | 'and', orderByDir: string }): Promise<Content[]> => {
     let query = ""
@@ -34,6 +43,7 @@ export class ApiContentService implements Contents {
 
     return fetch(`${this.path}?${query} `, { credentials: 'include' }).then(res => res.status == 200 ? res.json() : [])
   }
+
 
   like = (userId: string | undefined, contentId: string | undefined): Promise<number> => {
     const url = `${this.path}/${userId}/like/${contentId}`;
@@ -69,5 +79,4 @@ export class ApiContentService implements Contents {
       return null;
     }
   }
-
 }
