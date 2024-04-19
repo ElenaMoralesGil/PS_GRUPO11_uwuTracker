@@ -3,6 +3,35 @@ const router = require('express').Router()
 const Contents = require('../../models/Contents.model')
 const Content = require('../../schemas/Content.schema')
 
+
+
+router.get('/:id/episodes', (req, res) => {
+    Contents.getEpisodes(req.params.id, req.query.page || 1).then(episodes => {
+        if (!episodes) return res.status(404).json({ msg: 'not-found' })
+        return res.status(200).json({ data: episodes })
+    })
+        .catch(err => { console.log('ERROR:', err); res.status(500).json(err) })
+})
+
+
+router.get('/character/:id', (req, res) => {
+    Contents.findCharacterById(req.params.id).then(character => {
+        if (!character) return res.status(404).json({ msg: 'not-found' })
+        return res.status(200).json({ data: character })
+    })
+        .catch(err => { console.log('ERROR:', err); res.status(500).json(err) })
+})
+
+
+router.get('/characters/:id', (req, res) => {
+    Contents.getCharacters(req.params.id).then(characters => {
+        if (!characters) res.status(404).json({ msg: 'not-found' })
+        return res.status(200).json({ data: characters })
+    })
+        .catch(err => { console.log('ERROR:', err); res.status(500).json({ msg: err }) })
+})
+
+
 router.get('/search', (req, res) => {
     Contents.find(req.query)
         .then(contents => {

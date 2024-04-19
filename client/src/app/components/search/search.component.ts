@@ -9,24 +9,28 @@ import { PaginationComponent } from '../sharedComponents/pagination/pagination.c
 @Component({
   selector: 'app-search',
   standalone: true,
-  imports: [SearchbarComponent, TagsComponent, ResultsComponent, PaginationComponent],
+  imports: [ SearchbarComponent, TagsComponent, ResultsComponent, PaginationComponent ],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './search.component.html',
   styleUrl: './search.component.css'
 })
-export class SearchComponent {
-  constructor(){
-    effect(()=>{
-      console.log(this.options());
-    })
+export class SearchComponent implements OnChanges {
+  constructor() {
+    // effect(() => {
+    //   console.log(this.options);
+    // })
+  }
+  ngOnChanges(): void {
+    console.log(this.options)
   }
 
-  options:WritableSignal<{Name:string, Genres:string[], Year:number, Season:string, Format:string}> =
-  signal({ 
-    Name:'',
-    Genres:[], 
-    Year:0,
-    Season:'', 
-    Format:''
-  });
+
+
+  options: { Name: string, Genres: string[], Year: number, Season: string, Format: string } = {
+    Name: '',
+    Genres: [],
+    Year: 0,
+    Season: '',
+    Format: ''
+  };
 }
