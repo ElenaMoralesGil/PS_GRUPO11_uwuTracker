@@ -14,7 +14,7 @@ export class EpisodesComponent {
   @Input() duration: string | undefined;
   @Input() aired: string | undefined;
 
-  
+
   episodes2 = [
     { number: '1', name: 'Episode 1', duration: '30 minutes', aired: 'January 1, 2022' },
     { number: '2', name: 'Episode 2', duration: '25 minutes', aired: 'January 8, 2022' },
@@ -32,7 +32,22 @@ export class EpisodesComponent {
     { number: '2', name: 'Episode 2', duration: '25 minutes', aired: 'January 8, 2022' },
     { number: '3', name: 'Episode 3', duration: '43 minutes', aired: 'January 20, 2022' },
     { number: '4', name: 'Episode 4', duration: '36 minutes', aired: 'January 26, 2022' },
-
+    { number: '1', name: 'Episode 1', duration: '30 minutes', aired: 'January 1, 2022' },
+    { number: '2', name: 'Episode 2', duration: '25 minutes', aired: 'January 8, 2022' },
+    { number: '3', name: 'Episode 3', duration: '43 minutes', aired: 'January 20, 2022' },
+    { number: '4', name: 'Episode 4', duration: '36 minutes', aired: 'January 26, 2022' },
+    { number: '1', name: 'Episode 1', duration: '30 minutes', aired: 'January 1, 2022' },
+    { number: '2', name: 'Episode 2', duration: '25 minutes', aired: 'January 8, 2022' },
+    { number: '3', name: 'Episode 3', duration: '43 minutes', aired: 'January 20, 2022' },
+    { number: '4', name: 'Episode 4', duration: '36 minutes', aired: 'January 26, 2022' },
+    { number: '1', name: 'Episode 1', duration: '30 minutes', aired: 'January 1, 2022' },
+    { number: '2', name: 'Episode 2', duration: '25 minutes', aired: 'January 8, 2022' },
+    { number: '3', name: 'Episode 3', duration: '43 minutes', aired: 'January 20, 2022' },
+    { number: '4', name: 'Episode 4', duration: '36 minutes', aired: 'January 26, 2022' },
+    { number: '1', name: 'Episode 1', duration: '30 minutes', aired: 'January 1, 2022' },
+    { number: '2', name: 'Episode 2', duration: '25 minutes', aired: 'January 8, 2022' },
+    { number: '3', name: 'Episode 3', duration: '43 minutes', aired: 'January 20, 2022' },
+    { number: '4', name: 'Episode 4', duration: '36 minutes', aired: 'January 26, 2022' },
   ];
 
   constructor() { }

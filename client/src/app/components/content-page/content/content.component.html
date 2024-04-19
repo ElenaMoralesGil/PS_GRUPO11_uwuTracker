@@ -1,6 +1,7 @@
 <div class="review-content">
-  <button (click)="toggleReviewCreation()">Create Review</button>
-
+  <div class="createbtn-container">
+  <button class="create-btn" (click)="toggleReviewCreation()">Create Review</button>
+  </div>
 
   <!-- Render the the reviews from reviews -->
   <div *ngIf="areReviewsVisible && !isReviewCreationOpen"   class="review-container">
@@ -11,8 +12,7 @@
   </div>
 
 
-
-  <app-review *ngIf="isReviewCreationOpen"  (reviewModalClosed) ="handleReviewModalClosed()" [isNewReview]=true class="review"
+  <app-review  class= "review" *ngIf="isReviewCreationOpen"  (reviewModalClosed) ="handleReviewModalClosed()" [isNewReview]=true
     (newReview)="pushReview($event)"></app-review>
 
 </div>
