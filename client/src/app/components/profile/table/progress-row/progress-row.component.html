@@ -6,10 +6,13 @@
     </a>
 
     <section class="progress">
-
+    @if(accountId === user) {
       <i class="fa-solid fa-minus" id="minusBtn" (click)="decrementEpisodesCount()"></i>
       <span class="progress-counter" id="counter">{{rowProgress}} / {{episodes}}</span>
       <i class="fa-solid fa-plus" id="plusBtn" (click)="incrementEpisodesCount()"></i>
+    } @else{
+      <span class="progress-counter" >{{rowProgress}} / {{episodes}}</span>
+    }
     </section>
     <p class="position position-score" >{{rowContentScore}}</p>
     <p class="position position-type">{{rowType}}</p>

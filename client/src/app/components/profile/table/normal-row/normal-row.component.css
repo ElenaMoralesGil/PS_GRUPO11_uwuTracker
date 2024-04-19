@@ -14,6 +14,11 @@
   width: 100%;
   position: relative;
 }
+span {
+  color:white;
+  z-index: 1;
+  margin-top: -5%
+}
 .position-content:before {
   content: "";
   position: absolute;

@@ -7,6 +7,7 @@ import {UserInfoComponent} from "./user-info/user-info.component";
 import {ProfileNavComponent} from "./profile-nav/profile-nav.component";
 import {TableComponent} from "./table/table.component";
 import {ApiContentService} from "../../services/api-content.service";
+import {AuthService} from "../../services/auth.service";
 
 @Component({
   selector: 'app-profile',
@@ -40,17 +41,21 @@ export class ProfileComponent implements OnInit {
     contentProgress:new Map<string, number>()
   };
   username: string = "";
+  accountId?: string;
 
   constructor(
     private userService: UsersService,
     private router: ActivatedRoute,
+    private authService: AuthService,
 
   ) { }
 
   async ngOnInit(): Promise<void> {
     try {
       this.username = this.router.snapshot.paramMap.get("username") || "";
-
+      this.authService.user.subscribe((user: User | null) => {
+        this.accountId = user?.id;
+      });
       const users = await this.userService.find({"username": this.username});
       const user = users? users[0]: null
       if (!user?.id) {

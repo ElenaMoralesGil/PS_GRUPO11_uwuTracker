@@ -21,24 +21,20 @@ export class ProgressRowComponent {
   @Input() rowContentId?: string;
   @Input() user?: string;
   @Input() episodes?:number;
+  @Input() accountId?: string;
   @Output() changeToCompleted = new EventEmitter<string>();
-  private _rowProgress: number = 0;
+  @Input() rowProgress?: number;
 
-  @Input()
-  get rowProgress(): number {
-    return this._rowProgress;
-  }
 
-  set rowProgress(value: number) {
-    this._rowProgress = value;
-  }
+
 
   constructor(private UsersService: UsersService) {
   }
 
   async incrementEpisodesCount() {
-    if (this.rowProgress < <number>this.episodes ) {
-      if (this.rowProgress +1 === this.episodes ) {
+    console.log(this.accountId, this.episodes);
+    if (<number>this.rowProgress < <number>this.episodes ) {
+      if (<number>this.rowProgress +1 === this.episodes ) {
         this.checkProgress();
       }else {
         this.rowProgress = await this.UsersService.incrementEpisodesCount(this.user, this.rowContentId);

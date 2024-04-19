@@ -30,7 +30,9 @@
         [user] = user?.id
         [rowProgress]="item.value.contentProgress"
         [episodes]="item.value.episodes"
+        [accountId] = "accountId"
         (changeToCompleted)="updateListOnCompleted($event)">
+
         ></app-progress-row>
     } @else{
     <app-normal-row

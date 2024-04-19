@@ -9,6 +9,7 @@ import {of} from "rxjs";
 import {KeyValuePipe, NgForOf, NgIf} from "@angular/common";
 import {ProgressRowComponent} from "./progress-row/progress-row.component";
 import User from "../../../schemas/User.schema";
+import {AuthService} from "../../../services/auth.service";
 
 @Component({
   selector: 'app-table',
@@ -31,10 +32,12 @@ export class TableComponent implements OnInit{
   isWatching: boolean = false;
   user?:User | null;
   list: { [key: string]: {  coverImg: string, title: string, score: number, status: string, type: string, year?: number, userScore?:number, genres?:string[], contentProgress:number, episodes?:number} } | undefined;
+  accountId?: string;
 
   constructor(
     private route: ActivatedRoute,
-    private UserService: UsersService
+    private UserService: UsersService,
+    private authService: AuthService,
   ) { }
 
 
@@ -53,7 +56,9 @@ export class TableComponent implements OnInit{
         });
       }
 
-
+      this.authService.user.subscribe((user: User | null) => {
+        this.accountId = user?.id;
+      });
 
 
       this.route.url.subscribe(async urlSegments => {
