@@ -164,7 +164,8 @@ class FirebaseUsers {
                                     year: contentData.year,
                                     userScore: score,
                                     genres: contentData.genres,
-                                    contentProgress: progress
+                                    contentProgress: progress,
+                                    episodes: contentData.episodes
                                 };
                             } else {
                                 console.log(`Content with reference ${reference} not found`);
@@ -187,6 +188,9 @@ class FirebaseUsers {
             const userRef = doc(this.#db, this.#coll, userId);
             const userDoc = await getDoc(userRef);
 
+            const contentDoc = await getDoc(doc(this.#db, 'Contents', contentId));
+            const contentData = contentDoc.data();
+            const maxCount = contentData.episodes;
 
             if (!userDoc.exists) {
                 throw new Error('User not found');
@@ -195,11 +199,13 @@ class FirebaseUsers {
             const userData = userDoc.data();
             const contentProgress = userData.contentProgress ;
             const episodesCount = contentProgress[contentId] ;
-            contentProgress[contentId] = episodesCount + 1;
-
-            await updateDoc(userRef, { contentProgress });
-
-            return contentProgress[contentId];
+            if (episodesCount === maxCount) {
+                return episodesCount;
+            }else {
+                contentProgress[contentId] = episodesCount + 1;
+                await updateDoc(userRef, {contentProgress});
+                return contentProgress[contentId];
+            }
         } catch (error) {
             console.error('Error incrementing episodes count:', error);
             throw error;
