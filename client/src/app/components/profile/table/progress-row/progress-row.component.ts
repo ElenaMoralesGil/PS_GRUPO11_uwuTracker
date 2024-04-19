@@ -11,7 +11,7 @@ import {UsersService} from "../../../../services/users.service";
   templateUrl: './progress-row.component.html',
   styleUrl: '../normal-row/normal-row.component.css'
 })
-export class ProgressRowComponent implements OnChanges {
+export class ProgressRowComponent {
   @Input() rowTitle?: string;
   @Input() rowTotalChapters?: number;
   @Input() rowGenres?: string[];
@@ -31,40 +31,32 @@ export class ProgressRowComponent implements OnChanges {
 
   set rowProgress(value: number) {
     this._rowProgress = value;
-    this.checkProgress();
   }
 
   constructor(private UsersService: UsersService) {
   }
 
   async incrementEpisodesCount() {
-    if (<number>this.rowProgress < <number>this.episodes ) {
-      this.rowProgress = await this.UsersService.incrementEpisodesCount(this.user, this.rowContentId);
-      console.log(this.rowProgress);
+    if (this.rowProgress < <number>this.episodes ) {
+      if (this.rowProgress +1 === this.episodes ) {
+        this.checkProgress();
+      }else {
+        this.rowProgress = await this.UsersService.incrementEpisodesCount(this.user, this.rowContentId);
+
+      }
     }
   }
   async decrementEpisodesCount() {
     if (<number>this.rowProgress > 0 ) {
-      this.rowProgress = await this.UsersService.decrementEpisodesCount(this.user, this.rowContentId);
-      console.log(this.rowProgress);
+
+        this.rowProgress = await this.UsersService.decrementEpisodesCount(this.user, this.rowContentId);
     }
   }
 
   async checkProgress() {
-    if (this.rowProgress === this.episodes) {
       if (confirm(`¿Do u want to move ${this.rowTitle} to the completed list?`)) {
         await this.UsersService.trackingList(this.user, this.rowContentId, "completed");
         this.changeToCompleted.emit(this.rowContentId)
-      } else {
-        this.rowProgress = await this.UsersService.decrementEpisodesCount(this.user, this.rowContentId);
       }
-    }
-  }
-  ngOnChanges(changes: SimpleChanges) {
-    if (changes['rowProgress']) {
-      if (this.rowProgress !== undefined && this.rowProgress === this.episodes) {
-        this.checkProgress();
-      }
-    }
   }
 }

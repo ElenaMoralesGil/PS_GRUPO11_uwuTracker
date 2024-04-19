@@ -2,10 +2,11 @@
 
   <div class="position-content">
     <a [routerLink]="['/content-page',rowContentId]">
-    <p class=" position position-title" >{{rowTitle}}</p>
+      <p class=" position position-title" >{{rowTitle}}</p>
     </a>
-    <img alt="" title="" src= "{{rowContentCover}}">
+
     <section class="progress">
+
       <i class="fa-solid fa-minus" id="minusBtn" (click)="decrementEpisodesCount()"></i>
       <span class="progress-counter" id="counter">{{rowProgress}} / {{episodes}}</span>
       <i class="fa-solid fa-plus" id="plusBtn" (click)="incrementEpisodesCount()"></i>
@@ -13,6 +14,5 @@
     <p class="position position-score" >{{rowContentScore}}</p>
     <p class="position position-type">{{rowType}}</p>
     <p class="position position-status">{{rowGenres}}</p>
-
+    <img alt="" title="" src= "{{rowContentCover}}">
   </div>
-

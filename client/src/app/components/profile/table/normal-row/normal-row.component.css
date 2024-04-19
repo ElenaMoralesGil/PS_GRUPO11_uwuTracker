@@ -6,6 +6,7 @@
  a{
   text-decoration: none;
   color:inherit;
+   z-index: 20;
 }
 .position-content {
   display: flex;
@@ -27,6 +28,7 @@
 }
 p , #minusBtn, #plusBtn, #counter {
   color: white;
+  z-index: 1;
 }
 .progress {
   flex: 1;
@@ -45,6 +47,7 @@ p , #minusBtn, #plusBtn, #counter {
   opacity: 0.4;
   box-sizing: border-box;
 }
+
 
 @media screen and (width < 70rem){
   .position-content {
