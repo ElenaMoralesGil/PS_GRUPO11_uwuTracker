@@ -21,6 +21,7 @@ export class ProgressRowComponent {
   @Input() rowContentCover?: string;
   @Input() rowContentId?: string;
   @Input() user?: string;
+  @Input() episodes?:number;
 
 
 
@@ -29,7 +30,9 @@ export class ProgressRowComponent {
 
  async incrementEpisodesCount() {
     console.log("here");
-   this.rowProgress= await this.UsersService.incrementEpisodesCount(this.user,this.rowContentId);
+    if (<number>this.rowProgress < <number>this.episodes ) {
+      this.rowProgress = await this.UsersService.incrementEpisodesCount(this.user, this.rowContentId);
+    }
  }
 
 }
