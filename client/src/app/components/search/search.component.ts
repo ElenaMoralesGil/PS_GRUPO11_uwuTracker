@@ -3,6 +3,7 @@ import { SearchbarComponent } from '../sharedComponents/searchbar/searchbar.comp
 import { TagsComponent } from './tags/tags.component';
 import { ResultsComponent } from './results/results.component';
 import { PaginationComponent } from '../sharedComponents/pagination/pagination.component';
+import { ApiContentService } from '../../services/api-content.service';
 
 
 
@@ -15,18 +16,18 @@ import { PaginationComponent } from '../sharedComponents/pagination/pagination.c
   styleUrl: './search.component.css'
 })
 export class SearchComponent {
-  constructor(){
+  constructor(contentService:ApiContentService){
     effect(()=>{
-      console.log(this.options());
+      contentService.search({...this.options(), page:this.current_page ? this.current_page : 1}).then(contents => console.log(contents))
     })
   }
-
-  options:WritableSignal<{Name:string, Genres:string[], Year:number, Season:string, Format:string}> =
+  current_page = undefined;
+  options:WritableSignal<{name:string, genres:string[], year:number, season:string, format:string}> =
   signal({ 
-    Name:'',
-    Genres:[], 
-    Year:0,
-    Season:'', 
-    Format:''
+    name:'Frieren',
+    genres:[], 
+    year:0,
+    season:'', 
+    format:''
   });
 }

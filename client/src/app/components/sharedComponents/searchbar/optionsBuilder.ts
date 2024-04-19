@@ -10,7 +10,7 @@ export class optionsBuilder {
     }
 
     getKeys = () => {
-        return ["Genres", "Year", "Season", "Format"];
+        return ["genres", "year", "season", "format"];
     }
 
     #buildGenres = ():string[] => {

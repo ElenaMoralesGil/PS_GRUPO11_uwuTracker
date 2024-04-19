@@ -1,15 +1,15 @@
 import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, Output, ViewChild, WritableSignal, input, signal} from '@angular/core';
 import { optionsBuilder } from "./optionsBuilder";
-import { CommonModule, NgStyle } from '@angular/common';
+import { CommonModule, NgStyle, TitleCasePipe } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, fromEvent} from 'rxjs';
 
-type optionNames = 'Name'|'Genres'|'Year'|'Season'|'Format';
+type optionNames = 'name'|'genres'|'year'|'season'|'format';
 
 @Component({
   selector: 'app-searchbar',
   standalone: true,
-  imports: [CommonModule, ReactiveFormsModule, NgStyle],
+  imports: [CommonModule, ReactiveFormsModule, NgStyle, TitleCasePipe],
   changeDetection: ChangeDetectionStrategy.OnPush,
   templateUrl: './searchbar.component.html',
   styleUrl: './searchbar.component.css'
@@ -28,7 +28,7 @@ export class SearchbarComponent implements AfterViewInit{
 
   /* Declarations to handle emitted data from the search bar */
   name = new FormControl('');
-  @Input() options: {Name:string, Genres:string[], Year:number, Season:string, Format:string} = {Name:'', Genres:[], Year:0, Season:'', Format:''}
+  @Input() options: {name:string, genres:string[], year:number, season:string, format:string} = {name:'', genres:[], year:0, season:'', format:''}
   @Output() optionsChange = new EventEmitter();
 
   // Function to get the current season of the year.
@@ -37,43 +37,43 @@ export class SearchbarComponent implements AfterViewInit{
   /* Handler for data emmited from the search bar */
   emitOptions(item:optionNames, value:string|number) {
     switch(item){
-      case 'Name':
+      case 'name':
         if (this.tracker !== true) this.modeHandler('normal');
         this.options[item] = this.options[item] === String(value) ? '' : String(value); break;
-      case 'Genres':
+      case 'genres':
         if (this.tracker !== true) this.modeHandler('normal');
         this.options[item].includes(String(value)) ? this.options[item].splice(this.options[item].findIndex(elem => elem === value), 1) : this.options[item].push(String(value)); break;
-      case 'Year':
+      case 'year':
         if (this.tracker !== false) this.modeHandler('time');
-        if (this.options[item] === value){this.optionsCleanup(["Season"]); this.options[item] = 0}
+        if (this.options[item] === value){this.optionsCleanup(["season"]); this.options[item] = 0}
         else {
           this.options[item] = Number(value);
-          this.options.Season = this.options.Season === '' ? ['Winter', 'Spring', 'Summer', 'Autumn'][this.getSeason(new Date())] : this.options.Season;
+          this.options.season = this.options.season === '' ? ['Winter', 'Spring', 'Summer', 'Autumn'][this.getSeason(new Date())] : this.options.season;
         };
         break;
-      case 'Season':
+      case 'season':
         if (this.tracker !== false) this.modeHandler('time');
-        if (this.options[item] === String(value)){this.optionsCleanup(["Year"]); this.options[item] = ''}
+        if (this.options[item] === String(value)){this.optionsCleanup(["year"]); this.options[item] = ''}
         else {
           this.options[item] = String(value);
-          this.options.Year = this.options.Year === 0 ? new Date().getFullYear() : this.options.Year;
+          this.options.year = this.options.year === 0 ? new Date().getFullYear() : this.options.year;
         };
         break;
-      case 'Format':
+      case 'format':
         this.options[item] = this.options[item] === String(value) ? '' : String(value); break;
       }
     this.optionsChange.emit({...this.options});
   }
 
   optionsCleanup(items:optionNames[]){
-    items.forEach(elem => elem === "Genres" ? this.options[elem].length = 0 : elem === "Year" ? this.options[elem] = 0 : this.options[elem] = '');
+    items.forEach(elem => elem === "genres" ? this.options[elem].length = 0 : elem === "year" ? this.options[elem] = 0 : this.options[elem] = '');
   }
 
   // Input Component to Observe
   @ViewChild('searchinput') searchInput!:ElementRef;
   ngAfterViewInit(): void {
     fromEvent(this.searchInput.nativeElement, 'keyup').pipe(debounceTime(1000)).subscribe(()=>{
-      this.emitOptions('Name', String(this.name.value));
+      this.emitOptions('name', String(this.name.value));
     })
   }
 
@@ -82,9 +82,9 @@ export class SearchbarComponent implements AfterViewInit{
 
   modeHandler(mode:'normal'|'time'){
     if(mode === 'normal') {
-      this.optionsCleanup(["Year", "Season"]); this.searchMode = "normal"; this.tracker = true;
+      this.optionsCleanup(["year", "season"]); this.searchMode = "normal"; this.tracker = true;
     } else {
-      this.optionsCleanup(["Name", "Genres"]); this.searchMode = "time"; this.name.reset(); this.tracker = false;
+      this.optionsCleanup(["name", "genres"]); this.searchMode = "time"; this.name.reset(); this.tracker = false;
     }
   }
 }

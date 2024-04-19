@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, Input, Output } from '@angular/core';
 
-type optionNames = 'Name'|'Genres'|'Year'|'Season'|'Format';
+type optionNames = 'name'|'genres'|'year'|'season'|'format';
 
 @Component({
   selector: 'app-tags',
@@ -13,22 +13,22 @@ type optionNames = 'Name'|'Genres'|'Year'|'Season'|'Format';
 export class TagsComponent {
 
   @Input() options = {
-    Name:'',
-    Genres:[''],
-    Year:0,
-    Season:'',
-    Format:''
+    name:'',
+    genres:[''],
+    year:0,
+    season:'',
+    format:''
   }
   @Output() optionsChange = new EventEmitter();
 
   changedOptions(key:optionNames, value:string|number) {
     switch(key){
-      case 'Genres':
+      case 'genres':
         this.options[key].splice(this.options[key].findIndex(elem => elem === value), 1); break;
-      case 'Year':
-        this.options.Season = ''; this.options[key] = 0; break;
-      case 'Season':
-        this.options.Year = 0; this.options[key] = ''; break;
+      case 'year':
+        this.options.season = ''; this.options[key] = 0; break;
+      case 'season':
+        this.options.year = 0; this.options[key] = ''; break;
       default:
         this.options[key] = '';
     }
