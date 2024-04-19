@@ -144,6 +144,7 @@ export class UsersService implements Users {
         return response.json();
       })
       .then(data => {
+        console.log("service", data.episodesCount)
         return data.episodesCount;
       })
       .catch(error => {

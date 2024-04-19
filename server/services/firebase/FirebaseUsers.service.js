@@ -99,7 +99,13 @@ class FirebaseUsers {
             // Add contentId to the new list
             const updatedList = [...userData[newListName], contentId];
             await updateDoc(userRef, { [newListName]: updatedList });
-
+            if (newListName === "watching"){
+                const contentProgress = userData.contentProgress ;
+                if (!contentProgress.hasOwnProperty(contentId)) {
+                    contentProgress[contentId] = 0;
+                    await updateDoc(userRef, { contentProgress });
+                }
+            }
             console.log('Content moved to the new list successfully');
             return true;
         } catch (error) {

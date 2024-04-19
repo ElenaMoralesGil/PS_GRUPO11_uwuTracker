@@ -40,28 +40,31 @@ export class ProgressRowComponent implements OnChanges {
   async incrementEpisodesCount() {
     if (<number>this.rowProgress < <number>this.episodes ) {
       this.rowProgress = await this.UsersService.incrementEpisodesCount(this.user, this.rowContentId);
+      console.log(this.rowProgress);
     }
   }
   async decrementEpisodesCount() {
     if (<number>this.rowProgress > 0 ) {
       this.rowProgress = await this.UsersService.decrementEpisodesCount(this.user, this.rowContentId);
-
+      console.log(this.rowProgress);
     }
   }
 
   async checkProgress() {
     if (this.rowProgress === this.episodes) {
-      if (confirm('¿Quieres mover este contenido a la lista de completados?')) {
+      if (confirm(`¿Do u want to move ${this.rowTitle} to the completed list?`)) {
         await this.UsersService.trackingList(this.user, this.rowContentId, "completed");
+        this.changeToCompleted.emit(this.rowContentId)
       } else {
         this.rowProgress = await this.UsersService.decrementEpisodesCount(this.user, this.rowContentId);
-        this.changeToCompleted.emit(this.rowContentId)
       }
     }
   }
   ngOnChanges(changes: SimpleChanges) {
     if (changes['rowProgress']) {
-      this.checkProgress();
+      if (this.rowProgress !== undefined && this.rowProgress === this.episodes) {
+        this.checkProgress();
+      }
     }
   }
 }
