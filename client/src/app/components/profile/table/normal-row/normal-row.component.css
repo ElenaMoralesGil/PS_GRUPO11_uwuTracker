@@ -25,8 +25,8 @@
   flex: 1;
   text-align: center;
 }
-p{
-  color:white;
+p , #minusBtn, #plusBtn, #counter {
+  color: white;
 }
 .progress {
   flex: 1;
@@ -45,6 +45,7 @@ p{
   opacity: 0.4;
   box-sizing: border-box;
 }
+
 @media screen and (width < 70rem){
   .position-content {
     min-height: 6rem;

@@ -1,6 +1,6 @@
 import { Routes } from '@angular/router';
-import { ContentComponent } from './components/content/content.component';
-import { ReviewComponent } from "./components/review/review.component";
+import { ContentComponent } from './components/content-page/content/content.component';
+import { ReviewComponent } from "./components/content-page/content/review/review.component";
 import { SignUpComponent } from "./components/header/sign-up/sign-up.component";
 import { SignInComponent } from "./components/header/sign-in/sign-in.component";
 

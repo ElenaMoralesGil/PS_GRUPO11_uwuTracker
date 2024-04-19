@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
-import { ApiContentService } from '../../services/api-content.service';
+import { ApiContentService } from '../../../services/api-content.service';
 import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
-import Review from "../../schemas/Review.schema";
-import { ReviewService } from '../../services/review.service';
-import { ReviewComponent } from "../review/review.component";
+import Review from "../../../schemas/Review.schema";
+import { ReviewService } from '../../../services/review.service';
+import { ReviewComponent } from "./review/review.component";
 import { NgForOf, NgIf } from "@angular/common";
 
 @Component({

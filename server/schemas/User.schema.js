@@ -1,6 +1,6 @@
 module.exports = class User {
 
-    constructor({ username, password, email, id, reviews, country, description, profilePicture, watching, dropped, completed, planToWatch, favorites, userScores }) {
+    constructor({ username, password, email, id, reviews, country, description, profilePicture, watching, dropped, completed, planToWatch, favorites, userScores, contentProgress}) {
         this.id = id;
         this.username = username;
         this.password = password;
@@ -15,6 +15,7 @@ module.exports = class User {
         this.planToWatch = planToWatch || [];
         this.favorites = favorites || [];
         this.userScores = userScores || [];
+        this.contentProgress = contentProgress || [];
     }
 
     static parse = json => new User(json)

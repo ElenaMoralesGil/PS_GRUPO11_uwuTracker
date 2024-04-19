@@ -5,7 +5,7 @@
     <section class="progress">
       <i class="fa-solid fa-minus" id="minusBtn"></i>
       <span class="progress-counter" id="counter">{{rowProgress}}</span>
-      <i class="fa-solid fa-plus" id="plusBtn"></i>
+      <i class="fa-solid fa-plus" id="plusBtn" (click)="incrementEpisodesCount()"></i>
     </section>
     <p class="position position-score" >{{rowContentScore}}</p>
     <p class="position position-type">{{rowType}}</p>

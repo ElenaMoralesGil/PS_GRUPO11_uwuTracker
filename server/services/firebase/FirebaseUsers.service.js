@@ -135,6 +135,7 @@ class FirebaseUsers {
             const userData = userDoc.data();
             let references;
             let userScores;
+            let contentProgress;
             if (listField) {
                 references = userData[listField];
                 if (!Array.isArray(references)) {
@@ -142,6 +143,7 @@ class FirebaseUsers {
                     return null;
                 }
                 userScores = userData["userScores"]
+                contentProgress = userData["contentProgress"];
 
                 const contentMap = {};
 
@@ -150,6 +152,7 @@ class FirebaseUsers {
                         try {
                             const contentDoc = await getDoc(doc(this.#db, 'Contents', reference));
                             const score = userScores[reference] || '-';
+                            const progress = contentProgress[reference]  || 0;
                             if (contentDoc.exists()) {
                                 const contentData = contentDoc.data();
                                 contentMap[reference] = {
@@ -160,7 +163,8 @@ class FirebaseUsers {
                                     type: contentData.type,
                                     year: contentData.year,
                                     userScore: score,
-                                    genres: contentData.genres
+                                    genres: contentData.genres,
+                                    contentProgress: progress
                                 };
                             } else {
                                 console.log(`Content with reference ${reference} not found`);

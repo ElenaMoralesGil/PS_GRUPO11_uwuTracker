@@ -1,5 +1,6 @@
 import {Component, Input} from '@angular/core';
 import {RouterLink} from "@angular/router";
+import {UsersService} from "../../../../services/users.service";
 
 @Component({
   selector: 'app-progress-row',
@@ -12,12 +13,22 @@ import {RouterLink} from "@angular/router";
 })
 export class ProgressRowComponent {
   @Input() rowTitle?: string;
-  @Input() rowProgress?: number;
+  @Input() rowProgress?: number = 0;
   @Input() rowTotalChapters?: number;
   @Input() rowGenres?: string[];
   @Input() rowContentScore?:number;
   @Input() rowType?: string;
   @Input() rowContentCover?: string;
   @Input() rowContentId?: string;
+  @Input() user?: string;
+  @Input() content?:string;
+
+
+  constructor(private UsersService: UsersService) {
+  }
+
+ async incrementEpisodesCount() {
+   this.rowProgress= await this.UsersService.incrementEpisodesCount(this.user,this.content);
+ }
 
 }

@@ -27,6 +27,9 @@
         [rowType]="item.value.type"
         [rowContentId]="item.key"
         [rowGenres]="item.value.genres"
+        [content] = "item.value.contentId"
+        [user] = user?.id
+        [rowProgress]="item.value.contentProgress"
         ></app-progress-row>
     } @else{
     <app-normal-row

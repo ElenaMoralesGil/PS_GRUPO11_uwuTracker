@@ -1,12 +1,12 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import Review from "../../schemas/Review.schema";
-import { ReviewService } from '../../services/review.service';
-import { AuthService } from "../../services/auth.service";
+import Review from "../../../../schemas/Review.schema";
+import { ReviewService } from '../../../../services/review.service';
+import { AuthService } from "../../../../services/auth.service";
 import { FormsModule } from "@angular/forms";
 import { AsyncPipe, NgClass, NgForOf, NgIf } from "@angular/common";
 import {ActivatedRoute, RouterLink} from "@angular/router";
-import { UsersService } from '../../services/users.service';
-import User from '../../schemas/User.schema';
+import { UsersService } from '../../../../services/users.service';
+import User from '../../../../schemas/User.schema';
 import { Observable } from 'rxjs';;
 import {Router} from "@angular/router"
 @Component({

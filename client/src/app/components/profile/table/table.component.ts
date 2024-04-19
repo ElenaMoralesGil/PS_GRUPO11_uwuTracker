@@ -8,6 +8,7 @@ import {UsersService} from "../../../services/users.service";
 import {of} from "rxjs";
 import {KeyValuePipe, NgForOf, NgIf} from "@angular/common";
 import {ProgressRowComponent} from "./progress-row/progress-row.component";
+import User from "../../../schemas/User.schema";
 
 @Component({
   selector: 'app-table',
@@ -28,8 +29,8 @@ export class TableComponent implements OnInit{
   username: string = "" ;
   listName: string = 'watching';
   isWatching: boolean = false;
-
-  list: { [key: string]: { contentId: string, coverImg: string, title: string, score: number, status: string, type: string, year?: number, userScore?:number, genres?:string[] } } | undefined;
+  user?:User | null;
+  list: { [key: string]: { contentId: string, coverImg: string, title: string, score: number, status: string, type: string, year?: number, userScore?:number, genres?:string[], contentProgress?:number } } | undefined;
 
   constructor(
     private route: ActivatedRoute,
@@ -84,9 +85,10 @@ export class TableComponent implements OnInit{
       console.log('fetching contents from user', this.username, 'and list', contentList);
 
       const users = await this.UserService.find({"username": this.username});
-      const user = users? users[0]: null;
+
+      this.user = users? users[0]: null;
       // @ts-ignore
-      this.list = await this.UserService.getContentsFromList( user?.id, contentList);
+      this.list = await this.UserService.getContentsFromList( this.user?.id, contentList);
       console.log(this.list)
     } catch (error) {
       console.error('Error fetching reviews:', error);

@@ -3,12 +3,12 @@ import { ActivatedRoute, RouterLink, RouterOutlet } from '@angular/router';
 import { Router } from 'express';
 import { ApiContentService } from '../../../services/api-content.service';
 import { ReviewService } from '../../../services/review.service';
-import { ContentComponent } from '../../content/content.component';
+import { ContentComponent } from '../content/content.component';
 import { NgClass, NgFor, NgIf } from '@angular/common';
 import { CharactersComponent } from '../characters/characters.component';
 import { EpisodesComponent } from '../episodes/episodes.component';
 import { CommentsComponent } from '../../comments/comments.component';
-import { ReviewComponent } from '../../review/review.component';
+import { ReviewComponent } from '../content/review/review.component';
 import { ContentPageComponent } from '../content-page.component';
 import { StaffComponent } from '../staff/staff.component';
 
@@ -25,7 +25,7 @@ export class NavComponent {
   showComments: boolean = false;
   showReviews: boolean = false;
 
-  start: boolean = true; 
+  start: boolean = true;
   selectedIndex: number = -1;
   activarCss: boolean = false;
 
@@ -43,7 +43,7 @@ export class NavComponent {
 
   showHide(index: number){
     this.selectedIndex = index;
-    
+
 
   }
 
