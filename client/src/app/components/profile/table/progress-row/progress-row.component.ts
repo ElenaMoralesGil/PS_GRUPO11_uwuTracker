@@ -21,14 +21,15 @@ export class ProgressRowComponent {
   @Input() rowContentCover?: string;
   @Input() rowContentId?: string;
   @Input() user?: string;
-  @Input() content?:string;
+
 
 
   constructor(private UsersService: UsersService) {
   }
 
  async incrementEpisodesCount() {
-   this.rowProgress= await this.UsersService.incrementEpisodesCount(this.user,this.content);
+    console.log("here");
+   this.rowProgress= await this.UsersService.incrementEpisodesCount(this.user,this.rowContentId);
  }
 
 }

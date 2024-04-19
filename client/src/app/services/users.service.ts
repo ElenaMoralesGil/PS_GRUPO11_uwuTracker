@@ -134,7 +134,7 @@ export class UsersService implements Users {
     const url = `${this.path}/${userId}/${contentId}/increment-episodes-count`;
 
     return fetch(url, {
-      method: 'PUT',
+      method: 'POST',
       credentials: 'include'
     })
       .then(response => {

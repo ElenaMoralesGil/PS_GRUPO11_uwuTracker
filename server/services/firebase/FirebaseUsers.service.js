@@ -182,11 +182,29 @@ class FirebaseUsers {
             return null;
         }
     }
+    incrementEpisodesCount = async (userId, contentId) => {
+        try {
+            const userRef = doc(this.#db, this.#coll, userId);
+            const userDoc = await getDoc(userRef);
 
 
+            if (!userDoc.exists) {
+                throw new Error('User not found');
+            }
 
+            const userData = userDoc.data();
+            const contentProgress = userData.contentProgress ;
+            const episodesCount = contentProgress[contentId] ;
+            contentProgress[contentId] = episodesCount + 1;
 
+            await updateDoc(userRef, { contentProgress });
 
+            return contentProgress[contentId];
+        } catch (error) {
+            console.error('Error incrementing episodes count:', error);
+            throw error;
+        }
+    }
 }
 
 module.exports = require('../../bin/Singleton')(new FirebaseUsers())
