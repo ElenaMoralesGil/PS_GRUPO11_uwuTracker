@@ -42,3 +42,27 @@
   
 
 }
+
+/* Tablet */
+@media only screen and (max-width: 1200px) {
+    
+    .content-navbar {
+        display: flex;
+        box-sizing: border-box;
+        width:auto;
+        margin: 1% -4% 1% 4%;
+    }
+    .contenedor {
+        max-height: calc(252vh - 53px); 
+        margin: 1% -4% 1% 4%;
+    }
+}
+
+    
+    
+
+
+/* Phones */
+@media only screen and (max-width: 750px) {
+    
+}
