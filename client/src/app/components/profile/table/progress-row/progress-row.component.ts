@@ -1,6 +1,6 @@
-import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
-import {RouterLink} from "@angular/router";
-import {UsersService} from "../../../../services/users.service";
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { RouterLink } from "@angular/router";
+import { UsersService } from "../../../../services/users.service";
 
 @Component({
   selector: 'app-progress-row',
@@ -9,18 +9,18 @@ import {UsersService} from "../../../../services/users.service";
     RouterLink
   ],
   templateUrl: './progress-row.component.html',
-  styleUrl: '../normal-row/normal-row.component.css'
+  styleUrls: [ '../normal-row/normal-row.component.css', 'progress-row.component.css' ]
 })
 export class ProgressRowComponent {
   @Input() rowTitle?: string;
   @Input() rowTotalChapters?: number;
   @Input() rowGenres?: string[];
-  @Input() rowContentScore?:number;
+  @Input() rowContentScore?: number;
   @Input() rowType?: string;
   @Input() rowContentCover?: string;
   @Input() rowContentId?: string;
   @Input() user?: string;
-  @Input() episodes?:number;
+  @Input() episodes?: number;
   @Input() accountId?: string;
   @Output() changeToCompleted = new EventEmitter<string>();
   @Input() rowProgress?: number;
@@ -33,26 +33,26 @@ export class ProgressRowComponent {
 
   async incrementEpisodesCount() {
     console.log(this.accountId, this.episodes);
-    if (<number>this.rowProgress < <number>this.episodes ) {
-      if (<number>this.rowProgress +1 === this.episodes ) {
+    if (<number>this.rowProgress < <number>this.episodes) {
+      if (<number>this.rowProgress + 1 === this.episodes) {
         this.checkProgress();
-      }else {
+      } else {
         this.rowProgress = await this.UsersService.incrementEpisodesCount(this.user, this.rowContentId);
 
       }
     }
   }
   async decrementEpisodesCount() {
-    if (<number>this.rowProgress > 0 ) {
+    if (<number>this.rowProgress > 0) {
 
-        this.rowProgress = await this.UsersService.decrementEpisodesCount(this.user, this.rowContentId);
+      this.rowProgress = await this.UsersService.decrementEpisodesCount(this.user, this.rowContentId);
     }
   }
 
   async checkProgress() {
-      if (confirm(`¿Do u want to move ${this.rowTitle} to the completed list?`)) {
-        await this.UsersService.trackingList(this.user, this.rowContentId, "completed");
-        this.changeToCompleted.emit(this.rowContentId)
-      }
+    if (confirm(`¿Do u want to move ${this.rowTitle} to the completed list?`)) {
+      await this.UsersService.trackingList(this.user, this.rowContentId, "completed");
+      this.changeToCompleted.emit(this.rowContentId)
+    }
   }
 }
