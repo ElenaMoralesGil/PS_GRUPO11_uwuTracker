@@ -34,19 +34,26 @@
 
 <!-- Edit/Create Review Modal -->
 
-<div class = "edit-container" *ngIf="(showModal && editMode && !showMode)">
+<div class="edit-container" *ngIf="(showModal && editMode && !showMode)">
   <div class="modal-content">
     <span class="close" (click)="closeModal()">&times;</span>
     <div class="review-container-edit">
       <h2 class="edit-title">{{ isNewReview ? 'Create Review' : 'Edit Review' }}</h2>
       <div class="user-info">
-        <input id="title" placeholder="Title" required type="text" [(ngModel)]="review.title">
-        <textarea id="description" placeholder="Description" required type="text"
-          [(ngModel)]="review.description"></textarea>
-        <input type="number" id="score" placeholder="Score" required [(ngModel)]="review.score" min="0" max="5"> / 5
-        <button class="submitBtn" (click)="createOrUpdateReview()">{{ !isNewReview ? 'Update' : 'Create' }} Review</button>
+        <input id="title" placeholder="Title" required type="text" minlength="2" maxlength="30" [(ngModel)]="review.title">
+        <div *ngIf="review.title.length < 2 || review.title.length > 30" class="error-msg">Please enter a title between 2 and 30 characters.</div>
+        <textarea id="description" placeholder="Description" required  minlength="50"  maxlength="1000" type="text" [(ngModel)]="review.description"></textarea>
+        <div *ngIf="review.description.length < 50 || review.description.length > 1000" class="error-msg">Please enter a description between 50 and 1000 characters.</div>
+        <input type="number" id="score" placeholder="Score" required [(ngModel)]="review.score" min="0" max="5">
+        <div *ngIf="review.score < 0 || review.score > 5" class="error-msg">Please enter a number between 0 and 5.</div>
+        <button class="submitBtn" (click)="createOrUpdateReview()"
+                [disabled]="review.score < 0 || review.score > 5 ||
+                review.title.length < 2 || review.title.length > 30 ||
+                review.description.length < 50 || review.description.length > 1000">
+                {{ !isNewReview ? 'Update' : 'Create' }} Review
+        </button>
       </div>
-
     </div>
   </div>
 </div>
+
