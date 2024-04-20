@@ -18,7 +18,7 @@ import { ApiContentService } from '../../services/api-content.service';
 export class SearchComponent {
   constructor(contentService:ApiContentService){
     effect(()=>{
-      contentService.search({...this.options(), page:this.current_page ? this.current_page : 1}).then(contents => console.log(contents))
+      contentService.search({...this.options(), page:this.current_page ? this.current_page : 1});
     })
   }
   current_page = undefined;
@@ -26,8 +26,8 @@ export class SearchComponent {
   signal({ 
     name:'',
     genres:[], 
-    year:2024,
-    season:'spring', 
+    year:0,
+    season:'', 
     format:''
   });
 }
