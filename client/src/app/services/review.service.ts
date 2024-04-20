@@ -71,6 +71,31 @@ export class ReviewService implements Reviews {
         throw err;
       });
 
+  checkIfDisliked = (userId: string, reviewId: string): Promise<boolean> =>
+    fetch(`${this.path}/${reviewId}/check-dislike/${userId}`, { credentials: 'include' })
+      .then(res => {
+        if (!res.ok) throw new Error('Failed to check dislike');
+        return res.json();
+      })
+      .then(data => !!data.isDisliked)
+      .catch(err => {
+        console.error('Error checking dislike:', err);
+        throw err;
+      });
+
+  checkIfLiked = (userId: string, reviewId: string): Promise<boolean> =>
+    fetch(`${this.path}/${reviewId}/check-like/${userId}`, { credentials: 'include' })
+      .then(res => {
+        if (!res.ok) throw new Error('Failed to check like');
+        return res.json();
+      })
+      .then(data => !!data.isLiked)
+      .catch(err => {
+        console.error('Error checking like:', err);
+        throw err;
+      });
+
+
   findById = (id: string | null): Promise<Review> | null =>
     fetch(`${this.path}/${id}`, { credentials: 'include' }).then(res => res.json()).catch(err => null)
 

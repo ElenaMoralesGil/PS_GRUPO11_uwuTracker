@@ -257,6 +257,45 @@ class FirebaseReview {
             return [0, 0];
         }
     }
+
+    async checkIfLiked(userId, reviewId) {
+        try {
+            const userRef = doc(this.db, 'Users', userId);
+            const userSnapshot = await getDoc(userRef);
+            if (!userSnapshot.exists()) {
+                console.error('User not found for ID:', userId);
+                return false;
+            }
+
+            const userData = userSnapshot.data();
+            const likedReviews = userData.likedReviews || [];
+
+            return likedReviews.includes(reviewId);
+        } catch (error) {
+            console.error('Error checking if review is liked:', error);
+            return false;
+        }
+    }
+
+    async checkIfDisliked(userId, reviewId) {
+        try {
+            const userRef = doc(this.db, 'Users', userId);
+            const userSnapshot = await getDoc(userRef);
+            if (!userSnapshot.exists()) {
+                console.error('User not found for ID:', userId);
+                return false;
+            }
+
+            const userData = userSnapshot.data();
+            const dislikedReviews = userData.dislikedReviews || [];
+
+            return dislikedReviews.includes(reviewId);
+        } catch (error) {
+            console.error('Error checking if review is disliked:', error);
+            return false;
+        }
+    }
+
 }
 
 module.exports = require(process.cwd() + '/bin/Singleton')(new FirebaseReview(require('./firebase.service')))

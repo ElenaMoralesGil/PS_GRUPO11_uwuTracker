@@ -47,6 +47,10 @@ class Reviews {
 
     dislikeReview = (userId, reviewId) =>
         this.#db.dislike(userId, reviewId).then(([likes, dislikes]) => [likes, dislikes]);
+
+    checkIfLiked = (userid, reviewId) => this.#db.checkIfLiked(userid, reviewId);
+    checkIfDisliked = (userid, reviewId) => this.#db.checkIfDisliked(userid, reviewId);
+
 }
 
 module.exports = require(process.cwd() + '/bin/Singleton')(new Reviews());

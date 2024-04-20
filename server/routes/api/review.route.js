@@ -80,6 +80,27 @@ router.post('/:id/dislike', async (req, res) => {
             res.status(500).json({ error: 'Internal Server Error' });
         });
 });
+router.get('/:reviewId/check-like/:userId', async (req, res) => {
+    const { userId, reviewId } = req.params;
+    try {
+        const isLiked = await Reviews.checkIfLiked(userId, reviewId);
+        res.status(200).json({ isLiked });
+    } catch (error) {
+        console.error('Error checking like:', error);
+        res.status(500).json({ msg: 'Internal server error' });
+    }
+});
+
+router.get('/:reviewId/check-dislike/:userId', async (req, res) => {
+    const { userId, reviewId } = req.params;
+    try {
+        const isDisliked = await Reviews.checkIfDisliked(userId, reviewId);
+        res.status(200).json({ isDisliked });
+    } catch (error) {
+        console.error('Error checking dislike:', error);
+        res.status(500).json({ msg: 'Internal server error' });
+    }
+});
 
 
 

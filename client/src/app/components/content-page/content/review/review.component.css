@@ -243,7 +243,13 @@
   background-color: #4CAF50;
   color: white;
 }
+.liked{
+  color: green;
+}
 
+.disliked {
+  color:red;
+}
 @media screen and (width < 35rem) {
   .review-container {
     max-width:70%;

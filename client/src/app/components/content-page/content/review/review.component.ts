@@ -51,6 +51,8 @@ export class ReviewComponent implements OnInit {
   pfp?:string;
   contentId: string = "";
   loggedInUser: Observable<User | null>
+  liked:boolean =false;
+  disliked:boolean=false;
 
   constructor(
     private reviewService: ReviewService,
@@ -60,6 +62,8 @@ export class ReviewComponent implements OnInit {
   ) {
     this.loggedInUser = this.authService.user
   }
+
+
 
   ngOnInit() {
 
@@ -79,6 +83,11 @@ export class ReviewComponent implements OnInit {
           if (!user) return
           this.userName = user.username;
           this.pfp = user.profilePicture;
+          const loggedUserId = (await this.loggedInUser.toPromise())?.id;
+          if (loggedUserId) {
+            this.checkIfLiked();
+            this.checkIfDisLiked();
+          }
         });
       });
     }
@@ -172,6 +181,10 @@ export class ReviewComponent implements OnInit {
           this.review.dislikes = dislikes;
           console.log("likes", likes, "dislikes", dislikes);
           this.reviewUpdated.emit(this.review);
+          this.liked =!this.liked;
+          if(this.liked && this.disliked){
+            this.disliked=false;
+          }
         })
         .catch(error => {
           console.error('Error liking review:', error);
@@ -181,6 +194,21 @@ export class ReviewComponent implements OnInit {
     }
   }
 
+  async checkIfLiked(){
+    const loggedUserId = (await this.loggedInUser.toPromise())?.id;
+    if (loggedUserId !== undefined) {
+      this.liked = await this.reviewService.checkIfLiked(<string>loggedUserId, <string>this.review.id);
+    }
+
+  }
+  async checkIfDisLiked(){
+    const loggedUserId = (await this.loggedInUser.toPromise())?.id;
+    if (loggedUserId !== undefined) {
+      this.disliked = await this.reviewService.checkIfDisliked(<string>loggedUserId, <string>this.review.id);
+
+    }
+
+  }
   async dislikeReview() {
     const loggedUserId = (await this.loggedInUser.toPromise())?.id;
     if (loggedUserId !== undefined) {
@@ -190,6 +218,10 @@ export class ReviewComponent implements OnInit {
           this.review.dislikes = dislikes;
           console.log("likes", likes, "dislikes", dislikes);
           this.reviewUpdated.emit(this.review);
+          this.disliked =!this.disliked;
+          if(this.liked && this.disliked){
+            this.liked=false;
+          }
         })
         .catch(error => {
           console.error('Error disliking review:', error);

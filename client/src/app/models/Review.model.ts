@@ -9,4 +9,6 @@ export default interface Reviews {
   fetchReviewsByIds: (reviewIds: string[]) => Promise<Review[]> | null;
   likeReview:(userId:string,reviewId:string) => Promise<[number,number]>;
   dislikeReview:(userId:string,reviewId:string) => Promise<[number,number]>;
+  checkIfLiked: (userId:string,reviewId:string) => Promise<boolean>;
+  checkIfDisliked: (userId:string,reviewId:string) => Promise<boolean>;
 }
