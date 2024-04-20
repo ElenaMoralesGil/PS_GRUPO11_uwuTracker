@@ -7,6 +7,7 @@ class JikanService {
         this.contentpath = `${process.env.JIKAN_PATH}/anime`
         this.characterspath = `${process.env.JIKAN_PATH}/characters`
         this.seasonpath = `${process.env.JIKAN_PATH}/seasons`;
+        this.recommendations = `${process.env.JIKAN_PATH}/recommendations`
     }
 
     // Function to get a content by ID in Jikan
@@ -34,8 +35,13 @@ class JikanService {
         if (year && season) return this.findSeasonContents(year, season, format, page);
         return this.findNameGenres(name, genres[0] !== '' ? genres.map(elem => genresParser[elem]) : genres, format, page);
     }
+
+    getRecommendations = () => fetch(`${this.recommendations}/anime`).then(res => res.json())
+        .then(res => res.data)
+        .then(data => data.map(elm => elm.entry.map(elm => Content.parse(elm))))
+        .then(data => data.flat(1))
 }
 
 module.exports = require('../../bin/Singleton')(new JikanService())
 
-// NOTE: Existe una version del findByID del anime full fetch(`${this.contentpath}/${id}/full`)
+// NOTE: Existe una version del findByID del anime full fetch(`${ this.contentpath } /${id}/full`)

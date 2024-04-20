@@ -11,4 +11,6 @@ export default interface Contents {
     getCharacterById: (id: string) => Promise<any>
     getEpisodes: (id: string) => Promise<any>
     setScore: (contentId: string, score: number, userId: string) => Promise<void>
+
+    getRecommendations: () => Promise<Content[]>
 }

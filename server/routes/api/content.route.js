@@ -62,6 +62,16 @@ router.get('/persistent-search', (req, res) => {
         .catch(err => { console.log(err); res.status(500).json({ msg: err }) })
 })
 
+
+router.get('/recommendations', (req, res) => {
+    Contents.getRecommendations().then(data => {
+        if (!data) return res.status(400).json({ msg: 'not-found' })
+        return res.status(200).json({ data })
+    })
+        .catch(err => { console.log(err); res.status(500).json({ msg: err }) })
+})
+
+
 router.get('/:id', (req, res) => {
     Contents.findById(req.params.id)
         .then(content => {

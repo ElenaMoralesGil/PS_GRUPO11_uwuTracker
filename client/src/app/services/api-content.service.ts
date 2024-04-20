@@ -105,4 +105,9 @@ export class ApiContentService implements Contents {
       throw error;
     }
   }
+
+
+  getRecommendations: () => Promise<Content[]> = () => fetch(`${this.path}/recommendations`, { credentials: 'include' })
+    .then(res => res.status == 200 ? res.json() : null)
+    .catch(err => { console.log('ERROR:', err); return null })
 }

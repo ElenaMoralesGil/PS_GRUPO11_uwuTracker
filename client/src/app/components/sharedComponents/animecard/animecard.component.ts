@@ -10,7 +10,7 @@ import { RouterLink } from '@angular/router';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AnimecardComponent {
-  animeName = input();
-  imageSource = input();
+  animeName = input('loading');
+  imageSource = input('/assets/images/shoujo-shuumatsu.jpeg');
   animeId = input();
 }
