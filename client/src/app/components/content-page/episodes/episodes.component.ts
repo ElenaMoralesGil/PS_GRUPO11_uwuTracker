@@ -2,6 +2,7 @@ import { NgFor } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { ContentPageComponent } from '../content-page.component';
 import { ApiContentService } from '../../../services/api-content.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-episodes',
@@ -11,21 +12,21 @@ import { ApiContentService } from '../../../services/api-content.service';
   styleUrl: './episodes.component.css'
 })
 export class EpisodesComponent {
-  @Input() episodes: any[] | undefined;
+  //@Input() episodes: any[] | undefined;
   @Input() number: string | undefined;
   @Input() name: string | undefined;
   @Input() duration: string | undefined;
   @Input() aired: string | undefined;
 
-  constructor(private content: ContentPageComponent, private apiService: ApiContentService){}
-
-  ngOnInit() {
-    const id = this.content.getId();
+  constructor(private router: ActivatedRoute, private content: ContentPageComponent, private apiService: ApiContentService){}
+  episodes: any[] = []
+  ngOnInit() : void {
+    const id = this.router.parent?.snapshot.params['id']
     if (id) {
-      this.apiService.getEpisodes(id).then(episodes => {
-        this.episodes = episodes;
+      console.log(id)
+      this.apiService.getEpisodes(id).then(res => {
+        this.episodes = res.data;
       });
-
     }
   }
 

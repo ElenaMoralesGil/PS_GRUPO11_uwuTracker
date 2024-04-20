@@ -1,8 +1,8 @@
 <section class="episodes">
-    <article class="episode" *ngFor="let episode of episodes2">
+    <article class="episode" *ngFor="let episode of episodes">
         <div class="anime-episode-container">
-            <p class="episode-number">{{ episode.number }}</p>
-            <p class="episode-name">{{ episode.name }}</p>
+            <p class="episode-number">{{ episode.mal_id }}</p>
+            <p class="episode-name">{{ episode.title }}</p>
             <p class="episode-duration">{{ episode.duration }}</p>
             <p class="episode-aired">{{ episode.aired }}</p>
         </div>
