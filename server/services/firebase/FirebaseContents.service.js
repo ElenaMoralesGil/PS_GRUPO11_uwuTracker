@@ -1,4 +1,4 @@
-const { collection, doc,arrayRemove, increment,arrayUnion, getDoc, getDocs, setDoc, addDoc, updateDoc, query, where } = require('firebase/firestore/lite');
+const { collection, doc, arrayRemove, increment, arrayUnion, getDoc, getDocs, setDoc, addDoc, updateDoc, query, where } = require('firebase/firestore/lite');
 const Content = require('../../schemas/Content.schema');
 
 class FirebaseContent {
