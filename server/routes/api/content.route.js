@@ -23,7 +23,7 @@ router.get('/character/:id', (req, res) => {
 })
 
 
-router.get('/characters/:id', (req, res) => {
+router.get('/:id/characters', (req, res) => {
     Contents.getCharacters(req.params.id).then(characters => {
         if (!characters) res.status(404).json({ msg: 'not-found' })
         return res.status(200).json({ data: characters })
