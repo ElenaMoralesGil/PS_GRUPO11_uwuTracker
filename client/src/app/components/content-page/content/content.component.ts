@@ -1,10 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 import { ApiContentService } from '../../../services/api-content.service';
 import { ActivatedRoute, Router, RouterOutlet } from '@angular/router';
 import Review from "../../../schemas/Review.schema";
 import { ReviewService } from '../../../services/review.service';
 import { ReviewComponent } from "./review/review.component";
 import { NgForOf, NgIf } from "@angular/common";
+import User from "../../../schemas/User.schema";
+import {AuthService} from "../../../services/auth.service";
 
 @Component({
   selector: 'app-content',
@@ -27,16 +29,25 @@ export class ContentComponent implements OnInit {
   isReviewCreationOpen: boolean = false;
   areReviewsVisible: boolean = false;
   contentId: string | undefined;
+  loggedUserId: string | undefined;
+
   constructor(
     private contentService: ApiContentService,
     private reviewService: ReviewService,
     private router: ActivatedRoute,
-    private route: Router
+    private route: Router,
+    private authService: AuthService,
   ) { }
 
   async ngOnInit() {
     try {
 
+
+
+
+      this.authService.user.subscribe((user: User | null) => {
+        this.loggedUserId = user?.id;
+      });
       const parentRoute = this.router.parent;
 
       if (parentRoute) {

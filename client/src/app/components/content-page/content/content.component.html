@@ -1,8 +1,10 @@
 <div class="review-content">
+
+  @if(loggedUserId !== undefined){
   <div class="createbtn-container">
   <button class="create-btn" (click)="toggleReviewCreation()">Create Review</button>
   </div>
-
+  }
   <!-- Render the the reviews from reviews -->
   <div *ngIf="areReviewsVisible && !isReviewCreationOpen"   class="review-container">
 
