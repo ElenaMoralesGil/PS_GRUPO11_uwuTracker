@@ -97,7 +97,6 @@ export class CabeceraComponent implements OnChanges {
       await this.userService.trackingList(this.user, this.id, option);
     }
     this.cdr.detectChanges();
-
   }
 
   scrollValorar(): void {
@@ -120,7 +119,7 @@ export class CabeceraComponent implements OnChanges {
   likeContent(): void {
     if (this.user) {
       this.contentService.like(this.user, this.id).then(likes => {
-        this.likes = likes;
+        this.likes = likes
         this.likesChanged.emit(likes);
         this.isInFavorites = !this.isInFavorites; // Toggle favorite status
       });

@@ -1,10 +1,10 @@
 <section class="characters">
     <article class="character">
-        <div class="anime-character-container" *ngFor="let character of characters2">
+        <div class="anime-character-container" *ngFor="let characterItem of characters1">
             <div class="anime-character-name-image">
-                <a (click)="toggleDescription(character)" *ngIf="!character.showDescription" class="character-name">{{ character.name }}</a>
-                <a (click)="toggleDescription(character)" *ngIf="character.showDescription" class="character-description">{{ character.description }}</a>
-                <img alt="" title="" [src]="character.img">
+                <a (click)="toggleDescription(characterItem)" *ngIf="!characterItem.showDescription" class="character-name">{{ characterItem.name }}</a>
+                <a (click)="toggleDescription(characterItem)" *ngIf="characterItem.showDescription" class="character-description">{{ characterItem.description }}</a>
+                <img alt="" title="" [src]="characterItem.img">
             </div>
         </div>
     </article>

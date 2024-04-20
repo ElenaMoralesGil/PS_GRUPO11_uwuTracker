@@ -1,5 +1,7 @@
 import { NgFor } from '@angular/common';
 import { Component, Input } from '@angular/core';
+import { ContentPageComponent } from '../content-page.component';
+import { ApiContentService } from '../../../services/api-content.service';
 
 @Component({
   selector: 'app-episodes',
@@ -9,12 +11,35 @@ import { Component, Input } from '@angular/core';
   styleUrl: './episodes.component.css'
 })
 export class EpisodesComponent {
+  @Input() episodes: any[] | undefined;
   @Input() number: string | undefined;
   @Input() name: string | undefined;
   @Input() duration: string | undefined;
   @Input() aired: string | undefined;
 
-  
+  constructor(private content: ContentPageComponent, private apiService: ApiContentService){}
+
+  ngOnInit() {
+    const id = this.content.getId();
+    if (id) {
+      this.apiService.getEpisodes(id).then(episodes => {
+        this.episodes = episodes;
+      });
+
+    }
+  }
+
+
+
+
+
+
+
+
+
+
+
+
   episodes2 = [
     { number: '1', name: 'Episode 1', duration: '30 minutes', aired: 'January 1, 2022' },
     { number: '2', name: 'Episode 2', duration: '25 minutes', aired: 'January 8, 2022' },
@@ -51,5 +76,4 @@ export class EpisodesComponent {
 
   ];
 
-  constructor() { }
 }

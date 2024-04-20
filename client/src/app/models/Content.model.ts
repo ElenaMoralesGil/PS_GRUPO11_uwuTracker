@@ -6,4 +6,8 @@ export default interface Contents {
     like: (userId: string | undefined, contentId: string | undefined) => Promise<number>
 
     //create: (content: Content) => Promise<Content> | null
+
+    getAnimeCharacters: (id: string) => Promise<any>
+    getCharacterById: (id: string) => Promise<any>
+    getEpisodes: (id: string) => Promise<any>
 }

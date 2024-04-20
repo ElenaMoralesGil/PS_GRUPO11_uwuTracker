@@ -27,6 +27,10 @@ class Contents {
     create = async content => this.#db.create(content).then(content => content ? Content.parse(content) : null)
     like = async (userId, contentId) => this.#db.like(userId, contentId);
 
+    getEpisodes = (id, episodes) => this.#api.animeEpisodes(id, episodes).then(episodes => episodes || null)
+
+    findCharacterById = id => this.#api.findCharacter(id).then(charapter => charapter || null)
+    getCharacters = id => this.#api.animeCharacters(id).then(charapters => charapters || null)
 }
 
 

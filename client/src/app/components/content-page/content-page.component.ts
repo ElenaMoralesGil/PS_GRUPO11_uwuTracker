@@ -34,7 +34,7 @@ export class ContentPageComponent implements OnInit {
   protected title?: string
   protected img?: string
   userId?: string;
-  episodes: string[] = [];
+  episodes: any[] = [];
   loggedInUser: Observable<User | null>
   likes?: number
   informationAside: { likes: number, type: string; source: string; episodesNumber: string; duration: string, status: string, season: string; year: string; studios: string; genres: string; rating: string; }[] = []
@@ -55,6 +55,7 @@ export class ContentPageComponent implements OnInit {
     private authService: AuthService,
     private cdr: ChangeDetectorRef) {
     this.loggedInUser = this.authService.user
+    this.loggedInUser.subscribe(user => { this.userId = user?.id })
   }
 
   async ngOnInit() {
@@ -63,7 +64,7 @@ export class ContentPageComponent implements OnInit {
       content = await this.Contents.findById(this.router.snapshot.paramMap.get("id") || "")
       this.authService.user.subscribe((user: User | null) => {
         this.userId = user?.id;
-        this.cdr.detectChanges();
+        // this.cdr.detectChanges();
       });
     } catch { return this.id = 'not-found' }
 
@@ -101,6 +102,9 @@ export class ContentPageComponent implements OnInit {
     }
 
 
+    
+
+
 
     return
   }
@@ -108,14 +112,12 @@ export class ContentPageComponent implements OnInit {
     this.likes = likes;
     this.informationAside = this.informationAside.map(info => ({ ...info, likes })); // Immutable update
     console.log("content-page", this.likes);
-    this.cdr.detectChanges();
+    //this.cdr.detectChanges();
   }
   getId() {
     return this.id
   }
 
-  showEpisodes() {
-
-  }
+  
 
 }
