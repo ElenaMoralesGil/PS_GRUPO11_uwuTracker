@@ -43,6 +43,7 @@ export class SearchComponent {
     effect(async ()=>{
       if (this.current_page() === this.isCurrentValid) {this.current_page.set(1); router.navigate(['../', 1], {relativeTo:route})};
       contentService.search({...this.options(), page:this.current_page()}).then(contents => {
+        if (Array.isArray(contents)) {this.contents = []; return}
         // Assigning content array
         this.contents = contents.data;
         // Assigning last visible page;
