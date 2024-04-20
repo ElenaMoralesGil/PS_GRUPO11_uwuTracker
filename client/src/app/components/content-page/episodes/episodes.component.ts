@@ -1,6 +1,5 @@
 import { NgFor } from '@angular/common';
 import { Component, Input } from '@angular/core';
-import { ContentPageComponent } from '../content-page.component';
 import { ApiContentService } from '../../../services/api-content.service';
 import { ActivatedRoute } from '@angular/router';
 
@@ -18,7 +17,7 @@ export class EpisodesComponent {
   @Input() duration: string | undefined;
   @Input() aired: string | undefined;
 
-  constructor(private router: ActivatedRoute, private content: ContentPageComponent, private apiService: ApiContentService) { }
+  constructor(private router: ActivatedRoute, private apiService: ApiContentService) { }
   episodes: any[] = []
   ngOnInit(): void {
     const id = this.router.parent?.snapshot.params[ 'id' ]
@@ -29,16 +28,6 @@ export class EpisodesComponent {
       });
     }
   }
-
-
-
-
-
-
-
-
-
-
 
 
   episodes2 = [
@@ -61,5 +50,4 @@ export class EpisodesComponent {
 
   ];
 
-  constructor() { }
 }

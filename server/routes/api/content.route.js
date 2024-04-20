@@ -25,7 +25,7 @@ router.get('/character/:id', (req, res) => {
 
 router.get('/:id/characters', (req, res) => {
     Contents.getCharacters(req.params.id).then(characters => {
-        if (!characters) res.status(404).json({ msg: 'not-found' })
+        if (!characters) return res.status(404).json({ msg: 'not-found' })
         return res.status(200).json({ data: characters })
     })
         .catch(err => { console.log('ERROR:', err); res.status(500).json({ msg: err }) })
@@ -40,7 +40,7 @@ router.get('/search', (req, res) => {
     Contents.find(params)
         .then(contents => {
             if (!contents.data.length) return res.status(404).json({ msg: 'not found' })
-            res.status(200).json(contents)
+            return res.status(200).json(contents)
         })
         .catch(err => { console.error('ERROR:' + err); res.status(500).json({ msg: err }) })
 })
@@ -66,7 +66,7 @@ router.get('/:id', (req, res) => {
     Contents.findById(req.params.id)
         .then(content => {
             if (!content) return res.status(404).json({ msg: 'not found' })
-            res.status(200).json(content)
+            return res.status(200).json(content)
         })
         .catch(err => { console.error('ERROR: ' + err); res.status(500).json({ msg: err }) })
 })
@@ -75,9 +75,9 @@ router.post('/:userId/like/:contentId', async (req, res) => {
     try {
         const likes = await Contents.like(userId, contentId);
         if (likes !== undefined) {
-            res.status(200).json(likes); // Return the number of likes directly
+            return res.status(200).json(likes); // Return the number of likes directly
         } else {
-            res.status(404).json({ msg: 'Failed to add like' });
+            return res.status(404).json({ msg: 'Failed to add like' });
         }
     } catch (error) {
         console.error('ERROR: ' + error);
@@ -89,11 +89,11 @@ router.put('/:contentId/score', async (req, res) => {
     const { score, userId } = req.body;
 
     try {
-        await Contents.updateScore(contentId, score,userId);
-        res.status(200).json({ msg: 'Score updated successfully' });
+        await Contents.updateScore(contentId, score, userId);
+        return res.status(200).json({ msg: 'Score updated successfully' });
     } catch (error) {
         console.error('Error updating score:', error);
-        res.status(500).json({ msg: 'Internal server error' });
+        return res.status(500).json({ msg: 'Internal server error' });
     }
 });
 
