@@ -3,6 +3,6 @@
     <app-tags [(options)]="options"></app-tags>
 </section>
 <main>
-    <app-results></app-results>
+    <app-results [contents]="contents"></app-results>
 </main>
-<app-pagination [numberOfPages]="3"></app-pagination>
+<app-pagination [numberOfPages]="max_pages" [currentPage]="current_page()"></app-pagination>
