@@ -2,9 +2,9 @@
     <article class="character">
         <div class="anime-character-container" *ngFor="let characterItem of characters1">
             <div class="anime-character-name-image">
-                <a (click)="toggleDescription(characterItem)" *ngIf="!characterItem.showDescription" class="character-name">{{ characterItem.name }}</a>
+                <a (click)="toggleDescription(characterItem)" *ngIf="!characterItem.showDescription" class="character-name">{{ characterItem.character.name }}</a>
                 <a (click)="toggleDescription(characterItem)" *ngIf="characterItem.showDescription" class="character-description">{{ characterItem.description }}</a>
-                <img alt="" title="" [src]="characterItem.img">
+                <img alt="" title="" [src]="characterItem.character.images.jpg.image_url">
             </div>
         </div>
     </article>

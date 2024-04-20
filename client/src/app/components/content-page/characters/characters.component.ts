@@ -2,6 +2,7 @@ import { NgFor, NgIf } from '@angular/common';
 import { Component, Input } from '@angular/core';
 import { ApiContentService } from '../../../services/api-content.service';
 import { ContentPageComponent } from '../content-page.component';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-characters',
@@ -12,25 +13,25 @@ import { ContentPageComponent } from '../content-page.component';
 })
 export class CharactersComponent {
  
-  @Input() characters: string[] = [];
+  //@Input() characters: string[] = [];
+
   show: Boolean = false;
   activarCss: Boolean = false;
   nameClick: Boolean = false;
 
   characters1: any[] = [];
 
-  constructor(private contentService: ApiContentService, private content: ContentPageComponent, private character: CharacterData) { }
+  constructor(private router: ActivatedRoute, private contentService: ApiContentService) { }
 
 
   ngOnInit() {
-    const id = this.content.getId();
+    const id = this.router.parent?.snapshot.params['id']
     if (id) {
-      this.contentService.getAnimeCharacters(id).then(characters => {
-        this.characters1 = characters;
+      console.log(id)
+      this.contentService.getCharacters(id).then(res => {
+        this.characters1 = res.data;
       });
-
     }
-
   }
 
   /*characters2 = [
