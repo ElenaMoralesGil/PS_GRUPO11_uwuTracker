@@ -47,7 +47,6 @@ export class ApiContentService implements Contents {
 
   like = (userId: string | undefined, contentId: string | undefined): Promise<number> => {
     const url = `${this.path}/${userId}/like/${contentId}`;
-    console.log('Requesting URL:', url); // Log the constructed URL
     return fetch(url, { method: 'POST', credentials: 'include' })
       .then(res => {
         if (res.status === 200) {
@@ -77,6 +76,27 @@ export class ApiContentService implements Contents {
     } catch (error) {
       console.error('Error fetching anime characters:', error);
       return null;
+    }
+  }
+  async setScore(contentId: string, score: number, userId:String): Promise<void> {
+    try {
+      const url = `${this.path}/${contentId}/score`;
+      const response = await fetch(url, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({score, userId })
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to update score');
+      }
+
+      // No need to return anything if successful
+    } catch (error) {
+      console.error('Error updating score:', error);
+      throw error;
     }
   }
 }

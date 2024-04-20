@@ -9,6 +9,7 @@ import { UsersService } from '../../../../services/users.service';
 import User from '../../../../schemas/User.schema';
 import { Observable } from 'rxjs';;
 import {Router} from "@angular/router"
+import {ApiContentService} from "../../../../services/api-content.service";
 @Component({
   selector: 'app-review',
   templateUrl: './review.component.html',
@@ -53,10 +54,13 @@ export class ReviewComponent implements OnInit {
   loggedInUser: Observable<User | null>
   liked:boolean =false;
   disliked:boolean=false;
+  contentScore?: number = 0;
+  loggedUserId?:String;
 
   constructor(
     private reviewService: ReviewService,
     private userService: UsersService,
+    private contentService: ApiContentService,
     private router: ActivatedRoute,
     private authService: AuthService,
   ) {
@@ -75,12 +79,16 @@ export class ReviewComponent implements OnInit {
 
       });
     }
+
+    this.authService.user.subscribe((user: User | null) => {
+      this.loggedUserId = user?.id;
+    });
     if (this.reviewId || this.isNewReview) {
       this.showMode = true;
       this.editMode = this.isNewReview;
       this.loadReviewData().then(async () => {
-        const loggedUserId = (await this.loggedInUser.toPromise())?.id;
-        if (loggedUserId) {
+
+        if (this.loggedUserId ) {
           this.checkIfLiked();
           this.checkIfDisLiked();
         }
@@ -104,15 +112,26 @@ export class ReviewComponent implements OnInit {
 
 
       } else if (this.isNewReview) {
+
+        const user = await this.userService.findById(<string>this.loggedUserId);
+        if (user && user.userScores && this.contentId in user.userScores) {
+          // @ts-ignore
+          const contentScore = user.userScores[this.contentId] || 0;
+          this.contentScore = contentScore;
+        } else {
+          this.contentScore = 0;
+        }
+
         this.showMode =false;
         this.showModal =true;
         this.editMode =true
+
         this.review = {
           id: '',
           title: '',
           description: '',
-          score: 0,
-          userId: (await this.loggedInUser.toPromise())?.id || "",
+          score:  <number>this.contentScore,
+          userId: <string>this.loggedUserId ,
           content: this.contentId,
           likes: 0,
           dislikes: 0
@@ -134,7 +153,6 @@ export class ReviewComponent implements OnInit {
     this.showModal = true;
     this.editMode = true;
     this.showMode = false;
-    console.log('Edit review clicked:', this.review);
     this.editReviewClicked.emit(this.review);
   }
   async createOrUpdateReview() {
@@ -154,7 +172,8 @@ export class ReviewComponent implements OnInit {
       if (this.review.id) {
         // @ts-ignore
         this.reviewService.editReview(this.review.id, this.review.title, this.review.description, this.review.score)
-          .then(() => {
+          .then(async () => {
+            await this.contentService.setScore(this.contentId, this.review.score,  <string>this.loggedUserId );
             this.reviewUpdated.emit(this.review)
             this.closeModal()
           });
@@ -162,7 +181,8 @@ export class ReviewComponent implements OnInit {
         // @ts-ignore
         await this.reviewService.
         createReview(this.review.userId, this.review.content, this.review.score, this.review.title, this.review.description)
-          .then(r => {
+          .then(async r => {
+            await this.contentService.setScore(this.contentId, this.review.score,  <string>this.loggedUserId );
             this.newReview.emit(r)
             this.closeModal()
 
@@ -174,13 +194,12 @@ export class ReviewComponent implements OnInit {
   }
 
   async likeReview() {
-    const loggedUserId = (await this.loggedInUser.toPromise())?.id;
+
     if (this.loggedInUser) {
-      this.reviewService.likeReview(<string>loggedUserId, <string>this.review.id)
+      this.reviewService.likeReview(<string>this.loggedUserId , <string>this.review.id)
         .then(([likes, dislikes]) => {
           this.review.likes = likes;
           this.review.dislikes = dislikes;
-          console.log("likes", likes, "dislikes", dislikes);
           this.reviewUpdated.emit(this.review);
           this.liked =!this.liked;
           if(this.liked && this.disliked){
@@ -196,24 +215,23 @@ export class ReviewComponent implements OnInit {
   }
 
   async checkIfLiked(){
-    const loggedUserId = (await this.loggedInUser.toPromise())?.id;
-    if (loggedUserId !== undefined) {
-      this.liked = await this.reviewService.checkIfLiked(<string>loggedUserId, <string>this.review.id);
+    if (this.loggedUserId !== undefined) {
+      this.liked = await this.reviewService.checkIfLiked(<string>this.loggedUserId , <string>this.review.id);
     }
 
   }
   async checkIfDisLiked(){
-    const loggedUserId = (await this.loggedInUser.toPromise())?.id;
-    if (loggedUserId !== undefined) {
-      this.disliked = await this.reviewService.checkIfDisliked(<string>loggedUserId, <string>this.review.id);
+
+    if (this.loggedUserId  !== undefined) {
+      this.disliked = await this.reviewService.checkIfDisliked(<string>this.loggedUserId , <string>this.review.id);
 
     }
 
   }
   async dislikeReview() {
-    const loggedUserId = (await this.loggedInUser.toPromise())?.id;
-    if (loggedUserId !== undefined) {
-      this.reviewService.dislikeReview(<string>loggedUserId, <string>this.review.id)
+
+    if (this.loggedUserId  !== undefined) {
+      this.reviewService.dislikeReview(<string>this.loggedUserId , <string>this.review.id)
         .then(([likes, dislikes]) => {
           this.review.likes = likes;
           this.review.dislikes = dislikes;

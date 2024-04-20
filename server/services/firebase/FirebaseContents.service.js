@@ -90,9 +90,33 @@ class FirebaseContent {
         }
     }
 
-    removeLike = async (userId, contentId) => {
+    async updateScore(contentId, score, userId) {
+        try {
+            const userDocRef = doc(this.#db, "Users", userId);
+            const userDocSnapshot = await getDoc(userDocRef);
 
+            if (!userDocSnapshot.exists()) {
+                throw new Error('User not found');
+            }
+
+            const userData = userDocSnapshot.data();
+            let userScores = userData.userScores || {};
+
+            if (!userData.userScores) {
+                userScores = {};
+            }
+            userScores[contentId] = score;
+            await updateDoc(userDocRef, {
+                userScores
+            });
+
+        } catch (error) {
+            console.error('Error updating score:', error);
+            throw error;
+        }
     }
+
+
 }
 
 module.exports = require(process.cwd() + '/bin/Singleton')(new FirebaseContent(require('./firebase.service')));

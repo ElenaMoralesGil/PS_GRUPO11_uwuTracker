@@ -10,4 +10,6 @@ export default interface Contents {
     getAnimeCharacters: (id: string) => Promise<any>
     getCharacterById: (id: string) => Promise<any>
     getEpisodes: (id: string) => Promise<any>
+    setScore: (contentId:string,score: number, userId:string) => Promise<void>
+
 }
