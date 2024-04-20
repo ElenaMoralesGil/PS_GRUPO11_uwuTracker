@@ -34,7 +34,11 @@
                     <!-- For the genres dropdown menu using radiobuttons -->
                     @for(subitem of this.optionsBuilder.getOptions()[$index]; track $index){
                         <div [id]="subitem" class="dropwdown-option">
-                            <p (click)="emitOptions(item, subitem)" [ngStyle]="{'color':this.options[item] === subitem ? 'var(--dull-blue)' : 'var(--snow-color)'}"> {{ subitem }} </p>
+                            @if(item == "season"){
+                                <p (click)="emitOptions(item, subitem)" [ngStyle]="{'color':this.options[item] === subitem ? 'var(--dull-blue)' : 'var(--snow-color)'}" [ngStyle]="{'display': isValidSeason(subitem) ? 'block' : 'none'}"> {{ subitem }} </p>
+                            }@else{
+                                <p (click)="emitOptions(item, subitem)" [ngStyle]="{'color':this.options[item] === subitem ? 'var(--dull-blue)' : 'var(--snow-color)'}"> {{ subitem }} </p>
+                            }
                         </div>
                     }
                 }

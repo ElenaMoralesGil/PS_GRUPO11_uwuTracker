@@ -26,16 +26,16 @@ export class optionsBuilder {
     }
 
     #buildSeason = ():string[] => {
-        return ["Winter", "Spring", "Summer", "Fall"];
+        return ["winter", "spring", "summer", "fall"];
     }
 
     #buildFormat = ():string[]=> {
-        return ["TvShow", "Movie", "TvShort", "Special", "Ova", "Ona", "Music"]
+        return ["tv", "movie", "ova", "special", "ona", "music"]
     }
 
     #buildYear = ():number[] => {
         const years:number[]= [];
-        for (let i = 2025; i >= 1940; i--){
+        for (let i = new Date().getFullYear(); i >= 1940; i--){
             years.push(i);
         }
         return years;

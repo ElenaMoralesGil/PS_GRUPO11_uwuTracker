@@ -24,10 +24,10 @@ export class SearchComponent {
   current_page = undefined;
   options:WritableSignal<{name:string, genres:string[], year:number, season:string, format:string}> =
   signal({ 
-    name:'Frieren',
+    name:'',
     genres:[], 
-    year:0,
-    season:'', 
+    year:2024,
+    season:'spring', 
     format:''
   });
 }
