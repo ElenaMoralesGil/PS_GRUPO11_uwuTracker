@@ -1,20 +1,20 @@
 <section id="tags">
     <i class="fa-solid fa-tag"></i>
-    @if(this.options.Name){
-        <article class="tag" (click)="changedOptions('Name', this.options.Name)"> {{ this.options.Name }} </article>
+    @if(this.options.name){
+        <article class="tag" (click)="changedOptions('name', this.options.name)"> {{ this.options.name }} </article>
     }
-    @if(this.options.Genres){
-        @for(item of this.options.Genres; track $index){
-            <article class="tag" (click)="changedOptions('Genres', item)"> {{ item }}</article>
+    @if(this.options.genres){
+        @for(item of this.options.genres; track $index){
+            <article class="tag" (click)="changedOptions('genres', item)"> {{ item }}</article>
         }
     }
-    @if(this.options.Year){
-        <article class="tag" (click)="changedOptions('Year', this.options.Year)"> {{ this.options.Year }} </article>
+    @if(this.options.year){
+        <article class="tag" (click)="changedOptions('year', this.options.year)"> {{ this.options.year }} </article>
     }
-    @if(this.options.Season){
-        <article class="tag" (click)="changedOptions('Season', this.options.Season)"> {{ this.options.Season }} </article>
+    @if(this.options.season){
+        <article class="tag" (click)="changedOptions('season', this.options.season)"> {{ this.options.season }} </article>
     }
-    @if(this.options.Format){
-        <article class="tag" (click)="changedOptions('Format', this.options.Format)"> {{ this.options.Format }} </article>
+    @if(this.options.format){
+        <article class="tag" (click)="changedOptions('format', this.options.format)"> {{ this.options.format }} </article>
     }
 </section>

@@ -7,9 +7,8 @@ export default interface Contents {
 
     //create: (content: Content) => Promise<Content> | null
 
-    getAnimeCharacters: (id: string) => Promise<any>
+    getCharacters: (id: string) => Promise<any>
     getCharacterById: (id: string) => Promise<any>
     getEpisodes: (id: string) => Promise<any>
-    setScore: (contentId:string,score: number, userId:string) => Promise<void>
-
+    setScore: (contentId: string, score: number, userId: string) => Promise<void>
 }

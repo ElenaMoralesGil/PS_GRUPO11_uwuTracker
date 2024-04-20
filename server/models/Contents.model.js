@@ -1,6 +1,4 @@
-
 const Content = require('../schemas/Content.schema')
-
 
 class Contents {
     #api
@@ -22,7 +20,7 @@ class Contents {
 
     }).then(content => content ? Content.parse(content) : null)
 
-    find = obj => this.#api.animeSearch(obj).then(contents => contents.data.length ? { ...contents, data: contents.data.map(elm => Content.parse(elm)) } : null)
+    find = obj => this.#api.find(obj).then(contents => contents.data.length ? { ...contents, data: contents.data.map(elm => Content.parse(elm)) } : null)
     persistenceFind = (obj, opt) => this.#db.find(obj, opt)
     create = async content => this.#db.create(content).then(content => content ? Content.parse(content) : null)
     like = async (userId, contentId) => this.#db.like(userId, contentId);

@@ -10,7 +10,7 @@ export class optionsBuilder {
     }
 
     getKeys = () => {
-        return ["Genres", "Year", "Season", "Format"];
+        return ["genres", "year", "season", "format"];
     }
 
     #buildGenres = ():string[] => {
@@ -26,17 +26,17 @@ export class optionsBuilder {
     }
 
     #buildSeason = ():string[] => {
-        return ["Winter", "Spring", "Summer", "Fall"];
+        return ["winter", "spring", "summer", "fall"];
     }
 
     #buildFormat = ():string[]=> {
-        return ["TvShow", "Movie", "TvShort", "Special", "Ova", "Ona", "Music"]
+        return ["tv", "movie", "ova", "special", "ona", "music"]
     }
 
-    #buildYear = ():number[] => {
-        const years:number[]= [];
-        for (let i = 2025; i >= 1940; i--){
-            years.push(i);
+    #buildYear = ():string[] => {
+        const years:string[]= [];
+        for (let i = new Date().getFullYear(); i >= 1940; i--){
+            years.push(String(i));
         }
         return years;
     }

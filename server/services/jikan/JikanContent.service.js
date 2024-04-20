@@ -1,4 +1,5 @@
 const Content = require('../../schemas/Content.schema');
+const genresParser = require('./genres');
 
 class JikanService {
 
@@ -27,11 +28,11 @@ class JikanService {
     findSeasonContents = (year, season, format, page) => fetch(`${this.seasonpath}/${year}/${season}?${format !== '' ? `filter=${format}&` : ''}${page !== undefined ? `page=${page}` : ''}`).then(res => res.json()); // Works
 
     // Function to search for content based on Name, Genres and other few filters.
-    findNameGenres = (name, genres, format, page) => fetch(`${this.contentpath}?${name !== "" ? `q=${name}&` : ''}${genres.length !== 0 ? `genres=${genres.join(',')}&` : ''}${format !== '' ? `type=${format}&` : ''}${page !== undefined ? `page=${page}` : ''}`).then(res => res.json()); // Works
+    findNameGenres = (name, genres, format, page) => fetch(`${this.contentpath}?${name !== "" ? `q=${name}&` : ''}${genres[0] !== '' ? `genres=${genres.join(',')}&` : ''}${format !== '' ? `type=${format}&` : ''}${page !== undefined ? `page=${page}` : ''}`).then(res => res.json()); // Works
 
     find({ name, genres, year, season, format, page }) {
-        if (year || season) return this.findSeasonContents(year, season, format, page);
-        return this.findNameGenres(name, genres.map(elem => genres[elem]), format, page);
+        if (year && season) return this.findSeasonContents(year, season, format, page);
+        return this.findNameGenres(name, genres[0] !== '' ? genres.map(elem => genresParser[elem]) : genres, format, page);
     }
 }
 

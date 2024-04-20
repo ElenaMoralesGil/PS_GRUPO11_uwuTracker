@@ -1,4 +1,4 @@
-const genres:{[key in genresNames]:number} = {
+module.exports = genres = {
     'Action': 1,
     'Adventure': 2,
     'Avant Garde': 5,
@@ -76,15 +76,3 @@ const genres:{[key in genresNames]:number} = {
     'Shoujo': 25,
     'Shounen': 27
 }
-
-type genresNames = 'Action'|'Adventure'|'Avant Garde'|'Award Winning'|'Boys Love'|'Comedy'|'Drama'|'Fantasy'|
-'Girls Love'|'Gourmet'|'Horror'|'Mystery'|'Romance'|'Sci-Fi'|'Slice of Life'|'Sports'|'Supernatural'|'Suspense'|
-'Ecchi'|'Erotica'|'Hentai'|'Adult Cast'|'Anthropomorphic'|'CGDCT'|'Childcare'|'Combat Sports'|'Crossdressing'|
-'Delinquents'|'Detective'|'Educational'|'Gag Humor'|'Gore'|'Harem'|'High Stakes Game'|'Historical'|'Idols (Female)'|
-'Idols (Male)'|'Isekai'|'Iyashikei'|'Love Polygon'|'Magical Sex Shift'|'Mahou Shoujo'|'Martial Arts'|'Mecha'|
-'Medical'|'Military'|'Music'|'Mythology'|'Organized Crime'|'Otaku Culture'|'Parody'|'Performing Arts'|'Pets'|
-'Psychological'|'Racing'|'Reincarnation'|'Reverse Harem'|'Romantic Subtext'|'Samurai'|'School'|'Showbiz'|'Space'|
-'Strategy Game'|'Super Power'|'Survival'|'Team Sports'|'Time Travel'|'Vampire'|'Video Game'|'Visual Arts'|'Workplace'|
-'Josei'|'Kids'|'Seinen'|'Shoujo'|'Shounen';
-
-export {genres, genresNames};
