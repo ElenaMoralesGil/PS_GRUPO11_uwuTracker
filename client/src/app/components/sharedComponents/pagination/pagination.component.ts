@@ -12,5 +12,5 @@ import { RouterLink } from '@angular/router';
 })
 export class PaginationComponent {
   @Input() numberOfPages:number|undefined = undefined;
-  @Input() currentPage:number|undefined = undefined;
+  @Input() currentPage:number = 0;
 }
