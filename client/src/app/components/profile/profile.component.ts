@@ -50,9 +50,9 @@ export class ProfileComponent implements OnInit {
 
   ) { }
 
-  async ngOnInit(): Promise<void> {
-    try {
-      this.username = this.router.snapshot.paramMap.get("username") || "";
+  ngOnInit(): void {
+    this.router.paramMap.subscribe(async params => {
+      this.username = params.get("username") || "";
       this.authService.user.subscribe((user: User | null) => {
         this.accountId = user?.id;
       });
@@ -63,11 +63,8 @@ export class ProfileComponent implements OnInit {
         return;
       } else {
         this.user = user;
-
       }
-    } catch (error) {
-      console.error('Error fetching user:', error);
-    }
+    });
   }
 
 
