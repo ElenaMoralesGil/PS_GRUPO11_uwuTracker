@@ -22,11 +22,11 @@ export class SearchComponent {
     })
   }
   current_page = undefined;
-  options:WritableSignal<{name:string, genres:string[], year:number, season:string, format:string}> =
+  options:WritableSignal<{name:string, genres:string[], year:string, season:string, format:string}> =
   signal({ 
     name:'',
     genres:[], 
-    year:0,
+    year:'',
     season:'', 
     format:''
   });

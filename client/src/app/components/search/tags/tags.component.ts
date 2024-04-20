@@ -15,7 +15,7 @@ export class TagsComponent {
   @Input() options = {
     name:'',
     genres:[''],
-    year:0,
+    year:'',
     season:'',
     format:''
   }
@@ -26,9 +26,9 @@ export class TagsComponent {
       case 'genres':
         this.options[key].splice(this.options[key].findIndex(elem => elem === value), 1); break;
       case 'year':
-        this.options.season = ''; this.options[key] = 0; break;
+        this.options.season = ''; this.options[key] = ''; break;
       case 'season':
-        this.options.year = 0; this.options[key] = ''; break;
+        this.options.year = ''; this.options[key] = ''; break;
       default:
         this.options[key] = '';
     }

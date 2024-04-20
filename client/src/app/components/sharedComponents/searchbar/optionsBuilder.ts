@@ -33,10 +33,10 @@ export class optionsBuilder {
         return ["tv", "movie", "ova", "special", "ona", "music"]
     }
 
-    #buildYear = ():number[] => {
-        const years:number[]= [];
+    #buildYear = ():string[] => {
+        const years:string[]= [];
         for (let i = new Date().getFullYear(); i >= 1940; i--){
-            years.push(i);
+            years.push(String(i));
         }
         return years;
     }

@@ -29,7 +29,7 @@ export class SearchbarComponent implements AfterViewInit{
 
   /* Declarations to handle emitted data from the search bar */
   name = new FormControl('');
-  @Input() options: {name:string, genres:string[], year:number, season:string, format:string} = {name:'', genres:[], year:0, season:'', format:''}
+  @Input() options: {name:string, genres:string[], year:string, season:string, format:string} = {name:'', genres:[], year:'', season:'', format:''}
   @Output() optionsChange = new EventEmitter();
 
   // Function to get the current season of the year.
@@ -46,10 +46,10 @@ export class SearchbarComponent implements AfterViewInit{
         this.options[item].includes(String(value)) ? this.options[item].splice(this.options[item].findIndex(elem => elem === value), 1) : this.options[item].push(String(value)); break;
       case 'year':
         if (this.tracker !== false) this.modeHandler('time');
-        if (this.options[item] === value){this.optionsCleanup(["season"]); this.options[item] = 0}
+        if (this.options[item] === value){this.optionsCleanup(["season"]); this.options[item] = ''}
         else {
-          this.options[item] = Number(value);
-          this.options.season = this.options.season === '' ? seasons[this.getSeason(new Date())] : this.options.season;
+          this.options[item] = String(value);
+          this.options.season = this.options.season === '' ? seasons[this.getSeason(new Date())] : (this.isValidSeason(this.options.season) ? this.options.season : seasons[this.getSeason(new Date())]);
         };
         break;
       case 'season':
@@ -57,7 +57,7 @@ export class SearchbarComponent implements AfterViewInit{
         if (this.options[item] === String(value)){this.optionsCleanup(["year"]); this.options[item] = ''}
         else {
           this.options[item] = String(value);
-          this.options.year = this.options.year === 0 ? new Date().getFullYear() : this.options.year;
+          this.options.year = this.options.year === '' ? String(new Date().getFullYear()) : this.options.year;
         };
         break;
       case 'format':
@@ -67,7 +67,7 @@ export class SearchbarComponent implements AfterViewInit{
   }
 
   optionsCleanup(items:optionNames[]){
-    items.forEach(elem => elem === "genres" ? this.options[elem].length = 0 : elem === "year" ? this.options[elem] = 0 : this.options[elem] = '');
+    items.forEach(elem => elem === "genres" ? this.options[elem].length = 0 : elem === "year" ? this.options[elem] = '' : this.options[elem] = '');
   }
 
   // Input Component to Observe
@@ -90,7 +90,7 @@ export class SearchbarComponent implements AfterViewInit{
   }
 
   isValidSeason(season:any) {
-    if (this.options.year == new Date().getFullYear()) return seasons.indexOf(season) <= this.getSeason(new Date());
+    if (this.options.year == String(new Date().getFullYear())) return seasons.indexOf(season) <= this.getSeason(new Date());
     else return true;
   }
 }
