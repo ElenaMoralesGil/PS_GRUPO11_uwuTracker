@@ -1,11 +1,11 @@
 
-<div class ="container">
-  <div id="profile-info">
-  <app-user-info  [username] = "user.username" [description]="user.description" ></app-user-info>
-</div>
-  @if(false){
+  <div class ="container">
+    <div id="profile-info">
+    <app-user-info [accountId]="accountId" [userId]="user.id" [username] = "user.username" [description]="user.description" ></app-user-info>
+  </div>
+
   <app-edit-profile></app-edit-profile>
-  }
+
   <div id="profile-nav">
   <app-profile-nav></app-profile-nav>
   </div>

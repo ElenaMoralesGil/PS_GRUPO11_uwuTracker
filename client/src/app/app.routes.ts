@@ -65,7 +65,6 @@ export const routes: Routes = [
   {
     path: 'profile/:username', component: ProfileComponent,
     children: [
-      { path: '', redirectTo: 'watching', pathMatch: 'full' },
       { path: 'watching', component: TableComponent },
       { path: 'completed', component: TableComponent },
       { path: 'planToWatch', component: TableComponent },

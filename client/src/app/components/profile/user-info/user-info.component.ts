@@ -11,6 +11,7 @@ export class UserInfoComponent {
   @Input() username?: string;
   @Input() description?: string;
   @Input() profilePicture?: string;
-
+  @Input() accountId?: string;
+  @Input() userId?: string;
 
 }
