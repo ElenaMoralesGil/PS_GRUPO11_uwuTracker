@@ -19,7 +19,7 @@
     <div class="likes-dislikes">
     <i class="fa-solid fa-thumbs-up" id="thumbs-up" (click)="likeReview()" [ngClass]="{'liked': liked, 'thumbs-up': !liked}"></i>
     <span>{{ review.likes }}</span>
-    <i class="fa-solid fa-thumbs-down" id="thumbs-down" (click)="dislikeReview()" [ngClass]="{'disliked': disliked}"></i>
+    <i class="fa-solid fa-thumbs-down" id="thumbs-down" (click)="dislikeReview()" [ngClass]="{'disliked': disliked,'thumbs-up': !disliked }"></i>
     <span>{{ review.dislikes }}</span>
   </div>
     <!-- Review actions -->
