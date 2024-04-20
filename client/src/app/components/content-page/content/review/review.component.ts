@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import Review from "../../../../schemas/Review.schema";
 import { ReviewService } from '../../../../services/review.service';
 import { AuthService } from "../../../../services/auth.service";
@@ -57,7 +57,6 @@ export class ReviewComponent implements OnInit {
     private userService: UsersService,
     private router: ActivatedRoute,
     private authService: AuthService,
-    private route: Router
   ) {
     this.loggedInUser = this.authService.user
   }
@@ -167,12 +166,16 @@ export class ReviewComponent implements OnInit {
   async likeReview() {
     const loggedUserId = (await this.loggedInUser.toPromise())?.id;
     if (this.loggedInUser) {
-      this.reviewService.likeReview(<string>loggedUserId, <string>this.review.id).then(likes => {
-        this.review.likes = likes;
-        console.log(likes);
-        console.log("review", this.review);
-        this.reviewUpdated.emit(this.review)
-      });
+      this.reviewService.likeReview(<string>loggedUserId, <string>this.review.id)
+        .then(([likes, dislikes]) => {
+          this.review.likes = likes;
+          this.review.dislikes = dislikes;
+          console.log("likes", likes, "dislikes", dislikes);
+          this.reviewUpdated.emit(this.review);
+        })
+        .catch(error => {
+          console.error('Error liking review:', error);
+        });
     } else {
       alert("You are not logged in!");
     }
@@ -180,13 +183,17 @@ export class ReviewComponent implements OnInit {
 
   async dislikeReview() {
     const loggedUserId = (await this.loggedInUser.toPromise())?.id;
-    if (this.loggedInUser) {
-      this.reviewService.dislikeReview(<string>loggedUserId, <string>this.review.id).then(dislikes => {
+    if (loggedUserId !== undefined) {
+      this.reviewService.dislikeReview(<string>loggedUserId, <string>this.review.id)
+        .then(([likes, dislikes]) => {
+          this.review.likes = likes;
           this.review.dislikes = dislikes;
-          console.log(dislikes);
-          console.log("review", this.review);
-        this.reviewUpdated.emit(this.review)
-      });
+          console.log("likes", likes, "dislikes", dislikes);
+          this.reviewUpdated.emit(this.review);
+        })
+        .catch(error => {
+          console.error('Error disliking review:', error);
+        });
     } else {
       alert("You are not logged in!");
     }

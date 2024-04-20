@@ -42,8 +42,11 @@ class Reviews {
                 return this.#db.delete(id);
             });
     };
-    likeReview = (userId, reviewId) => { return this.#db.like(userId, reviewId);};
-    dislikeReview = (userId, reviewId) => { return this.#db.dislike(userId, reviewId);};
+    likeReview = (userId, reviewId) =>
+        this.#db.like(userId, reviewId).then(([likes, dislikes]) => [likes, dislikes]);
+
+    dislikeReview = (userId, reviewId) =>
+        this.#db.dislike(userId, reviewId).then(([likes, dislikes]) => [likes, dislikes]);
 }
 
 module.exports = require(process.cwd() + '/bin/Singleton')(new Reviews());
