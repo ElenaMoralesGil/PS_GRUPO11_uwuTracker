@@ -1,12 +1,17 @@
+const { jikanScoreNormalization, calcScore } = require('../bin/utils')
+
 
 module.exports = class Content {
-    constructor({ mal_id, title, synopsis, comments, genres, score, status, episodesNumber, episodes, type, source, duration, coverImg, backgroundImg, images, trailer, year, season, studios, id, reviews, likes }) {
+    constructor({ mal_id, title, ourScore, scoreCount, apiScore, synopsis, comments, genres, score, status, episodesNumber, episodes, type, source, duration, coverImg, backgroundImg, images, trailer, year, season, studios, id, reviews, likes }) {
         // Initialize reviews array
         this.reviews = reviews || [];
 
         // Set other properties
         this.id = id || mal_id;
-        this.score = score;
+        this.ourScore = ourScore || 0
+        this.apiScore = mal_id ? score : apiScore
+        this.scoreCount = scoreCount || 0
+        this.score = score
         this.title = title;
         this.synopsis = synopsis;
         this.status = status;

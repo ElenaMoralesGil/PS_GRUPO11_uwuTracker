@@ -1,5 +1,8 @@
 const { collection, doc, arrayRemove, increment, arrayUnion, getDoc, getDocs, setDoc, addDoc, updateDoc, query, where } = require('firebase/firestore/lite');
 const Content = require('../../schemas/Content.schema');
+const Contents = require('../../models/Contents.model')
+const { apiScoreNormalization, calcScore, calcOurScore } = require('../../bin/utils')
+
 
 class FirebaseContent {
     #fss
@@ -91,7 +94,14 @@ class FirebaseContent {
     }
 
     async updateScore(contentId, score, userId) {
+
         try {
+
+            // validations
+            const content = await Contents.findById(contentId)
+            if (!content) return null
+
+            // user
             const userDocRef = doc(this.#db, "Users", userId);
             const userDocSnapshot = await getDoc(userDocRef);
 
@@ -99,16 +109,30 @@ class FirebaseContent {
                 throw new Error('User not found');
             }
 
+            const prevUserScore = userScores[contentId]
+
             const userData = userDocSnapshot.data();
             let userScores = userData.userScores || {};
 
             if (!userData.userScores) {
                 userScores = {};
             }
+
             userScores[contentId] = score;
             await updateDoc(userDocRef, {
                 userScores
-            });
+            })
+
+            // content
+            const userScore = score
+            const score = content.score
+            const apiScore = content.apiScore
+            const scoreCount = prevUserScore ? content.scoreCount : content.scoreCount + 1
+
+            const ourScore = calcOurScore({ prevUserScore, userScore, scoreCount, score })
+            const calculatedScore = calcScore({ ourScore, scoreCount, apiScore: apiScoreNormalization(apiScore) })
+
+            return await updateDoc(doc(this.#db, this.#coll, String(contentId)), { ...content, ourScore, scoreCount, score: calculatedScore })
 
         } catch (error) {
             console.error('Error updating score:', error);
