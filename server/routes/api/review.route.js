@@ -53,6 +53,32 @@ router.delete('/:id', (req, res) => {
         .then(() => res.status(200).json({ msg: 'Review deleted' }))
         .catch(err => res.status(500).json({ msg: err }));
 });
+router.post('/:id/like', (req, res) => {
+    const { userId } = req.body;
+    const reviewId = req.params.id;
 
+    Reviews.likeReview(userId, reviewId)
+        .then(likes => {
+            res.status(200).json({ likes });
+        })
+        .catch(error => {
+            console.error(error);
+            res.status(500).json({ error: 'Internal Server Error' });
+        });
+});
+
+router.post('/:id/dislike', (req, res) => {
+    const { userId } = req.body;
+    const reviewId = req.params.id;
+
+    Reviews.dislikeReview(userId, reviewId)
+        .then(likes => {
+            res.status(200).json({ likes });
+        })
+        .catch(error => {
+            console.error(error);
+            res.status(500).json({ error: 'Internal Server Error' });
+        });
+});
 
 module.exports = router

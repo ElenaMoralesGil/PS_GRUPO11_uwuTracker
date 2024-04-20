@@ -136,6 +136,103 @@ class FirebaseReview {
         }
     }
 
+    async like(userId, reviewId) {
+        try {
+            const userRef = doc(this.db, 'Users', userId);
+            const userSnapshot = await getDoc(userRef);
+            if (!userSnapshot.exists()) {
+                console.error('User not found for ID:', userId);
+                return false;
+            }
+            const userData = userSnapshot.data();
+            const contentIds = userData.likedReviews || [];
+
+            const reviewRef = doc(this.db, this.coll, reviewId);
+            const reviewSnapshot = await getDoc(reviewRef);
+            if (!reviewSnapshot.exists()) {
+                console.error('Review not found for ID:', reviewId);
+                return false;
+            }
+            const reviewData = reviewSnapshot.data();
+
+            if (contentIds.includes(reviewId)) {
+                // If already liked, remove from likedReviews and decrease likes count
+                console.log(`review is in ${contentIds}`);
+                await updateDoc(userRef, {
+                    likedReviews: arrayRemove(reviewId)
+                });
+
+                await updateDoc(reviewRef, {
+                    likes: reviewData.likes - 1
+                });
+                return reviewData.likes -1;
+            } else {
+                // If not liked, add to likedReviews and increase likes count
+                console.log(`review is not in ${contentIds}`);
+                await updateDoc(userRef, {
+                    likedReviews: arrayUnion(reviewId)
+                });
+
+                await updateDoc(reviewRef, {
+                    likes: reviewData.likes + 1
+
+                });
+                return reviewData.likes +1;
+            }
+
+        } catch (error) {
+            console.error("Error disliking review:", error);
+            return false;
+        }
+    }
+
+    async dislike(userId, reviewId) {
+        try {
+            const userRef = doc(this.db, 'Users', userId);
+            const userSnapshot = await getDoc(userRef);
+            if (!userSnapshot.exists()) {
+                console.error('User not found for ID:', userId);
+                return false;
+            }
+            const userData = userSnapshot.data();
+            const contentIds = userData.dislikedReviews || [];
+
+            const reviewRef = doc(this.db, this.coll, reviewId);
+            const reviewSnapshot = await getDoc(reviewRef);
+            if (!reviewSnapshot.exists()) {
+                console.error('Review not found for ID:', reviewId);
+                return false;
+            }
+            const reviewData = reviewSnapshot.data();
+
+            if (contentIds.includes(reviewId)) {
+                // If already disliked, remove from dislikedReviews and decrease dislikes count
+                await updateDoc(userRef, {
+                    dislikedReviews: arrayRemove(reviewId)
+                });
+
+                await updateDoc(reviewRef, {
+                    dislikes: reviewData.dislikes - 1
+                });
+                return reviewData.dislikes -1;
+
+            } else {
+                // If not disliked, add to dislikedReviews and increase dislikes count
+                await updateDoc(userRef, {
+                    dislikedReviews: arrayUnion(reviewId)
+                });
+
+                await updateDoc(reviewRef, {
+                    dislikes: reviewData.dislikes + 1
+                });
+                return reviewData.dislikes +1;
+            }
+        } catch (error) {
+            console.error("Error disliking review:", error);
+            return false;
+        }
+    }
+
 }
 
 module.exports = require(process.cwd() + '/bin/Singleton')(new FirebaseReview(require('./firebase.service')))

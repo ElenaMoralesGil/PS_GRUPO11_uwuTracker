@@ -17,9 +17,9 @@
     </div>
     <p class="description">{{ review.description }}</p>
     <div class="likes-dislikes">
-      <i class="fa-solid fa-thumbs-up" id="thumbs-up"></i>
+      <i class="fa-solid fa-thumbs-up" id="thumbs-up" (click) ="likeReview()"></i>
       <span>{{ review.likes }}</span>
-      <i class="fa-solid fa-thumbs-down"  id="thumbs-down"></i>
+      <i class="fa-solid fa-thumbs-down"  id="thumbs-down" (click) ="dislikeReview()"></i>
       <span>{{ review.dislikes }}</span>
     </div>
     <!-- Review actions -->

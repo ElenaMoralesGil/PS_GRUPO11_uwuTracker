@@ -16,6 +16,36 @@ export class ReviewService implements Reviews {
     this.path = `${__env.API_PATH}/review`;
   }
 
+  likeReview = (userId: string, reviewId: string): Promise<number> =>
+    fetch(`${this.path}/${reviewId}/like`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId }),
+      credentials: 'include'
+    }).then(res => {
+      if (!res.ok) throw new Error('Failed to like review');
+      return res.json();
+    }).then(data => data.likes)
+      .catch(err => {
+        console.error('Error liking review:', err);
+        throw err;
+      });
+
+  dislikeReview = (userId: string, reviewId: string): Promise<number> =>
+    fetch(`${this.path}/${reviewId}/dislike`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ userId }),
+      credentials: 'include'
+    }).then(res => {
+      if (!res.ok) throw new Error('Failed to dislike review');
+      return res.json();
+    }).then(data => data.likes)
+      .catch(err => {
+        console.error('Error disliking review:', err);
+        throw err;
+      });
+
   findById = (id: string | null): Promise<Review> | null =>
     fetch(`${this.path}/${id}`, { credentials: 'include' }).then(res => res.json()).catch(err => null)
 

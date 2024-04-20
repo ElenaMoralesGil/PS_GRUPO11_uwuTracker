@@ -146,7 +146,6 @@ export class ReviewComponent implements OnInit {
         // @ts-ignore
         this.reviewService.editReview(this.review.id, this.review.title, this.review.description, this.review.score)
           .then(() => {
-            console.log("edited", this.review);
             this.reviewUpdated.emit(this.review)
             this.closeModal()
           });
@@ -162,6 +161,34 @@ export class ReviewComponent implements OnInit {
       }
     } catch (error) {
       console.error(error);
+    }
+  }
+
+  async likeReview() {
+    const loggedUserId = (await this.loggedInUser.toPromise())?.id;
+    if (this.loggedInUser) {
+      this.reviewService.likeReview(<string>loggedUserId, <string>this.review.id).then(likes => {
+        this.review.likes = likes;
+        console.log(likes);
+        console.log("review", this.review);
+        this.reviewUpdated.emit(this.review)
+      });
+    } else {
+      alert("You are not logged in!");
+    }
+  }
+
+  async dislikeReview() {
+    const loggedUserId = (await this.loggedInUser.toPromise())?.id;
+    if (this.loggedInUser) {
+      this.reviewService.dislikeReview(<string>loggedUserId, <string>this.review.id).then(dislikes => {
+          this.review.dislikes = dislikes;
+          console.log(dislikes);
+          console.log("review", this.review);
+        this.reviewUpdated.emit(this.review)
+      });
+    } else {
+      alert("You are not logged in!");
     }
   }
   async deleteReview() {

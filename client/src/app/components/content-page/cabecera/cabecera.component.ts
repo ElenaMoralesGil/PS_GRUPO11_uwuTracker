@@ -103,7 +103,11 @@ export class CabeceraComponent implements OnChanges {
   }
 
   scrollValorar(): void {
+    if (this.user && this.id) {
     this.ratingSelected = !this.ratingSelected;
+    }else{
+      alert('You need to be logged in to rate an anime');
+    }
   }
 
   scrollListas(): void {
