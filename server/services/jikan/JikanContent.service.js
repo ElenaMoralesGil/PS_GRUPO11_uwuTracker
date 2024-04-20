@@ -40,6 +40,7 @@ class JikanService {
         .then(res => res.data)
         .then(data => data.map(elm => elm.entry.map(elm => Content.parse(elm))))
         .then(data => data.flat(1))
+        .then(data => data.slice(0, 20))
 }
 
 module.exports = require('../../bin/Singleton')(new JikanService())
