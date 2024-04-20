@@ -34,7 +34,7 @@ export class ContentPageComponent implements OnInit {
   protected title?: string
   protected img?: string
   userId?: string;
-  episodes: string[] = [];
+  episodes: any[] = [];
   loggedInUser: Observable<User | null>
   likes?: number
   informationAside: { likes: number, type: string; source: string; episodesNumber: string; duration: string, status: string, season: string; year: string; studios: string; genres: string; rating: string; }[] = []
@@ -93,6 +93,9 @@ export class ContentPageComponent implements OnInit {
     }
 
 
+    
+
+
 
     return
   }
@@ -106,8 +109,6 @@ export class ContentPageComponent implements OnInit {
     return this.id
   }
 
-  showEpisodes() {
-
-  }
+  
 
 }
