@@ -3,7 +3,7 @@ import { RouterOutlet } from '@angular/router';
 import { AuthService } from './services/auth.service';
 import { HeaderComponent } from "./components/header/header.component";
 import { FooterComponent } from "./components/footer/footer.component";
-import { ReviewComponent } from "./components/review/review.component";
+import { ReviewComponent } from "./components/content-page/content/review/review.component";
 
 
 @Component({

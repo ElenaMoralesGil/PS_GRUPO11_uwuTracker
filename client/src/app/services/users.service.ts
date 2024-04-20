@@ -13,6 +13,7 @@ export class UsersService implements Users {
   constructor() {
     this.path = `${__env.API_PATH}/user`
   }
+
   findByUsername: (username: string) => Promise<User | null> = username =>
     fetch(`${this.path}/${username}`).then(res => res.json())
 
@@ -33,32 +34,32 @@ export class UsersService implements Users {
   }
 
   findById: (id: string) => Promise<User | null> = id =>
-    fetch(`${this.path}/id/${id}`, { credentials: 'include' }).then(res => res.status == 200 ? res.json() : null)
+    fetch(`${this.path}/id/${id}`, {credentials: 'include'}).then(res => res.status == 200 ? res.json() : null)
 
 
   find: (obj: Object) => Promise<Array<User>> = obj => {
     let query = ""
 
-    for (let [ key, val ] of Object.entries(obj))
+    for (let [key, val] of Object.entries(obj))
       query += `&${key}=${val}`
 
-    return fetch(`${this.path}/search?${query}`, { credentials: 'include' }).then(res => res.status == 200 ? res.json() : [])
+    return fetch(`${this.path}/search?${query}`, {credentials: 'include'}).then(res => res.status == 200 ? res.json() : [])
   }
 
   findOne: (obj: Object) => Promise<User | null> = obj => {
     let query = ""
 
-    for (let [ key, val ] of Object.entries(obj))
+    for (let [key, val] of Object.entries(obj))
       query += `&${key}=${val}`
 
-    return fetch(`${this.path}/search-one`, { credentials: 'include' }).then(res => res.status == 200 ? res.json() : null)
+    return fetch(`${this.path}/search-one`, {credentials: 'include'}).then(res => res.status == 200 ? res.json() : null)
   }
 
-  signup: ({ username, password, email }: { username: string, email: string, password: string }) => Promise<User | null> =
-    ({ username, password, email }) => fetch(`${this.path}/signup`, {
+  signup: ({username, password, email}: { username: string, email: string, password: string }) => Promise<User | null> =
+    ({username, password, email}) => fetch(`${this.path}/signup`, {
       method: 'POST',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ username, password, email }),
+      headers: {'Content-Type': 'application/json'},
+      body: JSON.stringify({username, password, email}),
       credentials: 'include'
     })
       .then(res => res.status == 201 ? res.json() : null)
@@ -66,7 +67,7 @@ export class UsersService implements Users {
   checkOnList = (userId: string | undefined, contentId: string | undefined, listField: string): Promise<boolean> => {
     const url = `${this.path}/${userId}/check-list/${contentId}/${listField}`;
     console.log('Requesting URL:', url);
-    return fetch(url, { method: 'GET', credentials: 'include' })
+    return fetch(url, {method: 'GET', credentials: 'include'})
       .then(res => {
         if (res.status === 200) {
           return res.json();
@@ -83,9 +84,9 @@ export class UsersService implements Users {
       });
   }
 
-  trackingList = async (userId: string, contentId: string, listField: string): Promise<void> => {
+  trackingList = async (userId: string | undefined, contentId: string | undefined, listField: string): Promise<void> => {
     const url = `${this.path}/${userId}/${contentId}/tracking-list/${listField}`;
-    const body = JSON.stringify({ contentId });
+    const body = JSON.stringify({contentId});
 
     try {
       const response = await fetch(url, {
@@ -108,7 +109,7 @@ export class UsersService implements Users {
   isOnList = (userId: string | undefined, contentId: string | undefined): Promise<string | null> => {
     const url = `${this.path}/${userId}/check-list/${contentId}`;
     console.log('Requesting URL:', url);
-    return fetch(url, { method: 'GET', credentials: 'include' })
+    return fetch(url, {method: 'GET', credentials: 'include'})
       .then(res => {
         if (res.status === 200) {
           return res.json();
@@ -129,5 +130,47 @@ export class UsersService implements Users {
       });
   };
 
-}
+  incrementEpisodesCount(userId: string | undefined, contentId: string | undefined): Promise<number> {
+    const url = `${this.path}/${userId}/${contentId}/increment-episodes-count`;
 
+    return fetch(url, {
+      method: 'POST',
+      credentials: 'include'
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Failed to increment episodes count');
+        }
+        return response.json();
+      })
+      .then(data => {
+        console.log("service", data.episodesCount)
+        return data.episodesCount;
+      })
+      .catch(error => {
+        console.error('Error incrementing episodes count:', error);
+        throw error;
+      });
+  }
+  decrementEpisodesCount(userId: string | undefined, contentId: string | undefined): Promise<number> {
+    const url = `${this.path}/${userId}/${contentId}/decrement-episodes-count`;
+
+    return fetch(url, {
+      method: 'POST',
+      credentials: 'include'
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Failed to increment episodes count');
+        }
+        return response.json();
+      })
+      .then(data => {
+        return data.episodesCount;
+      })
+      .catch(error => {
+        console.error('Error incrementing episodes count:', error);
+        throw error;
+      });
+  }
+}

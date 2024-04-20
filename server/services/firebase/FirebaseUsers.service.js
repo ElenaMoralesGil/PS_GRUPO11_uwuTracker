@@ -99,7 +99,13 @@ class FirebaseUsers {
             // Add contentId to the new list
             const updatedList = [...userData[newListName], contentId];
             await updateDoc(userRef, { [newListName]: updatedList });
-
+            if (newListName === "watching"){
+                const contentProgress = userData.contentProgress ;
+                if (!contentProgress.hasOwnProperty(contentId)) {
+                    contentProgress[contentId] = 0;
+                    await updateDoc(userRef, { contentProgress });
+                }
+            }
             console.log('Content moved to the new list successfully');
             return true;
         } catch (error) {
@@ -135,6 +141,7 @@ class FirebaseUsers {
             const userData = userDoc.data();
             let references;
             let userScores;
+            let contentProgress;
             if (listField) {
                 references = userData[listField];
                 if (!Array.isArray(references)) {
@@ -142,6 +149,7 @@ class FirebaseUsers {
                     return null;
                 }
                 userScores = userData["userScores"]
+                contentProgress = userData["contentProgress"];
 
                 const contentMap = {};
 
@@ -150,6 +158,7 @@ class FirebaseUsers {
                         try {
                             const contentDoc = await getDoc(doc(this.#db, 'Contents', reference));
                             const score = userScores[reference] || '-';
+                            const progress = contentProgress[reference]  || 0;
                             if (contentDoc.exists()) {
                                 const contentData = contentDoc.data();
                                 contentMap[reference] = {
@@ -159,7 +168,10 @@ class FirebaseUsers {
                                     status: contentData.status,
                                     type: contentData.type,
                                     year: contentData.year,
-                                    userScore: score
+                                    userScore: score,
+                                    genres: contentData.genres,
+                                    contentProgress: progress,
+                                    episodes: contentData.episodes
                                 };
                             } else {
                                 console.log(`Content with reference ${reference} not found`);
@@ -177,11 +189,55 @@ class FirebaseUsers {
             return null;
         }
     }
+    incrementEpisodesCount = async (userId, contentId) => {
+        try {
+            const userRef = doc(this.#db, this.#coll, userId);
+            const userDoc = await getDoc(userRef);
 
+            const contentDoc = await getDoc(doc(this.#db, 'Contents', contentId));
+            const contentData = contentDoc.data();
+            const maxCount = contentData.episodes;
 
+            if (!userDoc.exists) {
+                throw new Error('User not found');
+            }
 
+            const userData = userDoc.data();
+            const contentProgress = userData.contentProgress ;
+            const episodesCount = contentProgress[contentId] ;
+            if (episodesCount === maxCount) {
+                return episodesCount;
+            }else {
+                contentProgress[contentId] = episodesCount + 1;
+                await updateDoc(userRef, {contentProgress});
+                return contentProgress[contentId];
+            }
+        } catch (error) {
+            console.error('Error incrementing episodes count:', error);
+            throw error;
+        }
+    }
 
+    decrementEpisodesCount = async (userId, contentId) => {
+        try {
+            const userRef = doc(this.#db, this.#coll, userId);
+            const userDoc = await getDoc(userRef);
 
+            const userData = userDoc.data();
+            const contentProgress = userData.contentProgress ;
+            const episodesCount = contentProgress[contentId] ;
+            if (episodesCount === 0) {
+                return episodesCount;
+            }else {
+                contentProgress[contentId] = episodesCount - 1;
+                await updateDoc(userRef, {contentProgress});
+                return contentProgress[contentId];
+            }
+        } catch (error) {
+            console.error('Error incrementing episodes count:', error);
+            throw error;
+        }
+    }
 }
 
 module.exports = require('../../bin/Singleton')(new FirebaseUsers())

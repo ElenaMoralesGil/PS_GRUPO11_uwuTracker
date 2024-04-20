@@ -53,6 +53,55 @@ router.delete('/:id', (req, res) => {
         .then(() => res.status(200).json({ msg: 'Review deleted' }))
         .catch(err => res.status(500).json({ msg: err }));
 });
+router.post('/:id/like', async (req, res) => {
+    const { userId } = req.body;
+    const reviewId = req.params.id;
+
+    Reviews.likeReview(userId, reviewId)
+        .then(([likes, dislikes]) => {
+            res.status(200).json({ likes, dislikes });
+        })
+        .catch(error => {
+            console.error(error);
+            res.status(500).json({ error: 'Internal Server Error' });
+        });
+});
+
+router.post('/:id/dislike', async (req, res) => {
+    const { userId } = req.body;
+    const reviewId = req.params.id;
+
+    Reviews.dislikeReview(userId, reviewId)
+        .then(([likes, dislikes]) => {
+            res.status(200).json({ likes, dislikes });
+        })
+        .catch(error => {
+            console.error(error);
+            res.status(500).json({ error: 'Internal Server Error' });
+        });
+});
+router.get('/:reviewId/check-like/:userId', async (req, res) => {
+    const { userId, reviewId } = req.params;
+    try {
+        const isLiked = await Reviews.checkIfLiked(userId, reviewId);
+        res.status(200).json({ isLiked });
+    } catch (error) {
+        console.error('Error checking like:', error);
+        res.status(500).json({ msg: 'Internal server error' });
+    }
+});
+
+router.get('/:reviewId/check-dislike/:userId', async (req, res) => {
+    const { userId, reviewId } = req.params;
+    try {
+        const isDisliked = await Reviews.checkIfDisliked(userId, reviewId);
+        res.status(200).json({ isDisliked });
+    } catch (error) {
+        console.error('Error checking dislike:', error);
+        res.status(500).json({ msg: 'Internal server error' });
+    }
+});
+
 
 
 module.exports = router

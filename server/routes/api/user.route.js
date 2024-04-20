@@ -130,4 +130,26 @@ router.get('/:userId/check-list/:contentId', async (req, res) => {
         res.status(500).json({ msg: 'internal-server-error' });
     }
 });
+router.post('/:userId/:contentId/increment-episodes-count', async (req, res) => {
+    const { userId, contentId } = req.params;
+
+    try {
+        const episodesCount = await Users.incrementEpisodesCount(userId, contentId);
+        res.status(200).json({ episodesCount });
+    } catch (error) {
+        console.error('Error incrementing episodes count:', error);
+        res.status(500).json({ msg: 'Internal server error' });
+    }
+});
+router.post('/:userId/:contentId/decrement-episodes-count', async (req, res) => {
+    const { userId, contentId } = req.params;
+
+    try {
+        const episodesCount = await Users.decrementEpisodesCount(userId, contentId);
+        res.status(200).json({ episodesCount });
+    } catch (error) {
+        console.error('Error incrementing episodes count:', error);
+        res.status(500).json({ msg: 'Internal server error' });
+    }
+});
 module.exports = router

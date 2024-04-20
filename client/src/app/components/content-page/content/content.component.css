@@ -1,0 +1,45 @@
+.review-content {
+  width: fit-content;
+  color: var(--snow-color);
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+}
+.createbtn-container{
+  width:100%;
+  display: flex;
+  justify-content:start;
+  margin-top: 0.5em;
+  align-items: center;
+  height: fit-content;
+}
+.create-btn{
+  background-color: var(--snow-color);
+  padding: .8rem 1.1rem;
+  margin: auto 1rem;
+}
+.review-container {
+  width: 100%;
+  padding: 1em;
+  border-radius: 1.5em;
+  flex-direction: column;
+  margin-top: 1em;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+ .review{
+  width: 100%;
+  align-self: center;
+  border-radius: 1em;
+  margin-bottom: 20px;
+}
+.create-btn:hover {
+  animation-name: colorchange;
+  animation-duration: 2s;
+  animation-iteration-count: infinite;
+  transform: scale(1.05);
+  background-color: #4CAF50;
+  color: white;
+}

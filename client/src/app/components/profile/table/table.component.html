@@ -1,7 +1,13 @@
 <section class="table-descriptor">
+
   <p class="table-title">Title</p>
-  @if(!isDropped){
-  <p class="table-title">User Score</p>
+  @if(!isDropped ){
+    @if(listName === "watching"){
+      <p class="table-title">User Progress</p>
+    }
+    @else {
+      <p class="table-title">User Score</p>
+    }
   } @else {
     <p class="table-title">Year</p>
   }
@@ -12,6 +18,23 @@
 
 <ng-container *ngIf="list">
   <ng-container *ngFor="let item of list | keyvalue">
+    @if (listName === "watching") {
+
+      <app-progress-row
+        [rowTitle]="item.value.title"
+        [rowContentCover]="item.value.coverImg"
+        [rowContentScore]="item.value.score"
+        [rowType]="item.value.type"
+        [rowContentId]="item.key"
+        [rowGenres]="item.value.genres"
+        [user] = user?.id
+        [rowProgress]="item.value.contentProgress"
+        [episodes]="item.value.episodes"
+        [accountId] = "accountId"
+        (changeToCompleted)="updateListOnCompleted($event)">
+
+        ></app-progress-row>
+    } @else{
     <app-normal-row
       [rowTitle]="item.value.title"
       [rowContentCover]="item.value.coverImg"
@@ -21,12 +44,10 @@
       [isDropped]="isDropped"
       [rowUserScore]="item.value.userScore"
       [rowContentId]="item.key"
+      [rowGenre]="item.value.genres"
       class="positions">
     </app-normal-row>
+    }
   </ng-container>
 </ng-container>
 
-
-@if(false){
-  <app-emergency-popup></app-emergency-popup>
-}

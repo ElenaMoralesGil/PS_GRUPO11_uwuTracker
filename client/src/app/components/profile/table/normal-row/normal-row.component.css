@@ -6,12 +6,18 @@
  a{
   text-decoration: none;
   color:inherit;
+   z-index: 20;
 }
 .position-content {
   display: flex;
   flex-flow: row nowrap;
   width: 100%;
   position: relative;
+}
+span {
+  color:white;
+  z-index: 1;
+  margin-top: -5%
 }
 .position-content:before {
   content: "";
@@ -24,6 +30,10 @@
 .position-content > * {
   flex: 1;
   text-align: center;
+}
+p , #minusBtn, #plusBtn, #counter {
+  color: white;
+  z-index: 1;
 }
 .progress {
   flex: 1;
@@ -42,6 +52,8 @@
   opacity: 0.4;
   box-sizing: border-box;
 }
+
+
 @media screen and (width < 70rem){
   .position-content {
     min-height: 6rem;

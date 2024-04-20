@@ -16,6 +16,8 @@ class Users {
     checkOnList =  async (contentId, nameList, userId) => this.#service.checkOnList(contentId, nameList, userId);
     trackingList = (userId,contentId, listField) => this.#service.trackingList(userId, contentId, listField)
     isOnList = (userId, contentId) => this.#service.isOnList(userId, contentId)
+    incrementEpisodesCount = (userId, contentId) => this.#service.incrementEpisodesCount(userId, contentId)
+    decrementEpisodesCount = (userId, contentId) => this.#service.decrementEpisodesCount(userId, contentId)
 }
 
 module.exports = require('../bin/Singleton')(new Users())

@@ -64,7 +64,6 @@ export class ContentPageComponent implements OnInit {
       content = await this.Contents.findById(this.router.snapshot.paramMap.get("id") || "")
       this.authService.user.subscribe((user: User | null) => {
         this.userId = user?.id;
-        // this.cdr.detectChanges();
       });
     } catch { return this.id = 'not-found' }
 
@@ -79,14 +78,6 @@ export class ContentPageComponent implements OnInit {
     this.likes = content.likes
     this.img = content?.coverImg || '../../assets/shoujo-shuumatsu.jpeg'
 
-
-
-    /*this.episodes = [
-      `${content.episodes.number}`,
-      `${content.episodes.name}`,
-      `${content.episodes.duration}`,
-      `${content.episodes.aired}`
-    ]*/
 
     //Info que tendrá el Aside
     try {

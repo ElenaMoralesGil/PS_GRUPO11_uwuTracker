@@ -1,3 +1,12 @@
+.edit-container{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  width: 65vw;
+}
 .modal {
   position: fixed;
   z-index: 2;
@@ -6,11 +15,17 @@
   width: 100%;
   height: 100%;
   overflow: auto;
-  background-color: rgba(255, 255, 255, 0.49);
   transition: opacity 0.3s ease;
   display: flex;
   align-items: center;
   justify-content: center;
+}
+
+.user-info{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .username {
@@ -18,14 +33,18 @@
   padding: 0.5em 1em;
   font-weight: bold;
 }
-#title , #description {
-  width: 90%;
-  padding: 1em 2em;
-  margin: 1em 0;
+#title , #description, #rating{
+  width: 70%;
+  padding: 1em 0.5em;
+  margin-bottom: 1em ;
   display: inline-block;
   border: 0.2em solid #ccc;
   border-radius: 0.5em;
   box-sizing: border-box;
+}
+#title {
+  margin-top:0.5em;
+  margin-bottom: 2em;
 }
 #title:focus, #description:focus {
   border-color: #000000;
@@ -35,15 +54,6 @@
   color:black;
   font-size: 2em;
 }
-#rating {
-  width: 90%;
-  padding: 1em 2em;
-  margin: 1em 0;
-  display: inline-block;
-  border: 0.2em solid #ccc;
-  border-radius: 0.5em;
-  box-sizing: border-box;
-}
 #score{
   font-size: 1.5em;
   width: fit-content;
@@ -52,14 +62,13 @@
   border-color: #000000;
   outline: none;
 }
-/* Modal Content */
+
 .modal-content {
-  background-color: #f6f6f6;
-  margin: 0 auto;
+  background-color: white;
+  margin: 1em;
   padding: 20px;
-  max-width: 30em;
-  border: 1px solid #888;
-  border-radius: 2em;
+  width:60%;
+  border-radius: 0.5em;
 
 }
 
@@ -79,20 +88,23 @@
   cursor: pointer;
 }
 
-.review-container {
+.review-container-edit {
+  margin-top: 1em;
   width: 100%;
-  max-width: 80%;
   display: flex;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  background: #ffffff;
-  padding: 1em ;
-  margin: 1em 0em;
+  background: white;
   border-radius: 1.5em;
-  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
 }
-
+.review-container {
+  padding: 1em;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background: white;
+  align-items: center;
+  border-radius: 1.5em;
+}
 .image-section {
   display:flex;
   width:100%;
@@ -104,7 +116,7 @@
   border: 1px solid #969494;
   border-radius: 5px;
   background: #dedede;
-  margin-bottom: 20px;
+  margin-bottom: 1em;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); /* Add shadow to cards */
 }
 
@@ -129,7 +141,7 @@
   flex-flow: row wrap;
   color: orange;
   gap: 0.5em;
-  font-size: 1em;
+  font-size: 0.5em;
   margin: 0.5em 0;
 }
 .title {
@@ -145,7 +157,7 @@
 }
 .user-pfp:hover,
 .user-pfp:focus {
-  transform: scale(1.1); /* Increase size on hover/click */
+  transform: scale(1.1);
 }
 .user-info{
   display:flex;
@@ -158,8 +170,9 @@
   display: flex;
   gap: 1em;
   padding: 2em;
-  font-size: 1.5em;
+  font-size: 1em;
   color: #333
+
 }
 
 .likes-dislikes i {
@@ -198,7 +211,6 @@
   margin-top: 1em;
 }
 
-
 .deleteButton {
   background-color: #f44336;
   color: white;
@@ -231,5 +243,19 @@
   background-color: #4CAF50;
   color: white;
 }
+.liked{
+  color: green;
+}
 
-
+.disliked {
+  color:red;
+}
+@media screen and (width < 35rem) {
+  .review-container {
+    max-width:70%;
+    margin-left:-1.5%
+  }
+  .modal-content {
+    min-width:100%;
+  }
+}

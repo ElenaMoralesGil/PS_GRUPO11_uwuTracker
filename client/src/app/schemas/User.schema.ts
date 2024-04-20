@@ -12,5 +12,6 @@ export default interface User {
   completed: []
   planToWatch: []
   favorites: []
-  userScores: Map<string,string>
+  userScores: Map<string,number>
+  contentProgress:  Map<string,number>
 }

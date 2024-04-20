@@ -80,6 +80,17 @@ router.post('/:userId/like/:contentId', async (req, res) => {
         res.status(500).json({ msg: error });
     }
 });
+router.put('/:contentId/score', async (req, res) => {
+    const { contentId } = req.params;
+    const { score, userId } = req.body;
 
+    try {
+        await Contents.updateScore(contentId, score,userId);
+        res.status(200).json({ msg: 'Score updated successfully' });
+    } catch (error) {
+        console.error('Error updating score:', error);
+        res.status(500).json({ msg: 'Internal server error' });
+    }
+});
 
 module.exports = router;

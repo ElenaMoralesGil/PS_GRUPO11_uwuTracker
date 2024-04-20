@@ -1,10 +1,10 @@
 module.exports = class Review {
     #id
 
-    constructor({ userId, score, content, description, title, id }) {
+    constructor({ userId, score, content, description, title, id, likes, dislikes }) {
         this.id = id;
-        this.likes = 0;
-        this.dislikes = 0;
+        this.likes = likes;
+        this.dislikes = dislikes;
         this.userId = userId;
         this.content = content;
         this.score = score;

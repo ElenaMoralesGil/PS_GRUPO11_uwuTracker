@@ -83,10 +83,12 @@ export class CabeceraComponent implements OnChanges {
   }
 
   isListSelected(option: string): boolean {
-    return this.selectedList === option;
+
+      return this.selectedList === option;
   }
 
   async listSelection(option: string): Promise<void> {
+
     if (option === this.selectedList) {
 
       this.selectedList = null;
@@ -95,16 +97,25 @@ export class CabeceraComponent implements OnChanges {
     }
     if (this.user && this.id) {
       await this.userService.trackingList(this.user, this.id, option);
+      this.cdr.detectChanges();
     }
-    this.cdr.detectChanges();
+
   }
 
   scrollValorar(): void {
+    if (this.user && this.id) {
     this.ratingSelected = !this.ratingSelected;
+    }else{
+      alert('You need to be logged in to rate an anime');
+    }
   }
 
   scrollListas(): void {
-    this.listSelected = !this.listSelected;
+    if (this.user && this.id) {
+      this.listSelected = !this.listSelected;
+    } else{
+      alert('You need to be logged in to add animes to lists');
+    }
   }
 
   async checkFavorites(): Promise<void> {

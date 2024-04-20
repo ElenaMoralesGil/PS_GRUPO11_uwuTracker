@@ -31,6 +31,9 @@ class Contents {
 
     findCharacterById = id => this.#api.findCharacter(id).then(charapter => charapter || null)
     getCharacters = id => this.#api.animeCharacters(id).then(charapters => charapters || null)
+
+    updateScore = async (contentId, score,userId) => { await this.#db.updateScore(contentId, score,userId);}
+
 }
 
 

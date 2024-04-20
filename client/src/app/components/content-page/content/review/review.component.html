@@ -1,0 +1,59 @@
+
+<!-- Review Display Section -->
+<div *ngIf="showMode && !editMode && !showModal ">
+
+  <div class="review-container">
+    <div class="image-section">
+      <a [routerLink]="['/profile', userName, 'watching']">
+      <img class="user-pfp" src= "../../../../../favicon.ico" alt="{{userName}} profile picture" >
+      </a>
+      <p class="username">{{userName}}</p>
+    </div>
+      <h2 class="title">{{ review.title }}</h2>
+    <div class="rating">
+      <span class="stars">
+        <i *ngFor="let i of [].constructor(review.score)" class="fa-solid fa-star score"></i>
+      </span>
+    </div>
+    <p class="description">{{ review.description }}</p>
+    <div class="likes-dislikes">
+    <i class="fa-solid fa-thumbs-up" id="thumbs-up" (click)="likeReview()" [ngClass]="{'liked': liked, 'thumbs-up': !liked}"></i>
+    <span>{{ review.likes }}</span>
+    <i class="fa-solid fa-thumbs-down" id="thumbs-down" (click)="dislikeReview()" [ngClass]="{'disliked': disliked}"></i>
+    <span>{{ review.dislikes }}</span>
+  </div>
+    <!-- Review actions -->
+    @if ((loggedInUser | async)?.id === review.userId ) {
+    <div class="review-actions">
+      <button class="editButton" (click)="editReview()">Edit Review</button>
+      <button class="deleteButton" (click)="deleteReview()">Delete Review</button>
+    </div>
+    }
+  </div>
+</div>
+
+<!-- Edit/Create Review Modal -->
+
+<div class="edit-container" *ngIf="(showModal && editMode && !showMode)">
+  <div class="modal-content">
+    <span class="close" (click)="closeModal()">&times;</span>
+    <div class="review-container-edit">
+      <h2 class="edit-title">{{ isNewReview ? 'Create Review' : 'Edit Review' }}</h2>
+      <div class="user-info">
+        <input id="title" placeholder="Title" required type="text" minlength="2" maxlength="30" [(ngModel)]="review.title">
+        <div *ngIf="review.title.length < 2 || review.title.length > 30" class="error-msg">Please enter a title between 2 and 30 characters.</div>
+        <textarea id="description" placeholder="Description" required  minlength="50"  maxlength="1000" type="text" [(ngModel)]="review.description"></textarea>
+        <div *ngIf="review.description.length < 50 || review.description.length > 1000" class="error-msg">Please enter a description between 50 and 1000 characters.</div>
+        <input type="number" id="score" placeholder="Score" required [(ngModel)]="review.score" min="0" max="5">
+        <div *ngIf="review.score < 0 || review.score > 5" class="error-msg">Please enter a number between 0 and 5.</div>
+        <button class="submitBtn" (click)="createOrUpdateReview()"
+                [disabled]="review.score < 0 || review.score > 5 ||
+                review.title.length < 2 || review.title.length > 30 ||
+                review.description.length < 50 || review.description.length > 1000">
+                {{ !isNewReview ? 'Update' : 'Create' }} Review
+        </button>
+      </div>
+    </div>
+  </div>
+</div>
+
