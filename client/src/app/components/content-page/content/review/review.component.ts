@@ -78,16 +78,17 @@ export class ReviewComponent implements OnInit {
     if (this.reviewId || this.isNewReview) {
       this.showMode = true;
       this.editMode = this.isNewReview;
-      this.loadReviewData().then(() => {
+      this.loadReviewData().then(async () => {
+        const loggedUserId = (await this.loggedInUser.toPromise())?.id;
+        if (loggedUserId) {
+          this.checkIfLiked();
+          this.checkIfDisLiked();
+        }
         this.userService.findById(this.review.userId).then(async (user) => {
           if (!user) return
           this.userName = user.username;
           this.pfp = user.profilePicture;
-          const loggedUserId = (await this.loggedInUser.toPromise())?.id;
-          if (loggedUserId) {
-            this.checkIfLiked();
-            this.checkIfDisLiked();
-          }
+
         });
       });
     }
