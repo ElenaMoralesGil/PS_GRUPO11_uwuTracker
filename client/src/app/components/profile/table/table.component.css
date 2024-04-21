@@ -17,10 +17,8 @@
   color: white;
 }
 
-
-
 .positions {
-  flex: 9;
+  width:100%;
   display:block;
   color: #f5f5f5;
   overflow: auto;
@@ -29,6 +27,7 @@
 .positions::-webkit-scrollbar {
   display: none;
 }
+
 @media screen and (width < 35rem){
 .last_title {
   display: none;
