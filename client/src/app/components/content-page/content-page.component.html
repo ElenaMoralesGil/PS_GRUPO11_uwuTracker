@@ -1,10 +1,9 @@
 <app-cabecera (likesChanged)="onLikesChanged($event)" [description]="description" [title]="title" [img]="img"
-    [rating]="rating" [id]="id" [user]="userId" [likes]="likes"></app-cabecera>
+              [rating]="rating" [id]="id" [user]="userId" [likes]="likes"></app-cabecera>
 <section class="aside-main-content-container">
-    <app-aside-information [information]="informationAside"></app-aside-information>
+  <app-aside-information #aside [information]="informationAside"></app-aside-information>
 
-    <section class="navbar-main-content">
-        <app-nav></app-nav>
-    </section>
-
+  <section #nav class="navbar-main-content">
+    <app-nav></app-nav>
+  </section>
 </section>

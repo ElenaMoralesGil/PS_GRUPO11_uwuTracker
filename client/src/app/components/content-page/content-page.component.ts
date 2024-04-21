@@ -1,4 +1,12 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import {
+  AfterViewInit,
+  ChangeDetectorRef,
+  Component,
+  ElementRef,
+  OnInit,
+  ViewChild,
+  ViewEncapsulation
+} from '@angular/core';
 import { ApiContentService } from '../../services/api-content.service';
 import { ActivatedRoute, RouterOutlet } from '@angular/router';
 import { CommentsComponent } from '../comments/comments.component';
@@ -19,9 +27,10 @@ import { StaffComponent } from './staff/staff.component';
   standalone: true,
   templateUrl: './content-page.component.html',
   styleUrl: './content-page.component.css',
-  imports: [ CommentsComponent, NgFor, NgIf, CabeceraComponent, StaffComponent, RouterOutlet, CharactersComponent, EpisodesComponent, AsideInformationComponent, NewCommentComponent, NavComponent ]
+  imports: [ CommentsComponent, NgFor, NgIf, CabeceraComponent, StaffComponent, RouterOutlet, CharactersComponent, EpisodesComponent, AsideInformationComponent, NewCommentComponent, NavComponent ],
+  encapsulation: ViewEncapsulation.None
 })
-export class ContentPageComponent implements OnInit {
+export class ContentPageComponent implements OnInit, AfterViewInit {
 
   protected id?: string
 
@@ -39,6 +48,8 @@ export class ContentPageComponent implements OnInit {
   likes?: number
   informationAside: { likes: number, type: string; source: string; episodesNumber: string; duration: string, status: string, season: string; year: string; studios: string; genres: string; rating: string; }[] = []
 
+  @ViewChild('aside') aside: ElementRef | undefined;
+  @ViewChild('nav') nav: ElementRef | undefined;
 
   protected source?: string
   protected duration?: number
@@ -57,7 +68,10 @@ export class ContentPageComponent implements OnInit {
     this.loggedInUser = this.authService.user
     this.loggedInUser.subscribe(user => { this.userId = user?.id })
   }
-
+  ngAfterViewInit() {
+    // @ts-ignore
+    this.nav.nativeElement.style.height = this.aside.nativeElement.offsetHeight + 'px';
+  }
   async ngOnInit() {
     let content
     try {
@@ -93,7 +107,7 @@ export class ContentPageComponent implements OnInit {
     }
 
 
-    
+
 
 
 
@@ -109,6 +123,6 @@ export class ContentPageComponent implements OnInit {
     return this.id
   }
 
-  
+
 
 }

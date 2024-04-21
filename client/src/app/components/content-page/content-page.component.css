@@ -26,36 +26,28 @@ body {
     box-sizing: border-box;
 }
 
-
 .aside-main-content-container {
-
-    display: flex;
-    flex-flow: row nowrap;
-    height: 100%;
-    width: 100%;
-    box-sizing: border-box;
-    margin-top: 2%;
+  display: flex;
+  flex-direction: row;
+  height: fit-content;
+  width: 100%;
+  box-sizing: border-box;
+  margin-top: 2%;
 }
 
 .aside-main-content-container .aside-anime-information {
-    box-sizing: border-box;
-    width: 25%;
-    margin: 1% 1% 1% 8%;
+  box-sizing: border-box;
+  width: 25%;
+  height: 100%;
+  margin: 1% 1% 1% 8%;
 }
 
 .navbar-main-content {
-    box-sizing: border-box;
-    width: 90%;
-    height: 100%;
-    min-height: 100%;
-    margin: 1% 8% 1% 1%;
-}
-
-.contenedor {
+  box-sizing: border-box;
+  width: 75%;
   height: 100%;
-  min-height: 100%;
-  max-height: 100%;
   overflow: auto;
+  margin: 1% 8% 1% 1%;
 }
 
 
