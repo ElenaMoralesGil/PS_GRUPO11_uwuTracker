@@ -33,7 +33,8 @@ export class CabeceraComponent implements OnChanges {
 
   @Input() title: string | undefined;
   @Input() description: string | undefined;
-  @Input() img: string | undefined;
+  @Input() coverImg: string | undefined;
+  @Input() backgroundImg: string | undefined;
   @Input() rating: number | undefined;
   @Input() id?: string;
   @Input() user?: string;
