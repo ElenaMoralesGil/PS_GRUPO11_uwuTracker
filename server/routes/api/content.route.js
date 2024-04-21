@@ -39,7 +39,7 @@ router.get('/search', (req, res) => {
         else params[key] = value
     Contents.find(params)
         .then(contents => {
-            if (!contents.data.length) return res.status(404).json({ msg: 'not found' })
+            if (!contents?.data?.length) return res.status(404).json({ msg: 'not found' })
             return res.status(200).json(contents)
         })
         .catch(err => { console.error('ERROR:' + err); res.status(500).json({ msg: err }) })

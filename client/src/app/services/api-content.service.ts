@@ -46,7 +46,7 @@ export class ApiContentService implements Contents {
     return fetch(`${this.path}/search?${query}`, { credentials: 'include' }).then(res => res.status == 200 ? res.json() : []);
   }
 
-  find = (params: Object, opts: { limit: number, orderBy: string, endAt: number, startAt: number, join: 'or' | 'and', orderByDir: string }): Promise<Content[]> => {
+  find = (params: Object, opts: { limit?: number, orderBy?: string, endAt?: number, startAt?: number, join?: 'or' | 'and', orderByDir?: 'desc' | 'asc' }): Promise<Content[]> => {
     let query = ""
 
     // params

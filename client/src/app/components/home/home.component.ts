@@ -6,11 +6,10 @@ import { SearchbarComponent } from '../sharedComponents/searchbar/searchbar.comp
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [HeroComponent, SearchbarComponent, AnimelistComponent],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  imports: [ HeroComponent, SearchbarComponent, AnimelistComponent ],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css'
 })
 export class HomeComponent {
-  rowNumbers = [1, 2, 3];
+  rowNumbers = [ 1, 2, 3 ];
 }
