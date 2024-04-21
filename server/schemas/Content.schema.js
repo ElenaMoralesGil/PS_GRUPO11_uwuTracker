@@ -1,4 +1,4 @@
-const { jikanScoreNormalization, calcScore } = require('../bin/utils')
+const { apiScoreNormalization, calcScore } = require('../bin/utils')
 
 
 module.exports = class Content {
@@ -11,7 +11,7 @@ module.exports = class Content {
         this.ourScore = ourScore || 0
         this.apiScore = mal_id ? score : apiScore
         this.scoreCount = scoreCount || 0
-        this.score = mal_id ? jikanScoreNormalization(apiScore) : score
+        this.score = mal_id ? apiScoreNormalization(apiScore) : score
         this.title = title;
         this.synopsis = synopsis;
         this.status = status;
