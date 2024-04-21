@@ -1,0 +1,349 @@
+img {
+    min-width: 0;
+    min-height: 0;
+    object-fit: cover;
+    box-sizing: border-box;
+}
+
+button {
+    border-radius: 1vw;
+}
+
+select {
+    box-sizing: border-box;
+    border-radius: 10px;
+}
+
+
+input {
+    color: #1d1d1f;
+    outline: none;
+    border-radius: 10px;
+}
+
+
+input:hover {
+    outline: none;
+}
+
+.navbar-main-content .episodes {
+    display: flex;
+    flex-flow: column nowrap;
+    overflow: auto;
+    max-height: 98%;
+    height: 98%;
+}
+
+
+.top-image {
+    position: relative;
+    width: 100%;
+    height: auto;
+    box-sizing: border-box;
+}
+
+.top-image img {
+    width: 100%;
+    height: 50vh;
+    box-sizing: border-box;
+}
+
+.aside-main-content-container {
+
+    display: flex;
+    flex-flow: row nowrap;
+    height: 100%;
+    width: 100%;
+    box-sizing: border-box;
+    margin-top: 2%;
+}
+
+.aside-main-content-container .aside-anime-information {
+    box-sizing: border-box;
+    width: auto;
+    margin: 1% 1% 1% 8%;
+}
+
+
+.top-description-and-buttons {
+    position: relative;
+    box-sizing: border-box;
+    width: 100%;
+    height: 40vh;
+}
+
+
+.anime-score-container {
+    position: absolute;
+    width: 10%;
+    font-size: 170%;
+    bottom: 5%;
+    right: 3%;
+    text-align: center;
+    background: #1d1d1fcc;
+    color: white;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10%;
+}
+
+.anime-score-container i {
+    font-size: var(--small-font-size);
+}
+
+.fa-regular,
+.far {
+    font-weight: 400;
+}
+
+p {
+    display: block;
+    margin-block-start: 1em;
+    margin-block-end: 1em;
+    margin-inline-start: 0px;
+    margin-inline-end: 0px;
+    unicode-bidi: isolate;
+}
+
+
+
+.top-description-and-buttons .cover-name {
+    position: relative;
+    max-width: 100%;
+    height: 80%;
+    padding-left: 8%;
+}
+
+.top-description-and-buttons .cover-name img {
+    position: absolute;
+    width: 20%;
+    height: 150%;
+    top: -60%;
+    box-shadow: 0 0 3px black;
+    border-radius: 10px;
+}
+
+.top-description-and-buttons .cover-name p {
+    position: absolute;
+    left: 32.5%;
+    top: 20%;
+    bottom: 0;
+    margin: auto;
+    font-size: var(--medium-big-font-size);
+    font-weight: bold;
+    color: white;
+}
+
+.top-description-and-buttons .anime-description {
+    position: absolute;
+    top: 25%;
+    left: 32.5%;
+    max-width: 50%;
+    max-height: 55%;
+    color: white;
+    opacity: 0.8;
+    line-height: 1.5;
+    overflow: auto;
+}
+
+.top-description-and-buttons .anime-description::-webkit-scrollbar {
+    display: none;
+}
+
+.top-description-and-buttons .button-palette {
+    display: flex;
+    position: relative;
+    flex-flow: row nowrap;
+    width: 20%;
+    height: 15%;
+    max-height: 14%;
+    gap: 3%;
+    margin-left: 8%;
+}
+
+.button-palette .rate-container {
+    flex: 4;
+    height: 100%;
+}
+
+.button-palette .addList-container {
+    position: relative;
+    flex: 4;
+    height: 100%;
+}
+
+.button-palette .favourite-container {
+    position: relative;
+    flex: 2;
+    height: 100%;
+}
+
+
+.button-palette .anime-menu-button-container {
+    position: relative;
+    display: flex;
+    flex-flow: column nowrap;
+    height: 100%;
+    width: 100px;
+    justify-content: center;
+}
+
+.anime-menu-button-container label {
+    user-select: none;
+    position: absolute;
+    left: 10%;
+    z-index: 1;
+
+}
+
+.favourite-container:active {
+    transform: translateY(1px);
+    box-shadow: 0 1px 2px rgba(0, 0, 0, 0.2);
+}
+
+.white {
+    color: white;
+    box-shadow: 0 3px 10px rgb(255, 255, 255);
+
+}
+
+.anime-menu-button-container input {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    border: none;
+    box-shadow: 0 3px 10px rgba(255, 255, 255, 0.1);
+}
+
+.anime-menu-button-container i {
+    position: absolute;
+    right: 10%;
+}
+
+.fa-solid,
+.fas {
+    font-weight: 900;
+}
+
+.favourite-container button {
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    border: none;
+}
+
+.shadow {
+    box-shadow: 0 3px 10px rgb(255, 0, 0);
+
+}
+
+.anime-dropdown-menu {
+
+    flex-flow: column nowrap;
+    position: absolute;
+    z-index: 1;
+    height: auto;
+    margin-top: 10%;
+    border-radius: 10px;
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    width: auto;
+    color: white;
+    font-size: var(--medium-small-font-size);
+    overflow: auto;
+    background: #70859caa;
+    justify-content: left;
+}
+
+
+.anime-dropdown-menu article {
+    display: flex;
+    flex-flow: row nowrap;
+    justify-content: center;
+    gap: 50%;
+    margin: 10%;
+
+    justify-content: left;
+    margin: 10px;
+    width: 100%;
+    overflow: hidden;
+
+}
+
+.addList-option {
+    margin-right: 10px;
+    white-space: nowrap;
+}
+
+.dropdown-center select {
+    width: 200px;
+
+}
+
+.button-palette .rate-container {
+    flex: 4;
+    height: 100%;
+}
+
+div {
+    display: block;
+    unicode-bidi: isolate;
+}
+
+
+[type="checkbox"],
+[type="radio"] {
+    box-sizing: border-box;
+    padding: 0;
+}
+
+input {
+    color: #1d1d1f;
+    outline: none;
+    border-radius: 10px;
+}
+
+
+.button-palette .addList-container {
+
+    flex: 4;
+    height: 100%;
+    width: 100%;
+}
+
+.liked {
+    color: red;
+}
+
+/* Tablet */
+@media only screen and (max-width: 1200px) {
+    .top-description-and-buttons .button-palette {
+        margin-left: 5%;
+        gap: 3%;
+    }
+    .top-description-and-buttons .cover-name img {
+        position: relative;
+        width: 25%;
+        height: 150%;
+        margin-left: -30px;
+    }
+  
+    .button-palette .anime-menu-button-container {
+        width: 100px;
+    }
+    .button-palette .favourite-container {
+        position: relative;
+        width: 60px;
+    }
+    .favourite-container button {
+        position: relative;
+        width: 50px;
+        border: none;
+    }
+    
+
+}
+
+/* Phones */
+@media only screen and (max-width: 750px) {}

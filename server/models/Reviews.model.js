@@ -20,20 +20,19 @@ class Reviews {
 
     createReview = (userId, content, score, title, description) => {return this.#db.create(userId, content, score, title, description);};
 
-    edit = (id, user, title, description, score) => {
+    edit = (id, title, description, score) => {
         return this.findById(id)
             .then(review => {
+                console.log('review', review);
                 if (!review) throw new Error('Review not found');
-
-                // Check if the current user is the owner of the review
-                if (review.user !== user) throw new Error('Unauthorized to edit');
-
                 review.title = title;
                 review.description = description;
                 review.score = score;
+                console.log( "data", review.getData());
                 return this.#db.update(id, review.getData());
             });
     };
+
 
     delete = id => {
         return this.findById(id)
@@ -43,6 +42,15 @@ class Reviews {
                 return this.#db.delete(id);
             });
     };
+    likeReview = (userId, reviewId) =>
+        this.#db.like(userId, reviewId).then(([likes, dislikes]) => [likes, dislikes]);
+
+    dislikeReview = (userId, reviewId) =>
+        this.#db.dislike(userId, reviewId).then(([likes, dislikes]) => [likes, dislikes]);
+
+    checkIfLiked = (userid, reviewId) => this.#db.checkIfLiked(userid, reviewId);
+    checkIfDisliked = (userid, reviewId) => this.#db.checkIfDisliked(userid, reviewId);
+
 }
 
 module.exports = require(process.cwd() + '/bin/Singleton')(new Reviews());

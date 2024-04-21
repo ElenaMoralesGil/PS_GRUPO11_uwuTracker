@@ -3,20 +3,18 @@ import { RouterOutlet } from '@angular/router';
 import { AuthService } from './services/auth.service';
 import { HeaderComponent } from "./components/header/header.component";
 import { FooterComponent } from "./components/footer/footer.component";
-import { ReviewComponent } from "./components/review/review.component";
 
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [ RouterOutlet, HeaderComponent, FooterComponent, ReviewComponent ],
+  imports: [ RouterOutlet, HeaderComponent, FooterComponent ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.css'
 })
-export class AppComponent implements OnInit {
+export class AppComponent {
   title = 'client';
-  constructor(private authService: AuthService) { }
-  ngOnInit(): void {
+  constructor(private authService: AuthService) {
     this.authService.isLoggedIn()
   }
 }

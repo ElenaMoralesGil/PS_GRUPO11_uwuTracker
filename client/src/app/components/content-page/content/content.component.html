@@ -1,0 +1,29 @@
+<div class="review-content">
+  <div class="createbtn-container" *ngIf="loggedUserId !== undefined && !hasUserReview()">
+    <button class="create-btn" (click)="toggleReviewCreation()">Create Review</button>
+  </div>
+
+  <!-- Render the the reviews from reviews -->
+  <div *ngIf="areReviewsVisible && !isReviewCreationOpen" class="review-container">
+    <div *ngIf="loggedUserId && hasUserReview() && getUserReviewId() !== ''" class="review">
+      <app-review [reviewId]="getUserReviewId()"
+                  (reviewModalClosed)="handleReviewModalClosed()"
+                  (reviewDeleted)="handleReviewDeleted($event)"
+                  (reviewUpdated)="updateReview($event)"></app-review>
+    </div>
+
+    <div *ngFor="let reviewId of reviewIds" class="review">
+      <div *ngIf="!isUserReview(reviewId)">
+        <app-review [reviewId]="reviewId"
+                    (reviewModalClosed)="handleReviewModalClosed()"
+                    (reviewDeleted)="handleReviewDeleted($event)"
+                    (reviewUpdated)="updateReview($event)">
+        </app-review>
+      </div>
+    </div>
+  </div>
+
+  <app-review class="review" *ngIf="isReviewCreationOpen"
+              (reviewModalClosed)="handleReviewModalClosed()" [isNewReview]="true"
+              (newReview)="pushReview($event)"></app-review>
+</div>

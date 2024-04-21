@@ -1,0 +1,261 @@
+.edit-container{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  text-align: center;
+  align-items: center;
+  width: 65vw;
+}
+.modal {
+  position: fixed;
+  z-index: 2;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: auto;
+  transition: opacity 0.3s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.user-info{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.username {
+  color:black;
+  padding: 0.5em 1em;
+  font-weight: bold;
+}
+#title , #description, #rating{
+  width: 70%;
+  padding: 1em 0.5em;
+  margin-bottom: 1em ;
+  display: inline-block;
+  border: 0.2em solid #ccc;
+  border-radius: 0.5em;
+  box-sizing: border-box;
+}
+#title {
+  margin-top:0.5em;
+  margin-bottom: 2em;
+}
+#title:focus, #description:focus {
+  border-color: #000000;
+  outline: none;
+}
+.edit-title{
+  color:black;
+  font-size: 2em;
+}
+#score{
+  font-size: 1.5em;
+  width: fit-content;
+}
+#rating:focus {
+  border-color: #000000;
+  outline: none;
+}
+
+.modal-content {
+  background-color: white;
+  margin: 1em;
+  padding: 20px;
+  width:60%;
+  border-radius: 0.5em;
+
+}
+
+.close {
+  color: #aaa;
+  float: right;
+  font-size: 28px;
+  font-weight: bold;
+  z-index: 9999;
+  margin-top: -18px;
+}
+
+.close:hover,
+.close:focus {
+  color: black;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.review-container-edit {
+  margin-top: 1em;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background: white;
+  border-radius: 1.5em;
+}
+.review-container {
+  padding: 1em;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  background: white;
+  align-items: center;
+  border-radius: 1.5em;
+}
+.image-section {
+  display:flex;
+  width:100%;
+  height:fit-content;
+  align-items: flex-start;
+}
+.review-card {
+  padding: 20px;
+  border: 1px solid #969494;
+  border-radius: 5px;
+  background: #dedede;
+  margin-bottom: 1em;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1); /* Add shadow to cards */
+}
+
+
+.userName{
+  font-size: 1em;
+  font-weight: bold;
+  color: #000000;
+  padding: 0.5em;
+}
+
+.description {
+  color:black;
+  border-top: 1px solid #ffffff;
+  border-bottom: 1px solid #ffffff;
+  padding: 1em 1.5em;
+  text-align: justify;
+
+}
+.rating .stars {
+  display: flex;
+  flex-flow: row wrap;
+  color: orange;
+  gap: 0.5em;
+  font-size: 0.5em;
+  margin: 0.5em 0;
+}
+.title {
+
+  font-size: 3em;
+  font-weight: bold;
+  color: #000000;
+}
+.user-pfp {
+
+  max-width: 6em;
+  transition: transform 0.3s ease;
+}
+.user-pfp:hover,
+.user-pfp:focus {
+  transform: scale(1.1);
+}
+.user-info{
+  display:flex;
+  flex-flow: column nowrap;
+  justify-content: center;
+}
+
+
+.likes-dislikes {
+  display: flex;
+  gap: 1em;
+  padding: 2em;
+  font-size: 1em;
+  color: #333
+
+}
+
+.likes-dislikes i {
+  cursor: pointer;
+  transition: color 0.3s, transform 0.3s;
+
+}
+.likes-dislikes span {
+  line-height: 1em;
+}
+
+.likes-dislikes i:hover {
+  color: #333;
+  transform: scale(1.1);
+}
+
+.likes-dislikes i:focus {
+  outline: none;
+}
+
+#thumbs-up:hover {
+  color: green;
+}
+
+#thumbs-down:hover {
+  color: red;
+}
+
+.score {
+  font-size: 2.5em;
+}
+.review-actions{
+  display: flex;
+  gap:2em;
+  align-items: center;
+  margin-top: 1em;
+}
+
+.deleteButton {
+  background-color: #f44336;
+  color: white;
+  margin: 1em 1em;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.deleteButton:hover {
+  background-color: #f44336;
+  color: white;
+}
+.editButton, .submitBtn{
+  background-color: #4CAF50;
+  color: white;
+  margin: 1em 1em;
+  padding: 10px 20px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+  font-size: 16px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+.editButton:hover .submitBtn  {
+  background-color: #4CAF50;
+  color: white;
+}
+.liked{
+  color: green;
+}
+
+.disliked {
+  color:red;
+}
+@media screen and (width < 35rem) {
+  .review-container {
+    max-width:70%;
+    margin-left:-1.5%
+  }
+  .modal-content {
+    min-width:100%;
+  }
+}

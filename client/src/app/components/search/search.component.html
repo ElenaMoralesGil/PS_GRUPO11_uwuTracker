@@ -1,0 +1,8 @@
+<section id="search-bar-tags">
+    <app-searchbar [(options)]="options" page="search"></app-searchbar>
+    <app-tags [(options)]="options"></app-tags>
+</section>
+<main>
+    <app-results [contents]="contents"></app-results>
+</main>
+<app-pagination [numberOfPages]="max_pages" [currentPage]="current_page()"></app-pagination>

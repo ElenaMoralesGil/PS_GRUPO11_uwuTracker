@@ -1,0 +1,11 @@
+<section id="pagination">
+@for(page of [].constructor(numberOfPages); track $index){
+    @if(($index + 1) - currentPage < 3 && ($index + 1) - currentPage > -3){
+        @if(($index + 1) == currentPage){
+            <a [id]="'page-anchor-' + [$index + 1]" [title]="'page-anchor-' + [$index + 1]" [routerLink]="['../', $index + 1]" [ngStyle]="{'background':'var(--snow-color)'}"></a>
+        }@else {
+            <a [id]="'page-anchor-' + [$index + 1]" [title]="'page-anchor-' + [$index + 1]" [routerLink]="['../', $index + 1]" [ngStyle]="{'background':'transparent'}"> {{ $index + 1}} </a>
+        }
+    }
+}
+</section>

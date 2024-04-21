@@ -1,13 +1,19 @@
-import { Component, input } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Input, input } from '@angular/core';
+import { RouterLink } from '@angular/router';
 
 @Component({
   selector: 'app-animecard',
   standalone: true,
-  imports: [],
+  imports: [ RouterLink ],
   templateUrl: './animecard.component.html',
-  styleUrl: './animecard.component.css'
+  styleUrl: './animecard.component.css',
 })
 export class AnimecardComponent {
-  animeName = input("Shoujo Shuumatsu Ryoukou");
-  imageSource = input("../../assets/shoujo-shuumatsu.jpeg");
+  @Input() animeName: string | undefined;
+  @Input() imageSource: string | undefined;
+  @Input() animeId: string | undefined;
+
+  //animeName = input('loading');
+  //imageSource = input('/assets/images/shoujo-shuumatsu.jpeg');
+  //animeId = input();
 }

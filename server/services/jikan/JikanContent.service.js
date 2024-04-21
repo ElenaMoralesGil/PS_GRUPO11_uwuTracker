@@ -1,60 +1,48 @@
-class JikanService {
+const Content = require('../../schemas/Content.schema');
+const genresParser = require('./genres');
 
-    #seasons = {
-        autumm:{
-            start:"10-01",
-            end:"12-31"
-        },
-        summer:{
-            start:"07-01",
-            end:"09-30"
-        },
-        spring:{
-            start:"04-01",
-            end:"06-30"
-        },
-        winter:{
-            start:"01-01",
-            end:"03-31"
-        }
-    }
+class JikanService {
 
     constructor() {
         this.contentpath = `${process.env.JIKAN_PATH}/anime`
         this.characterspath = `${process.env.JIKAN_PATH}/characters`
+        this.seasonpath = `${process.env.JIKAN_PATH}/seasons`;
+        this.recommendations = `${process.env.JIKAN_PATH}/recommendations`
     }
-    
-    // Primera funcionalidad.
-    findById = (animeId) => fetch(`${this.contentpath}/${animeId}`).then(res => res.json()).then(res => res.data);
 
-    // Segunda funcionalidad.
-    animeSearch = ({name, genres, year, season, type, page}) => {
-        let [start_date, end_date] = this.#getDates(year, season);
-        let searchURL = `${this.contentpath}?${name ? `q=${name}&` : ""}${genres ? `genres=${genres.join(",")}&` : ""}${start_date}${end_date}${type ? `type=${type}&` : ""}${page ? `page=${page}` : ""}`;
-        return fetch(searchURL).then(res => res.json());
-    };
+    // Function to get a content by ID in Jikan
+    findById = (id) => fetch(`${this.contentpath}/${id}`).then(res => res.json()).then(res => res.data).then(content => Content.parse(content)); // Works
 
-    // Tercera funcionalidad.
-    animeCharacters = (animeid) => fetch(`${this.contentpath}/${animeid}/characters`).then(res => res.json()).then(res => res.data);
+    // Function to get the characters of a content finding by ID.
+    animeCharacters = (id) => fetch(`${this.contentpath}/${id}/characters`).then(res => res.json()).then(res => res.data); // Works
 
-    // Cuarta funcionalidad.
-    animeEpisodes = (animeid) => fetch(`${this.contentpath}/${animeid}/episodes`).then(res => res.json()).then(res => res.data);
+    // Function to get the episodes of a content finding by ID.
+    animeEpisodes = (id, page) => fetch(`${this.contentpath}/${id}/episodes?page=${page}`).then(res => res.json()); // Works
 
-    // Quinta funcionalidad.
-    animeImages = (animeid) => fetch(`${this.contentpath}/${animeid}/pictures`).then(res => res.json()).then(res => res.data);
+    // Function to get the images of a content finding by ID.
+    animeImages = (id) => fetch(`${this.contentpath}/${id}/pictures`).then(res => res.json()).then(res => res.data); // Works
 
-    // Sexta funcionalidad.
-    characterDescription = (characterid) => fetch(`${this.characterspath}/${characterid}`).then(res => res.json()).then(res => res.data.about);
+    // Function to get a characters description finding by character ID.
+    findCharacter = (characterid) => fetch(`${this.characterspath}/${characterid}`).then(res => res.json()).then(res => res.data ? res.data : ''); // Works
 
+    // Function to get a full content season finding by year and season.
+    findSeasonContents = (year, season, format, page) => fetch(`${this.seasonpath}/${year}/${season}?${format !== '' ? `filter=${format}&` : ''}${page !== undefined ? `page=${page}` : ''}`).then(res => res.json()); // Works
 
-    #getDates = (year, season) => {
-        if (year && season) return [`start_date=${year}-${this.#seasons[season].start}&`, `end_date=${year}-${this.#seasons[season].end}&`]
-        if (year) return [`start_date=${year}-01-01&`, end_date = `end_date=${year}-31-12&`]
-        if (season) return [`start_date=2024-${this.#seasons[season].start}&`, `end_date=2024-${this.#seasons[season].end}&`]
-        return ["", ""];
+    // Function to search for content based on Name, Genres and other few filters.
+    findNameGenres = (name, genres, format, page) => fetch(`${this.contentpath}?${name !== "" ? `q=${name}&` : ''}${genres[0] !== '' ? `genres=${genres.join(',')}&` : ''}${format !== '' ? `type=${format}&` : ''}${page !== undefined ? `page=${page}` : ''}`).then(res => res.json()); // Works
+
+    find({ name, genres, year, season, format = '', page = undefined }) {
+        if (year && season) return this.findSeasonContents(year, season, format, page);
+        return this.findNameGenres(name, genres[0] !== '' ? genres.map(elem => genresParser[elem]) : genres, format, page);
     }
+
+    getRecommendations = () => fetch(`${this.recommendations}/anime`).then(res => res.json())
+        .then(res => res.data)
+        .then(data => data.map(elm => elm.entry.map(elm => Content.parse(elm))))
+        .then(data => data.flat(1))
+        .then(data => data.slice(0, 20))
 }
 
 module.exports = require('../../bin/Singleton')(new JikanService())
 
-// NOTE: Existe una version del findByID del anime full fetch(`${this.contentpath}/${id}/full`)
+// NOTE: Existe una version del findByID del anime full fetch(`${ this.contentpath } /${id}/full`)

@@ -1,0 +1,11 @@
+<article class="anime-character">
+    <div class="anime-character-container">
+        <div class="anime-character-container" *ngFor="let staff of staff2">
+            <a class="character-description">{{ staff.description }}</a>
+            <div class="anime-character-name-image">
+                <a class="character-name">{{ staff.name }}</a>
+                <img alt="" title="" [src]="staff.img">
+            </div>
+        </div>
+    </div>
+</article>

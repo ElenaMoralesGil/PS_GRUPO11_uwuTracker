@@ -1,0 +1,5 @@
+<section id="search-results">
+    @for(content of this.contents; track $index){
+        <app-animecard [animeName]="contents[$index].title" [imageSource]="contents[$index].coverImg" [animeId]="contents[$index].id"></app-animecard>
+    }
+</section>

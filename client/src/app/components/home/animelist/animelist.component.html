@@ -1,8 +1,27 @@
 <section class="anime-row">
-    <p class="row-name"> {{ descriptor() }} </p>
+
+    <p class="row-name">Animes Populares</p>
     <section class="row-animes">
-        @for(item of [1, 2, 3, 4, 5]; track $index){
-            <app-animecard></app-animecard>
-        }
+        <section *ngFor="let content of popular">
+            <app-animecard [animeId]="content.id" [animeName]="content.title"
+                [imageSource]="content.coverImg"></app-animecard>
+        </section>
     </section>
+
+    <p *ngIf="currentSeason" class="row-name">Animes De Temporada</p>
+    <section class="row-animes">
+        <section *ngFor="let content of currentSeason">
+            <app-animecard [animeId]="content.id" [animeName]="content.title"
+                [imageSource]="content.coverImg"></app-animecard>
+        </section>
+    </section>
+
+    <p class="row-name">Recomendaciones aleatorias</p>
+    <section class="row-animes">
+        <section *ngFor="let content of recommendations">
+            <app-animecard [animeId]="content.id" [animeName]="content.title"
+                [imageSource]="content.coverImg"></app-animecard>
+        </section>
+    </section>
+
 </section>
