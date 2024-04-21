@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component, Input, input } from '@angular/core';
 import { AnimecardComponent } from '../../sharedComponents/animecard/animecard.component';
-import { NgFor } from '@angular/common';
+import { NgFor, NgIf } from '@angular/common';
 import { ListAimesComponent } from '../../sharedComponents/list-animes/list-aimes.component';
 import { ApiContentService } from '../../../services/api-content.service';
 import { ActivatedRoute } from '@angular/router';
@@ -9,7 +9,7 @@ import { ActivatedRoute } from '@angular/router';
   selector: 'app-animelist',
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,
-  imports: [AnimecardComponent, NgFor, ListAimesComponent],
+  imports: [AnimecardComponent, NgFor, NgIf, ListAimesComponent],
   templateUrl: './animelist.component.html',
   styleUrl: './animelist.component.css'
 })
@@ -20,32 +20,26 @@ export class AnimelistComponent {
 
   name: string = "";
   img: string = "";
+  recommendations: any;
+  recu: string [] = [];
+
 
   constructor(private apiService: ApiContentService, private router: ActivatedRoute) { }
 
 
   async ngOnInit() {
-    switch (this.animeType) {
-      case 'Animes Populares':
-        // carga de los animes populares
-        
-        break;
-      case 'Animes temporada actual':
-        // carga de los animes de la temporada actual
-        break;
-      case 'Recomendaciones aleatorias':
-        // carga de los animes aleatorios
-        try {
-          const recommendations = (await this.apiService.getRecommendations());
-          //this.name = recommendations
-          console.log('Recomendaciones:', recommendations);
-        } catch (error) {
-          console.error('Error al cargar las recomendaciones:', error);
-        }
-        break;
-      default:
-        console.error('Tipo de anime no válido:', this.animeType);
+    
+    // carga de los recomendaciones aleatorios
+    try {
+      this.recommendations = await this.apiService.getRecommendations();
+
+      console.log('Recomendaciones:', this.recommendations);
+      
+      
+    } catch (error) {
+      console.error('Error al cargar las recomendaciones:', error);
     }
+   
     return
   }
 }
