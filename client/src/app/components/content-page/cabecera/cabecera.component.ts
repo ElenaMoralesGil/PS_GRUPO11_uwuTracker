@@ -84,7 +84,7 @@ export class CabeceraComponent implements OnChanges {
 
   isListSelected(option: string): boolean {
 
-      return this.selectedList === option;
+    return this.selectedList === option;
   }
 
   async listSelection(option: string): Promise<void> {
@@ -104,8 +104,8 @@ export class CabeceraComponent implements OnChanges {
 
   scrollValorar(): void {
     if (this.user && this.id) {
-    this.ratingSelected = !this.ratingSelected;
-    }else{
+      this.ratingSelected = !this.ratingSelected;
+    } else {
       alert('You need to be logged in to rate an anime');
     }
   }
@@ -113,7 +113,7 @@ export class CabeceraComponent implements OnChanges {
   scrollListas(): void {
     if (this.user && this.id) {
       this.listSelected = !this.listSelected;
-    } else{
+    } else {
       alert('You need to be logged in to add animes to lists');
     }
   }

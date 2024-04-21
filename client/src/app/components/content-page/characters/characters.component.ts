@@ -19,7 +19,12 @@ export class CharactersComponent {
   activarCss: Boolean = false;
   nameClick: Boolean = false;
 
+  selectedCharacters: { [key: string]: string } = {}; // Objeto para almacenar las descripciones por ID
+
   characters1: any[] = [];
+  id: string = "";
+  characterById?: any;
+  description?: string;
 
   constructor(private router: ActivatedRoute, private contentService: ApiContentService) { }
 
@@ -32,21 +37,23 @@ export class CharactersComponent {
         this.characters1 = res.data;
       });
     }
-  }
-
-  /*characters2 = [
-    { name: 'Text', description: 'Lorem Ipsum', img: '../../../../assets/images/frieren.jpg', showDescription: false },
-    { name: 'Text', description: 'Lorem Ipsum', img: '../../../../assets/images/shoujo-shuumatsu.jpeg', showDescription: false },
-    { name: 'Text', description: 'Lorem Ipsum', img: '../../../../assets/images/frieren.jpg', showDescription: false }
-  ];*/
-
-  clickName(){
-    this.nameClick = !this.nameClick;
-  }
-
-  toggleDescription(character: any): void {
-    character.showDescription = !character.showDescription;
     
+  }
+
+  toggleDescription(charac: any): void {
+    charac.showDescription = !charac.showDescription;
+    const characterId = charac.character.mal_id;
+    if (this.selectedCharacters[characterId]) {
+      delete this.selectedCharacters[characterId]; 
+    } else {
+      this.contentService.getCharacterById(characterId).then(res => {
+        console.log('Respuesta del servidor:', res);
+
+        this.selectedCharacters[characterId] = res.character.about; 
+      });
+    }
+    
+
   }
   
 

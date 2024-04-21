@@ -1,14 +1,21 @@
 .anime-row {
     width: 100%;
     color: var(--snow-color);
-    margin-bottom: 5%;
-
+    margin-bottom: 5rem;
 }
 
 .row-name {
     text-align: center;
     font-size: large;
     font-weight: bold;
+    margin-top: 5rem;
+    margin-bottom: 2rem;
+}
+
+
+
+.row-animes::-webkit-scrollbar {
+    display: none;
 }
 
 .row-animes {
@@ -18,8 +25,8 @@
     flex-flow: row nowrap;
     overflow: auto;
     white-space: nowrap;
-}
+    gap: 1.5rem;
+    margin-left: 2rem;
+    margin-right: 2rem;
 
-.row-animes::-webkit-scrollbar {
-    display: none;
 }

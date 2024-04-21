@@ -6,7 +6,7 @@ import { ChangeDetectionStrategy, Component, Input } from '@angular/core';
 @Component({
   selector: 'app-aside-information',
   standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
+  // changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [
     CommonModule
   ],
@@ -39,30 +39,30 @@ export class AsideInformationComponent {
   shouldShow(item2: any, item1: string, index: number): boolean {
     if (!item2) return false; // Verificar si item2 está definido
     switch (index) {
-        case 0: return !this.isUndefined(item2.likes);
-        case 1: return !this.isUndefined(item2.type);
-        case 2: return !this.isUndefined(item2.source);
-        case 3: return !this.isUndefined(item2.episodesNumber);
-        case 4: return !this.isUndefined(item2.duration);
-        case 5: return !this.isUndefined(item2.status);
-        case 6: return !this.isUndefined(item2.season);
-        case 7: return !this.isUndefined(item2.year);
-        case 8: return !this.isUndefined(item2.studios);
-        case 9: return !this.isUndefined(item2.genres);
-        case 10: return !this.isUndefined(item2.rating);
-        default: return false;
+      case 0: return !this.isUndefined(item2.likes);
+      case 1: return !this.isUndefined(item2.type);
+      case 2: return !this.isUndefined(item2.source);
+      case 3: return !this.isUndefined(item2.episodesNumber);
+      case 4: return !this.isUndefined(item2.duration);
+      case 5: return !this.isUndefined(item2.status);
+      case 6: return !this.isUndefined(item2.season);
+      case 7: return !this.isUndefined(item2.year);
+      case 8: return !this.isUndefined(item2.studios);
+      case 9: return !this.isUndefined(item2.genres);
+      case 10: return !this.isUndefined(item2.rating);
+      default: return false;
     }
-}
+  }
 
-getValue(item2: any, item1: string): string {
-    return item2[item1];
-}
-  
+  getValue(item2: any, item1: string): string {
+    return item2[ item1 ];
+  }
+
 
   isUndefined(item: any): boolean {
-    if(item === 'undefined'){
+    if (item === 'undefined') {
       return true;
-    }else{
+    } else {
       return false
     }
   }

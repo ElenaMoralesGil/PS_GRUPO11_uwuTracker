@@ -3,8 +3,8 @@
         <div class="anime-episode-container">
             <p class="episode-number">{{ episode.mal_id }}</p>
             <p class="episode-name">{{ episode.title }}</p>
-            <p class="episode-duration">{{ episode.duration }}</p>
-            <p class="episode-aired">{{ episode.aired }}</p>
+            <p class="episode-duration">{{ episode.score }}</p>
+            <p class="episode-aired">{{ episode.aired.split("T")[0] }}</p>
         </div>
     </article>
 </section>
