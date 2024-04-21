@@ -1,9 +1,8 @@
 <section *ngFor="let row of descriptor" class="anime-row">
     <p class="row-name"> {{ row }} </p>
     <section class="row-animes">
-        <app-list-aimes [animeType]="row"></app-list-aimes>
-       <!--@for(item of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15]; track $index){
-
-        } --> 
+        @for(item of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]; track $index){
+            <app-animecard></app-animecard>
+        }
     </section>
 </section>

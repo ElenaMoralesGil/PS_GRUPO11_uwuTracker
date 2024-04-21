@@ -11,6 +11,11 @@
     font-weight: bold;
 }
 
+
+
+.row-animes::-webkit-scrollbar {
+    display: none;
+}
 .row-animes {
     display: flex;
     flex-flow: row wrap;
@@ -18,8 +23,5 @@
     flex-flow: row nowrap;
     overflow: auto;
     white-space: nowrap;
-}
-
-.row-animes::-webkit-scrollbar {
-    display: none;
+    gap: 1rem;
 }
