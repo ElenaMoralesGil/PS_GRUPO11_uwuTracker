@@ -2,22 +2,21 @@
   height: 30%;
   align-items: center;
   min-height: 6em;
+  display: flex;
+  flex-flow: row nowrap;
+  width: 100%;
+  position: relative;
+  justify-content: space-around;
+  text-align: center;
 }
  a{
   text-decoration: none;
   color:inherit;
    z-index: 20;
 }
-.position-content {
-  display: flex;
-  flex-flow: row nowrap;
-  width: 100%;
-  position: relative;
-}
 span {
   color:white;
   z-index: 1;
-  margin-top: -5%
 }
 .position-content:before {
   content: "";
@@ -27,22 +26,12 @@ span {
   opacity: 0.25;
   filter: blur(0.4em);
 }
-.position-content > * {
-  flex: 1;
+.position-content > p, span {
+  width:15%;
   text-align: center;
-}
-p , #minusBtn, #plusBtn, #counter {
-  color: white;
   z-index: 1;
 }
-.progress {
-  flex: 1;
-  position: relative;
-  display: flex;
-  flex-flow: row nowrap;
-  align-items: center;
-  justify-content: space-around;
-}
+
 .position-content img {
   position: absolute;
   width: 100%;

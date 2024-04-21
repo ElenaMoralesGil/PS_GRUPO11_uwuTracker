@@ -195,19 +195,20 @@ export class ReviewComponent implements OnInit {
 
   async likeReview() {
 
-    if (this.loggedInUser) {
+    if (this.loggedUserId  !== undefined) {
+
       this.reviewService.likeReview(<string>this.loggedUserId , <string>this.review.id)
         .then(([likes, dislikes]) => {
           this.review.likes = likes;
           this.review.dislikes = dislikes;
           this.reviewUpdated.emit(this.review);
           this.liked =!this.liked;
-          if(this.liked && this.disliked){
+          if(this.disliked && this.liked){
             this.disliked=false;
           }
         })
         .catch(error => {
-          console.error('Error liking review:', error);
+          console.error('Error disliking review:', error);
         });
     } else {
       alert("You are not logged in!");
@@ -226,16 +227,15 @@ export class ReviewComponent implements OnInit {
       this.disliked = await this.reviewService.checkIfDisliked(<string>this.loggedUserId , <string>this.review.id);
 
     }
-
   }
   async dislikeReview() {
 
     if (this.loggedUserId  !== undefined) {
+
       this.reviewService.dislikeReview(<string>this.loggedUserId , <string>this.review.id)
         .then(([likes, dislikes]) => {
           this.review.likes = likes;
           this.review.dislikes = dislikes;
-          console.log("likes", likes, "dislikes", dislikes);
           this.reviewUpdated.emit(this.review);
           this.disliked =!this.disliked;
           if(this.liked && this.disliked){
