@@ -17,7 +17,7 @@ router.get('/:id/episodes', (req, res) => {
 router.get('/character/:id', (req, res) => {
     Contents.findCharacterById(req.params.id).then(character => {
         if (!character) return res.status(404).json({ msg: 'not-found' })
-        return res.status(200).json({ data: character })
+        return res.status(200).json({ character })
     })
         .catch(err => { console.log('ERROR:', err); res.status(500).json(err) })
 })
@@ -66,7 +66,7 @@ router.get('/persistent-search', (req, res) => {
 router.get('/recommendations', (req, res) => {
     Contents.getRecommendations().then(data => {
         if (!data) return res.status(400).json({ msg: 'not-found' })
-        return res.status(200).json({ data })
+        return res.status(200).json(data)
     })
         .catch(err => { console.log(err); res.status(500).json({ msg: err }) })
 })
