@@ -2,12 +2,17 @@
     <p class="row-name"> {{ row }} </p>
     <section class="row-animes" *ngIf="row === 'Recomendaciones aleatorias'">
         <section *ngFor="let content of recommendations">
-                <app-animecard [animeId]="content.id" [animeName]="content.title" [imageSource]="content.coverImg"></app-animecard>
+                <app-animecard [animeId]="" [animeName]="content.title" [imageSource]="content.coverImg"></app-animecard>
         </section>
     </section>
     <section class="row-animes" *ngIf="row === 'Animes Populares'">
         @for(item of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]; track $index){
-            <app-animecard [animeName]="recommendations.title" [imageSource]="recommendations.imageSource"></app-animecard>
+            <app-animecard [animeId]="" [animeName]="" [imageSource]=""></app-animecard>
+        }
+    </section>
+    <section class="row-animes" *ngIf="row === 'Animes Temporada Actual'">
+        @for(item of [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20]; track $index){
+            <app-animecard [animeId]="" [animeName]="" [imageSource]=""></app-animecard>
         }
     </section>
     

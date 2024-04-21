@@ -15,7 +15,7 @@ import { ActivatedRoute } from '@angular/router';
 })
 export class AnimelistComponent {
   //descriptor = input("Anime Row");
-  descriptor = ["Animes Populares", "Animes temporada actual", "Recomendaciones aleatorias"];
+  descriptor = ["Animes Populares", "Animes Temporada Actual", "Recomendaciones aleatorias"];
   @Input() animeType: string | undefined;
 
   name: string = "";
@@ -32,7 +32,6 @@ export class AnimelistComponent {
     // carga de los recomendaciones aleatorios
     try {
       this.recommendations = await this.apiService.getRecommendations();
-
       console.log('Recomendaciones:', this.recommendations);
       
       

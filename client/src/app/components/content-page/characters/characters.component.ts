@@ -40,11 +40,6 @@ export class CharactersComponent {
     
   }
 
-  showDescription(){
-    
-  }
-
-
   toggleDescription(charac: any): void {
     charac.showDescription = !charac.showDescription;
     const characterId = charac.character.mal_id;
@@ -52,7 +47,9 @@ export class CharactersComponent {
       delete this.selectedCharacters[characterId]; 
     } else {
       this.contentService.getCharacterById(characterId).then(res => {
-        this.selectedCharacters[characterId] = res.data.about; 
+        console.log('Respuesta del servidor:', res);
+
+        this.selectedCharacters[characterId] = res.character.about; 
       });
     }
     
