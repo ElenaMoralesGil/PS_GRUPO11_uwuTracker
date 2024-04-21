@@ -1,5 +1,5 @@
 const { initializeApp } = require('firebase/app')
-const { getFirestore, orderBy, endAt, startAt, limit, and, or } = require('firebase/firestore/lite')
+const { getFirestore, orderBy, endAt, startAfter, startAt, limit, and, or } = require('firebase/firestore/lite')
 const { getStorage } = require('firebase/storage')
 
 

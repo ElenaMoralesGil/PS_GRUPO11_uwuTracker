@@ -42,7 +42,7 @@ class FirebaseContent {
 
         // query
         return getDocs(query(collection(this.#db, this.#coll), this.#opts.join[join](...constrains), ...options))
-            .then(data => data.docs ? data.docs.map(content => Content.parse(content)) : null)
+            .then(data => data.docs ? data.docs.map(content => Content.parse(content.data())) : null)
     }
 
     create = async content => {

@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Input, input } from '@angular/core';
+import { AfterContentInit, AfterRenderPhase, AfterViewInit, ChangeDetectionStrategy, Component, Input, OnInit, input } from '@angular/core';
 import { AnimecardComponent } from '../../sharedComponents/animecard/animecard.component';
 import { NgFor, NgIf } from '@angular/common';
 import { ListAimesComponent } from '../../sharedComponents/list-animes/list-aimes.component';
@@ -9,7 +9,6 @@ import Content from '../../../schemas/Content.schema';
 @Component({
   selector: 'app-animelist',
   standalone: true,
-  changeDetection: ChangeDetectionStrategy.OnPush,
   imports: [ AnimecardComponent, NgFor, NgIf, ListAimesComponent ],
   templateUrl: './animelist.component.html',
   styleUrl: './animelist.component.css'
@@ -34,37 +33,20 @@ export class AnimelistComponent {
 
 
 
-  constructor(private apiService: ApiContentService, private router: ActivatedRoute) { }
+  constructor(private apiService: ApiContentService, private router: ActivatedRoute) {
 
-
-  async ngOnInit() {
 
     // carga de los recomendaciones aleatorios
-    try {
-      this.recommendations = await this.apiService.getRecommendations();
 
-      //console.log('Recomendaciones:', this.recommendations);
+    this.apiService.getRecommendations().then((recommendations) => { this.recommendations = recommendations })
 
 
-    } catch (error) {
-      console.error('Error al cargar las recomendaciones:', error);
-    }
+    this.apiService.search({ season: this.getSeason(new Date()), year: String(new Date().getFullYear()) })
+      .then(obj => { this.currentSeason = obj.data })
 
-    try {
-      this.popular = await this.apiService.find({}, { orderBy: 'likes', orderByDir: 'desc', limit: 20 })
 
-    } catch (err) {
-      console.log('ERROR', err)
-    }
-
-    try {
-
-      this.currentSeason = (await this.apiService.search({ season: this.getSeason(new Date()), year: String(new Date().getFullYear()) })).data
-      console.log(this.currentSeason)
-
-    } catch (err) {
-      console.log('ERROR', err);
-    }
+    this.apiService.find({}, { orderBy: 'likes', orderByDir: 'desc', limit: 21, startAt: 52991 })
+      .then(obj => { this.popular = obj.slice(1) })
 
     return
   }
