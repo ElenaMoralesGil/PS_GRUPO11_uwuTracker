@@ -30,7 +30,7 @@ import { StaffComponent } from './staff/staff.component';
   imports: [ CommentsComponent, NgFor, NgIf, CabeceraComponent, StaffComponent, RouterOutlet, CharactersComponent, EpisodesComponent, AsideInformationComponent, NewCommentComponent, NavComponent ],
   encapsulation: ViewEncapsulation.None
 })
-export class ContentPageComponent implements OnInit, AfterViewInit {
+export class ContentPageComponent implements OnInit {
 
   protected id?: string
 
@@ -52,8 +52,7 @@ export class ContentPageComponent implements OnInit, AfterViewInit {
   likes?: number
   informationAside: { likes: number, type: string; source: string; episodesNumber: string; duration: string, status: string, season: string; year: string; studios: string; genres: string; rating: string; }[] = []
 
-  @ViewChild('aside') aside: ElementRef | undefined;
-  @ViewChild('nav') nav: ElementRef | undefined;
+
 
   protected source?: string
   protected duration?: number
@@ -73,10 +72,7 @@ export class ContentPageComponent implements OnInit, AfterViewInit {
     this.loggedInUser = this.authService.user
     this.loggedInUser.subscribe(user => { this.userId = user?.id })
   }
-  ngAfterViewInit() {
-    // @ts-ignore
-    this.nav.nativeElement.style.height = this.aside.nativeElement.offsetHeight + 'px';
-  }
+
   async ngOnInit() {
     let content
     try {
