@@ -42,6 +42,10 @@ export class ContentPageComponent implements OnInit, AfterViewInit {
   protected description?: string
   protected title?: string
   protected img?: string
+
+  protected backgroundImg?: string
+  protected coverImg?: string
+
   userId?: string;
   episodes: any[] = [];
   loggedInUser: Observable<User | null>
@@ -55,6 +59,7 @@ export class ContentPageComponent implements OnInit, AfterViewInit {
   protected duration?: number
   protected status?: string
   protected season?: string
+
 
   protected characterName?: string
 
@@ -83,14 +88,13 @@ export class ContentPageComponent implements OnInit, AfterViewInit {
 
     if (!content?.id) return this.id = 'not found'
 
-
-
     this.id = content.id
     this.title = content.title
     this.description = content.synopsis
     this.rating = content.score
     this.likes = content.likes
-    this.img = content?.coverImg || '../../assets/shoujo-shuumatsu.jpeg'
+    this.backgroundImg = content?.backgroundImg || '../../assets/shoujo-shuumatsu.jpeg'
+    this.coverImg = content?.coverImg || '../../assets/shoujo-shuumatsu.jpeg'
 
 
     //Info que tendrá el Aside
