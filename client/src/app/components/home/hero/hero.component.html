@@ -1,5 +1,7 @@
-<section class="hero">
-    <p id="anime-name"> {{ title }} </p>
+<section [routerLink]="['/content-page', id]" routerLinkActive="router-link-active"
+    routerLinkActive="router-link-active" routerLinkActive="router-link-active" routerLinkActive="router-link-active"
+    class="hero">
     <p id="anime-desc"> {{ description }} </p>
+    <p id="anime-name"> {{ title }} </p>
     <img alt="an-anime-image" id="anime-img" [src]="imageSource">
 </section>
