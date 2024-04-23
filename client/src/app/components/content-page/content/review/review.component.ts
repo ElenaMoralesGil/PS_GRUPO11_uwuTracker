@@ -1,15 +1,15 @@
-import {ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import Review from "../../../../schemas/Review.schema";
 import { ReviewService } from '../../../../services/review.service';
 import { AuthService } from "../../../../services/auth.service";
 import { FormsModule } from "@angular/forms";
 import { AsyncPipe, NgClass, NgForOf, NgIf } from "@angular/common";
-import {ActivatedRoute, RouterLink} from "@angular/router";
+import { ActivatedRoute, RouterLink } from "@angular/router";
 import { UsersService } from '../../../../services/users.service';
 import User from '../../../../schemas/User.schema';
 import { Observable } from 'rxjs';;
-import {Router} from "@angular/router"
-import {ApiContentService} from "../../../../services/api-content.service";
+import { Router } from "@angular/router"
+import { ApiContentService } from "../../../../services/api-content.service";
 @Component({
   selector: 'app-review',
   templateUrl: './review.component.html',
@@ -49,13 +49,13 @@ export class ReviewComponent implements OnInit {
   showModal: boolean = false;
 
   userName?: string;
-  pfp?:string;
+  pfp?: string;
   contentId: string = "";
   loggedInUser: Observable<User | null>
-  liked:boolean =false;
-  disliked:boolean=false;
+  liked: boolean = false;
+  disliked: boolean = false;
   contentScore?: number = 0;
-  loggedUserId?:String;
+  loggedUserId?: String;
 
   constructor(
     private reviewService: ReviewService,
@@ -75,7 +75,7 @@ export class ReviewComponent implements OnInit {
     if (parentRoute) {
 
       parentRoute.params.subscribe(params => {
-        this.contentId = params['id'];
+        this.contentId = params[ 'id' ];
 
       });
     }
@@ -88,7 +88,7 @@ export class ReviewComponent implements OnInit {
       this.editMode = this.isNewReview;
       this.loadReviewData().then(async () => {
 
-        if (this.loggedUserId ) {
+        if (this.loggedUserId) {
           this.checkIfLiked();
           this.checkIfDisLiked();
         }
@@ -116,22 +116,22 @@ export class ReviewComponent implements OnInit {
         const user = await this.userService.findById(<string>this.loggedUserId);
         if (user && user.userScores && this.contentId in user.userScores) {
           // @ts-ignore
-          const contentScore = user.userScores[this.contentId] || 0;
+          const contentScore = user.userScores[ this.contentId ] || 0;
           this.contentScore = contentScore;
         } else {
           this.contentScore = 0;
         }
 
-        this.showMode =false;
-        this.showModal =true;
-        this.editMode =true
+        this.showMode = false;
+        this.showModal = true;
+        this.editMode = true
 
         this.review = {
           id: '',
           title: '',
           description: '',
-          score:  <number>this.contentScore,
-          userId: <string>this.loggedUserId ,
+          score: <number>this.contentScore,
+          userId: <string>this.loggedUserId,
           content: this.contentId,
           likes: 0,
           dislikes: 0
@@ -166,14 +166,14 @@ export class ReviewComponent implements OnInit {
       if (!this.review.content) {
         throw new Error('Content is not defined');
       }
-      if (!this.review.score || !this.review.title || !this.review.description) {
+      if (this.review.score < 0 || this.review.score > 5 || !this.review.title || !this.review.description) {
         throw new Error('Review is not complete');
       }
       if (this.review.id) {
         // @ts-ignore
         this.reviewService.editReview(this.review.id, this.review.title, this.review.description, this.review.score)
           .then(async () => {
-            await this.contentService.setScore(this.contentId, this.review.score,  <string>this.loggedUserId );
+            await this.contentService.setScore(this.contentId, this.review.score, <string>this.loggedUserId);
             this.reviewUpdated.emit(this.review)
             this.closeModal()
             console.log("showModal", this.showModal);
@@ -184,9 +184,9 @@ export class ReviewComponent implements OnInit {
       } else {
         // @ts-ignore
         await this.reviewService.
-        createReview(this.review.userId, this.review.content, this.review.score, this.review.title, this.review.description)
+          createReview(this.review.userId, this.review.content, this.review.score, this.review.title, this.review.description)
           .then(async r => {
-            await this.contentService.setScore(this.contentId, this.review.score,  <string>this.loggedUserId );
+            await this.contentService.setScore(this.contentId, this.review.score, <string>this.loggedUserId);
             this.newReview.emit(r)
             this.closeModal()
 
@@ -199,16 +199,16 @@ export class ReviewComponent implements OnInit {
 
   async likeReview() {
 
-    if (this.loggedUserId  !== undefined) {
+    if (this.loggedUserId !== undefined) {
 
-      this.reviewService.likeReview(<string>this.loggedUserId , <string>this.review.id)
-        .then(([likes, dislikes]) => {
+      this.reviewService.likeReview(<string>this.loggedUserId, <string>this.review.id)
+        .then(([ likes, dislikes ]) => {
           this.review.likes = likes;
           this.review.dislikes = dislikes;
           this.reviewUpdated.emit(this.review);
-          this.liked =!this.liked;
-          if(this.disliked && this.liked){
-            this.disliked=false;
+          this.liked = !this.liked;
+          if (this.disliked && this.liked) {
+            this.disliked = false;
           }
         })
         .catch(error => {
@@ -219,31 +219,31 @@ export class ReviewComponent implements OnInit {
     }
   }
 
-  async checkIfLiked(){
+  async checkIfLiked() {
     if (this.loggedUserId !== undefined) {
-      this.liked = await this.reviewService.checkIfLiked(<string>this.loggedUserId , <string>this.review.id);
+      this.liked = await this.reviewService.checkIfLiked(<string>this.loggedUserId, <string>this.review.id);
     }
 
   }
-  async checkIfDisLiked(){
+  async checkIfDisLiked() {
 
-    if (this.loggedUserId  !== undefined) {
-      this.disliked = await this.reviewService.checkIfDisliked(<string>this.loggedUserId , <string>this.review.id);
+    if (this.loggedUserId !== undefined) {
+      this.disliked = await this.reviewService.checkIfDisliked(<string>this.loggedUserId, <string>this.review.id);
 
     }
   }
   async dislikeReview() {
 
-    if (this.loggedUserId  !== undefined) {
+    if (this.loggedUserId !== undefined) {
 
-      this.reviewService.dislikeReview(<string>this.loggedUserId , <string>this.review.id)
-        .then(([likes, dislikes]) => {
+      this.reviewService.dislikeReview(<string>this.loggedUserId, <string>this.review.id)
+        .then(([ likes, dislikes ]) => {
           this.review.likes = likes;
           this.review.dislikes = dislikes;
           this.reviewUpdated.emit(this.review);
-          this.disliked =!this.disliked;
-          if(this.liked && this.disliked){
-            this.liked=false;
+          this.disliked = !this.disliked;
+          if (this.liked && this.disliked) {
+            this.liked = false;
           }
         })
         .catch(error => {

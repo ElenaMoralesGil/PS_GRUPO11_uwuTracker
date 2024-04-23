@@ -95,6 +95,11 @@ class FirebaseContent {
 
     async updateScore(contentId, score, userId) {
         try {
+
+            // validations
+            const content = await this.findById(contentId)
+            if (!content) return null
+
             const userDocRef = doc(this.#db, "Users", userId);
             const userDocSnapshot = await getDoc(userDocRef);
 
@@ -108,10 +113,25 @@ class FirebaseContent {
             if (!userData.userScores) {
                 userScores = {};
             }
+
+            const prevUserScore = userScores[contentId]
+
             userScores[contentId] = score;
             await updateDoc(userDocRef, {
                 userScores
             });
+
+            // content
+            const userScore = score
+            const contentScore = content.score
+            const apiScore = content.apiScore
+
+            const scoreCount = (prevUserScore != undefined || prevUserScore != null) ? content.scoreCount : content.scoreCount + 1
+
+            const ourScore = calcOurScore({ prevUserScore, userScore, scoreCount, score: content.ourScore })
+            const calculatedScore = calcScore({ ourScore, scoreCount, apiScore: apiScoreNormalization(apiScore) })
+
+            return await updateDoc(doc(this.#db, this.#coll, String(contentId)), { ourScore, scoreCount, score: calculatedScore })
 
         } catch (error) {
             console.error('Error updating score:', error);
