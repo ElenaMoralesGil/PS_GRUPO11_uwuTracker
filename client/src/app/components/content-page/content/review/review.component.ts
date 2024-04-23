@@ -176,6 +176,10 @@ export class ReviewComponent implements OnInit {
             await this.contentService.setScore(this.contentId, this.review.score,  <string>this.loggedUserId );
             this.reviewUpdated.emit(this.review)
             this.closeModal()
+            console.log("showModal", this.showModal);
+            console.log("showMode", this.showMode);
+            console.log("showEdit", this.editMode);
+
           });
       } else {
         // @ts-ignore

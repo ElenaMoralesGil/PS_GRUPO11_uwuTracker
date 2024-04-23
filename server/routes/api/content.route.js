@@ -98,8 +98,6 @@ router.put('/:contentId/score', async (req, res) => {
     const { contentId } = req.params;
     const { score, userId } = req.body;
 
-    if (0 < score || score < 5) return res.status(300).json({ msg: 'Score must be between 0-5' })
-
     try {
         await Contents.updateScore(contentId, score, userId);
         return res.status(200).json({ msg: 'Score updated successfully' });
