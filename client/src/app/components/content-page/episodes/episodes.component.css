@@ -2,7 +2,6 @@
     width: 100%;
     display: flex;
     flex-flow: column nowrap;
-    overflow: auto;
     max-height: 98%;
     height: 98%;
 }
@@ -27,14 +26,29 @@
     max-height: 2cm;
     color: white;
     text-align: center;
-    background: transparent;
     display: flex;
     flex-flow: row nowrap;
     align-items: center;
+    overflow: auto;
+
 }
+
+.episode-header {
+    position: sticky;
+    top: 0;
+    z-index: 1; 
+    background: #1d1d1feb;
+
+}
+
 
 .anime-episode-container .episode-number {
     flex:2;
+}
+.anime-episode-container .episode-title {
+    flex:10;
+    color: rgb(255, 255, 255);
+    font-weight: bold;
 }
 
 .anime-episode-container .episode-name {

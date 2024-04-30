@@ -1,4 +1,12 @@
 <section class="episodes">
+    <article class="episode episode-header" style="background: hsla(240, 15%, 18%, 0.956)">
+        <div class="anime-episode-container">
+            <p class="episode-number"><b>ID</b></p>
+            <p class="episode-title"><b>TITLE</b></p>
+            <p class="episode-duration"><b>RATING</b></p>
+            <p class="episode-aired"><b>DATE</b></p>
+        </div>
+    </article>
     <article class="episode" *ngFor="let episode of episodes">
         <div class="anime-episode-container">
             <p class="episode-number">{{ episode.mal_id }}</p>
