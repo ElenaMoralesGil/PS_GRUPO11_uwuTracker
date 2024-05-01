@@ -184,7 +184,7 @@ export class ReviewComponent implements OnInit {
       } else {
         // @ts-ignore
         await this.reviewService.
-          createReview(this.review.userId, this.review.content, this.review.score, this.review.title, this.review.description)
+        createReview(this.review.userId, this.review.content, this.review.score, this.review.title, this.review.description)
           .then(async r => {
             await this.contentService.setScore(this.contentId, this.review.score, <string>this.loggedUserId);
             this.newReview.emit(r)

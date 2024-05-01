@@ -96,16 +96,25 @@ class FirebaseUsers {
                 await updateDoc(userRef, { [currentListName]: updatedList });
             }
 
-            // Add contentId to the new list
-            const updatedList = [...userData[newListName], contentId];
-            await updateDoc(userRef, { [newListName]: updatedList });
-            if (newListName === "watching"){
-                const contentProgress = userData.contentProgress ;
-                if (!contentProgress.hasOwnProperty(contentId)) {
-                    contentProgress[contentId] = 0;
-                    await updateDoc(userRef, { contentProgress });
+            // Add contentId to the new list only if it's not already there
+            if (newListName !== currentListName) {
+                const newList = userData[newListName];
+                const alreadyInList = newList && newList.includes(contentId);
+                if (!alreadyInList) {
+                    const updatedList = [...(userData[newListName] || []), contentId];
+                    await updateDoc(userRef, { [newListName]: updatedList });
+
+                    // If the new list is 'watching', add contentProgress
+                    if (newListName === "watching") {
+                        const contentProgress = userData.contentProgress || {};
+                        if (!contentProgress.hasOwnProperty(contentId)) {
+                            contentProgress[contentId] = 0;
+                            await updateDoc(userRef, { contentProgress });
+                        }
+                    }
                 }
             }
+
             console.log('Content moved to the new list successfully');
             return true;
         } catch (error) {

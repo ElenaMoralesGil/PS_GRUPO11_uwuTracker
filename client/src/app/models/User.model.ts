@@ -1,5 +1,4 @@
 import User from "../schemas/User.schema";
-import Content from "../schemas/Content.schema";
 
 export default interface Users {
   findById: (id: string) => Promise<User | null>

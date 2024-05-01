@@ -99,7 +99,6 @@ export class ApiContentService implements Contents {
         throw new Error('Failed to update score');
       }
 
-      // No need to return anything if successful
     } catch (error) {
       console.error('Error updating score:', error);
       throw error;
