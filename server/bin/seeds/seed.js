@@ -285,6 +285,4 @@ const fn = {
     seed: () => genData().then(data => linkDocs(data)).then(data => populateDB(data))
 }
 
-//fn.seed()
-
-fn.watch()
+fn.seed()
