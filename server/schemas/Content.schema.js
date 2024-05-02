@@ -9,7 +9,7 @@ module.exports = class Content {
         // Set other properties
         this.id = id || mal_id;
         this.ourScore = ourScore || 0
-        this.apiScore = mal_id ? score : apiScore
+        this.apiScore = (mal_id ? score : apiScore) || 0
         this.scoreCount = scoreCount || 0
         this.score = Number(calcScore({ ourScore: this.ourScore, scoreCount: this.scoreCount, apiScore: apiScoreNormalization(this.apiScore) }).toFixed(2))
         this.title = title;
