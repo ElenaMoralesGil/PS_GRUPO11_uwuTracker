@@ -8,7 +8,7 @@ module.exports = class Comment {
 
         this.title = title;
         this.body = body;
-        this.comments = comments || [];
+        //this.comments = comments || [];
         this.timestamp = timestamp || new Date()
     }
 

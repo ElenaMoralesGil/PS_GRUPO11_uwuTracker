@@ -1,5 +1,3 @@
-const Content = require('../schemas/Content.schema')
-
 class Contents {
     #db
     #opts
