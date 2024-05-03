@@ -1,8 +1,8 @@
 module.exports = class Comment {
-    constructor({ user, content, body, title, id, father, level, comments, timestamp }) {
+    constructor({ userId, contentId, body, title, id, father, level, comments, timestamp }) {
         this.id = id;
-        this.userId = user;
-        this.contentId = content;
+        this.userId = userId;
+        this.contentId = contentId;
         this.father = father || null
         this.level = level || 0
 
