@@ -12,7 +12,7 @@ router.post('/login', async (req, res, next) => {
     if (!password) return res.status(400).json({ msg: 'no-password' })
 
     const user = await req.login(username, password)
-    if (!user) return res.status(202).json({ msg: 'login-unsuccessful' })
+    if (!user) return res.status(402).json({ msg: 'login-unsuccessful' })
 
     delete user.password
     res.status(202).json({ user, msg: 'login-successful' })
