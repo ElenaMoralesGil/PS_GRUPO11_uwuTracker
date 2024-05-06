@@ -1,11 +1,7 @@
 import {
-  AfterViewInit,
   ChangeDetectorRef,
   Component,
-  ElementRef,
   OnInit,
-  ViewChild,
-  ViewEncapsulation
 } from '@angular/core';
 import { ApiContentService } from '../../services/api-content.service';
 import { ActivatedRoute, RouterOutlet } from '@angular/router';
@@ -28,7 +24,6 @@ import { StaffComponent } from './staff/staff.component';
   templateUrl: './content-page.component.html',
   styleUrl: './content-page.component.css',
   imports: [ CommentsComponent, NgFor, NgIf, CabeceraComponent, StaffComponent, RouterOutlet, CharactersComponent, EpisodesComponent, AsideInformationComponent, NewCommentComponent, NavComponent ],
-  encapsulation: ViewEncapsulation.None
 })
 export class ContentPageComponent implements OnInit {
 
