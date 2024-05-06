@@ -34,14 +34,17 @@ export class SignInComponent {
   async login() {
     const { username, password } = this.form.value;
     try {
-      const response = await this.Auth.login({ username, password });
-      console.log(response);
-      if (response !== null) {
-        this.signInClicked();
-        alert('SignIn successful');
-      } else {
-        this.errorLogin = true;
-      }
+      this.Auth.login({ username, password })
+        .then(user => user.toPromise())
+        .then((user)=> {
+        if (user) {
+          this.signIn.emit()
+          alert('SignIn successful');
+        } else {
+          this.errorLogin  = true;
+        }
+      });
+
     } catch (error) {
       console.error('Error during login:', error);
       this.errorLogin = true;

@@ -21,7 +21,7 @@ export class AuthService implements AuthModel {
     this.__loggedUser__.toPromise = () => firstValueFrom(this.__loggedUser__) as Promise<User | null>
   }
 
-  login = ({ username, password }: { username: string, password: string }): Promise<number> =>
+  login = ({ username, password }: { username: string, password: string }): Promise<Observable<User | null>> =>
     fetch(`${this.path}/login`, {
       method: 'POST',
       headers: {
@@ -30,21 +30,13 @@ export class AuthService implements AuthModel {
       credentials: 'include',
       body: JSON.stringify({ username, password })
     })
-      .then(res => {
-        if (res.status === 202) {
-          return res.json().then(data => {
-            data?.user && this.userLogger.next(data.user);
-            return 0;
-          });
-        } else {
-          return res.status;
-        }
-      })
-      .catch(error => {
-        console.error('Error during login:', error);
-        return 450;
-      });
+      .then(res => res.status == 202 ? res.json() : null)
+      .then(data => {
 
+        data?.user && this.userLogger.next(data.user)
+
+        return this.__loggedUser__
+      })
 
 
 
