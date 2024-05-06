@@ -1,3 +1,4 @@
+
 <div id="overlay" (click)="closesignUp()"></div>
 <main class="container">
   <h1 class="container-title">Sign Up</h1>
@@ -42,8 +43,8 @@
              placeholder="Repeat your password" required type="password"
              [ngClass]="{'valid': form.get('repeat_password')?.valid, 'invalid': form.get('repeat_password')?.invalid && (form.get('repeat_password')?.dirty || form.get('repeat_password')?.touched)}">
     </label>
-    <div *ngIf="form.hasError('passwordMismatch')" class="alert">
-      <div class="error-message">Passwords do not match.</div>
+    <div  class="error-message" *ngIf="form.hasError('passwordMismatch')" class="alert">
+      Passwords do not match.
     </div>
     <div *ngIf=errorSignUp class="error-message">
       Error trying to SignUp, user or email already exists in data base
