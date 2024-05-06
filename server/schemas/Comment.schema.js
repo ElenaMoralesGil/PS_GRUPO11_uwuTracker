@@ -1,17 +1,18 @@
 module.exports = class Comment {
-    #id
-    static MINBODYSIZE = 1;
-    static MAXBODYSIZE = 150;
-    constructor({ user, content, body, title, id }) {
-        this.#id = id;
-        this.likes = 0;
-        this.dislikes = 0;
-        this.user = user;
-        this.content = content;
-        this.body = body;
+    constructor({ user, content, body, title, id, father, level, comments, timestamp }) {
+        this.id = id;
+        this.userId = user;
+        this.contentId = content;
+        this.father = father || null
+        this.level = level || 0
+
         this.title = title;
-        this.comments = [];
+        this.body = body;
+        this.comments = comments || [];
+        this.timestamp = timestamp || new Date()
     }
 
-    get id() { return this.#id }
+    static parse = obj => new Comment(obj)
+    stringify = () => JSON.stringify(this)
+    get = () => JSON.parse(JSON.stringify(this))
 }

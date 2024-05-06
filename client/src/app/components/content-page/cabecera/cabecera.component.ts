@@ -11,6 +11,10 @@ import {
 import { ApiContentService } from '../../../services/api-content.service';
 import { UsersService } from "../../../services/users.service";
 import { NgClass, NgForOf, NgIf } from "@angular/common";
+import { Observable } from 'rxjs';
+import User from '../../../schemas/User.schema';
+import { AuthService } from '../../../services/auth.service';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-cabecera',
@@ -23,12 +27,16 @@ import { NgClass, NgForOf, NgIf } from "@angular/common";
   ],
   styleUrls: [ './cabecera.component.css' ]
 })
-export class CabeceraComponent implements OnChanges {
+export class CabeceraComponent implements OnChanges, OnInit {
+
+  protected loggedInUser: Observable<User | null> = this.authService.user
 
   constructor(
     private cdr: ChangeDetectorRef,
     private contentService: ApiContentService,
-    private userService: UsersService
+    private userService: UsersService,
+    private authService: AuthService,
+    private route: ActivatedRoute
   ) { }
 
   @Input() title: string | undefined;
@@ -51,11 +59,23 @@ export class CabeceraComponent implements OnChanges {
   isInFavorites: boolean = false;
 
 
+  ngOnInit(): void {
+    this.id = this.route.snapshot.params[ 'id' ]
+
+    this.loggedInUser.subscribe(user => {
+      if (!user || !this.id) return
+      this.selectedRate = Object(user.userScores)[ this.id ]
+    })
+  }
+
+
   ngOnChanges(changes: SimpleChanges): void {
     if ('user' in changes || 'id' in changes) {
       this.checkFavorites();
       this.setDefaultSelectedList();
     }
+
+    console.log('rating', this.rating)
   }
   private async setDefaultSelectedList(): Promise<void> {
     try {
@@ -80,7 +100,15 @@ export class CabeceraComponent implements OnChanges {
 
   ratingSelection(option: number): void {
     this.selectedRate = option;
-    this.cdr.detectChanges();
+    //this.cdr.detectChanges();
+
+    if (!this.id || this.selectedRate < 0 || this.selectedRate > 5) return
+
+    this.loggedInUser.toPromise().then(async user => {
+      if (!user) return
+      await this.contentService.setScore(<string>this.id, <number>this.selectedRate, user.id)
+      this.authService.isLoggedIn()
+    })
   }
 
   isListSelected(option: string): boolean {
