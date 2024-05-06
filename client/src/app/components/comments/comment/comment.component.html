@@ -1,0 +1,17 @@
+<article class="comment lvl{{comment.level}}">
+
+    <a [routerLink]="['/profile', '/', comment.userId]" routerLinkActive="router-link-active"> {{comment.username}}</a>
+    <p>{{comment.body}}</p>
+    <p>{{comment.timestamp}}</p>
+
+    <button **ngIf="loggedInUser | async" (click)="edit()">Editar</button>
+    <button **ngIf="comment.level == 0" (click)="addComment()">Comentar</button>
+
+
+    <ng-template **ngIf="comment.comments && comment.comments.length > 0">
+        <div class=" comment-container" **ngFor=" let comment of comment.comments">
+            <app-comment [comment]="comment"></app-comment>
+        </div>
+    </ng-template>
+
+</article>

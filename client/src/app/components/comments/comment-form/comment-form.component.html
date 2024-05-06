@@ -1,0 +1,5 @@
+<form (submit)="addComment()">
+    <textarea [value]="newComment" (input)="onCommentInput($event)" name="newComment"
+        placeholder="Agrega tu comentario"></textarea>
+    <button type="submit">Enviar comentario</button>
+</form>

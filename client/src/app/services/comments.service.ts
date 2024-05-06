@@ -19,7 +19,7 @@ export class CommentsService implements Comments {
       .then(res => ({ code: res.status, ...res.json() }))
 
 
-  find: (props: Comment, opts: { limit?: number, orderBy?: string, endAt?: number, startAt?: number, join?: 'or' | 'and', orderByDir?: 'asc' | 'desc' })
+  find: (props: any, opts: { limit?: number, orderBy?: string, endAt?: number, startAt?: number, join?: 'or' | 'and', orderByDir?: 'asc' | 'desc' })
     => Promise<{ data?: Comment[], error?: string, msg?: string, code: number }> = (props, opts) => {
       let query = ""
 
@@ -36,9 +36,11 @@ export class CommentsService implements Comments {
     }
 
 
-  create: (comment: Comment) => Promise<{ data?: Comment, error?: string, msg?: string, code: number }> = comment =>
-    fetch(`${this.path}`, { method: 'PUT', credentials: 'include', body: JSON.stringify(comment) })
+  create: (comment: Comment) => Promise<{ data?: Comment, error?: string, msg?: string, code: number }> = comment => {
+    delete comment.comments
+    return fetch(`${this.path}`, { method: 'PUT', credentials: 'include', body: JSON.stringify(comment) })
       .then(res => ({ code: res.status, ...res.json() }))
+  }
 
 
   delete: (id: string) => Promise<{ error: string, msg: string, code: number }> = id =>
@@ -46,7 +48,9 @@ export class CommentsService implements Comments {
       .then(res => ({ code: res.status, ...res.json() }))
 
 
-  update: (id: string, props: Comment) => Promise<{ data?: Comment, error?: string, msg?: string, code: number }> = (id, props) =>
-    fetch(`${this.path}/${id}`, { method: 'PUT', credentials: 'include', body: JSON.stringify(props) })
+  update: (id: string, props: Comment) => Promise<{ data?: Comment, error?: string, msg?: string, code: number }> = (id, props) => {
+    delete props.comments
+    return fetch(`${this.path} /${id}`, { method: 'PUT', credentials: 'include', body: JSON.stringify(props) })
       .then(res => ({ code: res.status, ...res.json() }))
+  }
 }

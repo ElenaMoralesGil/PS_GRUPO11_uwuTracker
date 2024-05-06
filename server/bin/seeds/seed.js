@@ -21,7 +21,7 @@ const USERS_SIZE = 10
 const REVIEWS_SIZE = 10
 const COMMENTS_SIZE = 20
 const COMMENTS_MAX_LEVEL = 1
-const COMMENTS_LEVEL_CONVERSION_PROP = .35
+const COMMENTS_LEVEL_CONVERSION_PROP = .5
 
 
 
@@ -183,7 +183,7 @@ linkDocs = ({ users, contents, reviews, comments }) => {
 
     // reviews
     reviews.forEach(review => {
-
+        // reviews link
         do {
             user = randomFromArr(users)
             content = randomFromArr(contents)
@@ -197,6 +197,29 @@ linkDocs = ({ users, contents, reviews, comments }) => {
 
         user.userScores[content.id] == undefined && (user.userScores[content.id] = randomNumber(0, 5))
         review.score = user.userScores[content.id]
+
+        // liked reviews
+        loopItr = randomNumber(0, users.length - 1)
+        for (let i = 0; i < loopItr; i++) {
+            do {
+                user = randomFromArr(users)
+            } while (user.likedReviews.includes(review.id))
+
+            user.likedReviews.push(review.id)
+            review.likes++
+        }
+
+        // disliked reviews
+        loopItr = randomNumber(0, users.length - review.likes - 1)
+        for (let i = 0; i < loopItr; i++) {
+            do {
+                user = randomFromArr(users)
+            } while (user.likedReviews.includes(review.id) || user.dislikedReviews.includes(review.id))
+
+            user.dislikedReviews.push(review.id)
+            review.dislikes++
+        }
+
     })
 
     // comments
@@ -209,6 +232,7 @@ linkDocs = ({ users, contents, reviews, comments }) => {
         if (!content.comments.length || Math.random() > COMMENTS_LEVEL_CONVERSION_PROP) {
 
             comment.userId = user.id
+            comment.username = user.username
             comment.contentId = content.id
 
             user.comments.push(comment.id)
@@ -221,10 +245,10 @@ linkDocs = ({ users, contents, reviews, comments }) => {
 
         comment.father = tmpComment.id
         comment.userId = user.id
+        comment.username = user.username
         comment.contentId = tmpComment.contentId
         comment.level = 1
 
-        tmpComment.comments.push(comment.id)
         user.comments.push(comment.id)
     })
 

@@ -7,7 +7,6 @@ import { ApiContentService } from '../../services/api-content.service';
 import { ActivatedRoute, RouterOutlet } from '@angular/router';
 import { CommentsComponent } from '../comments/comments.component';
 import { CabeceraComponent } from './cabecera/cabecera.component';
-import { NewCommentComponent } from '../comments/new-comment/new-comment.component';
 import { AsideInformationComponent } from './aside-information/aside-information.component';
 import { NavComponent } from './nav/nav.component';
 import { NgFor, NgIf } from '@angular/common';
@@ -23,7 +22,7 @@ import { StaffComponent } from './staff/staff.component';
   standalone: true,
   templateUrl: './content-page.component.html',
   styleUrl: './content-page.component.css',
-  imports: [ CommentsComponent, NgFor, NgIf, CabeceraComponent, StaffComponent, RouterOutlet, CharactersComponent, EpisodesComponent, AsideInformationComponent, NewCommentComponent, NavComponent ],
+  imports: [ CommentsComponent, NgFor, NgIf, CabeceraComponent, StaffComponent, RouterOutlet, CharactersComponent, EpisodesComponent, AsideInformationComponent, NavComponent ],
 })
 export class ContentPageComponent implements OnInit {
 
