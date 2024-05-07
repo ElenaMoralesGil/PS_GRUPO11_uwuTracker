@@ -1,7 +1,8 @@
 const User = require(process.cwd() + '/schemas/User.schema.js')
 
-const  {doc,  deleteDoc, setDoc, Firestore, getDoc, updateDoc, getDocs, query, collection, where}  = require('firebase/firestore/lite')
+const  { deleteDoc, setDoc, Firestore, doc, arrayUnion, getDoc, addDoc, query,getDocs, updateDoc, and, or, collection, where}  = require('firebase/firestore/lite')
 const {  ref, uploadBytes, getDownloadURL, FirebaseStorage} = require('firebase/storage');
+
 
 class FirebaseUsers {
     #fss
@@ -45,15 +46,15 @@ class FirebaseUsers {
 
     create = async user => {
 
-        if (await this.find({ username: user.username, email: user.email }, 'OR')) return null
+        if (await this.find({username: user.username, email: user.email}, 'OR')) return null
 
         const userRef = await addDoc(collection(this.#db, this.#coll), user.get())
-        await updateDoc(doc(this.#db, this.#coll, userRef.id), { id: userRef.id })
+        await updateDoc(doc(this.#db, this.#coll, userRef.id), {id: userRef.id})
 
-        return { ...user, id: userRef.id }
+        return {...user, id: userRef.id}
     }
 
-    update = async ({ id, userProps }) => {
+    update = async ({id, userProps}) => {
         if (!await this.findById(id)) return false
 
         await updateDoc(doc(this.#db, this.#coll, id), userProps)
@@ -100,17 +101,17 @@ class FirebaseUsers {
             // Remove contentId from the current list if it exists
             if (currentListName && userData[currentListName]) {
                 const updatedList = userData[currentListName].filter(item => item !== contentId);
-                await updateDoc(userRef, { [currentListName]: updatedList });
+                await updateDoc(userRef, {[currentListName]: updatedList});
             }
 
             // Add contentId to the new list
             const updatedList = [...userData[newListName], contentId];
-            await updateDoc(userRef, { [newListName]: updatedList });
-            if (newListName === "watching"){
-                const contentProgress = userData.contentProgress ;
+            await updateDoc(userRef, {[newListName]: updatedList});
+            if (newListName === "watching") {
+                const contentProgress = userData.contentProgress;
                 if (!contentProgress.hasOwnProperty(contentId)) {
                     contentProgress[contentId] = 0;
-                    await updateDoc(userRef, { contentProgress });
+                    await updateDoc(userRef, {contentProgress});
                 }
             }
             console.log('Content moved to the new list successfully');
@@ -165,7 +166,7 @@ class FirebaseUsers {
                         try {
                             const contentDoc = await getDoc(doc(this.#db, 'Contents', reference));
                             const score = userScores[reference] || '-';
-                            const progress = contentProgress[reference]  || 0;
+                            const progress = contentProgress[reference] || 0;
                             if (contentDoc.exists()) {
                                 const contentData = contentDoc.data();
                                 contentMap[reference] = {
@@ -210,11 +211,11 @@ class FirebaseUsers {
             }
 
             const userData = userDoc.data();
-            const contentProgress = userData.contentProgress ;
-            const episodesCount = contentProgress[contentId] ;
+            const contentProgress = userData.contentProgress;
+            const episodesCount = contentProgress[contentId];
             if (episodesCount === maxCount) {
                 return episodesCount;
-            }else {
+            } else {
                 contentProgress[contentId] = episodesCount + 1;
                 await updateDoc(userRef, {contentProgress});
                 return contentProgress[contentId];
@@ -231,11 +232,11 @@ class FirebaseUsers {
             const userDoc = await getDoc(userRef);
 
             const userData = userDoc.data();
-            const contentProgress = userData.contentProgress ;
-            const episodesCount = contentProgress[contentId] ;
+            const contentProgress = userData.contentProgress;
+            const episodesCount = contentProgress[contentId];
             if (episodesCount === 0) {
                 return episodesCount;
-            }else {
+            } else {
                 contentProgress[contentId] = episodesCount - 1;
                 await updateDoc(userRef, {contentProgress});
                 return contentProgress[contentId];
@@ -338,5 +339,6 @@ class FirebaseUsers {
     }
 
 }
+
 
 module.exports = require('../../bin/Singleton')(new FirebaseUsers())

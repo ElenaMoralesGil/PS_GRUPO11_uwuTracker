@@ -70,8 +70,7 @@ export const routes: Routes = [
       { path: 'planToWatch', component: TableComponent },
       { path: 'favorites', component: TableComponent },
       { path: 'dropped', component: TableComponent }
-    ]
-  },
+    ]},
   { 'path': 'content/:id/comments', component: CommentsComponent, }
 ]
 

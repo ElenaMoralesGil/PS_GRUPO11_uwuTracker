@@ -1,0 +1,23 @@
+
+<div class ="container">
+  <div id="profile-info">
+    <app-user-info [accountId]="accountId"
+                   [userId]="user.id"
+                   [username] = "user.username"
+                   [description]="user.description"
+                   [email]="user.email"
+                   [profilePicture]="user.profilePicture"
+    >
+
+    </app-user-info>
+  </div>
+
+  <div id="profile-nav">
+    <app-profile-nav [username] = "user.username"></app-profile-nav>
+  </div>
+  <div id="table">
+    <router-outlet></router-outlet>
+  </div>
+
+</div>
+

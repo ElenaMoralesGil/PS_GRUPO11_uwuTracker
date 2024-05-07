@@ -9,10 +9,10 @@
   justify-content: space-around;
   text-align: center;
 }
- a{
+a{
   text-decoration: none;
   color:inherit;
-   z-index: 20;
+  z-index: 20;
 }
 span {
   color:white;

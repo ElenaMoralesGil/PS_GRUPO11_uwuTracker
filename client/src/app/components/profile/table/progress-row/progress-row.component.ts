@@ -6,10 +6,10 @@ import {NgForOf} from "@angular/common";
 @Component({
   selector: 'app-progress-row',
   standalone: true,
-    imports: [
-        RouterLink,
-        NgForOf
-    ],
+  imports: [
+    RouterLink,
+    NgForOf
+  ],
   templateUrl: './progress-row.component.html',
   styleUrls: [ '../normal-row/normal-row.component.css', 'progress-row.component.css' ]
 })
