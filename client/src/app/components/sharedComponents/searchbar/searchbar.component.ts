@@ -1,8 +1,10 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, ElementRef, EventEmitter, Input, Output, ViewChild, WritableSignal, input, signal } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, HostListener, Inject, Input, Output, PlatformRef, ViewChild, input } from '@angular/core';
 import { optionsBuilder } from "./optionsBuilder";
 import { CommonModule, NgStyle, TitleCasePipe } from '@angular/common';
 import { FormControl, ReactiveFormsModule } from '@angular/forms';
 import { debounceTime, fromEvent } from 'rxjs';
+import { Router } from '@angular/router';
+import { DOCUMENT } from '@angular/common';
 
 type optionNames = 'name' | 'genres' | 'year' | 'season' | 'format';
 const seasons = [ 'winter', 'spring', 'summer', 'fall' ];
@@ -63,6 +65,13 @@ export class SearchbarComponent implements AfterViewInit {
       case 'format':
         this.options[ item ] = this.options[ item ] === String(value) ? '' : String(value); break;
     }
+
+    if (this.router.url == '/'){
+      localStorage.setItem('options', JSON.stringify({...this.options}));
+      this.router.navigate(['/search', 1]);
+      return;
+    }
+    
     this.optionsChange.emit({ ...this.options });
   }
 
@@ -92,5 +101,35 @@ export class SearchbarComponent implements AfterViewInit {
   isValidSeason(season: any) {
     if (this.options.year == String(new Date().getFullYear())) return seasons.indexOf(season) <= this.getSeason(new Date());
     else return true;
+  }
+
+  router: Router;
+  document: Document;
+  constructor(router:Router, @Inject(DOCUMENT) document:Document){
+    this.router = router;
+    this.document = document;
+    this.detectScreenSize();
+  }
+
+  @HostListener("window:resize", [])
+  public onResize() {
+    this.detectScreenSize();
+  }
+
+  width:number = 0;
+  detectScreenSize() {
+    this.width = this.document.body.clientWidth;
+    console.log(this.width);
+  }
+
+  filterButton = false;
+  clickFilterButton() {
+    this.filterButton = !this.filterButton;
+  }
+
+  showFilters() {
+    if (this.width > 1200) return true;
+    if (this.width < 560) return false;
+    return this.filterButton;
   }
 }

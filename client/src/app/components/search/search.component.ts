@@ -38,6 +38,10 @@ export class SearchComponent {
     // Subscribing to current_page
     this.current_page = signal(Number(route.snapshot.paramMap.get('page')));
     route.params.subscribe(params => this.current_page.set(params[ 'page' ]));
+    route.url.subscribe(() =>{
+      this.options.set(localStorage.getItem('options') ? JSON.parse(<string>localStorage.getItem('options')) : this.options());
+      localStorage.clear();
+    });
 
     // When search parameters change this function gets called
     effect(async () => {
