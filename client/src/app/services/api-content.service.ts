@@ -1,4 +1,4 @@
-import { __env } from '../../environments/env.dev';
+import { __env } from '../../environments/env';
 
 import { Injectable } from '@angular/core';
 import Content from '../schemas/Content.schema';

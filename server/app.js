@@ -20,6 +20,6 @@ app.use('/favicon', (req, res) => res.sendFile(__dirname + '/public/favicon.ico'
 // *=> base urls
 app.use('/api', require('./routes/api.routes'))
 
-app.use((req, res) => res.sendFile(__dirname + '../public/index.html'))
+//app.use((req, res) => res.sendFile(__dirname + '../public/index.html'))
 
 module.exports = app

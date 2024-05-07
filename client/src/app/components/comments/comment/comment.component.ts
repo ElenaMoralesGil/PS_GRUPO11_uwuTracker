@@ -5,11 +5,12 @@ import { RouterLink } from '@angular/router';
 import { AuthService } from '../../../services/auth.service';
 import { Observable } from 'rxjs';
 import User from '../../../schemas/User.schema';
+import { AsyncPipe, CommonModule } from '@angular/common';
 
 @Component({
   selector: 'app-comment',
   standalone: true,
-  imports: [ RouterLink ],
+  imports: [ CommonModule, RouterLink, AsyncPipe ],
   templateUrl: './comment.component.html',
   styleUrl: './comment.component.css'
 })

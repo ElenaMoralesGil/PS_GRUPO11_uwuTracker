@@ -4,14 +4,13 @@
     <p>{{comment.body}}</p>
     <p>{{comment.timestamp}}</p>
 
-    <button **ngIf="loggedInUser | async" (click)="edit()">Editar</button>
-    <button **ngIf="comment.level == 0" (click)="addComment()">Comentar</button>
+    @if (loggedInUser | async) { <button (click)="edit()">Editar</button>}
+    @if(comment.level == 0){<button **ngIf="" (click)="addComment()">Comentar</button>}
 
-
-    <ng-template **ngIf="comment.comments && comment.comments.length > 0">
-        <div class=" comment-container" **ngFor=" let comment of comment.comments">
-            <app-comment [comment]="comment"></app-comment>
-        </div>
-    </ng-template>
+    @if (comment.comments && comment.comments.length > 0) {
+    <div class="comment-container" *ngFor="let comment of comment.comments">
+        <app-comment [comment]="comment"></app-comment>
+    </div>
+    }
 
 </article>

@@ -1,7 +1,7 @@
 module.exports = class User {
 
     constructor({ username, password, email, id, reviews, country, description, profilePicture, watching, dropped, completed, planToWatch, favorites, userScores, contentProgress, comments, likedReviews, dislikedReviews }) {
-        this.id = id;
+        this.id = `${id}`;
         this.username = username;
         this.password = password;
         this.email = email;

@@ -1,4 +1,4 @@
-import { __env } from '../../environments/env.dev';
+import { __env } from '../../environments/env';
 import { Injectable } from '@angular/core';
 import Users from '../models/User.model';
 import User from '../schemas/User.schema';
@@ -34,32 +34,32 @@ export class UsersService implements Users {
   }
 
   findById: (id: string) => Promise<User | null> = id =>
-    fetch(`${this.path}/id/${id}`, {credentials: 'include'}).then(res => res.status == 200 ? res.json() : null)
+    fetch(`${this.path}/id/${id}`, { credentials: 'include' }).then(res => res.status == 200 ? res.json() : null)
 
 
   find: (obj: Object) => Promise<Array<User>> = obj => {
     let query = ""
 
-    for (let [key, val] of Object.entries(obj))
+    for (let [ key, val ] of Object.entries(obj))
       query += `&${key}=${val}`
 
-    return fetch(`${this.path}/search?${query}`, {credentials: 'include'}).then(res => res.status == 200 ? res.json() : [])
+    return fetch(`${this.path}/search?${query}`, { credentials: 'include' }).then(res => res.status == 200 ? res.json() : [])
   }
 
   findOne: (obj: Object) => Promise<User | null> = obj => {
     let query = ""
 
-    for (let [key, val] of Object.entries(obj))
+    for (let [ key, val ] of Object.entries(obj))
       query += `&${key}=${val}`
 
-    return fetch(`${this.path}/search-one`, {credentials: 'include'}).then(res => res.status == 200 ? res.json() : null)
+    return fetch(`${this.path}/search-one`, { credentials: 'include' }).then(res => res.status == 200 ? res.json() : null)
   }
 
-  signup: ({username, password, email}: { username: string, email: string, password: string }) => Promise<User | null> =
-    ({username, password, email}) => fetch(`${this.path}/signup`, {
+  signup: ({ username, password, email }: { username: string, email: string, password: string }) => Promise<User | null> =
+    ({ username, password, email }) => fetch(`${this.path}/signup`, {
       method: 'POST',
-      headers: {'Content-Type': 'application/json'},
-      body: JSON.stringify({username, password, email}),
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ username, password, email }),
       credentials: 'include'
     })
       .then(res => res.status == 201 ? res.json() : null)
@@ -67,7 +67,7 @@ export class UsersService implements Users {
   checkOnList = (userId: string | undefined, contentId: string | undefined, listField: string): Promise<boolean> => {
     const url = `${this.path}/${userId}/check-list/${contentId}/${listField}`;
     console.log('Requesting URL:', url);
-    return fetch(url, {method: 'GET', credentials: 'include'})
+    return fetch(url, { method: 'GET', credentials: 'include' })
       .then(res => {
         if (res.status === 200) {
           return res.json();
@@ -86,7 +86,7 @@ export class UsersService implements Users {
 
   trackingList = async (userId: string | undefined, contentId: string | undefined, listField: string): Promise<void> => {
     const url = `${this.path}/${userId}/${contentId}/tracking-list/${listField}`;
-    const body = JSON.stringify({contentId});
+    const body = JSON.stringify({ contentId });
 
     try {
       const response = await fetch(url, {
@@ -109,7 +109,7 @@ export class UsersService implements Users {
   isOnList = (userId: string | undefined, contentId: string | undefined): Promise<string | null> => {
     const url = `${this.path}/${userId}/check-list/${contentId}`;
     console.log('Requesting URL:', url);
-    return fetch(url, {method: 'GET', credentials: 'include'})
+    return fetch(url, { method: 'GET', credentials: 'include' })
       .then(res => {
         if (res.status === 200) {
           return res.json();

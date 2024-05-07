@@ -1,13 +1,13 @@
 import { Component, OnInit } from '@angular/core';
-import {ActivatedRoute, RouterOutlet} from "@angular/router";
+import { ActivatedRoute, RouterOutlet } from "@angular/router";
 import { UsersService } from "../../services/users.service";
 import User from "../../schemas/User.schema";
-import {EditProfileComponent} from "./edit-profile/edit-profile.component";
-import {UserInfoComponent} from "./user-info/user-info.component";
-import {ProfileNavComponent} from "./profile-nav/profile-nav.component";
-import {TableComponent} from "./table/table.component";
-import {ApiContentService} from "../../services/api-content.service";
-import {AuthService} from "../../services/auth.service";
+import { EditProfileComponent } from "./edit-profile/edit-profile.component";
+import { UserInfoComponent } from "./user-info/user-info.component";
+import { ProfileNavComponent } from "./profile-nav/profile-nav.component";
+import { TableComponent } from "./table/table.component";
+import { ApiContentService } from "../../services/api-content.service";
+import { AuthService } from "../../services/auth.service";
 
 @Component({
   selector: 'app-profile',
@@ -20,7 +20,7 @@ import {AuthService} from "../../services/auth.service";
     ProfileNavComponent,
     TableComponent
   ],
-  styleUrls: ['./profile.component.css']
+  styleUrls: [ './profile.component.css' ]
 })
 export class ProfileComponent implements OnInit {
   user: User = {
@@ -38,7 +38,9 @@ export class ProfileComponent implements OnInit {
     planToWatch: [],
     favorites: [],
     userScores: new Map<string, number>(),
-    contentProgress:new Map<string, number>()
+    contentProgress: new Map<string, number>(),
+    likedReviews: [],
+    dislikedReviews: []
   };
   username: string = "";
   accountId?: string;
@@ -56,8 +58,8 @@ export class ProfileComponent implements OnInit {
       this.authService.user.subscribe((user: User | null) => {
         this.accountId = user?.id;
       });
-      const users = await this.userService.find({"username": this.username});
-      const user = users? users[0]: null
+      const users = await this.userService.find({ "username": this.username });
+      const user = users ? users[ 0 ] : null
       if (!user?.id) {
         console.error('User not found or ID is undefined.');
         return;

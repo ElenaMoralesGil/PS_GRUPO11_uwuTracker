@@ -7,7 +7,7 @@ module.exports = class Content {
         this.reviews = reviews || [];
 
         // Set other properties
-        this.id = id || mal_id;
+        this.id = id ? `${id}` : `${mal_id}`;
         this.ourScore = ourScore || 0
         this.apiScore = (mal_id ? score : apiScore) || 0
         this.scoreCount = scoreCount || 0

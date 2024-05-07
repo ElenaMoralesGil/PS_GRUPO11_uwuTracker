@@ -1,4 +1,4 @@
-import { __env } from '../../environments/env.dev';
+import { __env } from '../../environments/env';
 
 import { Injectable } from '@angular/core';
 
@@ -17,7 +17,7 @@ export class ReviewService implements Reviews {
   }
 
 
-  likeReview = (userId: string, reviewId: string): Promise<[number, number]> =>
+  likeReview = (userId: string, reviewId: string): Promise<[ number, number ]> =>
     fetch(`${this.path}/${reviewId}/like`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -32,7 +32,7 @@ export class ReviewService implements Reviews {
         // Check if data has properties for likes and dislikes
         if (data.hasOwnProperty('likes') && data.hasOwnProperty('dislikes')) {
           // Return a tuple with likes and dislikes
-          return [data.likes, data.dislikes] as [number, number];
+          return [ data.likes, data.dislikes ] as [ number, number ];
         } else {
           // If the response structure is unexpected, handle it accordingly
           console.error('Unexpected response structure:', data);
@@ -44,7 +44,7 @@ export class ReviewService implements Reviews {
         throw err;
       });
 
-  dislikeReview = (userId: string, reviewId: string): Promise<[number, number]> =>
+  dislikeReview = (userId: string, reviewId: string): Promise<[ number, number ]> =>
     fetch(`${this.path}/${reviewId}/dislike`, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
@@ -59,7 +59,7 @@ export class ReviewService implements Reviews {
         // Check if data has properties for likes and dislikes
         if (data.hasOwnProperty('likes') && data.hasOwnProperty('dislikes')) {
           // Return a tuple with likes and dislikes
-          return [data.likes, data.dislikes] as [number, number];
+          return [ data.likes, data.dislikes ] as [ number, number ];
         } else {
           // If the response structure is unexpected, handle it accordingly
           console.error('Unexpected response structure:', data);
