@@ -1,18 +1,25 @@
 const User = require(process.cwd() + '/schemas/User.schema.js')
 
-const { collection, doc, arrayUnion, getDoc, addDoc, query, where, getDocs, updateDoc, and, or } = require('firebase/firestore/lite')
-
+const  {doc,  deleteDoc, setDoc, Firestore, getDoc, updateDoc, getDocs, query, collection, where}  = require('firebase/firestore/lite')
+const {  ref, uploadBytes, getDownloadURL, FirebaseStorage} = require('firebase/storage');
 
 class FirebaseUsers {
     #fss
     #collection
+    #storage
     constructor() {
         this.#fss = require('./firebase.service')
         this.#collection = 'Users'
+        this.#storage =  FirebaseStorage
     }
 
-    get #db() { return this.#fss.db }
-    get #coll() { return this.#collection }
+    get #db() {
+        return this.#fss.db
+    }
+
+    get #coll() {
+        return this.#collection
+    }
 
     findById = id => getDoc(doc(this.#db, this.#coll, `${id}`)).then(doc => doc.data()).then(data => data ? User.parse(data) : null)
 
@@ -238,6 +245,98 @@ class FirebaseUsers {
             throw error;
         }
     }
+
+
+    checkUserExistance = async (username) => {
+        const usernameQuery = query(collection(this.#db, this.#coll), where("username", "==", username));
+
+        const [usernameDocs] = await Promise.all([
+            getDocs(usernameQuery),
+        ]);
+
+        return (!usernameDocs.empty)
+    }
+    checkEmailExistence = async (email) => {
+
+        const emailQuery = query(collection(this.#db, this.#coll), where("email", "==", email));
+
+        const [emailDocs] = await Promise.all([
+            getDocs(emailQuery),
+        ]);
+
+        return (!emailDocs.empty)
+
+    }
+
+    async modifyUserDetails(uid, username, email, description) {
+
+        const userRef = doc(this.#db, this.#coll, uid);
+        const userDoc = await getDoc(userRef);
+
+        if (!userDoc.exists) {
+            throw new Error('User not found');
+        }
+
+        const userData = userDoc.data() || {};
+
+        const usernameData = userData['username'] || '';
+        const descriptionData = userData['description'] || '';
+        const emailData = userData['email'] || '';
+
+        const updates= {};
+        if (usernameData !== username) {
+            updates.username = username;
+        }
+        if (descriptionData !== description) {
+            updates.description = description;
+        }
+        if(emailData !== email) {
+            updates.email = email;
+        }
+
+        if (Object.keys(updates).length > 0) {
+            try {
+                await updateDoc(userRef, updates);
+                return true;
+            } catch (error) {
+                console.error('Error updating user details:', error);
+                throw error;
+            }
+        }
+        return true;
+    }
+    async updateProfilePicture(userId, profileImage) {
+        if (!profileImage) return Promise.reject(new Error('No image provided'));
+
+        try {
+
+            const storageRef = ref(this.#storage, `profilePictures/${userId}`);
+
+            const snapshot = await uploadBytes(storageRef, profileImage);
+
+            const downloadURL = await getDownloadURL(snapshot.ref);
+
+            const userRef = doc(this.#db, this.#coll, userId);
+            await updateDoc(userRef, { profilePicture: downloadURL });
+
+            return downloadURL;
+        } catch (error) {
+            console.error('Error updating profile picture:', error);
+            throw error;
+        }
+    }
+
+    async deleteAccount(userId) {
+        try {
+
+            await deleteDoc(doc(this.#db, this.#coll, userId));
+            console.log("User document deleted successfully");
+        } catch (error) {
+            console.error("Error deleting user document:", error);
+            throw error;
+        }
+    }
+
 }
 
 module.exports = require('../../bin/Singleton')(new FirebaseUsers())
