@@ -11,8 +11,6 @@ router.get('/find', (req, res) => {
     for (let [key, val] of Object.entries(req.query))
         Comments.opts.includes(key) ? options[key] = val : params[key] = val
 
-    console.log(params, options)
-
     Comments.find(params, options).then(comments => {
         if (!comments) return res.status(404).json({ msg: 'not-found' })
         return res.status(200).json({ data: comments })
@@ -34,7 +32,6 @@ router.get('/:id', (req, res) => {
 router.post('/', (req, res) => {
 
     if (!req.user) return res.status(300).json({ msg: 'no-user-logged-in' })
-    console.log(req.body)
     if (req.user.id != req.body.userId) return res.status(300).json({ msg: 'not-user-creator' })
 
     Comments.create(Comment.parse(req.body)).then(comment => {

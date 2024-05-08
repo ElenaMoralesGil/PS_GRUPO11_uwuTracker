@@ -7,6 +7,9 @@ import { ActivatedRoute } from '@angular/router';
 import Comment from '../../schemas/Comment.schema';
 import { CommentFormComponent } from "./comment-form/comment-form.component";
 import { CommentComponent } from './comment/comment.component';
+import { AuthService } from '../../services/auth.service';
+import { Observable } from 'rxjs';
+import User from '../../schemas/User.schema';
 
 @Component({
   selector: 'app-comments',
@@ -21,9 +24,13 @@ import { CommentComponent } from './comment/comment.component';
 })
 export class CommentsComponent implements OnInit {
 
+  protected loggedInUser: Observable<User | null>
   protected comments: Comment[] = []
+  protected formMessage: 'NONE' | 'CONFIRM' | string = 'NONE'
 
-  constructor(private route: ActivatedRoute, private Comments: CommentsService) { }
+  constructor(private route: ActivatedRoute, private Comments: CommentsService, Auth: AuthService) {
+    this.loggedInUser = Auth.user
+  }
 
 
   ngOnInit(): void {
@@ -54,6 +61,43 @@ export class CommentsComponent implements OnInit {
       })
   }
 
+  onFormClicked() {
+    this.formMessage = 'NONE'
+  }
 
 
+  async commentFromForm(commentBody: string) {
+
+    const user = await this.loggedInUser.toPromise()
+
+    if (!user) {
+      this.formMessage = 'No estas logueado'
+      return
+    }
+
+    this.createComment({
+      userId: (<User>user).id,
+      username: (<User>user).username,
+      contentId: this.route.parent?.snapshot.params[ 'id' ],
+      level: 0,
+      father: null,
+      body: commentBody
+    }).then(confirm => {
+      this.formMessage = confirm ? 'CONFIRM' : 'No se pudo crear'
+    })
+  }
+
+
+  createComment = (comment: Comment): Promise<boolean> =>
+    this.Comments.create(comment).then(res => res.data).then(data => {
+
+      if (!data) return false
+
+      switch (data?.level) {
+        case 0: this.comments.unshift(data); break
+        case 1: this.comments.find(elm => elm.id == data.father)?.comments?.unshift(data); break
+      }
+
+      return true
+    })
 }

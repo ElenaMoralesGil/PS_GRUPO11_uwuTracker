@@ -1,5 +1,16 @@
-<form (submit)="addComment()">
-    <textarea [value]="newComment" (input)="onCommentInput($event)" name="newComment"
-        placeholder="Agrega tu comentario"></textarea>
-    <button type="submit">Enviar comentario</button>
-</form>
+<div>
+
+    <form (submit)="addComment($event)">
+        <textarea [value]="newComment" (input)="onCommentInput($event)" name="newComment"
+            placeholder="Agrega tu comentario"></textarea>
+
+        @switch (message) {
+        @case ('NONE') {}
+        @case ('CONFIRM') {<p class="msg msg-confirm">Enviado correctamente</p>}
+        @default{ <p class="msg msg-error">{{message}}</p>}
+        }
+
+        <button type="submit">Enviar comentario</button>
+    </form>
+
+</div>

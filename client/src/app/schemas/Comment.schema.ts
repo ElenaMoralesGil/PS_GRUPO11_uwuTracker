@@ -1,5 +1,5 @@
 export default interface Comment {
-    readonly id: string,
+    readonly id?: string,
     readonly userId: string,
     readonly username: string,
     readonly contentId: string,
@@ -7,6 +7,6 @@ export default interface Comment {
     readonly level: number,
 
     body: string,
-    timestamp: Date
+    timestamp?: Date
     comments?: Comment[]
 }

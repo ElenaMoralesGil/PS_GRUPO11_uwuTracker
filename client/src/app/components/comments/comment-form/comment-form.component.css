@@ -1,13 +1,22 @@
+div {
+    background-color: var(--snow-color-mo);
+    display: flex;
+    flex-direction: column;
+    border-radius: 5px;
+}
+
 form {
     display: flex;
     flex-direction: column;
+    align-items: center;
     gap: 1rem;
     width: 100%;
+    padding: 2rem 1rem 1rem 1rem;
 }
 
 form textarea {
     border-radius: 5px;
-    width: 100%;
+    width: 98%;
     height: 5rem;
 
     padding-left: .8rem;
@@ -16,6 +25,7 @@ form textarea {
 
 
 form button {
+    width: 40%;
     background-color: var(--dull-blue);
     color: var(--snow-color);
     padding: .5rem 1.5rem;
@@ -28,4 +38,18 @@ form button {
 form button:hover {
     /* background-color: var(--dark-color); */
     transform: scale(1.05);
+}
+
+.msg {
+    margin: 0;
+    /* font-size: .9rem; */
+    text-align: center;
+}
+
+.msg-error {
+    color: red
+}
+
+.msg-confirm {
+    color: green
 }

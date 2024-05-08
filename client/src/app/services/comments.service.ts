@@ -38,19 +38,20 @@ export class CommentsService implements Comments {
 
   create: (comment: Comment) => Promise<{ data?: Comment, error?: string, msg?: string, code: number }> = comment => {
     delete comment.comments
-    return fetch(`${this.path}`, { method: 'PUT', credentials: 'include', body: JSON.stringify(comment) })
+
+    return fetch(`${this.path}`, { method: 'POST', credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(comment) })
       .then(async res => ({ code: res.status, ...(await res.json()) }))
   }
 
 
   delete: (id: string) => Promise<{ error: string, msg: string, code: number }> = id =>
-    fetch(`${this.path}/${id}`, { method: 'DELETE', credentials: 'include' })
+    fetch(`${this.path}/${id}`, { method: 'DELETE', credentials: 'include', headers: { 'Content-Type': 'application/json' } })
       .then(async res => ({ code: res.status, ...(await res.json()) }))
 
 
   update: (id: string, props: Comment) => Promise<{ data?: Comment, error?: string, msg?: string, code: number }> = (id, props) => {
     delete props.comments
-    return fetch(`${this.path} /${id}`, { method: 'PUT', credentials: 'include', body: JSON.stringify(props) })
+    return fetch(`${this.path} /${id}`, { method: 'PUT', credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(props) })
       .then(async res => ({ code: res.status, ...(await res.json()) }))
   }
 }
