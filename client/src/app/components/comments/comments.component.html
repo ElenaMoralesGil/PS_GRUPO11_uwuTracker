@@ -1,7 +1,6 @@
 <div class="comments-container">
-    <h2>Coments</h2>
     <app-comment-form></app-comment-form>
-    <div class="comment-container" *ngFor="let comment of comments">
+    <div class="comments-list" *ngFor="let comment of comments">
         <app-comment [comment]="comment"></app-comment>
     </div>
 </div>

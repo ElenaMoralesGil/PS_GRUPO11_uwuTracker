@@ -1,0 +1,48 @@
+.comment {
+    background-color: var(--snow-color-mo);
+    padding: 1rem 1rem;
+    border-radius: 5px;
+    width: 100%;
+}
+
+.username {
+    color: var(--dull-blue);
+    font-weight: bolder;
+}
+
+.username:hover {
+    transform: scale(1.05);
+    transition: .2s ease-in;
+}
+
+
+.bottom-line {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+}
+
+.date {
+    margin-bottom: 0;
+    font-size: .8rem;
+}
+
+.buttons-group {
+    margin-right: 2rem;
+}
+
+button {
+    background-color: var(--dull-blue);
+    padding: .5rem 1rem;
+    margin: 0 .5rem 0 .5rem;
+}
+
+button:hover {
+    transform: scale(1.05);
+    transition: .1s ease-in-out;
+}
+
+.comments-list {
+    margin-top: 1rem;
+    width: 95%;
+}

@@ -1,14 +1,22 @@
 <article class="comment lvl{{comment.level}}">
 
-    <a [routerLink]="['/profile', '/', comment.userId]" routerLinkActive="router-link-active"> {{comment.username}}</a>
+    <a class="username" [routerLink]="['/profile', comment.username]" routerLinkActive="router-link-active">
+        {{comment.username}}</a>
+    <hr>
     <p>{{comment.body}}</p>
-    <p>{{comment.timestamp}}</p>
 
-    @if (loggedInUser | async) { <button (click)="edit()">Editar</button>}
-    @if(comment.level == 0){<button **ngIf="" (click)="addComment()">Comentar</button>}
+    <div class="bottom-line">
+        <p class="date">{{comment.timestamp|date}}</p>
+
+        <div class="buttons-group">
+            @if ((loggedInUser | async)?.id == comment.userId) { <button (click)="edit()">Editar</button>}
+            @if(comment.level == 0){<button (click)="addComment()">Comentar</button>}
+        </div>
+
+    </div>
 
     @if (comment.comments && comment.comments.length > 0) {
-    <div class="comment-container" *ngFor="let comment of comment.comments">
+    <div class="comments-list" *ngFor="let comment of comment.comments">
         <app-comment [comment]="comment"></app-comment>
     </div>
     }

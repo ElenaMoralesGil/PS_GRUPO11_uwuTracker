@@ -33,8 +33,6 @@ export class CommentsComponent implements OnInit {
       .then(res => res.data)
       .then(data => {
 
-        console.log(data)
-
         if (!data) {
           this.comments = []
           return
@@ -53,8 +51,6 @@ export class CommentsComponent implements OnInit {
 
         this.comments = level0
         level1.forEach(elm => this.comments.find(elm_ => elm_.id == elm.father)?.comments?.push(elm))
-
-        console.log(this.comments)
       })
   }
 
