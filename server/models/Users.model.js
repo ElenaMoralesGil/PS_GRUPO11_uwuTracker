@@ -18,6 +18,12 @@ class Users {
     isOnList = (userId, contentId) => this.#service.isOnList(userId, contentId)
     incrementEpisodesCount = (userId, contentId) => this.#service.incrementEpisodesCount(userId, contentId)
     decrementEpisodesCount = (userId, contentId) => this.#service.decrementEpisodesCount(userId, contentId)
+    checkUserExistance = (username) => this.#service.checkUserExistance(username)
+    checkEmailExistance = (email) => this.#service.checkEmailExistance(email)
+    modifyUserDetails = (userId, username, email, description) => this.#service.modifyUserDetails(userId, username, email, description)
+    updateProfilePicture = (userId, profileImage) => this.#service.updateProfilePicture(userId, profileImage)
+    updatePassword = (userId,  password) => this.#service.updatePassword(userId, password)
+    deleteAccount = (id) => this.#service.deleteAccount(id)
 }
 
 module.exports = require('../bin/Singleton')(new Users())

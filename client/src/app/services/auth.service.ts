@@ -38,6 +38,8 @@ export class AuthService implements AuthModel {
         return this.__loggedUser__
       })
 
+
+
   logout = (): Promise<void> => fetch(`${this.path}/logout`, { credentials: 'include' }).then(() => this.userLogger.next(null))
 
   isLoggedIn = (): Promise<Observable<User | null>> =>

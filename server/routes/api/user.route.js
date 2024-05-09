@@ -152,4 +152,87 @@ router.post('/:userId/:contentId/decrement-episodes-count', async (req, res) => 
         res.status(500).json({ msg: 'Internal server error' });
     }
 });
+
+router.get('/:username/check-user-existence', async (req, res) => {
+    const { username } = req.params;
+
+    try {
+        const exists = await Users.checkUserExistance(username);
+        res.status(200).json({ exists });
+    } catch (error) {
+        console.error('Error checking user existence:', error);
+        res.status(500).json({ msg: 'Internal server error' });
+    }
+});
+
+router.get('/:email/check-email-existence', async (req, res) => {
+    const { email } = req.params;
+
+    try {
+        const exists = await Users.checkEmailExistance(email);
+        res.status(200).json({ exists });
+    } catch (error) {
+        console.error('Error checking email existence:', error);
+        res.status(500).json({ msg: 'Internal server error' });
+    }
+});
+router.put('/:userId/modify-details', async (req, res) => {
+    const { userId } = req.params;
+    const { username, email, description } = req.body;
+
+    try {
+        const updatedUser = await Users.modifyUserDetails(userId, username, email, description);
+        if (!updatedUser) {
+            return res.status(404).json({ msg: 'user-not-found' });
+        }
+        res.status(200).json({ msg: 'User details updated successfully' });
+    } catch (error) {
+        console.error('Error modifying user details:', error);
+        res.status(500).json({ msg: 'Internal server error' });
+    }
+});
+
+router.post('/:userId/update-profile-picture', async (req, res) => {
+    const { userId } = req.params;
+    const profilePicture = req.file;
+
+    try {
+        const profilePictureUrl = await Users.updateProfilePicture(userId, profilePicture);
+        res.status(200).json({ profilePictureUrl });
+    } catch (error) {
+        console.error('Error updating profile picture:', error);
+        res.status(500).json({ msg: 'Internal server error' });
+    }
+});
+
+router.put('/:userId/update-password', async (req, res) => {
+    const { userId } = req.params;
+    const { password } = req.body;
+
+    try {
+        const updated = await Users.updatePassword(userId, password);
+        if (!updated) {
+            return res.status(404).json({ msg: 'user-not-found' });
+        }
+        res.status(200).json({ msg: 'Password updated successfully' });
+    } catch (error) {
+        console.error('Error updating password:', error);
+        res.status(500).json({ msg: 'Internal server error' });
+    }
+});
+
+router.delete('/:userId/delete-account', async (req, res) => {
+    const { userId } = req.params;
+
+    try {
+        const deleted = await Users.deleteAccount(userId);
+        if (!deleted) {
+            return res.status(404).json({ msg: 'user-not-found' });
+        }
+        res.status(200).json({ msg: 'Account deleted successfully' });
+    } catch (error) {
+        console.error('Error deleting account:', error);
+        res.status(500).json({ msg: 'Internal server error' });
+    }
+});
 module.exports = router

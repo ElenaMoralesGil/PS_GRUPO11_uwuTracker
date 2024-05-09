@@ -2,8 +2,10 @@ import { Component, Output, EventEmitter } from '@angular/core';
 import { FormBuilder, FormGroup, ReactiveFormsModule, Validators, AbstractControl, FormsModule } from '@angular/forms'; // Import AbstractControl
 import { NgClass, NgIf } from "@angular/common";
 import { AuthService } from "../../../services/auth.service";
-import { ActivatedRoute } from "@angular/router"; // Import Users as a named export
-import { UsersService } from '../../../services/users.service';
+
+import { ActivatedRoute } from "@angular/router";
+import {UsersService} from "../../../services/users.service"; // Import Users as a named export
+
 @Component({
   selector: 'app-sign-up',
   standalone: true,
@@ -18,15 +20,17 @@ import { UsersService } from '../../../services/users.service';
 })
 export class SignUpComponent {
   @Output() signUp = new EventEmitter();
+  @Output() signIn = new EventEmitter();
   form: FormGroup;
-  country = "";
+  errorSignUp: boolean = false;
   description = "";
   profilePicture = "";
-  constructor(private formBuilder: FormBuilder, private Users: UsersService, private router: ActivatedRoute, private Auth: AuthService) {
+  constructor(private formBuilder: FormBuilder, private Auth: AuthService, private UserService: UsersService) {
     this.form = this.formBuilder.group({
       username: [ '', [ Validators.required, Validators.minLength(2) ] ],
       email: [ '', [ Validators.required, Validators.email ] ],
-      password: [ '', [ Validators.required, Validators.minLength(8), Validators.pattern(/^(?=.*[0-9])(?=.*[a-zA-Z])[a-zA-Z0-9\s]{8,}$/) ] ],
+      password: [ '', [ Validators.required, Validators.minLength(8), Validators.pattern(/^(?=.*\d)(?=.*[a-z])(?=.*[A-Z]).{8,}$/u
+      ) ] ],
       repeat_password: [ '', Validators.required ]
     }, {
       validator: this.passwordMatchValidator
@@ -36,18 +40,21 @@ export class SignUpComponent {
   submitForm() {
     if (this.form.valid) {
       const { username, email, password } = this.form.value
-
-      // @ts-ignore
-      this.Users.signup({ username, email, password })
-        .then((user: any): any => {
-          if (!user) return null
-
-          this.Auth.login({ username, password })
-          this.closesignUp()
-        })
-        .catch((error: any) => {
-          console.error(error);
-        });
+      try {
+      this.UserService.signup({ username, email, password })
+        .then((user)=> {
+          if (user !== null) {
+            this.Auth.login({ username, password })
+            this.closesignUp()
+            alert('SignUp successful');
+          } else {
+            this.errorSignUp = true;
+          }
+          })
+        } catch (error) {
+          console.error('Error during login:', error);
+          this.errorSignUp = true;
+        }
     }
     else console.log("NO SUBMIT")
   }
@@ -66,6 +73,10 @@ export class SignUpComponent {
     }
 
     return null;
+  }
+
+  redirectSignIn() {
+    this.signIn.emit()
   }
 }
 
