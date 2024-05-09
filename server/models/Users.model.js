@@ -24,6 +24,8 @@ class Users {
     updateProfilePicture = (userId, profileImage) => this.#service.updateProfilePicture(userId, profileImage)
     updatePassword = (userId,  password) => this.#service.updatePassword(userId, password)
     deleteAccount = (id) => this.#service.deleteAccount(id)
+
+    updateSocialMedia = (userId, socialMedia) => this.#service.updateSocialMedia(userId, socialMedia)
 }
 
 module.exports = require('../bin/Singleton')(new Users())

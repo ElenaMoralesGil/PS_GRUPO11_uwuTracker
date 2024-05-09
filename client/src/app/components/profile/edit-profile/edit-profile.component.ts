@@ -39,6 +39,8 @@ export class EditProfileComponent  implements OnInit, OnChanges{
   editPasswordForm: FormGroup;
   // @ts-ignore
   editPfpForm: FormGroup;
+  // @ts-ignore
+  editSocialForm: FormGroup;
   profileImage: File | null = null;
   imageUrl: string | null = null;
 
@@ -85,6 +87,11 @@ export class EditProfileComponent  implements OnInit, OnChanges{
     this.editPfpForm = this.formBuilder.group({
       profileImage: [null, Validators.required]
     });
+    this.editSocialForm = this.formBuilder.group({
+      instagram: ['', Validators.pattern(/^(?:https?:\/\/)?(?:www\.)?instagram\.com\/([a-zA-Z0-9_\.]{1,30})\/?\??.*$/)],
+      facebook: ['', Validators.pattern(/^(?:https?:\/\/)?(?:www\.)?facebook\.com\/(?:[?\w\-]*\/)?(?:profile.php\?id=(?=\d.*))?([\w\-]*)\/?$/)],
+      twitter: ['', Validators.pattern(/^(?:https?:\/\/)?(?:www\.)?twitter\.com\/([a-zA-Z0-9_]{1,15})\/?$/)]
+    });
   }
 
   deleteProfile() {
@@ -123,6 +130,20 @@ export class EditProfileComponent  implements OnInit, OnChanges{
             }
           })
         }
+      }
+    }
+  }
+
+  async updateSocialMedia() {
+    if (this.editSocialForm && this.editSocialForm.valid) {
+      const { instagram, facebook, twitter } = this.editSocialForm.value;
+      const socialMedia = { instagram, facebook, twitter };
+
+      if (this.userId) {
+        await this.usersService.updateSocialMedia(this.userId, <any>socialMedia).then(r => {
+
+          this.closeEdit();
+        });
       }
     }
   }
@@ -219,4 +240,6 @@ export class EditProfileComponent  implements OnInit, OnChanges{
   }
 
   protected readonly FormGroup = FormGroup;
+
+
 }

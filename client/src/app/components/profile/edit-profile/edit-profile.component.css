@@ -70,7 +70,7 @@
   color: #ffffff;
 }
 
-.container-edit-details-pfp {
+.container-edit-details-pfp{
   display: flex;
   justify-content: space-between;
   width: 100%;
@@ -83,14 +83,17 @@
 
 .edit-pfp-header h2,
 .edit-details-header h2,
-.edit-password-header h2{
+.edit-password-header h2,
+.edit-pfp-header h2,
+.edit-social-header h2{
   font-size: var(--big-font-size);
   font-weight: bold;
   color: #000000;
 }
 .container-edit-details,
 .container-edit-password,
-.container-edit-pfp {
+.social-section,
+.pfp-section{
   box-sizing: border-box;
   margin-bottom: 2em;
   padding: 1em;
@@ -100,10 +103,11 @@
   box-shadow: 0 0 20em rgba(0, 0, 0, 0.1);
 }
 
-.container-edit-pfp {
+.container-edit-pfp-social {
   width: 45%;
   height: auto;
 }
+
 
 .container-form-button,
 .container-choose-image-label,
@@ -136,6 +140,10 @@
 }
 .edit-profile-button-group {
   overflow: hidden;
+}
+
+.social-div{
+  margin-top: 6em;
 }
 .deleteProfile {
   background-color: #dc3545;
@@ -185,7 +193,7 @@
 
   }
 
-  .container-edit-pfp, .container-edit-password, .container-edit-details{
+  .container-edit-pfp-social, .container-edit-password, .container-edit-details{
     width: 100%;
   }
 }

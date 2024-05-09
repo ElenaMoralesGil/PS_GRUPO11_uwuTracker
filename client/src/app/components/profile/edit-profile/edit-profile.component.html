@@ -16,10 +16,18 @@
                  [ngClass]="{'valid': editDetailsForm.get('username')?.valid, 'invalid': editDetailsForm.get('username')?.invalid && (editDetailsForm.get('username')?.dirty || editDetailsForm.get('username')?.touched)}">
         </label>
 
-        <div *ngIf="editDetailsForm?.get('username')?.invalid && (editDetailsForm.get('username')?.dirty || editDetailsForm.get('username')?.touched)" class="alert">
-          <div *ngIf="editDetailsForm?.get('username')?.errors?.['required']" class="error-message">Username is required.</div>
-          <div *ngIf="editDetailsForm?.get('username')?.errors?.['minlength']" class="error-message">Username must be at least 2 characters long.</div>
-          <div *ngIf="editDetailsForm?.get('username')?.errors?.['usernameExists']" class="error-message">Username already exists.</div>
+        <div
+          *ngIf="editDetailsForm?.get('username')?.invalid && (editDetailsForm.get('username')?.dirty || editDetailsForm.get('username')?.touched)"
+          class="alert">
+          <div *ngIf="editDetailsForm?.get('username')?.errors?.['required']" class="error-message">Username is
+            required.
+          </div>
+          <div *ngIf="editDetailsForm?.get('username')?.errors?.['minlength']" class="error-message">Username must be at
+            least 2 characters long.
+          </div>
+          <div *ngIf="editDetailsForm?.get('username')?.errors?.['usernameExists']" class="error-message">Username
+            already exists.
+          </div>
         </div>
 
         <label class="edit-details-form-label">
@@ -27,10 +35,14 @@
                  placeholder="{{email}}" type="email"
                  [ngClass]="{'valid': editDetailsForm.get('email')?.valid, 'invalid': editDetailsForm.get('email')?.invalid && (editDetailsForm.get('email')?.dirty || editDetailsForm.get('email')?.touched)}">
         </label>
-        <div *ngIf="editDetailsForm.get('email')?.invalid && (editDetailsForm.get('email')?.dirty || editDetailsForm.get('email')?.touched)" class="alert">
+        <div
+          *ngIf="editDetailsForm.get('email')?.invalid && (editDetailsForm.get('email')?.dirty || editDetailsForm.get('email')?.touched)"
+          class="alert">
           <div *ngIf="editDetailsForm.get('email')?.errors?.['required']" class="error-message">Email is required.</div>
           <div *ngIf="editDetailsForm.get('email')?.errors?.['email']" class="error-message">Invalid email format.</div>
-          <div *ngIf="editDetailsForm.get('email')?.errors?.['emailExists']" class="error-message">Email already exists.</div>
+          <div *ngIf="editDetailsForm.get('email')?.errors?.['emailExists']" class="error-message">Email already
+            exists.
+          </div>
         </div>
         <label class="container-form-label" for="description">
           <textarea class="container-form-input form-control" id="description" formControlName="description"
@@ -39,10 +51,15 @@
                     [ngClass]="{'valid': editDetailsForm.get('description')?.valid, 'invalid': editDetailsForm.get('description')?.invalid && (editDetailsForm.get('description')?.dirty || editDetailsForm.get('description')?.touched)}">
           </textarea>
         </label>
-        <div *ngIf="editDetailsForm.get('description')?.invalid && (editDetailsForm.get('description')?.dirty || editDetailsForm.get('description')?.touched)"
-             class="alert">
-          <div *ngIf="editDetailsForm.get('description')?.errors?.['minlength']" class="error-message">description must be at least 10 characters long.</div>
-          <div *ngIf="editDetailsForm.get('description')?.errors?.['maxlength']" class="error-message">description can't be more than 500 characters long.</div>
+        <div
+          *ngIf="editDetailsForm.get('description')?.invalid && (editDetailsForm.get('description')?.dirty || editDetailsForm.get('description')?.touched)"
+          class="alert">
+          <div *ngIf="editDetailsForm.get('description')?.errors?.['minlength']" class="error-message">description must
+            be at least 10 characters long.
+          </div>
+          <div *ngIf="editDetailsForm.get('description')?.errors?.['maxlength']" class="error-message">description can't
+            be more than 500 characters long.
+          </div>
         </div>
         <button class="container-form-button" type="submit">Update</button>
       </form>
@@ -57,11 +74,16 @@
                  required type="password"
                  [ngClass]="{'valid': editPasswordForm.get('password')?.valid, 'invalid': editPasswordForm.get('password')?.invalid && (editPasswordForm.get('password')?.dirty ||editPasswordForm.get('password')?.touched)}">
         </label>
-        <div *ngIf="editPasswordForm.get('password')?.invalid && (editPasswordForm.get('password')?.dirty || editPasswordForm.get('password')?.touched)"
-             class="alert">
-          <div *ngIf="editPasswordForm.get('password')?.errors?.['required']" class="error-message">Password is required.</div>
-          <div *ngIf="editPasswordForm.get('password')?.errors?.['pattern']" class="error-message">Invalid password format. Password
-            must contain at least one number, one uppercase letter, one lowercase letter, and be at least 8 characters long.
+        <div
+          *ngIf="editPasswordForm.get('password')?.invalid && (editPasswordForm.get('password')?.dirty || editPasswordForm.get('password')?.touched)"
+          class="alert">
+          <div *ngIf="editPasswordForm.get('password')?.errors?.['required']" class="error-message">Password is
+            required.
+          </div>
+          <div *ngIf="editPasswordForm.get('password')?.errors?.['pattern']" class="error-message">Invalid password
+            format. Password
+            must contain at least one number, one uppercase letter, one lowercase letter, and be at least 8 characters
+            long.
           </div>
         </div>
         <label class="container-form-label" for="repeat_password">
@@ -74,24 +96,50 @@
         </div>
         <button class="container-form-button" type="submit">Update</button>
       </form>
+
     </section>
   </div>
-  <section class="container-edit-pfp">
+  <section class="container-edit-pfp-social">
+    <div class="pfp-section">
     <span class="edit-pfp-header">
       <h2>Edit Profile Picture</h2>
     </span>
-    <div class="edit-profile-button-group">
-      <form [formGroup]="editPfpForm" (ngSubmit)="updateProfilePicture()" class="edit-pfp-form">
-        <input accept="image/*" class="container-choose-image-button" (change)="onProfileImageChange($event)" formControlName="profileImage" type="file"
+      <div class="edit-profile-button-group">
+        <form [formGroup]="editPfpForm" (ngSubmit)="updateProfilePicture()" class="edit-pfp-form">
+          <input accept="image/*" class="container-choose-image-button" (change)="onProfileImageChange($event)"
+                 formControlName="profileImage" type="file"
 
-               [ngClass]="{'valid': editPfpForm.get('profileImage')?.valid, 'invalid': editPfpForm.get('profileImage')?.invalid && (editPfpForm.get('profileImage')?.dirty || editPfpForm.get('profileImage')?.touched)}">
-        <img *ngIf="imageUrl" class="container-chosen-image" [src]="imageUrl" alt="Selected Image">
-        <div *ngIf="editPfpForm.get('profileImage')?.invalid && (editPfpForm.get('profileImage')?.dirty || editPfpForm.get('profileImage')?.touched)"
-             class="alert">
-          <div *ngIf="editPfpForm.get('profileImage')?.errors?.['required']" class="error-message">Choose a valid profile picture.</div>
-        </div>
-        <button class="container-form-button" type="submit">Update</button>
-      </form>
+                 [ngClass]="{'valid': editPfpForm.get('profileImage')?.valid, 'invalid': editPfpForm.get('profileImage')?.invalid && (editPfpForm.get('profileImage')?.dirty || editPfpForm.get('profileImage')?.touched)}">
+          <img *ngIf="imageUrl" class="container-chosen-image" [src]="imageUrl" alt="Selected Image">
+          <div
+            *ngIf="editPfpForm.get('profileImage')?.invalid && (editPfpForm.get('profileImage')?.dirty || editPfpForm.get('profileImage')?.touched)"
+            class="alert">
+            <div *ngIf="editPfpForm.get('profileImage')?.errors?.['required']" class="error-message">Choose a valid
+              profile picture.
+            </div>
+          </div>
+          <button class="container-form-button" type="submit">Update</button>
+        </form>
+      </div>
+    </div>
+    <div class="social-section">
+      <span class="edit-social-header">
+        <h2>Edit Social Media</h2>
+      </span>
+      <div class="edit-profile-button-group">
+        <form [formGroup]="editSocialForm" (ngSubmit)="updateSocialMedia()" class="edit-pfp-form">
+          <label class="container-form-label">
+            <input class="container-form-input" formControlName="instagram" placeholder="Instagram" type="text">
+          </label>
+          <label class="container-form-label">
+            <input class="container-form-input" formControlName="facebook" placeholder="Facebook" type="text">
+          </label>
+          <label class="container-form-label">
+            <input class="container-form-input" formControlName="twitter" placeholder="Twitter" type="text">
+          </label>
+          <button class="container-form-button" type="submit">Update</button>
+        </form>
+      </div>
     </div>
   </section>
   <button class="deleteProfile" (click)="deleteProfile()">Delete Profile</button>

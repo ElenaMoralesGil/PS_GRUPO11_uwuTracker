@@ -362,6 +362,32 @@ class FirebaseUsers {
         }
     }
 
+    updateSocialMedia = async (userId, socialMedia) => {
+        try {
+            const userRef = doc(this.#db, this.#coll, userId);
+            const userDoc = await getDoc(userRef);
+
+            if (!userDoc.exists()) {
+                console.log('User not found');
+                return false;
+            }
+
+            const socialMediaFields = {
+                instagram: socialMedia[0],
+                facebook: socialMedia[1],
+                twitter: socialMedia[2]
+            };
+
+            await updateDoc(userRef, socialMediaFields);
+
+            console.log('Social media links updated successfully');
+            return true;
+        } catch (error) {
+            console.error('Error updating social media links:', error);
+            throw error;
+        }
+    }
+
 }
 
 

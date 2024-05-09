@@ -18,4 +18,5 @@ export default interface Users {
   updateProfilePicture: (uid: string, profilePicture: File ) => Promise<string>
   updatePassword: (userId: string, password:string) => Promise<boolean>
   deleteAccount:(userId: string) => Promise<boolean>
+  updateSocialMedia:(uid:string,socialMedia: []) => Promise<any[]>
 }

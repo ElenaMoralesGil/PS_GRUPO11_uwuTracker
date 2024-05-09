@@ -285,4 +285,37 @@ export class UsersService implements Users {
       });
   }
 
+  updateSocialMedia(userId: string, socialMedia: any[]): Promise<any[]> {
+    const [instagram, facebook, twitter] = socialMedia;
+    const url = `${this.path}/${userId}/social_media`;
+
+    const body = {
+      instagram,
+      facebook,
+      twitter
+    };
+
+    return fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body),
+      credentials: 'include'
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Failed to update social media');
+        }
+        return response.json();
+      })
+      .then(data => {
+        return data;
+      })
+      .catch(error => {
+        console.error('Error updating social media:', error);
+        throw error;
+      });
+  }
+
 }

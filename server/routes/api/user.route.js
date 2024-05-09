@@ -240,4 +240,20 @@ router.delete('/:userId/delete-account', async (req, res) => {
         res.status(500).json({ msg: 'Internal server error' });
     }
 });
+
+router.post('/:userId/social_media', async (req, res) => {
+    const { userId } = req.params;
+    const [instagram, facebook, twitter] = req.body;
+
+    try {
+        // Assuming Users.updateSocialMedia returns the updated social media links
+        const updatedSocialMedia = await Users.updateSocialMedia(userId, [instagram, facebook, twitter]);
+        res.status(200).json(updatedSocialMedia);
+    } catch (error) {
+        console.error('Error updating social media:', error);
+        res.status(500).json({ msg: 'Internal server error' });
+    }
+});
+
+
 module.exports = router

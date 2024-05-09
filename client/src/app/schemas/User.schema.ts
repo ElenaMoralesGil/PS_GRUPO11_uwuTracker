@@ -14,4 +14,5 @@ export default interface User {
   favorites: []
   userScores: Map<string,number>
   contentProgress:  Map<string,number>
+  socialMedia: []
 }
