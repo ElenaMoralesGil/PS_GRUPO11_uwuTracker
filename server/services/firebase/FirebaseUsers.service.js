@@ -322,10 +322,10 @@ class FirebaseUsers {
 
             const snapshot = await uploadBytes(storageRef, profileImage.buffer, metadata);
 
-            console.log("Upload successful:", snapshot);
+
 
             const downloadURL = await getDownloadURL(snapshot.ref);
-            console.log("Download URL:", downloadURL);
+
 
             const userRef = doc(this.#db, this.#coll, userId);
             await updateDoc(userRef, { profilePicture: downloadURL });
@@ -333,6 +333,19 @@ class FirebaseUsers {
             return downloadURL;
         } catch (error) {
             console.error('Error updating profile picture:', error);
+            throw error;
+        }
+    }
+
+    async updatePassword(userId, newPassword) {
+        try {
+
+            const userRef = doc(this.#db, this.#coll, userId);
+            await updateDoc(userRef, { password: newPassword });
+
+            return true;
+        } catch (error) {
+            console.error('Error updating password:', error);
             throw error;
         }
     }

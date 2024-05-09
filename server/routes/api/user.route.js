@@ -198,7 +198,7 @@ router.put('/:userId/modify-details', async (req, res) => {
 router.post('/:userId/update-profile-picture', upload.single('profilePicture'), async (req, res) => {
     const { userId } = req.params;
     const profilePicture = req.file;
-    console.log(profilePicture);
+
     try {
         const profilePictureUrl = await Users.updateProfilePicture(userId, profilePicture);
         res.status(200).json({ profilePictureUrl });
@@ -211,12 +211,13 @@ router.post('/:userId/update-profile-picture', upload.single('profilePicture'), 
 router.put('/:userId/update-password', async (req, res) => {
     const { userId } = req.params;
     const { password } = req.body;
-
+    const hashedPassword = bcrypt.hashSync(password, bcrypt.genSaltSync(Number(process.env.SALT)))
     try {
-        const updated = await Users.updatePassword(userId, password);
+        const updated = await Users.updatePassword(userId,hashedPassword);
         if (!updated) {
             return res.status(404).json({ msg: 'user-not-found' });
         }
+
         res.status(200).json({ msg: 'Password updated successfully' });
     } catch (error) {
         console.error('Error updating password:', error);
