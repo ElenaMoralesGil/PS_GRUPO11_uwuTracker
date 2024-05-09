@@ -25,7 +25,7 @@ import User from '../../schemas/User.schema';
 export class CommentsComponent implements OnInit {
 
   protected loggedInUser: Observable<User | null>
-  protected comments: Comment[] = []
+  protected comments: { comment: Comment, message: string }[] = []
   protected formMessage: 'NONE' | 'CONFIRM' | string = 'NONE'
 
   constructor(private route: ActivatedRoute, private Comments: CommentsService, Auth: AuthService) {
@@ -45,19 +45,19 @@ export class CommentsComponent implements OnInit {
           return
         }
 
-        const level0: Comment[] = [], level1: Comment[] = []
+        const level0: { comment: Comment, message: string }[] = [], level1: Comment[] = []
         data.forEach(elm => {
           switch (elm.level) {
             case 1: level1.push(elm); break
             case 0:
               elm.comments = []
-              level0.push(elm)
+              level0.push({ comment: elm, message: "" })
               break
           }
         })
 
         this.comments = level0
-        level1.forEach(elm => this.comments.find(elm_ => elm_.id == elm.father)?.comments?.push(elm))
+        level1.forEach(elm => this.comments.find(elm_ => elm_.comment.id == elm.father)?.comment.comments?.push(elm))
       })
   }
 
@@ -66,16 +66,16 @@ export class CommentsComponent implements OnInit {
   }
 
 
-  async commentFromForm(commentBody: string) {
+  async commentFromForm({ commentBody, updateId }: { commentBody: string, updateId?: string }) {
 
     const user = await this.loggedInUser.toPromise()
 
     if (!user) {
       this.formMessage = 'No estas logueado'
-      return
+      return false
     }
 
-    this.createComment({
+    return this.createComment({
       userId: (<User>user).id,
       username: (<User>user).username,
       contentId: this.route.parent?.snapshot.params[ 'id' ],
@@ -88,16 +88,66 @@ export class CommentsComponent implements OnInit {
   }
 
 
-  createComment = (comment: Comment): Promise<boolean> =>
-    this.Comments.create(comment).then(res => res.data).then(data => {
+  commentListHandler = ({ comment, updateId }: { comment: any, updateId?: string }) => {
+    return updateId ? this.updateComment({ id: updateId, data: comment })
+      : this.createComment(comment)
+  }
+
+
+  createComment = async (comment: Comment): Promise<boolean> => {
+
+    const user = await this.loggedInUser.toPromise()
+
+    if (!user) {
+      this.formMessage = 'No estas logueado'
+      return false
+    }
+
+    return this.Comments.create({
+      ...comment,
+      userId: (<User>user).id,
+      username: (<User>user).username,
+      contentId: this.route.parent?.snapshot.params[ 'id' ],
+    }).then(res => res.data).then(data => {
 
       if (!data) return false
 
       switch (data?.level) {
-        case 0: this.comments.unshift(data); break
-        case 1: this.comments.find(elm => elm.id == data.father)?.comments?.unshift(data); break
+        case 0: this.comments.unshift({ comment: { ...data, comments: [] }, message: "" }); break
+        case 1:
+          const index = this.comments.findIndex(elm => elm.comment.id == data.father)
+          if (index > -1) this.comments[ index ].message = "CONFIRM"
+          this.comments[ index ].comment.comments?.unshift(data);
+          this.comments[ index ] = { ...this.comments[ index ] }
+          break
       }
 
       return true
     })
+  }
+
+
+  updateComment = ({ id, data }: { id: string, data: any }) => {
+    this.Comments.update(id, data).then(res => {
+      if (res.code !== 200) return false
+
+      for (let i = 0; i < this.comments.length; i++) {
+        if (this.comments[ i ].comment.id == id) {
+          this.comments[ i ] = { ...this.comments[ i ], ...data }
+          return true
+        }
+
+        if (this.comments[ i ].comment.comments && (<Comment[]>this.comments[ i ].comment.comments).length > 0) {
+          for (let j = 0; j < (<Comment[]>this.comments[ i ].comment.comments).length; j++) {
+            if ((<Comment[]>this.comments[ i ].comment.comments)[ j ].id == id) {
+              (<Comment[]>this.comments[ i ].comment.comments)[ j ] = { ... (<Comment[]>this.comments[ i ].comment.comments)[ j ], ...data }
+              return true
+            }
+          }
+        }
+      }
+
+      return false
+    })
+  }
 }

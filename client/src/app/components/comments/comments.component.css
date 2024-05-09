@@ -15,7 +15,7 @@ app-comment-form {
 
 .comments-list {
     width: 90%;
-    max-height: 65rem;
+    max-height: 75rem;
     overflow: auto;
     display: flex;
     flex-direction: column;

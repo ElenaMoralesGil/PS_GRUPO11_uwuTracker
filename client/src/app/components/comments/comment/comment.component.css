@@ -37,6 +37,7 @@ button {
     background-color: var(--dull-blue);
     padding: .5rem 1rem;
     margin: 0 .5rem 0 .5rem;
+    color: var(--snow-color-mo);
 }
 
 button:hover {

@@ -4,7 +4,7 @@
 
     <div class="comments-list">
         <div *ngFor="let comment of comments">
-            <app-comment [comment]="comment"></app-comment>
+            <app-comment (commentHandler)="commentListHandler($event)" [comment]="comment"></app-comment>
         </div>
     </div>
 </div>
