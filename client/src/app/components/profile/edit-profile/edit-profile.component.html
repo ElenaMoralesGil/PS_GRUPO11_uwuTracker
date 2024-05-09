@@ -128,15 +128,33 @@
       </span>
       <div class="edit-profile-button-group">
         <form [formGroup]="editSocialForm" (ngSubmit)="updateSocialMedia()" class="edit-pfp-form">
+
           <label class="container-form-label">
             <input class="container-form-input" formControlName="instagram" placeholder="Instagram" type="text">
           </label>
+          <div *ngIf="editSocialForm.get('instagram')?.invalid && editSocialForm.get('instagram')?.touched"
+               class="alert">
+            <div *ngIf="editSocialForm.get('instagram')?.errors?.['pattern']" class="error-message">Invalid Instagram URL.
+            </div>
+          </div>
+
           <label class="container-form-label">
             <input class="container-form-input" formControlName="facebook" placeholder="Facebook" type="text">
           </label>
+          <div *ngIf="editSocialForm.get('facebook')?.invalid && editSocialForm.get('facebook')?.touched"
+               class="alert">
+            <div *ngIf="editSocialForm.get('facebook')?.errors?.['pattern']" class="error-message">Invalid Facebook URL.
+            </div>
+          </div>
+
           <label class="container-form-label">
             <input class="container-form-input" formControlName="twitter" placeholder="Twitter" type="text">
           </label>
+          <div *ngIf="editSocialForm.get('twitter')?.invalid && editSocialForm.get('twitter')?.touched"
+               class="alert">
+            <div *ngIf="editSocialForm.get('twitter')?.errors?.['pattern']" class="error-message">Invalid Twitter URL.
+            </div>
+          </div>
           <button class="container-form-button" type="submit">Update</button>
         </form>
       </div>
