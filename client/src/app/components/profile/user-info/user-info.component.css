@@ -1,17 +1,12 @@
-
-.user-profile-description::-webkit-scrollbar {
-  display: none;
-}
-
 .user-profile-info {
   width: 100%;
   height: auto;
   display: flex;
   align-items: center;
   justify-content: center;
-  background-color: #1D1D1F;
-  box-shadow: 0 0 15px 4px rgba(255, 255,255, 0.1);
-  gap:3%;
+  background-color: #1d1d1f;
+  box-shadow: 0 0 15px 4px rgba(255, 255, 255, 0.1);
+  gap: 3%;
   border-radius: 10px;
   padding: 2em;
 }
@@ -21,21 +16,18 @@
   max-height: 10em;
   max-width: 10em;
   min-width: 10em;
-  margin-left:3.5%;
+  margin-left: 3.5%;
   border-radius: 5em;
-
 }
 
 .user-profile-details {
   position: relative;
-  flex:10;
-
-  height:10em;
-  color:white;
+  flex: 10;
+  height: 10em;
+  color: white;
   text-align: left;
   display: flex;
   flex-flow: column nowrap;
-
   gap: 10%;
 }
 
@@ -46,42 +38,56 @@
 
 .user-profile-description {
   text-align: justify;
-  line-height:1.2em;
+  line-height: 1.2em;
   font-size: var(--medium-font-size);
   overflow: auto;
   max-height: 50%;
 }
 
 .user-profile-edit-btn {
-  flex:2;
+  flex: 2;
   background-color: #6e839a;
   color: #ffffff;
   border-radius: 5px;
   font-weight: bold;
-  font-size:var(--medium-font-size);
+  font-size: var(--medium-font-size);
   text-decoration: none;
   overflow: hidden;
   padding: 1em 0.5em;
   cursor: pointer;
   justify-content: center;
   align-items: center;
-  height:fit-content;
+  height: fit-content;
   margin: 2% 2%;
-
-}
-.user-profile-edit-btn{
-  flex:none;
-}
-.user-profile-edit-btn:hover {
-  background-color: #333333;
 }
 
-@media screen and (width < 70em) and (width >= 35em){
+.social-buttons {
+  display: flex;
+  gap: 5px;
+}
+
+.fa-square-instagram, .fa-square-facebook, .fa-square-twitter {
+  font-size: 2em;
+  cursor: pointer;
+}
+
+.socialIcon {
+  color: rgba(255, 255, 255, 0.6);
+  transition: all 0.3s ease;
+}
+
+.socialIcon.active {
+  color: #ffffff;
+}
+
+.socialIcon.opaque {
+  opacity: 0.3;
+}
+
+@media screen and (max-width: 70em) and (min-width: 35em) {
   .user-profile-info {
     flex-flow: row wrap;
     justify-content: center;
-
-
   }
 
   .user-profile-image {
@@ -96,24 +102,16 @@
     height: auto;
     margin-top: 1em;
   }
-  .user-profile-edit-btn{
-    flex:none;
-  }
 }
-@media screen and (width < 35rem) {
 
-  .user-profile-edit-btn{
-    flex:none;
-  }
-
+@media screen and (max-width: 35em) {
   .user-profile-details {
-    flex:10;
-    height:100%;
-    color:white;
+    flex: 10;
+    height: 100%;
+    color: white;
     text-align: left;
     display: flex;
     margin: 0 5%;
-
   }
 
   .user-profile-info {
@@ -122,16 +120,11 @@
 
   .user-profile-image {
     margin-top: 5%;
-    flex:30;
+    flex: 30;
     min-height: 10em;
     max-height: 10em;
     max-width: 10em;
     min-width: 10em;
-    margin-left:3.5%;
-
+    margin-left: 3.5%;
   }
-
 }
-
-
-

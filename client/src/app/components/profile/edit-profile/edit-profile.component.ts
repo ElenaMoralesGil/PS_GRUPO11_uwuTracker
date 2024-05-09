@@ -10,7 +10,7 @@ import {
 import { AuthService } from "../../../services/auth.service";
 import { UsersService } from "../../../services/users.service";
 import {NgClass, NgIf} from "@angular/common";
-import {ActivatedRoute, Route, Router} from "@angular/router";
+import { Router} from "@angular/router";
 
 
 @Component({
@@ -27,6 +27,7 @@ import {ActivatedRoute, Route, Router} from "@angular/router";
 export class EditProfileComponent  implements OnInit, OnChanges{
   @Output() editProfile = new EventEmitter();
   @Output() updateProfileDetails = new EventEmitter();
+  @Output() updateSocial = new EventEmitter();
   @Output() updatePfp = new EventEmitter();
   @Input() userId?: string;
   @Input() username?: string;
@@ -142,6 +143,7 @@ export class EditProfileComponent  implements OnInit, OnChanges{
       if (this.userId) {
         try {
           await this.usersService.updateSocialMedia(this.userId, socialMedia);
+          this.updateSocial.emit(socialMedia);
           this.closeEdit();
         } catch (error) {
           console.error('Error updating social media:', error);
