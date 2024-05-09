@@ -3,6 +3,8 @@
     padding: 1rem 1rem;
     border-radius: 5px;
     width: 100%;
+    height: fit-content;
+    margin: .5rem 0;
 }
 
 .username {

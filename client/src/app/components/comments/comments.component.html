@@ -1,7 +1,10 @@
 <div class="comments-container">
     @if (loggedInUser|async) { <app-comment-form [message]="formMessage" (click)="onFormClicked()"
         (commentTxt)="commentFromForm($event)"></app-comment-form>}
-    <div class="comments-list" *ngFor="let comment of comments">
-        <app-comment [comment]="comment"></app-comment>
+
+    <div class="comments-list">
+        <div *ngFor="let comment of comments">
+            <app-comment [comment]="comment"></app-comment>
+        </div>
     </div>
 </div>

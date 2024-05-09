@@ -6,7 +6,6 @@
     justify-content: center;
 
     margin-top: 1rem;
-    gap: .5rem
 }
 
 app-comment-form {
@@ -16,4 +15,9 @@ app-comment-form {
 
 .comments-list {
     width: 90%;
+    max-height: 65rem;
+    overflow: auto;
+    display: flex;
+    flex-direction: column;
+    gap: .3rem;
 }
