@@ -185,14 +185,12 @@ export class UsersService implements Users {
           throw new Error('Failed to check user existence');
         }
       })
-      .then(result => {
-        return result.checkUserexistence;
-      })
       .catch(err => {
         console.error('Error checking on list:', err);
         throw err;
       });
   }
+
   checkEmailexistence(email: string): Promise<boolean>{
     const url = `${this.path}/${email}/check-email-existence`;
     console.log('Requesting URL:', url);
@@ -204,14 +202,12 @@ export class UsersService implements Users {
           throw new Error('Failed to check email existence');
         }
       })
-      .then(result => {
-        return result.checkEmailexistence;
-      })
       .catch(err => {
         console.error('Error checking on list:', err);
         throw err;
       });
   }
+
   modifyUserDetails(uid: string, username: string, email: string, description: string): Promise<boolean> {
     const url = `${this.path}/${uid}/modify-details`;
     const body = JSON.stringify({ username, email, description });

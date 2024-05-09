@@ -257,7 +257,7 @@ class FirebaseUsers {
         const [usernameDocs] = await Promise.all([
             getDocs(usernameQuery),
         ]);
-
+        console.log("username exists", !usernameDocs.empty)
         return (!usernameDocs.empty)
     }
     checkEmailexistence = async (email) => {

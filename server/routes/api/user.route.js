@@ -161,7 +161,7 @@ router.get('/:username/check-user-existence', async (req, res) => {
 
     try {
         const exists = await Users.checkUserexistence(username);
-        res.status(200).json({ exists });
+        res.status(200).json(exists);
     } catch (error) {
         console.error('Error checking user existence:', error);
         res.status(500).json({ msg: 'Internal server error' });
@@ -173,12 +173,13 @@ router.get('/:email/check-email-existence', async (req, res) => {
 
     try {
         const exists = await Users.checkEmailexistence(email);
-        res.status(200).json({ exists });
+        res.status(200).json(exists);
     } catch (error) {
         console.error('Error checking email existence:', error);
         res.status(500).json({ msg: 'Internal server error' });
     }
 });
+
 router.put('/:userId/modify-details', async (req, res) => {
     const { userId } = req.params;
     const { username, email, description } = req.body;

@@ -1,4 +1,4 @@
-import {Component, EventEmitter, Input, Output} from '@angular/core';
+import {Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges} from '@angular/core';
 import {
   FormBuilder,
   FormGroup,
@@ -24,7 +24,7 @@ import {ActivatedRoute, Route, Router} from "@angular/router";
   ],
   styleUrl: './edit-profile.component.css'
 })
-export class EditProfileComponent {
+export class EditProfileComponent  implements OnInit, OnChanges{
   @Output() editProfile = new EventEmitter();
   @Output() updateProfileDetails = new EventEmitter();
   @Output() updatePfp = new EventEmitter();
@@ -33,30 +33,46 @@ export class EditProfileComponent {
   @Input() email?: string;
   @Input() description?: string;
 
+  // @ts-ignore
   editDetailsForm: FormGroup;
+  // @ts-ignore
   editPasswordForm: FormGroup;
+  // @ts-ignore
   editPfpForm: FormGroup;
   profileImage: File | null = null;
   imageUrl: string | null = null;
+
 
   constructor(
     private formBuilder: FormBuilder,
     private authService: AuthService,
     private usersService: UsersService,
     private router: Router
-  ) {
+  ) {}
+
+  ngOnInit() {
+    this.initializeForms();
+  }
+
+  ngOnChanges(changes: SimpleChanges) {
+    if (changes['username'] || changes['email'] || changes['description']) {
+      this.initializeForms();
+    }
+  }
+
+  initializeForms() {
     this.editDetailsForm = this.formBuilder.group({
-      username: ['', {
+      username: [this.username, {
         validators: [Validators.required, Validators.minLength(2), Validators.maxLength(10)],
         asyncValidators: [this.checkUsernameExists.bind(this)],
         updateOn: 'blur'
       }],
-      email: ['', {
+      email: [this.email, {
         validators: [Validators.required, Validators.email],
         asyncValidators: [this.checkEmailExists.bind(this)],
         updateOn: 'blur'
       }],
-      description: ['', [Validators.minLength(10), Validators.maxLength(500)]]
+      description: [this.description, [Validators.minLength(10), Validators.maxLength(500)]]
     });
 
     this.editPasswordForm = this.formBuilder.group({
@@ -82,25 +98,37 @@ export class EditProfileComponent {
     }
 
   }
-
+  getEditDetailsFormErrors(controlName: string) {
+    return this.getControlErrors(this.editDetailsForm, controlName);
+  }
+  getControlErrors(form: FormGroup, controlName: string) {
+    const control = form.get(controlName);
+    return control ? control.errors : null;
+  }
   async submitForm() {
-
-    if (this.editDetailsForm.valid) {
-
-      const { username, email, description } = this.editDetailsForm.value;
-
-      if(this.userId) {
-        this.usersService.modifyUserDetails(this.userId, username, email, description).then( r => {
-          if (r) {
-            this.updateProfileDetails.emit({username,email,description} )
-            this.closeEdit()
-          }
-        })
+    if(this.editDetailsForm) {
+      console.log( "usernameErrors",this.getEditDetailsFormErrors('username'));
+      console.log( "emailErrors", this.getEditDetailsFormErrors('email'));
+      console.log("descriptionErrors", this.getEditDetailsFormErrors('description'));
+      console.log('Form value:', this.editDetailsForm.value);
+      console.log(this.editDetailsForm.status);
+      if (this.editDetailsForm.valid) {
+        let {username, email, description} = this.editDetailsForm.value;
+        if (description === undefined) description = ""
+        if (this.userId) {
+          this.usersService.modifyUserDetails(this.userId, username, email, description).then(r => {
+            if (r) {
+              this.updateProfileDetails.emit({username, email, description})
+              this.closeEdit()
+            }
+          })
+        }
       }
     }
   }
 
   async updatePassword() {
+    if(this.editPasswordForm)
     if (this.editPasswordForm.valid) {
       const password = this.editPasswordForm.get('password')?.value;
       if(this.userId) await this.usersService.updatePassword(this.userId, password). then( r => this.closeEdit() );
@@ -119,36 +147,47 @@ export class EditProfileComponent {
 
   async checkUsernameExists(control: AbstractControl): Promise<ValidationErrors | null> {
     const username = control.value;
-
+    console.log("username", username, "currentUsername", this.username)
     if (username === this.username) {
       return null;
     }
 
-    const exists = await this.usersService.checkUserexistence(username);
+    try {
+      const exists = await this.usersService.checkUserexistence(username);
 
-    if (exists) {
+      if (exists) {
+        return { 'usernameExists': true };
+      } else {
+        return null;
+      }
+    } catch (error) {
+      console.error('Error checking username existence:', error);
       return { 'usernameExists': true };
-    } else {
-      return null;
     }
   }
 
   async checkEmailExists(control: AbstractControl): Promise<ValidationErrors | null> {
     const email = control.value;
 
-
     if (email === this.email) {
       return null;
     }
 
-    const exists = await this.usersService.checkEmailexistence(email);
+    try {
+      const exists = await this.usersService.checkEmailexistence(email);
 
-    if (exists) {
+      if (exists) {
+        return { 'emailExists': true };
+      } else {
+        return null;
+      }
+    } catch (error) {
+      console.error('Error checking email existence:', error);
       return { 'emailExists': true };
-    } else {
-      return null;
     }
   }
+
+
 
   onProfileImageChange(event: Event) {
     const inputElement = event.target as HTMLInputElement;
@@ -158,10 +197,12 @@ export class EditProfileComponent {
     }
   }
   async updateProfilePicture() {
-    if (this.editPfpForm.valid) {
+
+    if (this.editPfpForm && this.editPfpForm.valid) {
+
       const formData = new FormData();
       formData.append('profileImage', this.profileImage as Blob);
-      console.log("profileImg", this.profileImage)
+
       if(this.userId && this.profileImage) {
         await this.usersService.updateProfilePicture(this.userId, this.profileImage).then( r => {
           if (r) {
@@ -173,9 +214,9 @@ export class EditProfileComponent {
     }
   }
 
-
-
   closeEdit() {
     this.editProfile.emit();
   }
+
+  protected readonly FormGroup = FormGroup;
 }
