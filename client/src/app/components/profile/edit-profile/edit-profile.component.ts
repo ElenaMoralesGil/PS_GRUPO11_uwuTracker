@@ -74,8 +74,10 @@ export class EditProfileComponent {
   deleteProfile() {
     if (confirm(`Do you want to delete your account?`)) {
       if(this.userId) {
-        console.log(this.userId)
-        this.usersService.deleteAccount(this.userId).then(r => this.router.navigate(['']));
+        this.usersService.deleteAccount(this.userId).then(r => {
+          this.router.navigate(['']);
+          this.authService.logout();
+        } );
       }
     }
 

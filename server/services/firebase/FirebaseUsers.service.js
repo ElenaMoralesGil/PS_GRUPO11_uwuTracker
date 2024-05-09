@@ -351,10 +351,6 @@ class FirebaseUsers {
     }
 
 
-
-
-
-
     async deleteAccount(userId) {
         try {
 
