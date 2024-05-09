@@ -174,38 +174,38 @@ export class UsersService implements Users {
   }
 
 
-  checkUserExistance(username: string): Promise<boolean> {
-    const url = `${this.path}/${username}/check-user-existance`;
+  checkUserexistence(username: string): Promise<boolean> {
+    const url = `${this.path}/${username}/check-user-existence`;
     console.log('Requesting URL:', url);
     return fetch(url, {method: 'GET', credentials: 'include'})
       .then(res => {
         if (res.status === 200) {
           return res.json();
         } else {
-          throw new Error('Failed to check user existance');
+          throw new Error('Failed to check user existence');
         }
       })
       .then(result => {
-        return result.checkUserExistance;
+        return result.checkUserexistence;
       })
       .catch(err => {
         console.error('Error checking on list:', err);
         throw err;
       });
   }
-  checkEmailExistance(email: string): Promise<boolean>{
-    const url = `${this.path}/${email}/check-email-existance`;
+  checkEmailexistence(email: string): Promise<boolean>{
+    const url = `${this.path}/${email}/check-email-existence`;
     console.log('Requesting URL:', url);
     return fetch(url, {method: 'GET', credentials: 'include'})
       .then(res => {
         if (res.status === 200) {
           return res.json();
         } else {
-          throw new Error('Failed to check email existance');
+          throw new Error('Failed to check email existence');
         }
       })
       .then(result => {
-        return result.checkEmailExistance;
+        return result.checkEmailexistence;
       })
       .catch(err => {
         console.error('Error checking on list:', err);
@@ -231,29 +231,29 @@ export class UsersService implements Users {
       });
   }
 
-  updateProfilePicture(uid: string, profilePicture: File): Promise<string> {
+  async updateProfilePicture(uid: string, profilePicture: File) {
     const url = `${this.path}/${uid}/update-profile-picture`;
 
     const formData = new FormData();
-    formData.append('profilePicture', profilePicture);
+    formData.append('profilePicture', profilePicture); // Add file to formData
 
-    return fetch(url, {
-      method: 'POST',
-      body: formData,
-      credentials: 'include'
-    })
-      .then(response => {
-        if (response.ok) {
-          return response.json();
-        } else {
-          throw new Error('Failed to update profile picture');
-        }
-      })
-      .then(data => data.profilePictureUrl)
-      .catch(error => {
-        console.error('Error updating profile picture:', error);
-        throw error;
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        body: formData,
+        credentials: 'include'
       });
+
+      if (!response.ok) {
+        throw new Error('Failed to update profile picture');
+      }
+
+      const data = await response.json();
+      return data.profilePictureUrl;
+    } catch (error) {
+      console.error('Error updating profile picture:', error);
+      throw error;
+    }
   }
 
   updatePassword(userId: string, password: string): Promise<boolean> {

@@ -122,7 +122,7 @@ export class EditProfileComponent {
       return null;
     }
 
-    const exists = await this.usersService.checkUserExistance(username);
+    const exists = await this.usersService.checkUserexistence(username);
 
     if (exists) {
       return { 'usernameExists': true };
@@ -139,7 +139,7 @@ export class EditProfileComponent {
       return null;
     }
 
-    const exists = await this.usersService.checkEmailExistance(email);
+    const exists = await this.usersService.checkEmailexistence(email);
 
     if (exists) {
       return { 'emailExists': true };
@@ -159,13 +159,15 @@ export class EditProfileComponent {
     if (this.editPfpForm.valid) {
       const formData = new FormData();
       formData.append('profileImage', this.profileImage as Blob);
-
-      if(this.userId && this.profileImage) await this.usersService.updateProfilePicture(this.userId, this.profileImage).then( r => {
-        if (r) {
-          this.updatePfp.emit(r)
-          this.closeEdit()
-        }
-      })
+      console.log("profileImg", this.profileImage)
+      if(this.userId && this.profileImage) {
+        await this.usersService.updateProfilePicture(this.userId, this.profileImage).then( r => {
+          if (r) {
+            this.updatePfp.emit(r)
+            this.closeEdit()
+          }
+        })
+      }
     }
   }
 

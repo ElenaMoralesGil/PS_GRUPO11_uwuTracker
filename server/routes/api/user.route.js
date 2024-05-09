@@ -3,6 +3,9 @@ const router = require('express').Router()
 const User = require('../../schemas/User.schema')
 const Users = require('../../models/Users.model')
 
+const multer = require('multer');
+const upload = multer();
+
 const bcrypt = require('bcrypt')
 const { query } = require('express')
 const emailReEx = /^ (([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{ 1, 3 }\.[0-9]{ 1, 3 }\.[0-9]{ 1, 3 }\.[0-9]{ 1, 3 }\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{ 2,}))$/
@@ -157,7 +160,7 @@ router.get('/:username/check-user-existence', async (req, res) => {
     const { username } = req.params;
 
     try {
-        const exists = await Users.checkUserExistance(username);
+        const exists = await Users.checkUserexistence(username);
         res.status(200).json({ exists });
     } catch (error) {
         console.error('Error checking user existence:', error);
@@ -169,7 +172,7 @@ router.get('/:email/check-email-existence', async (req, res) => {
     const { email } = req.params;
 
     try {
-        const exists = await Users.checkEmailExistance(email);
+        const exists = await Users.checkEmailexistence(email);
         res.status(200).json({ exists });
     } catch (error) {
         console.error('Error checking email existence:', error);
@@ -192,10 +195,10 @@ router.put('/:userId/modify-details', async (req, res) => {
     }
 });
 
-router.post('/:userId/update-profile-picture', async (req, res) => {
+router.post('/:userId/update-profile-picture', upload.single('profilePicture'), async (req, res) => {
     const { userId } = req.params;
     const profilePicture = req.file;
-
+    console.log(profilePicture);
     try {
         const profilePictureUrl = await Users.updateProfilePicture(userId, profilePicture);
         res.status(200).json({ profilePictureUrl });

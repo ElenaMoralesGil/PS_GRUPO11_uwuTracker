@@ -4,14 +4,14 @@ const  { deleteDoc, setDoc, Firestore, doc, arrayUnion, getDoc, addDoc, query,ge
 const {  ref, uploadBytes, getDownloadURL, FirebaseStorage} = require('firebase/storage');
 
 
+
 class FirebaseUsers {
     #fss
     #collection
-    #storage
+
     constructor() {
         this.#fss = require('./firebase.service')
         this.#collection = 'Users'
-        this.#storage =  FirebaseStorage
     }
 
     get #db() {
@@ -21,7 +21,9 @@ class FirebaseUsers {
     get #coll() {
         return this.#collection
     }
-
+    get #storage() {
+        return this.#fss.storage
+    }
     findById = id => getDoc(doc(this.#db, this.#coll, `${id}`)).then(doc => doc.data()).then(data => data ? User.parse(data) : null)
 
     find = (queryObj, opt = 'OR') => {
@@ -249,7 +251,7 @@ class FirebaseUsers {
     }
 
 
-    checkUserExistance = async (username) => {
+    checkUserexistence = async (username) => {
         const usernameQuery = query(collection(this.#db, this.#coll), where("username", "==", username));
 
         const [usernameDocs] = await Promise.all([
@@ -258,7 +260,7 @@ class FirebaseUsers {
 
         return (!usernameDocs.empty)
     }
-    checkEmailExistence = async (email) => {
+    checkEmailexistence = async (email) => {
 
         const emailQuery = query(collection(this.#db, this.#coll), where("email", "==", email));
 
@@ -306,17 +308,24 @@ class FirebaseUsers {
             }
         }
         return true;
-    }
+}
     async updateProfilePicture(userId, profileImage) {
         if (!profileImage) return Promise.reject(new Error('No image provided'));
 
         try {
-
             const storageRef = ref(this.#storage, `profilePictures/${userId}`);
 
-            const snapshot = await uploadBytes(storageRef, profileImage);
+            // Manually set the content type of the uploaded image
+            const metadata = {
+                contentType: 'image/png'
+            };
+
+            const snapshot = await uploadBytes(storageRef, profileImage.buffer, metadata);
+
+            console.log("Upload successful:", snapshot);
 
             const downloadURL = await getDownloadURL(snapshot.ref);
+            console.log("Download URL:", downloadURL);
 
             const userRef = doc(this.#db, this.#coll, userId);
             await updateDoc(userRef, { profilePicture: downloadURL });
@@ -327,6 +336,11 @@ class FirebaseUsers {
             throw error;
         }
     }
+
+
+
+
+
 
     async deleteAccount(userId) {
         try {
