@@ -51,7 +51,7 @@ export class CommentsService implements Comments {
 
   update: (id: string, props: Comment) => Promise<{ data?: Comment, error?: string, msg?: string, code: number }> = (id, props) => {
     delete props.comments
-    return fetch(`${this.path} /${id}`, { method: 'PUT', credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(props) })
+    return fetch(`${this.path}/${id}`, { method: 'PUT', credentials: 'include', headers: { 'Content-Type': 'application/json' }, body: JSON.stringify(props) })
       .then(async res => ({ code: res.status, ...(await res.json()) }))
   }
 }

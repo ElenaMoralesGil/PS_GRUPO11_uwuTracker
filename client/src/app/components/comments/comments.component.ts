@@ -88,9 +88,9 @@ export class CommentsComponent implements OnInit {
   }
 
 
-  commentListHandler = ({ comment, updateId }: { comment: any, updateId?: string }) => {
-    return updateId ? this.updateComment({ id: updateId, data: comment })
-      : this.createComment(comment)
+  commentListHandler = ({ commentBody, updateId }: { commentBody: any, updateId?: string }) => {
+    return updateId ? this.updateComment({ id: updateId, data: { body: commentBody } })
+      : this.createComment(commentBody)
   }
 
 
@@ -128,12 +128,15 @@ export class CommentsComponent implements OnInit {
 
 
   updateComment = ({ id, data }: { id: string, data: any }) => {
-    this.Comments.update(id, data).then(res => {
+
+    this.Comments.update(id, { ...data }).then(res => {
+
       if (res.code !== 200) return false
 
       for (let i = 0; i < this.comments.length; i++) {
         if (this.comments[ i ].comment.id == id) {
-          this.comments[ i ] = { ...this.comments[ i ], ...data }
+          this.comments[ i ].comment = { ...this.comments[ i ].comment, ...data }
+          this.comments[ i ] = { ...this.comments[ i ] }
           return true
         }
 

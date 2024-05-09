@@ -18,7 +18,7 @@ import { CommentFormComponent } from "../comment-form/comment-form.component";
 })
 export class CommentComponent implements OnChanges {
   @Input({ required: true }) comment!: { comment: Comment, message: string }
-  @Output() commentHandler = new EventEmitter<{ comment: any, updateId?: string }>()
+  @Output() commentHandler = new EventEmitter<{ commentBody: any, updateId?: string }>()
 
   protected loggedInUser: Observable<User | null>
   protected mode: 'show' | 'edit' | 'create' = 'show'
@@ -28,11 +28,14 @@ export class CommentComponent implements OnChanges {
   }
   ngOnChanges(changes: SimpleChanges): void {
     if (this.comment.message == 'CONFIRM') this.mode = 'show'
-    console.log(this.comment)
   }
 
   formHandler = ({ commentBody, updateId }: { commentBody: string, updateId?: string }) => {
-    this.commentHandler.emit({ comment: { father: this.comment.comment.id, level: 1, body: commentBody }, updateId })
+    if (updateId) {
+      this.commentHandler.emit({ commentBody, updateId })
+    } else {
+      this.commentHandler.emit({ commentBody: { father: this.comment.comment.id, level: 1, body: commentBody } })
+    }
   }
 
   createButton(e: Event) {

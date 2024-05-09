@@ -13,7 +13,7 @@
 
         @if(loggedInUser|async) {<div class="buttons-group">
             @if ((loggedInUser | async)?.id == comment.comment.userId) {
-            <button (click)="editButton($event)">Editar</button>}
+            @if (mode != 'edit') {<button (click)="editButton($event)">Editar</button>}}
             @if(comment.comment.level == 0){<button (click)="createButton($event)">Comentar</button>}
         </div>
         }
@@ -25,7 +25,7 @@
 
     @if (comment.comment ) {
     <div class="comments-list" *ngFor="let comment of comment.comment.comments">
-        <app-comment [comment]="{comment, message: ''}"></app-comment>
+        <app-comment [comment]="{comment, message: ''}" (commentHandler)="formHandler($event)"></app-comment>
     </div>
     }
 

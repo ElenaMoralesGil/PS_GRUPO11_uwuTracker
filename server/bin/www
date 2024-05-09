@@ -3,14 +3,14 @@
 const server = require('../app')
 process.sessions = process.sessions || {}
 
-server.use((req, res, next) => res.json({ status: 'ko', msg: 'not-found' }))
+server.use((req, res, next) => res.status(500).json({ status: 'ko', msg: 'not-found' }))
 
 server.use((err, req, res, next) => {
     // always og the error
     console.log('ERROR:', req.method, req.path, err)
 
     // only render if the error ocurred before sending the response
-    if (!res.headersSend) res.json({ status: 'ko', msg: 'error' })
+    if (!res.headersSend) res.status(500).json({ status: 'ko', msg: 'error' })
 })
 
 

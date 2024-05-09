@@ -53,7 +53,7 @@ class FirebaseComments {
 
     update = async (id, props) => {
         try {
-            await updateDoc(doc(this.#db, this.#coll, id), props.get())
+            await updateDoc(doc(this.#db, this.#coll, id), props)
             return true
         } catch (err) {
             return false

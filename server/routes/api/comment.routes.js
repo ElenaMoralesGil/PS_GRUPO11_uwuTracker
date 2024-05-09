@@ -66,7 +66,7 @@ router.put('/:id', async (req, res) => {
     if (!comment) return res.status(404).json({ msg: 'not-found' })
     if (comment.userId != req.user.id) return res.status(300).json({ msg: 'not-user-creator' })
 
-    Comments.update(req.params.id, Comment.parse(req.body)).then(sucess => {
+    Comments.update(req.params.id, req.body).then(sucess => {
         if (!sucess) return res.status(300).json({ msg: 'does-not-exits' })
         return res.status(200).json({ msg: 'updated-suscessfully' })
     })
