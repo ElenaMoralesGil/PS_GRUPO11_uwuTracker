@@ -137,16 +137,20 @@ export class EditProfileComponent  implements OnInit, OnChanges{
   async updateSocialMedia() {
     if (this.editSocialForm && this.editSocialForm.valid) {
       const { instagram, facebook, twitter } = this.editSocialForm.value;
-      const socialMedia = { instagram, facebook, twitter };
+      const socialMedia = [instagram, facebook, twitter];
 
       if (this.userId) {
-        await this.usersService.updateSocialMedia(this.userId, <any>socialMedia).then(r => {
-
+        try {
+          await this.usersService.updateSocialMedia(this.userId, socialMedia);
           this.closeEdit();
-        });
+        } catch (error) {
+          console.error('Error updating social media:', error);
+
+        }
       }
     }
   }
+
 
   async updatePassword() {
     if(this.editPasswordForm)

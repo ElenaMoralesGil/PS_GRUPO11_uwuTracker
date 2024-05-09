@@ -243,7 +243,7 @@ router.delete('/:userId/delete-account', async (req, res) => {
 
 router.post('/:userId/social_media', async (req, res) => {
     const { userId } = req.params;
-    const [instagram, facebook, twitter] = req.body;
+    const { instagram, facebook, twitter } = req.body; // Destructure fields directly
 
     try {
         // Assuming Users.updateSocialMedia returns the updated social media links

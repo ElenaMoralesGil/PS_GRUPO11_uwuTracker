@@ -285,8 +285,8 @@ export class UsersService implements Users {
       });
   }
 
-  updateSocialMedia(userId: string, socialMedia: any[]): Promise<any[]> {
-    const [instagram, facebook, twitter] = socialMedia;
+  async updateSocialMedia(userId: string, socialMediaUrls: string[]): Promise<any[]> {
+    const [instagram, facebook, twitter] = socialMediaUrls;
     const url = `${this.path}/${userId}/social_media`;
 
     const body = {
@@ -309,13 +309,11 @@ export class UsersService implements Users {
         }
         return response.json();
       })
-      .then(data => {
-        return data;
-      })
       .catch(error => {
         console.error('Error updating social media:', error);
         throw error;
       });
   }
+
 
 }

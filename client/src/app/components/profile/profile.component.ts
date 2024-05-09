@@ -38,7 +38,8 @@ export class ProfileComponent implements OnInit {
     planToWatch: [],
     favorites: [],
     userScores: new Map<string, number>(),
-    contentProgress:new Map<string, number>()
+    contentProgress:new Map<string, number>(),
+    socialMedia:[]
   };
   username: string = "";
   accountId?: string;

@@ -372,13 +372,7 @@ class FirebaseUsers {
                 return false;
             }
 
-            const socialMediaFields = {
-                instagram: socialMedia[0],
-                facebook: socialMedia[1],
-                twitter: socialMedia[2]
-            };
-
-            await updateDoc(userRef, socialMediaFields);
+            await updateDoc(userRef, { socialMedia });
 
             console.log('Social media links updated successfully');
             return true;
@@ -387,6 +381,8 @@ class FirebaseUsers {
             throw error;
         }
     }
+
+
 
 }
 
