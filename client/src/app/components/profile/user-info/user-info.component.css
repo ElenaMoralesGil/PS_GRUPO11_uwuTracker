@@ -18,6 +18,7 @@
   min-width: 10em;
   margin-left: 3.5%;
   border-radius: 5em;
+  transition: transform 0.3s ease;
 }
 
 .user-profile-details {
@@ -59,9 +60,11 @@
   align-items: center;
   height: fit-content;
   margin: 2% 2%;
+  transition: background-color 0.3s ease;
 }
 
 .social-buttons {
+  margin-top: 5%;
   display: flex;
   gap: 5px;
 }
@@ -76,10 +79,18 @@
   transition: all 0.3s ease;
 }
 
+
 .socialIcon.active {
   color: #ffffff;
+  transform: scale(1.05);
 }
 
+.socialIcon.active:hover {
+  transform: scale(1.2);
+}
+.user-profile-edit-btn:hover {
+  background-color: rgb(111, 143, 155);
+}
 .socialIcon.opaque {
   opacity: 0.3;
 }
@@ -103,7 +114,9 @@
     margin-top: 1em;
   }
 }
-
+.user-profile-description::-webkit-scrollbar {
+  display: none;
+}
 @media screen and (max-width: 35em) {
   .user-profile-details {
     flex: 10;
