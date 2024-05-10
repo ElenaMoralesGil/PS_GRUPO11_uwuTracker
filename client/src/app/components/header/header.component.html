@@ -13,7 +13,8 @@
       <button id="signUpButton" name="Sign Up" (click)="showSignUp()">Sign Up</button>
     } @else {
       <div class="user-profile">
-        <img class="profilePic clickable" src="{{(userLogged$|async)?.profilePicture}}"  routerLink="/profile/{{(userLogged$|async)?.username}}/watching" alt="">
+        <img class="profilePic clickable" src="{{(userLogged$|async)?.profilePicture}}"
+             routerLink="/profile/{{(userLogged$|async)?.username}}/watching" alt="">
       </div>
       <button id="signOutButton" name="Sign Out" (click)="logout()">Sign Out</button>
     }

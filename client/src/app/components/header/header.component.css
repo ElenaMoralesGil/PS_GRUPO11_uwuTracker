@@ -15,8 +15,9 @@
   height: 1.5cm;
 }
 .profilePic {
-  min-height: 1.5cm;
-  border-radius: 50%;
+  min-height: 1cm;
+  max-heigght:1cm;
+  border-radius: 20%;
 }
 
 .user-profile {
@@ -26,6 +27,7 @@
 .top-header-content a {
   text-decoration: none;
   color: inherit;
+  font-size: 1.3em;
 }
 
 .top-header-content nav {
