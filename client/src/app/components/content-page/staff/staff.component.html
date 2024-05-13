@@ -1,11 +1,27 @@
-<article class="anime-character">
-    <div class="anime-character-container">
-        <div class="anime-character-container" *ngFor="let staff of staff2">
-            <a class="character-description">{{ staff.description }}</a>
-            <div class="anime-character-name-image">
-                <a class="character-name">{{ staff.name }}</a>
-                <img alt="" title="" [src]="staff.img">
-            </div>
-        </div>
+
+<article class="anime-character-container" *ngFor="let item of staff2">
+    
+    <a class="character-description">{{ item.positions.join(', ') }}</a>
+    <div class="anime-character-name-image">
+        <a class="character-name">{{ item.name }}</a>
+        <img alt="" title="" [src]="item.img">
     </div>
 </article>
+
+
+<!--
+<article class="anime-character-container" *ngFor="let item of staff">
+    <div *ngFor="let actor of item.voice_actors">
+        <ng-container *ngIf="actor.language === 'English'">
+            <p>Voice of:</p>
+            <a class="character-description">{{ item.character.name }}</a>
+            <img class="img-character" alt="" title="" [src]="item.character.images.jpg.image_url">
+            <div class="anime-character-name-image">
+                <a class="character-name">{{ actor.person.name }}</a>
+                <img alt="" title="" [src]="actor.person.images.jpg.image_url">
+            </div>
+        </ng-container>
+    </div>
+</article>
+-->
+

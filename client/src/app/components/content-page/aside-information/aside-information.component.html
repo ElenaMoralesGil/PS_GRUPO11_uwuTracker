@@ -1,28 +1,13 @@
 <aside class="aside-anime-information">
     <section class="anime-info-container">
-        <article *ngFor="let item1 of infoTitle; let i = index" class="anime-data-title">
-            <article *ngFor="let item2 of information; " class="anime-data">
-                    <p *ngIf=" i===0 && !isUndefined(item2.likes)"> {{item1}}</p>
-                    <p *ngIf="i===0 && !isUndefined(item2.likes)"> {{item2.likes}}</p>
-                    <p *ngIf="i===1 && !isUndefined(item2.type)"> {{item1}}</p>
-                    <p *ngIf="i===1 && !isUndefined(item2.type)"> {{item2.type}}</p>
-                    <p *ngIf="i===2 && !isUndefined(item2.source)"> {{item1}}</p>
-                    <p *ngIf="i===2 && !isUndefined(item2.source)"> {{item2.source}}</p>
-                    <p *ngIf="i===3 && !isUndefined(item2.episodesNumber)"> {{item1}}</p>
-                    <p *ngIf="i===3 && !isUndefined(item2.episodesNumber)"> {{item2.episodesNumber}}</p>
-                    <p *ngIf="i===4 && !isUndefined(item2.duration)"> {{item1}}</p>
-                    <p *ngIf="i===4 && !isUndefined(item2.duration)"> {{item2.duration}}</p>
-                    <p *ngIf="i===5 && !isUndefined(item2.status)"> {{item1}}</p>
-                    <p *ngIf="i===5 && !isUndefined(item2.status)"> {{item2.status}}</p>
-                    <p *ngIf="i===6 && !isUndefined(item2.season)"> {{item1}}</p>
-                    <p *ngIf="i===6 && !isUndefined(item2.season)"> {{item2.season}}</p>
-                    <p *ngIf="i===7 && !isUndefined(item2.year)"> {{item1}}</p>
-                    <p *ngIf="i===7 && !isUndefined(item2.year)"> {{item2.year}}</p>
-                    <p *ngIf="i===8 && !isUndefined(item2.studios)"> {{item1}}</p>
-                    <p *ngIf="i===8 && !isUndefined(item2.studios)"> {{item2.studios}}</p>
-                    <p *ngIf="i===9 && !isUndefined(item2.genres)"> {{item1}}</p>
-                    <p *ngIf="i===9 && !isUndefined(item2.genres)"> {{item2.genres}}</p>
-            </article>
+     
+        <article *ngFor="let elm of info;"  class="anime-data-title">
+        <article class="anime-data">
+
+            <p>{{elm[0]}}</p>
+            <p>{{elm[1]}}</p>
         </article>
+        </article>
+
     </section>
 </aside>

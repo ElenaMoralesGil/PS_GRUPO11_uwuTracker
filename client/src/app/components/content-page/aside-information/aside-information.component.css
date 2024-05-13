@@ -31,7 +31,7 @@
 }
 
 .anime-data {
-    margin-bottom: 15.35%;
+    padding: 1.2rem;
 }
 
 .anime-data  p:first-child {
@@ -67,44 +67,19 @@ p {
 /* Tablet */
 @media only screen and (max-width: 1200px) {
     .aside-anime-information {
-        display: flex;
         flex-direction: row; 
-        justify-content: center;
-        justify-content: space-between;
-        width: auto;
         margin: 1% 1% 1% 1%;
-        padding: 30px;
         overflow-x: auto;
     }
-    
-    
     .anime-info-container {
         flex-flow: row nowrap;
-        justify-content: center;
         width: 100%;
-        height: 15vh;
-        min-height: 6.75em;
         overflow: auto;
-        gap: 20%;
+        gap: 10%;
     }
-    
-    .anime-info-container .anime-data {
-        align-items: center; 
-        text-align: center;
-        justify-content: center;
-        margin: 1% 1% 1% 3%;
+    .anime-info-container article{
+        margin-left: 1.5rem;
     }
-
-    .aside-main-content-container .aside-anime-information {
-        flex: 2;
-        box-sizing: border-box;
-        height: auto;
-    }
-    
-
-    
-
-    
 }
 
 /* Phones */

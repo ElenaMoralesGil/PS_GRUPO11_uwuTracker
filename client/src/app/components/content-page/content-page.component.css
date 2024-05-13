@@ -44,8 +44,8 @@ body {
 
 .navbar-main-content {
   box-sizing: border-box;
-  width: 75%;
   height: 100%;
+  width: 100%;
   overflow: auto;
   margin: 1% 8% 1% 1%;
 }
@@ -54,13 +54,22 @@ body {
 /* Tablet */
 @media only screen and (max-width: 1200px) {
     .aside-main-content-container {
-    flex-flow: column nowrap;
-    gap: 2rem;
+      flex-flow: column nowrap;
+      width: auto;
+    }
+    .aside-main-content-container .aside-anime-information {
+      box-sizing: border-box;
+      width: 100%;
+    }
+    .navbar-main-content {
+      width: auto;
+      margin: 1% 4% 1% 4%;
+    }
 }
 
 
 
-}
+
 
 /* Phones */
 @media only screen and (max-width: 750px) {

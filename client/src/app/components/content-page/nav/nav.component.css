@@ -37,7 +37,7 @@
 }
 
 .contenedor {
-    max-height: calc(252vh - 53px); 
+    max-height: calc(172vh - 53px); 
     overflow-y: auto; 
   
 
@@ -50,11 +50,10 @@
         display: flex;
         box-sizing: border-box;
         width:auto;
-        margin: 1% -4% 1% 4%;
     }
     .contenedor {
-        max-height: calc(252vh - 53px); 
-        margin: 1% -4% 1% 4%;
+        max-height: calc(162vh - 53px); 
+        margin-bottom: 30px;
     }
 }
 
