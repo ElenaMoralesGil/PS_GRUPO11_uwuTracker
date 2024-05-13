@@ -1,4 +1,4 @@
-import { AfterViewChecked, ChangeDetectionStrategy, Component, DoCheck, Input, OnChanges, SimpleChanges, WritableSignal, effect, signal } from '@angular/core';
+import { AfterViewChecked, ChangeDetectionStrategy, Component, DoCheck, Inject, Input, OnChanges, PLATFORM_ID, SimpleChanges, WritableSignal, effect, signal } from '@angular/core';
 import { SearchbarComponent } from '../sharedComponents/searchbar/searchbar.component';
 import { TagsComponent } from './tags/tags.component';
 import { ResultsComponent } from './results/results.component';
@@ -6,6 +6,8 @@ import { PaginationComponent } from '../sharedComponents/pagination/pagination.c
 import { ApiContentService } from '../../services/api-content.service';
 import { ActivatedRoute, Router } from '@angular/router';
 import Content from '../../schemas/Content.schema';
+import { isPlatformBrowser } from '@angular/common';
+import { noop } from 'rxjs';
 
 
 
@@ -34,15 +36,16 @@ export class SearchComponent {
       format: ''
     });
 
-  constructor(contentService: ApiContentService, route: ActivatedRoute, router: Router) {
+  constructor(contentService: ApiContentService, route: ActivatedRoute, router: Router, @Inject(PLATFORM_ID) private platformId: Object) {
     // Subscribing to current_page
     this.current_page = signal(Number(route.snapshot.paramMap.get('page')));
     route.params.subscribe(params => this.current_page.set(params[ 'page' ]));
-    route.url.subscribe(() =>{
-      this.options.set(localStorage.getItem('options') ? JSON.parse(<string>localStorage.getItem('options')) : this.options());
-      localStorage.clear();
-    });
-
+    if (isPlatformBrowser(this.platformId)){
+      route.url.subscribe(() =>{
+        this.options.set(localStorage.getItem('options') ? JSON.parse(<string>localStorage.getItem('options')) : this.options());
+        localStorage.clear();
+      });
+    }
     // When search parameters change this function gets called
     effect(async () => {
       if (this.current_page() === this.isCurrentValid) { this.current_page.set(1); router.navigate([ '../', 1 ], { relativeTo: route }) };
