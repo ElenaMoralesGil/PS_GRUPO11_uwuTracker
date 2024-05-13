@@ -1,21 +1,17 @@
-import {Component, Input, OnInit, Output} from '@angular/core';
-import {EmergencyPopupComponent} from "../emergency-popup/emergency-popup.component";
+import {Component, OnInit} from '@angular/core';
 import {NormalRowComponent} from "./normal-row/normal-row.component";
 import {ActivatedRoute} from "@angular/router";
-import Content from "../../../schemas/Content.schema";
-import {ApiContentService} from "../../../services/api-content.service";
-import {UsersService} from "../../../services/users.service";
-import {of} from "rxjs";
+
 import {KeyValuePipe, NgForOf, NgIf} from "@angular/common";
 import {ProgressRowComponent} from "./progress-row/progress-row.component";
 import User from "../../../schemas/User.schema";
 import {AuthService} from "../../../services/auth.service";
+import {UsersService} from "../../../services/users.service";
 
 @Component({
   selector: 'app-table',
   standalone: true,
   imports: [
-    EmergencyPopupComponent,
     NormalRowComponent,
     NgForOf,
     KeyValuePipe,

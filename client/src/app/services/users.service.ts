@@ -144,7 +144,6 @@ export class UsersService implements Users {
         return response.json();
       })
       .then(data => {
-        console.log("service", data.episodesCount)
         return data.episodesCount;
       })
       .catch(error => {
@@ -173,4 +172,148 @@ export class UsersService implements Users {
         throw error;
       });
   }
+
+
+  checkUserexistence(username: string): Promise<boolean> {
+    const url = `${this.path}/${username}/check-user-existence`;
+    console.log('Requesting URL:', url);
+    return fetch(url, {method: 'GET', credentials: 'include'})
+      .then(res => {
+        if (res.status === 200) {
+          return res.json();
+        } else {
+          throw new Error('Failed to check user existence');
+        }
+      })
+      .catch(err => {
+        console.error('Error checking on list:', err);
+        throw err;
+      });
+  }
+
+  checkEmailexistence(email: string): Promise<boolean>{
+    const url = `${this.path}/${email}/check-email-existence`;
+    console.log('Requesting URL:', url);
+    return fetch(url, {method: 'GET', credentials: 'include'})
+      .then(res => {
+        if (res.status === 200) {
+          return res.json();
+        } else {
+          throw new Error('Failed to check email existence');
+        }
+      })
+      .catch(err => {
+        console.error('Error checking on list:', err);
+        throw err;
+      });
+  }
+
+  modifyUserDetails(uid: string, username: string, email: string, description: string): Promise<boolean> {
+    const url = `${this.path}/${uid}/modify-details`;
+    const body = JSON.stringify({ username, email, description });
+
+    return fetch(url, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body,
+      credentials: 'include'
+    })
+      .then(response => response.ok)
+      .catch(error => {
+        console.error('Error modifying user details:', error);
+        return false;
+      });
+  }
+
+  async updateProfilePicture(uid: string, profilePicture: File) {
+    const url = `${this.path}/${uid}/update-profile-picture`;
+
+    const formData = new FormData();
+    formData.append('profilePicture', profilePicture); // Add file to formData
+
+    try {
+      const response = await fetch(url, {
+        method: 'POST',
+        body: formData,
+        credentials: 'include'
+      });
+
+      if (!response.ok) {
+        throw new Error('Failed to update profile picture');
+      }
+
+      const data = await response.json();
+      return data.profilePictureUrl;
+    } catch (error) {
+      console.error('Error updating profile picture:', error);
+      throw error;
+    }
+  }
+
+  updatePassword(userId: string, password: string): Promise<boolean> {
+    const url = `${this.path}/${userId}/update-password`;
+    const body = JSON.stringify({ password });
+
+    return fetch(url, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body,
+      credentials: 'include'
+    })
+      .then(response => response.ok)
+      .catch(error => {
+        console.error('Error updating password:', error);
+        return false;
+      });
+  }
+
+  deleteAccount(userId: string): Promise<boolean> {
+    const url = `${this.path}/${userId}/delete-account`;
+
+    return fetch(url, {
+      method: 'DELETE',
+      credentials: 'include'
+    })
+      .then(response => response.ok)
+      .catch(error => {
+        console.error('Error deleting account:', error);
+        return false;
+      });
+  }
+
+  async updateSocialMedia(userId: string, socialMediaUrls: string[]): Promise<any[]> {
+    const [instagram, facebook, twitter] = socialMediaUrls;
+    const url = `${this.path}/${userId}/social_media`;
+
+    const body = {
+      instagram,
+      facebook,
+      twitter
+    };
+
+    return fetch(url, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json'
+      },
+      body: JSON.stringify(body),
+      credentials: 'include'
+    })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error('Failed to update social media');
+        }
+        return response.json();
+      })
+      .catch(error => {
+        console.error('Error updating social media:', error);
+        throw error;
+      });
+  }
+
+
 }

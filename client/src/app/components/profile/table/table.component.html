@@ -35,18 +35,18 @@
 
         ></app-progress-row>
     } @else{
-    <app-normal-row
-      [rowTitle]="item.value.title"
-      [rowContentCover]="item.value.coverImg"
-      [rowContentScore]="item.value.score"
-      [rowType]="item.value.type"
-      [rowYear]="item.value.year"
-      [isDropped]="isDropped"
-      [rowUserScore]="item.value.userScore"
-      [rowContentId]="item.key"
-      [rowGenre]="item.value.genres"
-      class="positions">
-    </app-normal-row>
+      <app-normal-row
+        [rowTitle]="item.value.title"
+        [rowContentCover]="item.value.coverImg"
+        [rowContentScore]="item.value.score"
+        [rowType]="item.value.type"
+        [rowYear]="item.value.year"
+        [isDropped]="isDropped"
+        [rowUserScore]="item.value.userScore"
+        [rowContentId]="item.key"
+        [rowGenre]="item.value.genres"
+        class="positions">
+      </app-normal-row>
     }
   </ng-container>
 </ng-container>

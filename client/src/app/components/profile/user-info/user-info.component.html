@@ -1,11 +1,30 @@
 
-  <div class="user-profile-info">
-<img alt="User Image" class="user-profile-image" src= "../../../../assets/images/frieren.jpg">
-<div class="user-profile-details">
-  <div class="user-profile-name">{{ username }}</div>
-  <div class="user-profile-description">{{ description }}</div>
-</div>
-    @if(userId===accountId && accountId !==undefined){
-  <button class="user-profile-edit-btn" id="editProfileBtn">Edit Profile</button>
+<div class="user-profile-info">
+  <img alt="User Image" class="user-profile-image"[src]= "profilePicture">
+  <div class="user-profile-details">
+    <div class="user-profile-name">{{ username }}</div>
+    <div class="user-profile-description">{{ description }}</div>
+    <div class="social-buttons">
+      <i class="fa-brands fa-square-instagram socialIcon" [ngClass]="{ 'opaque': !socialMedia || !socialMedia[0], 'active': socialMedia && socialMedia[0] }" (click)="openSocialMedia('instagram')"></i>
+      <i class="fa-brands fa-square-facebook socialIcon" [ngClass]="{ 'opaque': !socialMedia || !socialMedia[1], 'active': socialMedia && socialMedia[1] }" (click)="openSocialMedia('facebook')"></i>
+      <i class="fa-brands fa-square-twitter socialIcon" [ngClass]="{ 'opaque': !socialMedia || !socialMedia[2], 'active': socialMedia && socialMedia[2] }" (click)="openSocialMedia('twitter')"></i>
+    </div>
+  </div>
+  @if(userId===accountId && accountId !==undefined){
+    <button class="user-profile-edit-btn" id="editProfileBtn" (click)="openEditWindow()">Edit Profile</button>
+
+    @if(openEdit){
+      <app-edit-profile
+        [userId]="userId"
+        [email]="email"
+        [description]="description"
+        [username]="username"
+        (editProfile)= "closeEditWindow()"
+        (updatePfp)="updatePfp($event)"
+        (updateProfileDetails)="updateDetails($event)"
+        (updateSocial)="updateSocial($event)"
+      ></app-edit-profile>
     }
+  }
+
 </div>

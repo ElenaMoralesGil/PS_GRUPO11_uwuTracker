@@ -1,5 +1,4 @@
 import User from "../schemas/User.schema";
-import Content from "../schemas/Content.schema";
 
 export default interface Users {
   findById: (id: string) => Promise<User | null>
@@ -13,5 +12,11 @@ export default interface Users {
   isOnList: (userId: string | undefined, contentId: string | undefined) => Promise<string | null>
   incrementEpisodesCount: (userId: string | undefined, contentId: string | undefined) => Promise<number>
   decrementEpisodesCount: (userId: string | undefined, contentId: string | undefined) => Promise<number>
-
+  checkUserexistence:(username:string) => Promise<boolean>
+  checkEmailexistence:(email:string) => Promise<boolean>
+  modifyUserDetails: (uid: string, username: string, email: string, description: string ) => Promise<boolean>
+  updateProfilePicture: (uid: string, profilePicture: File ) => Promise<string>
+  updatePassword: (userId: string, password:string) => Promise<boolean>
+  deleteAccount:(userId: string) => Promise<boolean>
+  updateSocialMedia:(uid:string,socialMedia: []) => Promise<any[]>
 }

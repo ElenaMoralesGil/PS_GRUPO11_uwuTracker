@@ -1,12 +1,14 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { RouterLink } from "@angular/router";
 import { UsersService } from "../../../../services/users.service";
+import {NgForOf} from "@angular/common";
 
 @Component({
   selector: 'app-progress-row',
   standalone: true,
   imports: [
-    RouterLink
+    RouterLink,
+    NgForOf
   ],
   templateUrl: './progress-row.component.html',
   styleUrls: [ '../normal-row/normal-row.component.css', 'progress-row.component.css' ]
@@ -37,7 +39,7 @@ export class ProgressRowComponent {
       if (<number>this.rowProgress + 1 === this.episodes) {
         this.checkProgress();
       } else {
-        this.rowProgress = await this.UsersService.incrementEpisodesCount(this.user, this.rowContentId);
+        this.rowProgress = await this.UsersService.incrementEpisodesCount(<string> this.user,<string>  this.rowContentId);
 
       }
     }
@@ -45,13 +47,13 @@ export class ProgressRowComponent {
   async decrementEpisodesCount() {
     if (<number>this.rowProgress > 0) {
 
-      this.rowProgress = await this.UsersService.decrementEpisodesCount(this.user, this.rowContentId);
+      this.rowProgress = await this.UsersService.decrementEpisodesCount(<string>this.user,<string> this.rowContentId);
     }
   }
 
   async checkProgress() {
     if (confirm(`¿Do u want to move ${this.rowTitle} to the completed list?`)) {
-      await this.UsersService.trackingList(this.user, this.rowContentId, "completed");
+      await this.UsersService.trackingList(<string>this.user,<string> this.rowContentId, "completed");
       this.changeToCompleted.emit(this.rowContentId)
     }
   }

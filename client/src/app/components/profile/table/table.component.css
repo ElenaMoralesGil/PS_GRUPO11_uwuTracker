@@ -29,7 +29,7 @@
 }
 
 @media screen and (width < 35rem){
-.last_title {
-  display: none;
-}
+  .last_title {
+    display: none;
+  }
 }

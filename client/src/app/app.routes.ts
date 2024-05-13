@@ -73,8 +73,8 @@ export const routes: Routes = [
       { path: 'dropped', component: TableComponent }
     ]
   },
-  { 'path': 'content/:id/comments', component: CommentsComponent},
-  { 'path': 'ranking', component: RankingComponent}
+  { 'path': 'content/:id/comments', component: CommentsComponent },
+  { 'path': 'ranking', component: RankingComponent }
 ]
 
 

@@ -12,12 +12,22 @@
 
 
 .top-header-content img {
-  height: 80%;
+  height: 1.5cm;
+}
+.profilePic {
+  min-height: 1cm;
+  max-heigght:1cm;
+  border-radius: 20%;
 }
 
+.user-profile {
+  text-align: center;
+  margin: 0;
+}
 .top-header-content a {
   text-decoration: none;
   color: inherit;
+  font-size: 1.3em;
 }
 
 .top-header-content nav {
@@ -33,27 +43,28 @@
 
 .top-header-content-buttons {
   width: 15%;
-  height: 50%;
   min-width: 3.5cm;
-
+  height:2cm;
   display: flex;
   flex-flow: nowrap;
   gap: 5%;
   box-sizing: border-box;
-
-  align-items: baseline;
+  overflow-wrap: break-word;
+  align-items: center;
 }
 
-/* Styling the fist button on the container above.
-Width and height defined in relation to the container.*/
 .top-header-content-buttons button:first-child {
   background: transparent;
   border: 1px solid black;
   color: white;
   width: 50%;
-  height: 100%;
+  height: 70%;
 }
 
+p{
+  margin: -1em 0 0;
+  font-size: 1em;
+}
 .top-header-content-buttons button:first-child:hover {
   background: #fcfcfc;
   color: #000000;
@@ -66,18 +77,25 @@ Width and height defined in relation to the container.*/
   border: none;
   color: white;
   width: 50%;
-  height: 100%;
+  height: 60%;
 }
 
 .top-header-content-buttons button:last-child:hover {
   background: #4f4f4f;
   color: white;
 }
-
+.top-header-content-buttons button{
+  min-height:2.5em;
+  height: 2.5em;
+}
 /*---------------------- Responsive Menu --------------------*/
 
 .top-header-mobile-menu {
   height: 100%;
+  position: absolute;
+  right: 0;
+  z-index: 9999;
+  background: #1d1d1f;
 }
 
 .top-header-mobile-menu button {
@@ -87,7 +105,27 @@ Width and height defined in relation to the container.*/
   color: white;
   border: none;
   border-radius: 0;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
+.mobile-menu-content::-webkit-scrollbar {
+  display: none;
+}
+.mobile-menu-content {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+
+.top-header-mobile-menu :hover {
+  background: white;
+  color: black;
+}
+a {
+  cursor: pointer;
+}
+
 
 /* ----------------------- Media Querys ------------------------*/
 
@@ -97,6 +135,15 @@ Width and height defined in relation to the container.*/
   }
 }
 
+@media screen and (min-width: 35em) and (max-width: 70em) {
+  .top-header-mobile-menu {
+    display: none;
+  }
+  .top-header-content-buttons button{
+    min-height:3em;
+    height: 3em;
+  }
+}
 @media screen and (width <=35rem) {
 
   .top-header-content-buttons {
@@ -118,8 +165,5 @@ Width and height defined in relation to the container.*/
     display: none;
   }
 
-  .top-header-mobile-menu {
-    position: absolute;
-    right: 0;
-  }
+
 }

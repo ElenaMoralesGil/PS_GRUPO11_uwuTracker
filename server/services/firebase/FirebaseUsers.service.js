@@ -1,19 +1,29 @@
 const User = require(process.cwd() + '/schemas/User.schema.js')
 
-const { collection, doc, arrayUnion, getDoc, addDoc, query, where, getDocs, updateDoc, and, or } = require('firebase/firestore/lite')
+const  { deleteDoc, setDoc, Firestore, doc, arrayUnion, getDoc, addDoc, query,getDocs, updateDoc, and, or, collection, where}  = require('firebase/firestore/lite')
+const {  ref, uploadBytes, getDownloadURL, FirebaseStorage} = require('firebase/storage');
+
 
 
 class FirebaseUsers {
     #fss
     #collection
+
     constructor() {
         this.#fss = require('./firebase.service')
         this.#collection = 'Users'
     }
 
-    get #db() { return this.#fss.db }
-    get #coll() { return this.#collection }
+    get #db() {
+        return this.#fss.db
+    }
 
+    get #coll() {
+        return this.#collection
+    }
+    get #storage() {
+        return this.#fss.storage
+    }
     findById = id => getDoc(doc(this.#db, this.#coll, `${id}`)).then(doc => doc.data()).then(data => data ? User.parse(data) : null)
 
     find = (queryObj, opt = 'OR') => {
@@ -38,15 +48,15 @@ class FirebaseUsers {
 
     create = async user => {
 
-        if (await this.find({ username: user.username, email: user.email }, 'OR')) return null
+        if (await this.find({username: user.username, email: user.email}, 'OR')) return null
 
         const userRef = await addDoc(collection(this.#db, this.#coll), user.get())
-        await updateDoc(doc(this.#db, this.#coll, userRef.id), { id: userRef.id })
+        await updateDoc(doc(this.#db, this.#coll, userRef.id), {id: userRef.id})
 
-        return { ...user, id: userRef.id }
+        return {...user, id: userRef.id}
     }
 
-    update = async ({ id, userProps }) => {
+    update = async ({id, userProps}) => {
         if (!await this.findById(id)) return false
 
         await updateDoc(doc(this.#db, this.#coll, id), userProps)
@@ -93,19 +103,20 @@ class FirebaseUsers {
             // Remove contentId from the current list if it exists
             if (currentListName && userData[currentListName]) {
                 const updatedList = userData[currentListName].filter(item => item !== contentId);
-                await updateDoc(userRef, { [currentListName]: updatedList });
+                await updateDoc(userRef, {[currentListName]: updatedList});
             }
 
             // Add contentId to the new list
             const updatedList = [...userData[newListName], contentId];
-            await updateDoc(userRef, { [newListName]: updatedList });
-            if (newListName === "watching"){
-                const contentProgress = userData.contentProgress ;
+            await updateDoc(userRef, {[newListName]: updatedList});
+            if (newListName === "watching") {
+                const contentProgress = userData.contentProgress;
                 if (!contentProgress.hasOwnProperty(contentId)) {
                     contentProgress[contentId] = 0;
-                    await updateDoc(userRef, { contentProgress });
+                    await updateDoc(userRef, {contentProgress});
                 }
             }
+
             console.log('Content moved to the new list successfully');
             return true;
         } catch (error) {
@@ -158,7 +169,7 @@ class FirebaseUsers {
                         try {
                             const contentDoc = await getDoc(doc(this.#db, 'Contents', reference));
                             const score = userScores[reference] || '-';
-                            const progress = contentProgress[reference]  || 0;
+                            const progress = contentProgress[reference] || 0;
                             if (contentDoc.exists()) {
                                 const contentData = contentDoc.data();
                                 contentMap[reference] = {
@@ -203,11 +214,11 @@ class FirebaseUsers {
             }
 
             const userData = userDoc.data();
-            const contentProgress = userData.contentProgress ;
-            const episodesCount = contentProgress[contentId] ;
+            const contentProgress = userData.contentProgress;
+            const episodesCount = contentProgress[contentId];
             if (episodesCount === maxCount) {
                 return episodesCount;
-            }else {
+            } else {
                 contentProgress[contentId] = episodesCount + 1;
                 await updateDoc(userRef, {contentProgress});
                 return contentProgress[contentId];
@@ -224,11 +235,11 @@ class FirebaseUsers {
             const userDoc = await getDoc(userRef);
 
             const userData = userDoc.data();
-            const contentProgress = userData.contentProgress ;
-            const episodesCount = contentProgress[contentId] ;
+            const contentProgress = userData.contentProgress;
+            const episodesCount = contentProgress[contentId];
             if (episodesCount === 0) {
                 return episodesCount;
-            }else {
+            } else {
                 contentProgress[contentId] = episodesCount - 1;
                 await updateDoc(userRef, {contentProgress});
                 return contentProgress[contentId];
@@ -238,6 +249,142 @@ class FirebaseUsers {
             throw error;
         }
     }
+
+
+    checkUserexistence = async (username) => {
+        const usernameQuery = query(collection(this.#db, this.#coll), where("username", "==", username));
+
+        const [usernameDocs] = await Promise.all([
+            getDocs(usernameQuery),
+        ]);
+        console.log("username exists", !usernameDocs.empty)
+        return (!usernameDocs.empty)
+    }
+    checkEmailexistence = async (email) => {
+
+        const emailQuery = query(collection(this.#db, this.#coll), where("email", "==", email));
+
+        const [emailDocs] = await Promise.all([
+            getDocs(emailQuery),
+        ]);
+
+        return (!emailDocs.empty)
+
+    }
+
+    async modifyUserDetails(uid, username, email, description) {
+
+        const userRef = doc(this.#db, this.#coll, uid);
+        const userDoc = await getDoc(userRef);
+
+        if (!userDoc.exists) {
+            throw new Error('User not found');
+        }
+
+        const userData = userDoc.data() || {};
+
+        const usernameData = userData['username'] || '';
+        const descriptionData = userData['description'] || '';
+        const emailData = userData['email'] || '';
+
+        const updates= {};
+        if (usernameData !== username) {
+            updates.username = username;
+        }
+        if (descriptionData !== description) {
+            updates.description = description;
+        }
+        if(emailData !== email) {
+            updates.email = email;
+        }
+
+        if (Object.keys(updates).length > 0) {
+            try {
+                await updateDoc(userRef, updates);
+                return true;
+            } catch (error) {
+                console.error('Error updating user details:', error);
+                throw error;
+            }
+        }
+        return true;
 }
+    async updateProfilePicture(userId, profileImage) {
+        if (!profileImage) return Promise.reject(new Error('No image provided'));
+
+        try {
+            const storageRef = ref(this.#storage, `profilePictures/${userId}`);
+
+            // Manually set the content type of the uploaded image
+            const metadata = {
+                contentType: 'image/png'
+            };
+
+            const snapshot = await uploadBytes(storageRef, profileImage.buffer, metadata);
+
+
+
+            const downloadURL = await getDownloadURL(snapshot.ref);
+
+
+            const userRef = doc(this.#db, this.#coll, userId);
+            await updateDoc(userRef, { profilePicture: downloadURL });
+
+            return downloadURL;
+        } catch (error) {
+            console.error('Error updating profile picture:', error);
+            throw error;
+        }
+    }
+
+    async updatePassword(userId, newPassword) {
+        try {
+
+            const userRef = doc(this.#db, this.#coll, userId);
+            await updateDoc(userRef, { password: newPassword });
+
+            return true;
+        } catch (error) {
+            console.error('Error updating password:', error);
+            throw error;
+        }
+    }
+
+
+    async deleteAccount(userId) {
+        try {
+
+            await deleteDoc(doc(this.#db, this.#coll, userId));
+            console.log("User document deleted successfully");
+        } catch (error) {
+            console.error("Error deleting user document:", error);
+            throw error;
+        }
+    }
+
+    updateSocialMedia = async (userId, socialMedia) => {
+        try {
+            const userRef = doc(this.#db, this.#coll, userId);
+            const userDoc = await getDoc(userRef);
+
+            if (!userDoc.exists()) {
+                console.log('User not found');
+                return false;
+            }
+
+            await updateDoc(userRef, { socialMedia });
+
+            console.log('Social media links updated successfully');
+            return true;
+        } catch (error) {
+            console.error('Error updating social media links:', error);
+            throw error;
+        }
+    }
+
+
+
+}
+
 
 module.exports = require('../../bin/Singleton')(new FirebaseUsers())

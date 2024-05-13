@@ -40,7 +40,8 @@ export class ProfileComponent implements OnInit {
     userScores: new Map<string, number>(),
     contentProgress: new Map<string, number>(),
     likedReviews: [],
-    dislikedReviews: []
+    dislikedReviews: [],
+    socialMedia: []
   };
   username: string = "";
   accountId?: string;

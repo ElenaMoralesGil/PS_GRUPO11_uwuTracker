@@ -16,4 +16,5 @@ export default interface User {
   contentProgress: Map<string, number>
   likedReviews: string[]
   dislikedReviews: string[]
+  socialMedia: []
 }
