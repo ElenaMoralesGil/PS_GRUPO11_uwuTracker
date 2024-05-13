@@ -1,7 +1,7 @@
 const User = require(process.cwd() + '/schemas/User.schema.js')
 
-const  { deleteDoc, setDoc, Firestore, doc, arrayUnion, getDoc, addDoc, query,getDocs, updateDoc, and, or, collection, where}  = require('firebase/firestore/lite')
-const {  ref, uploadBytes, getDownloadURL, FirebaseStorage} = require('firebase/storage');
+const { deleteDoc, setDoc, Firestore, doc, arrayUnion, getDoc, addDoc, query, getDocs, updateDoc, and, or, collection, where } = require('firebase/firestore/lite')
+const { ref, uploadBytes, getDownloadURL, FirebaseStorage } = require('firebase/storage');
 
 
 
@@ -48,15 +48,15 @@ class FirebaseUsers {
 
     create = async user => {
 
-        if (await this.find({username: user.username, email: user.email}, 'OR')) return null
+        if (await this.find({ username: user.username, email: user.email }, 'OR')) return null
 
         const userRef = await addDoc(collection(this.#db, this.#coll), user.get())
-        await updateDoc(doc(this.#db, this.#coll, userRef.id), {id: userRef.id})
+        await updateDoc(doc(this.#db, this.#coll, userRef.id), { id: userRef.id })
 
-        return {...user, id: userRef.id}
+        return { ...user, id: userRef.id }
     }
 
-    update = async ({id, userProps}) => {
+    update = async ({ id, userProps }) => {
         if (!await this.findById(id)) return false
 
         await updateDoc(doc(this.#db, this.#coll, id), userProps)
@@ -84,6 +84,8 @@ class FirebaseUsers {
             return false;
         }
     }
+
+
     trackingList = async (userId, contentId, newListName) => {
         console.log(`Moving ${contentId} to ${newListName} list`);
         try {
@@ -97,23 +99,30 @@ class FirebaseUsers {
 
             const userData = userDoc.data();
 
-            // Get the name of the current list if the contentId is already in a list
             const currentListName = await this.isOnList(userId, contentId);
 
             // Remove contentId from the current list if it exists
             if (currentListName && userData[currentListName]) {
-                const updatedList = userData[currentListName].filter(item => item !== contentId);
-                await updateDoc(userRef, {[currentListName]: updatedList});
+                const updatedList = userData[currentListName].filter((item) => item !== contentId);
+                await updateDoc(userRef, { [currentListName]: updatedList });
             }
 
-            // Add contentId to the new list
-            const updatedList = [...userData[newListName], contentId];
-            await updateDoc(userRef, {[newListName]: updatedList});
-            if (newListName === "watching") {
-                const contentProgress = userData.contentProgress;
-                if (!contentProgress.hasOwnProperty(contentId)) {
-                    contentProgress[contentId] = 0;
-                    await updateDoc(userRef, {contentProgress});
+            // Add contentId to the new list only if it's not already there
+            if (newListName !== currentListName) {
+                const newList = userData[newListName];
+                const alreadyInList = newList && newList.includes(contentId);
+                if (!alreadyInList) {
+                    const updatedList = [...(userData[newListName] || []), contentId];
+                    await updateDoc(userRef, { [newListName]: updatedList });
+
+                    // If the new list is 'watching', add contentProgress
+                    if (newListName === "watching") {
+                        const contentProgress = userData["contentProgress"] || {};
+                        if (!contentProgress.hasOwnProperty(contentId)) {
+                            contentProgress[contentId] = 0;
+                            await updateDoc(userRef, { contentProgress });
+                        }
+                    }
                 }
             }
 
@@ -124,6 +133,8 @@ class FirebaseUsers {
             return false;
         }
     }
+
+
     isOnList = async (userId, contentId) => {
         const userRef = doc(this.#db, this.#coll, userId);
         const userDoc = await getDoc(userRef);
@@ -220,7 +231,7 @@ class FirebaseUsers {
                 return episodesCount;
             } else {
                 contentProgress[contentId] = episodesCount + 1;
-                await updateDoc(userRef, {contentProgress});
+                await updateDoc(userRef, { contentProgress });
                 return contentProgress[contentId];
             }
         } catch (error) {
@@ -241,7 +252,7 @@ class FirebaseUsers {
                 return episodesCount;
             } else {
                 contentProgress[contentId] = episodesCount - 1;
-                await updateDoc(userRef, {contentProgress});
+                await updateDoc(userRef, { contentProgress });
                 return contentProgress[contentId];
             }
         } catch (error) {
@@ -287,14 +298,14 @@ class FirebaseUsers {
         const descriptionData = userData['description'] || '';
         const emailData = userData['email'] || '';
 
-        const updates= {};
+        const updates = {};
         if (usernameData !== username) {
             updates.username = username;
         }
         if (descriptionData !== description) {
             updates.description = description;
         }
-        if(emailData !== email) {
+        if (emailData !== email) {
             updates.email = email;
         }
 
@@ -308,7 +319,7 @@ class FirebaseUsers {
             }
         }
         return true;
-}
+    }
     async updateProfilePicture(userId, profileImage) {
         if (!profileImage) return Promise.reject(new Error('No image provided'));
 
