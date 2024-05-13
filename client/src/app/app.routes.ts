@@ -13,6 +13,7 @@ import { EpisodesComponent } from './components/content-page/episodes/episodes.c
 import { StaffComponent } from './components/content-page/staff/staff.component';
 import { SearchComponent } from './components/search/search.component';
 import { TableComponent } from './components/profile/table/table.component';
+import { RankingComponent } from './components/ranking/ranking.component';
 
 
 export const routes: Routes = [
@@ -72,7 +73,8 @@ export const routes: Routes = [
       { path: 'dropped', component: TableComponent }
     ]
   },
-  { 'path': 'content/:id/comments', component: CommentsComponent, }
+  { 'path': 'content/:id/comments', component: CommentsComponent},
+  { 'path': 'ranking', component: RankingComponent}
 ]
 
 

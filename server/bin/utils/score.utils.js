@@ -4,7 +4,7 @@ const apiScoreNormalization = score => score ? (5 / 9 * score - 5 / 9) : null
 const calcScore = ({ ourScore, scoreCount, apiScore }) => {
     if (apiScore == null) return ourScore
     const USER_THRESHOLD = 100
-
+    if (!apiScore) return ourScore;
     return scoreCount >= USER_THRESHOLD ? ourScore
         : (scoreCount / USER_THRESHOLD) * ourScore + (1 - (scoreCount / USER_THRESHOLD)) * apiScore
 }
