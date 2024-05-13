@@ -31,6 +31,11 @@ export class ApiContentService implements Contents {
     .then(characters => characters || null)
     .catch(err => null)
 
+  findStaff: (id: string) => Promise<any> = id => fetch(`${this.path}/${id}/staff`, { credentials: 'include' })
+    .then(res => res.json())
+    .then(staff => staff || null)
+    .catch(err => null)
+
 
   findById = (id: string | null): Promise<Content | null> =>
     fetch(`${this.path}/${id}`, { credentials: 'include' }).then(res => res.json())
