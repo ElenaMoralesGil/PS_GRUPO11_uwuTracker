@@ -36,6 +36,13 @@ class JikanService {
         return this.findNameGenres(name, genres[0] !== '' ? genres.map(elem => genresParser[elem]) : genres, format, page);
     }
 
+    findStaff = (id) => fetch(`${this.contentpath}/${id}/staff`).then(res => res.json())
+        .then(res => res.data)
+        .then(data => data.map(elm => (
+            { img: Object.values(elm.person?.images)?.[0].image_url,
+            name: elm.person?.name,
+            positions: elm.positions })))
+
     getRecommendations = () => fetch(`${this.recommendations}/anime`).then(res => res.json())
         .then(res => res.data)
         .then(data => data.map(elm => elm.entry.map(elm => Content.parse(elm))))

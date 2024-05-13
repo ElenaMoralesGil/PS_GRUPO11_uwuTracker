@@ -5,6 +5,14 @@ const Content = require('../../schemas/Content.schema')
 
 
 
+router.get('/:id/staff', (req, res) => {
+    Contents.findStaff(req.params.id).then(staff => {
+        if(!staff || staff.length==0) return res.status(404).json({msg:'not found'})
+        return res.status(200).json({data: staff})
+    })
+    .catch(err => {console.log('ERROR:', err); return res.status(500).json({error: err, msg:'server error'})})
+})
+
 router.get('/:id/episodes', (req, res) => {
     Contents.getEpisodes(req.params.id, req.query.page || 1).then(episodes => {
         if (!episodes) return res.status(404).json({ msg: 'not-found' })

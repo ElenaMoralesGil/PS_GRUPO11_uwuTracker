@@ -33,6 +33,8 @@ class Contents {
     updateScore = async (contentId, score, userId) => { await this.#db.updateScore(contentId, score, userId); }
 
     getRecommendations = () => this.#api.getRecommendations()
+
+    findStaff = (id) => this.#api.findStaff(id)
 }
 
 
