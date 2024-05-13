@@ -74,6 +74,8 @@ export class CabeceraComponent implements OnChanges, OnInit {
       this.checkFavorites();
       this.setDefaultSelectedList();
     }
+
+    console.log('rating', this.rating)
   }
   private async setDefaultSelectedList(): Promise<void> {
     try {

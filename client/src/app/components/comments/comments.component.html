@@ -1,15 +1,10 @@
 <div class="comments-container">
-    <h2>Coments</h2>
-    <!-- Formulario para agregar nuevo comentario -->
-    <form (submit)="addComment()">
-        <textarea [value]="newComment" (input)="onCommentInput($event)" name="newComment" placeholder="Agrega tu comentario"></textarea>
-        <button type="submit">Enviar comentario</button>
-    </form>
-    <!-- Contenedor para los comentarios -->
-    <div class="comment-list">
-        <!-- Aquí se mostrarán los comentarios -->
+    @if (loggedInUser|async) { <app-comment-form [message]="formMessage" (click)="onFormClicked()"
+        (commentTxt)="commentFromForm($event)"></app-comment-form>}
+
+    <div class="comments-list">
         <div *ngFor="let comment of comments">
-            <p>{{ comment.text }}</p>
+            <app-comment (commentHandler)="commentListHandler($event)" [comment]="comment"></app-comment>
         </div>
     </div>
 </div>

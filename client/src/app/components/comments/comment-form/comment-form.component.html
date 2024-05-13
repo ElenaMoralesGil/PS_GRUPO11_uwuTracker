@@ -1,0 +1,22 @@
+<div class="container" (click)="emptyMessage()">
+
+    <form (submit)=" addComment($event)">
+
+        <div>
+            <textarea [value]="newComment" (input)="onCommentInput($event)" name="newComment"
+                placeholder="Agrega tu comentario"></textarea>
+
+            <div class="buttons-group">
+                @if(showCancel){<button (click)="cancel($event)">Cancel</button>}
+                <button type="submit">Comment</button>
+            </div>
+        </div>
+
+        @switch (message) {
+        @case ('NONE') {}
+        @case ('CONFIRM') {<p class="msg msg-confirm">Enviado correctamente</p>}
+        @default{ <p class="msg msg-error">{{message}}</p>}
+        }
+    </form>
+
+</div>

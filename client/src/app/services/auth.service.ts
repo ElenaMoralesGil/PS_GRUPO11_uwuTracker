@@ -1,4 +1,4 @@
-import { __env } from '../../environments/env.dev';
+import { __env } from '../../environments/env';
 import { Injectable } from '@angular/core';
 
 import User from '../schemas/User.schema';
@@ -21,7 +21,7 @@ export class AuthService implements AuthModel {
     this.__loggedUser__.toPromise = () => firstValueFrom(this.__loggedUser__) as Promise<User | null>
   }
 
-  login = ({ username, password }: { username: string, password: string }): Promise<Observable<User | null>> =>
+  login = ({ username, password }: { username: string, password: string }): Promise<number> =>
     fetch(`${this.path}/login`, {
       method: 'POST',
       headers: {
@@ -30,13 +30,23 @@ export class AuthService implements AuthModel {
       credentials: 'include',
       body: JSON.stringify({ username, password })
     })
-      .then(res => res.status == 202 ? res.json() : null)
-      .then(data => {
-
-        data?.user && this.userLogger.next(data.user)
-
-        return this.__loggedUser__
+      .then(res => {
+        if (res.status === 202) {
+          return res.json().then(data => {
+            data?.user && this.userLogger.next(data.user);
+            return 0;
+          });
+        } else {
+          return res.status;
+        }
       })
+      .catch(error => {
+        console.error('Error during login:', error);
+        return 450;
+      });
+
+
+
 
   logout = (): Promise<void> => fetch(`${this.path}/logout`, { credentials: 'include' }).then(() => this.userLogger.next(null))
 

@@ -4,37 +4,44 @@ const bcrypt = require('bcrypt')
 const { setDoc, doc } = require('firebase/firestore/lite')
 const fss = require('../../services/firebase/firebase.service')
 
+const { calcOurScore, calcScore, apiScoreNormalization } = require('../utils/index')
+
 const Content = require('../../schemas/Content.schema')
 const User = require('../../schemas/User.schema')
 const Review = require('../../schemas/Review.schema')
+const Comment = require('../../schemas/Comment.schema')
+
 
 const randomFromArr = (arr) => arr[Math.floor(Math.random() * arr.length)]
 const randomNumber = (min, max) => Math.floor(Math.random() * (Math.floor(max) - Math.ceil(min)) + Math.ceil(min))
 
 
+// *=> consts
+const USERS_SIZE = 10
+const REVIEWS_SIZE = 10
+const COMMENTS_SIZE = 20
+const COMMENTS_MAX_LEVEL = 1
+const COMMENTS_LEVEL_CONVERSION_PROP = .5
 
-const USERS_SIZE = 20
-const REVIEWS_SIZE = 20
 
 
 
-
-// GENERATORS
+// *=> GENERATORS
 const genContents = async () => {
-    const contentsIds = [['52991', '1111', '11111'], ['432', '5', '51']]
+    const contentsIds = [['52991', '1111', '1112']/*, ['432', '5', '51']*/]
     const contents = await Promise.all(contentsIds[0].map((id, idx) => fetch(`${process.env.JIKAN_PATH}/anime/${id}`)
         .then(res => res.json())
         .then(json => json.data)
         .then(content => Content.parse(content)))
     )
 
-    await setTimeout(async () => {
-        contents.push(...await Promise.all(contentsIds[0].map((id, idx) => fetch(`${process.env.JIKAN_PATH}/anime/${id}`)
-            .then(res => res.json())
-            .then(json => json.data)
-            .then(content => Content.parse(content))))
-        )
-    }, 3000)
+    // await setTimeout(async () => {
+    //     contents.push(...await Promise.all(contentsIds[0].map((id, idx) => fetch(`${process.env.JIKAN_PATH}/anime/${id}`)
+    //         .then(res => res.json())
+    //         .then(json => json.data)
+    //         .then(content => Content.parse(content))))
+    //     )
+    // }, 3000)
 
     return contents
 }
@@ -63,7 +70,7 @@ const genUsers = async () => {
 
 
     let username
-    for (let i = 1; i <= USERS_SIZE; i++) {
+    for (let i = 1; i < USERS_SIZE; i++) {
 
         do username = `${randomFromArr(adjective)}_${randomFromArr(object)}`
         while (users.some(user => user.username === username))
@@ -98,22 +105,49 @@ const genReviews = async () => {
             description: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur.",
             dislikes: 0,
             likes: 0,
-            score: randomNumber(0, 5),
             title: `${randomFromArr(adj)} ${randomFromArr(sus)} ${randomFromArr(adver)}`
         }))
 
     return reviews
 }
 
-linkDocs = ({ users, contents, reviews }) => {
 
-    let content, user, loopItr, obj
+// Comments
+const getComments = async () => {
+    const adj = ["Worst", "Best", "Amazing", "Great"]
+    const sus = ["experience", "anime", "content", "time"]
+    const adver = ["of my life", "ever", "of all time"]
+
+    const comments = []
+    let comment
+    for (let i = 0; i < COMMENTS_SIZE; i++) {
+
+        comment = Comment.parse({
+            id: `${i}`,
+            title: `${randomFromArr(adj)} ${randomFromArr(sus)} ${randomFromArr(adver)}`,
+            body: "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+            level: 0,
+            comments: []
+        })
+
+        comments.push(comment)
+    }
+
+    return comments
+}
+
+
+// *=> linker
+linkDocs = ({ users, contents, reviews, comments }) => {
+
+    let content, user, loopItr
 
     const userStandarLists = ['completed', 'dropped', 'planToWatch', 'watching']
     users.forEach(user => {
 
+        // standard lists
         userStandarLists.forEach(list => {
-            loopItr = randomNumber(0, contents.length)
+            loopItr = randomNumber(0, contents.length - 1)
             for (let i = 0; i < loopItr; i++) {
                 do content = randomFromArr(contents)
                 while (user[list].includes(content.id))
@@ -121,7 +155,8 @@ linkDocs = ({ users, contents, reviews }) => {
             }
         })
 
-        loopItr = randomNumber(0, contents.length)
+        // favorites
+        loopItr = randomNumber(0, contents.length - 1)
         for (let i = 0; i < loopItr; i++) {
             do content = randomFromArr(contents)
             while (user.favorites.includes(content.id))
@@ -129,36 +164,104 @@ linkDocs = ({ users, contents, reviews }) => {
             content.likes++
         }
 
-        loopItr = randomNumber(0, contents.length)
+        // user scores
+        loopItr = randomNumber(0, contents.length - 1)
         for (let i = 0; i < loopItr; i++) {
             do content = randomFromArr(contents)
-            while (user.userScores.includes(content.id))
-            obj = {}
-            obj[content.id] = randomNumber(0, 5)
-            user.userScores.push(obj)
+            while (Object.keys(user.userScores).includes(content.id))
+            user.userScores[content.id] = randomNumber(0, 5)
+        }
+
+        // content progress
+        loopItr = randomNumber(0, contents.length - 1)
+        for (let i = 0; i < loopItr; i++) {
+            do content = randomFromArr(contents)
+            while (Object.keys(user.contentProgress).includes(content.id))
+            user.contentProgress[content.id] = randomNumber(1, content.episodesNumber)
         }
     })
 
+    // reviews
     reviews.forEach(review => {
-        user = randomFromArr(users)
-        content = randomFromArr(contents)
+        // reviews link
+        do {
+            user = randomFromArr(users)
+            content = randomFromArr(contents)
+        } while (reviews.filter(elm => elm.userId == user.id && elm.content).length > 0)
 
         review.userId = user.id
         review.content = content.id
 
         user.reviews.push(review.id)
         content.reviews.push(review.id)
+
+        user.userScores[content.id] == undefined && (user.userScores[content.id] = randomNumber(0, 5))
+        review.score = user.userScores[content.id]
+
+        // liked reviews
+        loopItr = randomNumber(0, users.length - 1)
+        for (let i = 0; i < loopItr; i++) {
+            do {
+                user = randomFromArr(users)
+            } while (user.likedReviews.includes(review.id))
+
+            user.likedReviews.push(review.id)
+            review.likes++
+        }
+
+        // disliked reviews
+        loopItr = randomNumber(0, users.length - review.likes - 1)
+        for (let i = 0; i < loopItr; i++) {
+            do {
+                user = randomFromArr(users)
+            } while (user.likedReviews.includes(review.id) || user.dislikedReviews.includes(review.id))
+
+            user.dislikedReviews.push(review.id)
+            review.dislikes++
+        }
+
+    })
+
+    // comments
+    let tmpComment
+    comments.forEach(comment => {
+        user = randomFromArr(users)
+        content = randomFromArr(contents)
+
+        // forced lvl0 || standard lvl 0
+        if (!content.comments.length || Math.random() > COMMENTS_LEVEL_CONVERSION_PROP) {
+
+            comment.userId = user.id
+            comment.username = user.username
+            comment.contentId = content.id
+
+            user.comments.push(comment.id)
+            content.comments.push(comment.id)
+
+            return
+        }
+
+        tmpComment = randomFromArr(comments.filter(elm => elm.level == 0))
+
+        comment.father = tmpComment.id
+        comment.userId = user.id
+        comment.username = user.username
+        comment.contentId = tmpComment.contentId
+        comment.level = 1
+
+        user.comments.push(comment.id)
     })
 
 
-    return { users, contents, reviews }
+    return { users, contents, reviews, comments }
 }
 
 
 genData = async () => ({
     contents: await genContents(),
     users: await genUsers(),
-    reviews: await genReviews()
+    reviews: await genReviews(),
+    comments: await getComments()
 })
 
 
@@ -184,6 +287,12 @@ const seeData = () => genData().then(data => linkDocs(data)).then(data => {
         console.log("```")
     })
 
+    console.log("# Comments\n")
+    data.comments.forEach(elm => {
+        console.log("```json")
+        console.log(elm.get())
+        console.log("```")
+    })
 })
 
 

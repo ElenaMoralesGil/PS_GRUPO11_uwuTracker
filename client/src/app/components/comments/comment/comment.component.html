@@ -1,0 +1,32 @@
+<article class="comment lvl{{comment.comment.level}}">
+
+    <a class="username" [routerLink]="['/profile', comment.comment.username]" routerLinkActive="router-link-active">
+        {{comment.comment.username}}</a>
+    <hr>
+    @if (mode == 'show' || mode == 'create') {<p>{{comment.comment.body}}</p>}
+    @if(mode == 'edit') {<app-comment-form [initialComment]="comment.comment" (commentTxt)="formHandler($event)"
+        [showCancel]="true" (cancelEvent)="cancel()" [message]="comment.message"></app-comment-form>}
+
+    @if(mode != 'create'){
+    <div class="bottom-line">
+        <p class="date">{{comment.comment.timestamp|date}}</p>
+
+        @if(loggedInUser|async) {<div class="buttons-group">
+            @if ((loggedInUser | async)?.id == comment.comment.userId) {
+            @if (mode != 'edit') {<button (click)="editButton($event)">Editar</button>}}
+            @if(comment.comment.level == 0){<button (click)="createButton($event)">Comentar</button>}
+        </div>
+        }
+    </div>
+    }
+
+    @if(mode == 'create'){<app-comment-form [showCancel]="true" (cancelEvent)="cancel()"
+        (commentTxt)="formHandler($event)" [message]="comment.message"></app-comment-form>}
+
+    @if (comment.comment ) {
+    <div class="comments-list" *ngFor="let comment of comment.comment.comments">
+        <app-comment [comment]="{comment, message: ''}" (commentHandler)="formHandler($event)"></app-comment>
+    </div>
+    }
+
+</article>
