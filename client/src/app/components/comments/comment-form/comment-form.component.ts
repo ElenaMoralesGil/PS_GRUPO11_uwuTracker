@@ -33,6 +33,10 @@ export class CommentFormComponent implements OnInit, OnChanges {
       this.message = "Can't add an empy comment"
       return
     }
+    if (this.newComment.split(' ').length > 150) {
+      this.message = "Comments cannot contain more than 150 characters"
+      return
+    }
     this.commentTxt.emit({ commentBody: this.newComment, updateId: this.initialComment?.id })
   }
 
