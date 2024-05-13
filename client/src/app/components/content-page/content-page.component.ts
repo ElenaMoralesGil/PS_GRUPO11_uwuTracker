@@ -45,7 +45,7 @@ export class ContentPageComponent implements OnInit {
   episodes: any[] = [];
   loggedInUser: Observable<User | null>
   likes?: number
-  informationAside: { likes: number, type: string; source: string; episodesNumber: string; duration: string, status: string, season: string; year: string; studios: string; genres: string; rating: string; }[] = []
+  informationAside: { likes: number, type: string; source: string; episodesNumber: string; duration: string, status: string, season: string; year: string; studios: string; genres: any; rating: string; }[] = []
 
 
 
@@ -92,7 +92,7 @@ export class ContentPageComponent implements OnInit {
     try {
 
       this.informationAside = [
-        { likes: content.likes, type: `${content.type}`, source: `${content.source}`, episodesNumber: `${content.episodesNumber}`, duration: `${content.duration}`, status: `${content.status}`, season: `${content.season}`, year: `${content.year}`, studios: `${content.studio}`, genres: `genres`, rating: `${content.score}` },
+        { likes: content.likes, type: `${content.type}`, source: `${content.source}`, episodesNumber: `${content.episodesNumber}`, duration: `${content.duration}`, status: `${content.status}`, season: `${content.season}`, year: `${content.year}`, studios: `${content.studio}`, genres: `${content.genres}`, rating: `${content.score}` },
 
       ]
 
@@ -100,12 +100,6 @@ export class ContentPageComponent implements OnInit {
     } catch (error) {
       console.error('Information Aside not found', error);
     }
-
-
-
-
-
-
     return
   }
   onLikesChanged(likes: number) {
