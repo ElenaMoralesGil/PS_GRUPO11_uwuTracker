@@ -10,6 +10,7 @@ export default interface Contents {
     getCharacters: (id: string) => Promise<any>
     getCharacterById: (id: string) => Promise<any>
     getEpisodes: (id: string) => Promise<any>
+    findStaff: (id: string) => Promise<any>
     setScore: (contentId: string, score: number, userId: string) => Promise<void>
 
     getRecommendations: () => Promise<Content[]>
